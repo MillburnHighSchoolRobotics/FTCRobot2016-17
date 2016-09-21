@@ -14,6 +14,13 @@ import virtualRobot.components.Servo;
 public interface AutonomousRobot {
 //Motors, sensors, servos will be added here e.g. Motor getMotor();
 
+    Sensor getHeadingSensor();
+
+    Sensor getPitchSensor();
+
+    Sensor getRollSensor();
+
+    LocationSensor getLocationSensor();
 
     void addToProgress(String s);
 

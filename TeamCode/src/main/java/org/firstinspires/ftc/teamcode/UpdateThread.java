@@ -28,11 +28,14 @@ public abstract class UpdateThread extends OpMode {
 
 	//here we will initiate all of our PHYSICAL components. E.g: private DcMotor leftBack...
 	//also initiate sensors. E.g. private AnalogInput sonar, private ColorSensor colorSensor, private DigitalChannel ...
+
+
 	private MPU9250 imu;
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
-
+	private Sensor vHeadingSensor, vPitchSensor, vRollSensor;
+	private LocationSensor vLocationSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
 
 
@@ -63,7 +66,10 @@ public abstract class UpdateThread extends OpMode {
 		robot = Command.ROBOT;
 
         //FETCH VIRTUAL COMPONENTS OF VIRTUAL ROBOT from robot. E.g. vDriveLeftMotor = robot.getDriveLeftMotor();
-
+		vHeadingSensor = robot.getHeadingSensor();
+		vPitchSensor = robot.getPitchSensor();
+		vRollSensor = robot.getRollSensor();
+		vLocationSensor = robot.getLocationSensor();
 
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
@@ -99,13 +105,22 @@ public abstract class UpdateThread extends OpMode {
 	}
 	
 	public void loop() {
-		// Update Location. E.g.: double prevEcnoderValue=?, newEncoderValue=?, vLocationSensor.setX(vLocationSensor.setX(vLocationSensor.getX() + ((newEncoderValue - prevEncoderValue) * Math.cos(Math.toRadians(vLocationSensor.getAngle()))));
-
+		// Update Location. E.g.: double prevEcnoderValue=?, newEncoderValue=?,
+		//TODO: Calculate values for prev and newEncoderValues
+		double prevEncoderValue = 1;
+		double newEncoderValue = 1;
 		double headingAngle = imu.getIntegratedYaw();
+		vLocationSensor.setAngle(headingAngle);
+		vLocationSensor.setX(vLocationSensor.getX() + ((newEncoderValue - prevEncoderValue) * Math.cos(Math.toRadians(vLocationSensor.getAngle()))));
+		vLocationSensor.setY(vLocationSensor.getY() + ((newEncoderValue - prevEncoderValue) * Math.sin(Math.toRadians(vLocationSensor.getAngle()))));
 
 
 		// Update Sensor Values E.g. vPitchSensor.setRawValue(imu.getIntegratedPitch()); vHeadingSensor, vRollSensor, vColorSensor...
-		//vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
+		vPitchSensor.setRawValue(imu.getIntegratedPitch());
+		vHeadingSensor.setRawValue(headingAngle);
+		vRollSensor.setRawValue(imu.getIntegratedRoll());
+
+		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 
 
 
