@@ -22,6 +22,14 @@ public interface AutonomousRobot {
 
     LocationSensor getLocationSensor();
 
+    Motor getLFMotor();
+
+    Motor getLBMotor();
+
+    Motor getRFMotor();
+
+    Motor getRBMotor();
+
     void addToProgress(String s);
 
     ArrayList<String> getProgress();

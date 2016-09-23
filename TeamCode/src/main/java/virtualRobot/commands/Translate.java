@@ -123,9 +123,11 @@ public class Translate implements Command {
     	
         switch (runMode) {
             case CUSTOM:
-            	
-            	robot.getDriveLeftMotor().setPower(maxPower * multiplier);
-            	robot.getDriveRightMotor().setPower(maxPower * multiplier);
+            	//TODO: Incorporate power matrix and set trig values and shit, for all
+            	robot.getLBMotor().setPower(maxPower * multiplier);
+            	robot.getLFMotor().setPower(maxPower * multiplier);
+                robot.getRBMotor().setPower(maxPower * multiplier);
+                robot.getRFMotor().setPower(maxPower * multiplier);
 
                 while (!exitCondition.isConditionMet() && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
                 	

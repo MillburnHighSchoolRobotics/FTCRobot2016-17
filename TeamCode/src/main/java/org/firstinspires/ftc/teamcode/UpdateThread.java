@@ -1,4 +1,4 @@
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package org.firstinspires.ftc.teamcode;
 
 import com.kauailabs.navx.ftc.MPU9250;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -31,12 +31,15 @@ public abstract class UpdateThread extends OpMode {
 
 
 	private MPU9250 imu;
+	private DcMotor leftFront, leftBack, rightFront, rightBack;
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
 	private Sensor vHeadingSensor, vPitchSensor, vRollSensor;
 	private LocationSensor vLocationSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
+	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
+	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
 
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -47,6 +50,10 @@ public abstract class UpdateThread extends OpMode {
 	public void init() {
 
         //MOTOR SETUP (with physical componenents, e.g. leftBack = hardwareMap.dcMotor.get("leftBack")
+		leftFront = hardwareMap.dcMotor.get("leftFront");
+		leftBack = hardwareMap.dcMotor.get("leftBack");
+		rightFront = hardwareMap.dcMotor.get("rightFront");
+		rightBack = hardwareMap.dcMotor.get("rightBack");
 
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
@@ -70,6 +77,10 @@ public abstract class UpdateThread extends OpMode {
 		vPitchSensor = robot.getPitchSensor();
 		vRollSensor = robot.getRollSensor();
 		vLocationSensor = robot.getLocationSensor();
+		vLeftFront = robot.getLFMotor();
+		vLeftBack = robot.getLBMotor();
+		vRightFront = robot.getRFMotor();
+		vRightBack = robot.getRBMotor();
 
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
@@ -99,14 +110,18 @@ public abstract class UpdateThread extends OpMode {
 
 	public void start() {
 		//set encoders e.g. vDriveRightMotorEncoder.setRawValue(-rightFront.getCurrentPosition())
-
+			vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
+			vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
+			vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
+			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
 
 		t.start();
 	}
 	
 	public void loop() {
 		// Update Location. E.g.: double prevEcnoderValue=?, newEncoderValue=?,
-		//TODO: Calculate values for prev and newEncoderValues
+
+		//TODO: Calculate values for prev and newEncoderValues (Not top priority, locationSensor may not be used)
 		double prevEncoderValue = 1;
 		double newEncoderValue = 1;
 		double headingAngle = imu.getIntegratedYaw();
@@ -121,7 +136,10 @@ public abstract class UpdateThread extends OpMode {
 		vRollSensor.setRawValue(imu.getIntegratedRoll());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
-
+		vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
+		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
+		vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
+		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
 
 
 		try {
@@ -133,17 +151,27 @@ public abstract class UpdateThread extends OpMode {
 
 
 		// Capture Motor Powers,E.g. double leftPower = vDriveLeftMotore.getPower();
-
+		double leftFrontPower = vLeftFront.getPower();
+		double leftBackPower = vLeftBack.getPower();
+		double rightFrontPower = vRightFront.getPower();
+		double rightBackPower = vRightBack.getPower();
 
 
 
 		// Copy State of Motors and Servos E.g. leftFront.setPower(leftPower), Servo.setPosition(vServo.getPosition());
-
+		leftFront.setPower(leftFrontPower);
+		leftBack.setPower(leftBackPower);
+		rightFront.setPower(rightFrontPower);
+		rightBack.setPower(rightBackPower);
 
 		for (int i = 0; i < robot.getProgress().size(); i++) {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
 		}
 //then add additional ones, like telemetry.addData("left power", leftPower);
+		telemetry.addData("leftFront Power", leftFrontPower);
+		telemetry.addData("leftBack Power", leftBackPower);
+		telemetry.addData("rightFront Power", rightFrontPower);
+		telemetry.addData("rightBack Power", rightBackPower);
 
     }
 	
