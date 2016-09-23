@@ -146,8 +146,10 @@ public class Rotate implements Command {
                     }
                     adjustedPower *= powerScaler;
 */
-                    robot.getDriveLeftMotor().setPower(adjustedPower);
-                    robot.getDriveRightMotor().setPower(-adjustedPower);
+                    robot.getLFMotor().setPower(adjustedPower);
+                    robot.getLBMotor().setPower(adjustedPower);
+                    robot.getRFMotor().setPower(-adjustedPower);
+                    robot.getRBMotor().setPower(-adjustedPower);
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;
