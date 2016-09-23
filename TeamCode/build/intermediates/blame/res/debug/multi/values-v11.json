@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\values-v11\\values-v11.xml",
+        "outputFile": "/Users/17osullivand/FTCRobot2016-17/C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\values-v11\\values-v11.xml",
         "map": [
             {
                 "to": {
@@ -12,7 +12,7 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\values-v11\\values-v11.xml",
+                    "file": "/Users/17osullivand/FTCRobot2016-17/C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\values-v11\\values-v11.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -26,7 +26,7 @@
         ]
     },
     {
-        "outputFile": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\values-v11\\values-v11.xml",
+        "outputFile": "/Users/17osullivand/FTCRobot2016-17/C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\values-v11\\values-v11.xml",
         "map": [
             {
                 "to": {
@@ -38,7 +38,33 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\values-v11\\values-v11.xml",
+                    "file": "/Users/17osullivand/FTCRobot2016-17/C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\values-v11\\values-v11.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 4,
+                        "endColumn": 12,
+                        "endOffset": 187
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/17osullivand/FTCRobot2016-17/TeamCode/build/intermediates/res/merged/debug/values-v11/values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "/Users/17osullivand/FTCRobot2016-17/TeamCode/build/intermediates/exploded-aar/FTCRobot2016-17/FtcRobotController/unspecified/res/values-v11/values-v11.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
