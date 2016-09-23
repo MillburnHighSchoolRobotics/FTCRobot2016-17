@@ -147,11 +147,16 @@ public class Translate implements Command {
                 break;
             case WITH_ENCODERS:
             	
-            	robot.getDriveLeftMotorEncoder().clearValue();
-            	robot.getDriveRightMotorEncoder().clearValue();
-            	
-            	robot.getDriveLeftMotor().setPower(maxPower * multiplier);
-            	robot.getDriveRightMotor().setPower(maxPower * multiplier);
+            	robot.getLFEncoder().clearValue();
+            	robot.getLBEncoder().clearValue();
+                robot.getRFEncoder().clearValue();
+                robot.getRBEncoder().clearValue();
+
+                //TODO: Incorporate power matrix and set trig values and shit, for all
+                robot.getLBMotor().setPower(maxPower * multiplier);
+                robot.getLFMotor().setPower(maxPower * multiplier);
+                robot.getRBMotor().setPower(maxPower * multiplier);
+                robot.getRFMotor().setPower(maxPower * multiplier);
             	
             	while (!exitCondition.isConditionMet() && currentValue < translateController.getTarget() && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
             		

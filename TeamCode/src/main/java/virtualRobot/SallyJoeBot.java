@@ -15,6 +15,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
     private Sensor headingSensor, pitchSensor, rollSensor;
     private JoystickController joystickController1, joystickController2;
+    private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder;
     private LocationSensor locationSensor;
     private ArrayList<String> robotProgress;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
@@ -31,6 +32,10 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         LBMotor = new Motor();
         RFMotor = new Motor();
         RBMotor = new Motor();
+        LFEncoder = new Sensor();
+        LBEncoder = new Sensor();
+        RFEncoder = new Sensor();
+        RBEncoder = new Sensor();
 
     }
     //All of Autonomous and TeleopRobot's functions are created e.g. (public synchronized Motor getMotor() {return Motor;}
@@ -49,6 +54,15 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Sensor getRollSensor() {
         return rollSensor;
     }
+
+    public synchronized Sensor getLFEncoder() { return LFEncoder; }
+
+    public synchronized Sensor getLBEncoder() { return LBEncoder;}
+
+    public synchronized Sensor getRFEncoder() { return RFEncoder;}
+
+    public synchronized Sensor getRBEncoder () {return RBEncoder;}
+
 
     public synchronized Motor getLFMotor() { return LFMotor; }
 

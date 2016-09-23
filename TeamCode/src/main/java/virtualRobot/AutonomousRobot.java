@@ -30,6 +30,14 @@ public interface AutonomousRobot {
 
     Motor getRBMotor();
 
+    Sensor getLFEncoder();
+
+    Sensor getLBEncoder();
+
+    Sensor getRFEncoder();
+
+    Sensor getRBEncoder();
+
     void addToProgress(String s);
 
     ArrayList<String> getProgress();
