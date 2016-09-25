@@ -86,14 +86,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/Analytics-release/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/Blocks-release/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/FtcCommon-release/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/Hardware-release/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/Inspection-release/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/ModernRobotics-release/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/RobotCore-release/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/WirelessP2p-release/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
@@ -108,13 +100,14 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="ModernRobotics-release-" level="project" />
-    <orderEntry type="library" exported="" name="Analytics-release-" level="project" />
-    <orderEntry type="library" exported="" name="FtcCommon-release-" level="project" />
-    <orderEntry type="library" exported="" name="WirelessP2p-release-" level="project" />
-    <orderEntry type="library" exported="" name="Blocks-release-" level="project" />
-    <orderEntry type="library" exported="" name="Inspection-release-" level="project" />
-    <orderEntry type="library" exported="" name="Hardware-release-" level="project" />
     <orderEntry type="library" exported="" name="RobotCore-release-" level="project" />
+    <orderEntry type="library" exported="" name="ModernRobotics-release-" level="project" />
+    <orderEntry type="library" exported="" name="WirelessP2p-release-" level="project" />
+    <orderEntry type="library" exported="" name="Analytics-release-" level="project" />
+    <orderEntry type="library" exported="" name="Inspection-release-" level="project" />
+    <orderEntry type="library" exported="" name="Blocks-release-" level="project" />
+    <orderEntry type="library" exported="" name="Hardware-release-" level="project" />
+    <orderEntry type="library" exported="" name="FtcCommon-release-" level="project" />
+    <orderEntry type="library" exported="" name="android-android-23" level="project" />
   </component>
 </module>

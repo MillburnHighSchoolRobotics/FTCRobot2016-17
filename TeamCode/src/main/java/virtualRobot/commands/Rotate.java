@@ -167,11 +167,18 @@ public class Rotate implements Command {
                 }
                 break;
             case WITH_ENCODER:
-                robot.getDriveLeftMotorEncoder().clearValue();
-                robot.getDriveRightMotorEncoder().clearValue();
-                while (!exitCondition.isConditionMet() && Math.abs(Math.abs(pidController.getTarget()) - (Math.abs(robot.getDriveLeftMotorEncoder().getValue()) + Math.abs(robot.getDriveRightMotorEncoder().getValue())) / 2) > 20){
-                    robot.getDriveLeftMotor().setPower(Math.signum(angleInDegrees)*power);
-                    robot.getDriveRightMotor().setPower(-Math.signum(angleInDegrees)*power);
+                robot.getLFEncoder().clearValue();
+                robot.getLBEncoder().clearValue();
+                robot.getRFEncoder().clearValue();
+                robot.getRBEncoder().clearValue();
+                while (!exitCondition.isConditionMet() && Math.abs(Math.abs(pidController.getTarget())
+                        - (Math.abs(robot.getLFEncoder().getValue()) + Math.abs(robot.getLBEncoder().getValue())
+                        + Math.abs(robot.getRFEncoder().getValue()) + Math.abs(robot.getRBEncoder().getValue())) / 4) > 20){//Mehmet: Unsure of relevance of 20, may need to be changed.
+
+                    robot.getLFMotor().setPower(Math.signum(angleInDegrees)*power);
+                    robot.getLBMotor().setPower(Math.signum(angleInDegrees)*power);
+                    robot.getRFMotor().setPower(-Math.signum(angleInDegrees)*power);
+                    robot.getRBMotor().setPower(-Math.signum(angleInDegrees)*power);
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;
@@ -183,8 +190,10 @@ public class Rotate implements Command {
                 break;
         }
 
-    	robot.getDriveRightMotor().setPower(0);
-        robot.getDriveLeftMotor().setPower(0);
+    	robot.getLFMotor().setPower(0);
+        robot.getLBMotor().setPower(0);
+        robot.getRFMotor().setPower(0);
+        robot.getRBMotor().setPower(0);
         
         return isInterrupted;
         
