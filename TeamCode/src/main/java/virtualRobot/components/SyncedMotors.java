@@ -12,18 +12,18 @@ import virtualRobot.utils.MathUtils;
 public class SyncedMotors {
     private volatile static List<SyncedMotors> all = new ArrayList<>();
 
-    SyncType type;
+    private SyncType type;
     Motor masterA;
     Motor slaveA;
-    long oldTimeA,oldTimeB;
-    double oldEncoderA,oldEncoderB;
-    Sensor encoderA;
-    Sensor encoderB;
+    private long oldTimeA,oldTimeB;
+    private double oldEncoderA,oldEncoderB;
+    private Sensor encoderA;
+    private Sensor encoderB;
     SyncedMotors masterB;
     SyncedMotors slaveB;
     private PIDController pid;
-    double ratio;
-    double power;
+    private double ratio;
+    private double power;
 
     public static List<SyncedMotors> getList() {
         return all;
@@ -36,6 +36,8 @@ public class SyncedMotors {
         this.encoderB = eB;
         pid = new PIDController(KP,KI,KD,0.01,1);
         type = SyncType.MOTORS;
+        this.encoderA.clearValue();
+        this.encoderB.clearValue();
     }
 
     public SyncedMotors(SyncedMotors a, SyncedMotors b, double KP, double KI, double KD) {
@@ -91,6 +93,15 @@ public class SyncedMotors {
             masterB.move();
             slaveB.move();
         }
+    }
+
+    public Sensor getEncoder() {
+        return encoderA;
+    }
+
+    public synchronized void desync() {
+        SyncedMotors.all.remove(this);
+
     }
 
     static enum SyncType {
