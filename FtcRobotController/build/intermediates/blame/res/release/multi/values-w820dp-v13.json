@@ -24,30 +24,6 @@
         ]
     },
     {
-        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\values-w820dp-v13\\values-w820dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 57,
-                    "endOffset": 108
-                },
-                "from": {
-                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\src\\main\\res\\values-w820dp\\dimens.xml",
-                    "position": {
-                        "startLine": 37,
-                        "startColumn": 4,
-                        "startOffset": 1940,
-                        "endColumn": 57,
-                        "endOffset": 1993
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\values-w820dp-v13\\values-w820dp-v13.xml",
         "map": [
             {
@@ -90,6 +66,54 @@
                         "startOffset": 1977,
                         "endColumn": 57,
                         "endOffset": 2030
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 37,
+                        "startColumn": 4,
+                        "startOffset": 1977,
+                        "endColumn": 57,
+                        "endOffset": 2030
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 37,
+                        "startColumn": 4,
+                        "startOffset": 1940,
+                        "endColumn": 57,
+                        "endOffset": 1993
                     }
                 }
             }

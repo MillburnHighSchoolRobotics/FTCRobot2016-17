@@ -1,13 +1,5 @@
 [
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\ftc_robot_controller.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\menu\\ftc_robot_controller.xml"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\menu_server.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\menu\\menu_server.xml"
-    },
-    {
         "merged": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\ftc_robot_controller.xml",
         "source": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\menu\\ftc_robot_controller.xml"
     },
@@ -16,35 +8,55 @@
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\menu\\ftc_robot_controller.xml"
     },
     {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\ftc_robot_controller.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\menu\\ftc_robot_controller.xml"
+    },
+    {
         "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\main_menu.xml",
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\menu\\main_menu.xml"
     },
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\ftc_robot_controller.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\menu\\ftc_robot_controller.xml"
+        "merged": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\ftc_robot_controller.xml",
+        "source": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\menu\\ftc_robot_controller.xml"
+    },
+    {
+        "merged": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\menu_server.xml",
+        "source": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\menu\\menu_server.xml"
     },
     {
         "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\menu_server.xml",
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\menu\\menu_server.xml"
     },
     {
-        "merged": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\main_menu.xml",
-        "source": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\menu\\main_menu.xml"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\menu_server.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\menu\\menu_server.xml"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\main_menu.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\menu\\main_menu.xml"
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\ftc_robot_controller.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\menu\\ftc_robot_controller.xml"
     },
     {
         "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\main_menu.xml",
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\menu\\main_menu.xml"
     },
     {
+        "merged": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\main_menu.xml",
+        "source": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\menu\\main_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\menu_server.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\menu\\menu_server.xml"
+    },
+    {
+        "merged": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\main_menu.xml",
+        "source": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\menu\\main_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\menu_server.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\menu\\menu_server.xml"
+    },
+    {
         "merged": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\menu_server.xml",
         "source": "C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\menu\\menu_server.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\menu\\main_menu.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\menu\\main_menu.xml"
     }
 ]
