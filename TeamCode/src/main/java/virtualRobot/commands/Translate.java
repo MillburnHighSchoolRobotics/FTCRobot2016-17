@@ -85,11 +85,11 @@ public class Translate implements Command {
 
     }
 
-    public Translate(double target, Direction direction) {
+    public Translate(double target, Direction direction, double angleModifier) {
         this(target);
 
         this.direction = direction;
-        this.angleModifier = Math.max(0, Math.min(angleModifier, 45);
+        this.angleModifier = Math.max(0, Math.min(angleModifier, 45));
         if (angleModifier == 45) {
             this.direction = this.direction.getNext();
             angleModifier = 0;
@@ -184,25 +184,25 @@ public class Translate implements Command {
         }
     }
 
-    public Translate(double target, Direction direction, double maxPower) {
+    public Translate(double target, Direction direction, double angleModifier, double maxPower) {
         this(target, direction);
 
         this.maxPower = maxPower;
     }
 
-    public Translate(double target, Direction direction, double maxPower, double referenceAngle) {
+    public Translate(double target, Direction direction, double angleModifier, double maxPower, double referenceAngle) {
         this (target, direction, maxPower);
 
         this.referenceAngle = referenceAngle;
         headingController.setTarget(this.referenceAngle);
     }
 
-    public Translate(double target, Direction direction, double maxPower, double referenceAngle, String name) {
+    public Translate(double target, Direction direction, double angleModifier, double maxPower, double referenceAngle, String name) {
         this (target, direction, maxPower, referenceAngle);
         this.name = name;
     }
 
-    public Translate(double target, Direction direction, double maxPower, double referenceAngle, String name, double timeLimit) {
+    public Translate(double target, Direction direction, double angleModifier, double maxPower, double referenceAngle, String name, double timeLimit) {
         this(target, direction, maxPower, referenceAngle, name);
         this.timeLimit = timeLimit;
     }
