@@ -235,7 +235,7 @@ public class Translate implements Command {
 
         boolean isInterrupted = false;
         time = System.currentTimeMillis();
-
+        double scale = 0;
         switch (runMode) {
             case CUSTOM:
                 if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1

@@ -2,239 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4cd52b5c-3c8d-4202-b5d9-428a0d18a3aa" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/MoveSyncedMotors.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/components/SyncedMotors.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/logicThreads/MotorSync.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/utils/MathUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileReleaseJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileReleaseJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileReleaseJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_FtcRobotController_compileReleaseJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/bundles/debug/classes.jar" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/bundles/debug/classes.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/bundles/release/classes.jar" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/bundles/release/classes.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptCompassCalibration.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptCompassCalibration.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptDIMAsIndicator.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptDIMAsIndicator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptI2cAddressChange.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptI2cAddressChange.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptRampMotorSpeed.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptRampMotorSpeed.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptScanServo.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptScanServo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTelemetry$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTelemetry$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTelemetry.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTelemetry.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptVuforiaNavigation.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/ConceptVuforiaNavigation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/HardwareK9bot.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/HardwareK9bot.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/HardwarePushbot.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/HardwarePushbot.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/K9botTeleopTank_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/K9botTeleopTank_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByEncoder_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByEncoder_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByGyro_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByGyro_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByTime_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByTime_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveToLine_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveToLine_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotTeleopPOV_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotTeleopPOV_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotTeleopTank_Iterative.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/PushbotTeleopTank_Iterative.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$2.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$3.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$4.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$5.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$6.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$7.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$8.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$2.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$3.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$4.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$5.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$6.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitRGB$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitRGB$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitRGB.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitRGB.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorHTColor$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorHTColor$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorHTColor.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorHTColor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRColor$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRColor$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRColor.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRColor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRCompass.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRCompass.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRGyro.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRGyro.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRRangeSensor.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRRangeSensor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$2.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$3.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$4.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$RobotRestarter.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$RobotRestarter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/MatrixControllerDemo.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/MatrixControllerDemo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$2.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$ColorSensorDevice.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$ColorSensorDevice.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestInfiniteLoopLinear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestInfiniteLoopLinear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestMaxSpeed.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestMaxSpeed.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestMotorControllerFlavors.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestMotorControllerFlavors.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestTelemetry$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestTelemetry$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestTelemetry.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/debug/org/firstinspires/ftc/robotcontroller/internal/testcode/TestTelemetry.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptCompassCalibration.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptCompassCalibration.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptDIMAsIndicator.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptDIMAsIndicator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptI2cAddressChange.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptI2cAddressChange.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptRampMotorSpeed.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptRampMotorSpeed.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptScanServo.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptScanServo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTelemetry$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTelemetry$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTelemetry.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTelemetry.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptVuforiaNavigation.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/ConceptVuforiaNavigation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/HardwareK9bot.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/HardwareK9bot.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/HardwarePushbot.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/HardwarePushbot.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/K9botTeleopTank_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/K9botTeleopTank_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByEncoder_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByEncoder_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByGyro_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByGyro_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByTime_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveByTime_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveToLine_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotAutoDriveToLine_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotTeleopPOV_Linear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotTeleopPOV_Linear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotTeleopTank_Iterative.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/PushbotTeleopTank_Iterative.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$2.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$3.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$4.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$5.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$6.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$7.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$8.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMU.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$2.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$3.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$4.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$5.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$6.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitIMUCalibration.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitRGB$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitRGB$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitRGB.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorAdafruitRGB.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorHTColor$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorHTColor$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorHTColor.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorHTColor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRColor$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRColor$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRColor.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRColor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRCompass.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRCompass.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRGyro.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRGyro.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRRangeSensor.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRRangeSensor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$2.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$3.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$4.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$RobotRestarter.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity$RobotRestarter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/MatrixControllerDemo.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/MatrixControllerDemo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$2.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$ColorSensorDevice.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors$ColorSensorDevice.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestColorSensors.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestInfiniteLoopLinear.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestInfiniteLoopLinear.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestMaxSpeed.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestMaxSpeed.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestMotorControllerFlavors.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestMotorControllerFlavors.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestTelemetry$1.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestTelemetry$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestTelemetry.class" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/classes/release/org/firstinspires/ftc/robotcontroller/internal/testcode/TestTelemetry.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/res/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/res/resources-debug-androidTest.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/outputs/aar/FtcRobotController-debug.aar" afterPath="$PROJECT_DIR$/FtcRobotController/build/outputs/aar/FtcRobotController-debug.aar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/outputs/aar/FtcRobotController-release.aar" afterPath="$PROJECT_DIR$/FtcRobotController/build/outputs/aar/FtcRobotController-release.aar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/exploded-aar/FTCRobot2016-17/FtcRobotController/unspecified/jars/classes.jar" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/exploded-aar/FTCRobot2016-17/FtcRobotController/unspecified/jars/classes.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/res/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/res/resources-debug-androidTest.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/res/resources-debug.ap_" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/res/resources-debug.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Analytics_release_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Analytics_release_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Blocks_release_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Blocks_release_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/FtcCommon_release_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/FtcCommon_release_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Hardware_release_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Hardware_release_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Inspection_release_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Inspection_release_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/ModernRobotics_release_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/ModernRobotics_release_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/RobotCore_release_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/RobotCore_release_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/WirelessP2p_release_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/WirelessP2p_release_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FTCRobot2016-17.iml" afterPath="$PROJECT_DIR$/FTCRobot2016-17.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/FtcRobotController.iml" afterPath="$PROJECT_DIR$/FtcRobotController/FtcRobotController.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values-sw720dp-land-v13.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values-sw720dp-land-v13.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values-v11.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values-v11.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values-v14.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values-v14.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values-w820dp-v13.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values-w820dp-v13.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/multi/values.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable-hdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable-hdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable-mdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable-mdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable-xhdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable-xhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable-xxhdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable-xxhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/drawable.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/layout.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/layout.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/menu.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/menu.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/raw.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/raw.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/xml.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/androidTest/debug/single/xml.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values-sw720dp-land-v13.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values-sw720dp-land-v13.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values-v11.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values-v11.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values-v14.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values-v14.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values-w820dp-v13.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values-w820dp-v13.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/multi/values.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/drawable.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/layout.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/layout.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/menu.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/menu.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/raw.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/raw.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/xml.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/debug/single/xml.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values-sw720dp-land-v13.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values-sw720dp-land-v13.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values-v11.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values-v11.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values-v14.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values-v14.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values-w820dp-v13.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values-w820dp-v13.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/multi/values.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable-hdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable-hdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable-mdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable-mdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable-xhdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable-xhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable-xxhdpi-v4.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable-xxhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/drawable.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/layout.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/layout.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/menu.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/menu.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/raw.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/raw.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/xml.json" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/blame/res/release/single/xml.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestAssets/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestAssets/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestShaders/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestShaders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugAssets/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugAssets/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugResources/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugShaders/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeDebugShaders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeReleaseAssets/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeReleaseAssets/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeReleaseResources/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeReleaseResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeReleaseShaders/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/mergeReleaseShaders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/packageDebugResources/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/packageDebugResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/packageReleaseResources/merger.xml" afterPath="$PROJECT_DIR$/FtcRobotController/build/intermediates/incremental/packageReleaseResources/merger.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/TeamCode.iml" afterPath="$PROJECT_DIR$/TeamCode/TeamCode.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values-sw720dp-land-v13.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values-sw720dp-land-v13.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values-v11.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values-v11.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values-v14.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values-v14.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values-w820dp-v13.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values-w820dp-v13.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/multi/values.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/drawable.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/layout.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/layout.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/menu.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/menu.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/raw.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/raw.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/xml.json" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/blame/res/debug/single/xml.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugAndroidTestAssets/merger.xml" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugAndroidTestAssets/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugAndroidTestShaders/merger.xml" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugAndroidTestShaders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugAssets/merger.xml" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugAssets/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugResources/merger.xml" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugShaders/merger.xml" afterPath="$PROJECT_DIR$/TeamCode/build/intermediates/incremental/mergeDebugShaders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/build/outputs/logs/manifest-merger-debug-report.txt" afterPath="$PROJECT_DIR$/TeamCode/build/outputs/logs/manifest-merger-debug-report.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/Translate.java" afterPath="$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/Translate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
     </list>
     <ignored path="FTCRobot2016-17.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -266,42 +36,10 @@
       <file leaf-file-name="Translate.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/Translate.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.6621881">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.40307102">
+              <caret line="244" column="22" selection-start-line="244" selection-start-column="22" selection-end-line="244" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1716#1717#0" expanded="true" />
-                <element signature="e#1750#1751#0" expanded="true" />
-                <element signature="e#1802#1945#0" expanded="true" />
-                <element signature="e#1944#1945#0" expanded="true" />
-                <element signature="e#9526#9527#0" expanded="true" />
-                <element signature="e#9568#9569#0" expanded="true" />
-                <element signature="e#9622#9623#0" expanded="true" />
-                <element signature="e#9655#9656#0" expanded="true" />
-                <element signature="e#9703#9704#0" expanded="true" />
-                <element signature="e#9739#9740#0" expanded="true" />
-                <element signature="e#9770#9771#0" expanded="true" />
-                <element signature="e#9797#9798#0" expanded="true" />
-                <element signature="e#9837#9838#0" expanded="true" />
-                <element signature="e#9869#9870#0" expanded="true" />
-                <element signature="e#22537#22538#0" expanded="true" />
-                <element signature="e#22575#22576#0" expanded="true" />
-                <element signature="e#22610#22611#0" expanded="true" />
-                <element signature="e#22640#22641#0" expanded="true" />
-                <element signature="e#22684#22685#0" expanded="true" />
-                <element signature="e#22737#22738#0" expanded="true" />
-                <element signature="e#22785#22786#0" expanded="true" />
-                <element signature="e#22825#22826#0" expanded="true" />
-                <element signature="e#23716#23717#0" expanded="true" />
-                <element signature="e#23751#23752#0" expanded="true" />
-                <element signature="e#23782#23783#0" expanded="true" />
-                <element signature="e#23818#23819#0" expanded="true" />
-                <element signature="e#23855#23856#0" expanded="true" />
-                <element signature="e#23924#23925#0" expanded="true" />
-                <element signature="e#23973#23974#0" expanded="true" />
-                <element signature="e#24023#24024#0" expanded="true" />
-                <element signature="e#24066#24067#0" expanded="true" />
-                <element signature="e#24116#24117#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2861,9 +2599,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="24" />
+    <option name="x" value="93" />
     <option name="y" value="23" />
-    <option name="width" value="1037" />
+    <option name="width" value="1024" />
     <option name="height" value="665" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -2891,8 +2629,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
+      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2901,140 +2638,11 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTCRobot2016-17" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTCRobot2016-17" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="virtualRobot" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTCRobot2016-17" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="virtualRobot" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTCRobot2016-17" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="virtualRobot" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="logicThreads" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTCRobot2016-17" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="virtualRobot" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTCRobot2016-17" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="virtualRobot" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="commands" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTCRobot2016-17" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3257,7 +2865,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="24" y="23" width="1037" height="665" extended-state="0" />
+    <frame x="93" y="23" width="1024" height="665" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3278,7 +2886,7 @@
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32964823" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32892057" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -3287,8 +2895,8 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32874355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -3296,15 +2904,15 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24810892" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -3319,8 +2927,8 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32874355" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -3340,52 +2948,49 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/Rotate.java">
+    <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/MoveSyncedMotors.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/Translate.java">
+    <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/components/SyncedMotors.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="134" column="45" selection-start-line="134" selection-start-column="45" selection-end-line="134" selection-end-column="45" />
+          <caret line="97" column="5" selection-start-line="97" selection-start-column="5" selection-end-line="97" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1716#1717#0" expanded="true" />
-            <element signature="e#1750#1751#0" expanded="true" />
-            <element signature="e#1802#1945#0" expanded="true" />
-            <element signature="e#1944#1945#0" expanded="true" />
-            <element signature="e#9526#9527#0" expanded="true" />
-            <element signature="e#9568#9569#0" expanded="true" />
-            <element signature="e#9622#9623#0" expanded="true" />
-            <element signature="e#9655#9656#0" expanded="true" />
-            <element signature="e#9703#9704#0" expanded="true" />
-            <element signature="e#9739#9740#0" expanded="true" />
-            <element signature="e#9770#9771#0" expanded="true" />
-            <element signature="e#9797#9798#0" expanded="true" />
-            <element signature="e#9837#9838#0" expanded="true" />
-            <element signature="e#9869#9870#0" expanded="true" />
-            <element signature="e#22537#22538#0" expanded="true" />
-            <element signature="e#22575#22576#0" expanded="true" />
-            <element signature="e#22610#22611#0" expanded="true" />
-            <element signature="e#22640#22641#0" expanded="true" />
-            <element signature="e#22684#22685#0" expanded="true" />
-            <element signature="e#22737#22738#0" expanded="true" />
-            <element signature="e#22785#22786#0" expanded="true" />
-            <element signature="e#22825#22826#0" expanded="true" />
-            <element signature="e#23716#23717#0" expanded="true" />
-            <element signature="e#23751#23752#0" expanded="true" />
-            <element signature="e#23782#23783#0" expanded="true" />
-            <element signature="e#23818#23819#0" expanded="true" />
-            <element signature="e#23855#23856#0" expanded="true" />
-            <element signature="e#23924#23925#0" expanded="true" />
-            <element signature="e#23973#23974#0" expanded="true" />
-            <element signature="e#24023#24024#0" expanded="true" />
-            <element signature="e#24066#24067#0" expanded="true" />
-            <element signature="e#24116#24117#0" expanded="true" />
+            <element signature="e#634#635#0" expanded="true" />
+            <element signature="e#660#661#0" expanded="true" />
+            <element signature="e#1364#1365#0" expanded="true" />
+            <element signature="e#1420#1421#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/utils/MathUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="12" selection-end-column="5" />
+          <folding>
+            <element signature="e#142#143#0" expanded="true" />
+            <element signature="e#192#193#0" expanded="true" />
+            <element signature="e#234#235#0" expanded="true" />
+            <element signature="e#284#285#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/logicThreads/MotorSync.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#298#299#0" expanded="true" />
+            <element signature="e#350#351#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3412,38 +3017,32 @@
           <caret line="134" column="45" selection-start-line="134" selection-start-column="45" selection-end-line="134" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1716#1717#0" expanded="true" />
-            <element signature="e#1750#1751#0" expanded="true" />
-            <element signature="e#1802#1945#0" expanded="true" />
-            <element signature="e#1944#1945#0" expanded="true" />
-            <element signature="e#9526#9527#0" expanded="true" />
-            <element signature="e#9568#9569#0" expanded="true" />
-            <element signature="e#9622#9623#0" expanded="true" />
-            <element signature="e#9655#9656#0" expanded="true" />
-            <element signature="e#9703#9704#0" expanded="true" />
-            <element signature="e#9739#9740#0" expanded="true" />
-            <element signature="e#9770#9771#0" expanded="true" />
-            <element signature="e#9797#9798#0" expanded="true" />
-            <element signature="e#9837#9838#0" expanded="true" />
-            <element signature="e#9869#9870#0" expanded="true" />
-            <element signature="e#22537#22538#0" expanded="true" />
-            <element signature="e#22575#22576#0" expanded="true" />
-            <element signature="e#22610#22611#0" expanded="true" />
-            <element signature="e#22640#22641#0" expanded="true" />
-            <element signature="e#22684#22685#0" expanded="true" />
-            <element signature="e#22737#22738#0" expanded="true" />
-            <element signature="e#22785#22786#0" expanded="true" />
-            <element signature="e#22825#22826#0" expanded="true" />
-            <element signature="e#23716#23717#0" expanded="true" />
-            <element signature="e#23751#23752#0" expanded="true" />
-            <element signature="e#23782#23783#0" expanded="true" />
-            <element signature="e#23818#23819#0" expanded="true" />
-            <element signature="e#23855#23856#0" expanded="true" />
-            <element signature="e#23924#23925#0" expanded="true" />
-            <element signature="e#23973#23974#0" expanded="true" />
-            <element signature="e#24023#24024#0" expanded="true" />
-            <element signature="e#24066#24067#0" expanded="true" />
-            <element signature="e#24116#24117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/SallyJoeBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="61" column="5" selection-start-line="61" selection-start-column="5" selection-end-line="61" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/Rotate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/Translate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="134" column="45" selection-start-line="134" selection-start-column="45" selection-end-line="134" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3521,38 +3120,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1716#1717#0" expanded="true" />
-            <element signature="e#1750#1751#0" expanded="true" />
-            <element signature="e#1802#1945#0" expanded="true" />
-            <element signature="e#1944#1945#0" expanded="true" />
-            <element signature="e#9526#9527#0" expanded="true" />
-            <element signature="e#9568#9569#0" expanded="true" />
-            <element signature="e#9622#9623#0" expanded="true" />
-            <element signature="e#9655#9656#0" expanded="true" />
-            <element signature="e#9703#9704#0" expanded="true" />
-            <element signature="e#9739#9740#0" expanded="true" />
-            <element signature="e#9770#9771#0" expanded="true" />
-            <element signature="e#9797#9798#0" expanded="true" />
-            <element signature="e#9837#9838#0" expanded="true" />
-            <element signature="e#9869#9870#0" expanded="true" />
-            <element signature="e#22537#22538#0" expanded="true" />
-            <element signature="e#22575#22576#0" expanded="true" />
-            <element signature="e#22610#22611#0" expanded="true" />
-            <element signature="e#22640#22641#0" expanded="true" />
-            <element signature="e#22684#22685#0" expanded="true" />
-            <element signature="e#22737#22738#0" expanded="true" />
-            <element signature="e#22785#22786#0" expanded="true" />
-            <element signature="e#22825#22826#0" expanded="true" />
-            <element signature="e#23716#23717#0" expanded="true" />
-            <element signature="e#23751#23752#0" expanded="true" />
-            <element signature="e#23782#23783#0" expanded="true" />
-            <element signature="e#23818#23819#0" expanded="true" />
-            <element signature="e#23855#23856#0" expanded="true" />
-            <element signature="e#23924#23925#0" expanded="true" />
-            <element signature="e#23973#23974#0" expanded="true" />
-            <element signature="e#24023#24024#0" expanded="true" />
-            <element signature="e#24066#24067#0" expanded="true" />
-            <element signature="e#24116#24117#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3626,7 +3193,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3795,42 +3361,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/TeamCode/src/main/java/virtualRobot/commands/Translate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6621881">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.40307102">
+          <caret line="244" column="22" selection-start-line="244" selection-start-column="22" selection-end-line="244" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1716#1717#0" expanded="true" />
-            <element signature="e#1750#1751#0" expanded="true" />
-            <element signature="e#1802#1945#0" expanded="true" />
-            <element signature="e#1944#1945#0" expanded="true" />
-            <element signature="e#9526#9527#0" expanded="true" />
-            <element signature="e#9568#9569#0" expanded="true" />
-            <element signature="e#9622#9623#0" expanded="true" />
-            <element signature="e#9655#9656#0" expanded="true" />
-            <element signature="e#9703#9704#0" expanded="true" />
-            <element signature="e#9739#9740#0" expanded="true" />
-            <element signature="e#9770#9771#0" expanded="true" />
-            <element signature="e#9797#9798#0" expanded="true" />
-            <element signature="e#9837#9838#0" expanded="true" />
-            <element signature="e#9869#9870#0" expanded="true" />
-            <element signature="e#22537#22538#0" expanded="true" />
-            <element signature="e#22575#22576#0" expanded="true" />
-            <element signature="e#22610#22611#0" expanded="true" />
-            <element signature="e#22640#22641#0" expanded="true" />
-            <element signature="e#22684#22685#0" expanded="true" />
-            <element signature="e#22737#22738#0" expanded="true" />
-            <element signature="e#22785#22786#0" expanded="true" />
-            <element signature="e#22825#22826#0" expanded="true" />
-            <element signature="e#23716#23717#0" expanded="true" />
-            <element signature="e#23751#23752#0" expanded="true" />
-            <element signature="e#23782#23783#0" expanded="true" />
-            <element signature="e#23818#23819#0" expanded="true" />
-            <element signature="e#23855#23856#0" expanded="true" />
-            <element signature="e#23924#23925#0" expanded="true" />
-            <element signature="e#23973#23974#0" expanded="true" />
-            <element signature="e#24023#24024#0" expanded="true" />
-            <element signature="e#24066#24067#0" expanded="true" />
-            <element signature="e#24116#24117#0" expanded="true" />
           </folding>
         </state>
       </provider>
