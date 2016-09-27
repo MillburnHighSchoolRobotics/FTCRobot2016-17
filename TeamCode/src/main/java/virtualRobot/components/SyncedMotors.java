@@ -8,10 +8,10 @@ import virtualRobot.utils.MathUtils;
 
 /**
  * Created by ethachu19 on 9/23/2016.
+ *
+ * A class to sync two motors or two sets of motors
  */
 public class SyncedMotors {
-    private volatile static List<SyncedMotors> all = new ArrayList<>();
-
     private SyncType type;
     Motor masterA;
     Motor slaveA;
@@ -24,10 +24,6 @@ public class SyncedMotors {
     private PIDController pid;
     private double ratio;
     private double power;
-
-    public static List<SyncedMotors> getList() {
-        return all;
-    }
 
     public SyncedMotors(Motor a, Motor b, Sensor eA, Sensor eB ,double KP, double KI, double KD) {
         this.masterA = a;
@@ -100,8 +96,7 @@ public class SyncedMotors {
     }
 
     public synchronized void desync() {
-        SyncedMotors.all.remove(this);
-
+        
     }
 
     static enum SyncType {
