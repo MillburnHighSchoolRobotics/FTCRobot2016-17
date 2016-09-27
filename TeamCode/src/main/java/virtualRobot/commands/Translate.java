@@ -185,7 +185,7 @@ public class Translate implements Command {
     }
 
     public Translate(double target, Direction direction, double angleModifier, double maxPower) {
-        this(target, direction);
+        this(target, direction,angleModifier);
 
         this.maxPower = maxPower;
     }
@@ -203,7 +203,7 @@ public class Translate implements Command {
     }
 
     public Translate(double target, Direction direction, double angleModifier, double maxPower, double referenceAngle, String name, double timeLimit) {
-        this(target, direction, maxPower, referenceAngle, name);
+        this(target, direction,angleModifier, maxPower, referenceAngle, name);
         this.timeLimit = timeLimit;
     }
 
@@ -258,7 +258,7 @@ public class Translate implements Command {
 
                     robot.getLFMotor().setPower(maxPower * POWER_MATRIX[4][0]);
                     robot.getRFMotor().setPower(maxPower * POWER_MATRIX[4][1] * scale );
-                    robot.getLBMotor().setPower(maxPower * POWER_MATRIX[4][2] * scale ;
+                    robot.getLBMotor().setPower(maxPower * POWER_MATRIX[4][2] * scale );
                     robot.getRBMotor().setPower(maxPower * POWER_MATRIX[4][3]);
                 } else if (movementAngle > -90 && movementAngle <= 0) { //quadrant 4
                     scale = sinDegrees(315 - movementAngle) / cosDegrees(315 - movementAngle);
@@ -582,7 +582,7 @@ public class Translate implements Command {
         BACKWARD(4, -90), //-90 degrees
         BACKWARD_LEFT(5, -135), //-135 degrees
         LEFT(6, -180), //-180 degrees
-        FORWARD_LEFT(7, -225) //-225 degrees
+        FORWARD_LEFT(7, -225); //-225 degrees
 
         private static Direction[] vals = values();
         private final int code;
