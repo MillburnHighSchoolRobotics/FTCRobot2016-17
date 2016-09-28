@@ -6,6 +6,7 @@ import android.util.Log;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.PIDController;
+import virtualRobot.utils.MathUtils;
 
 /**
  * Created by shant on 10/14/2015.
@@ -89,7 +90,7 @@ public class Translate implements Command {
         this(target);
 
         this.direction = direction;
-        this.angleModifier = Math.max(0, Math.min(angleModifier, 45));
+        this.angleModifier = MathUtils.clamp(angleModifier, 0, 45);
         if (angleModifier == 45) {
             this.direction = this.direction.getNext();
             angleModifier = 0;
@@ -349,6 +350,7 @@ public class Translate implements Command {
             double RFvalue = 0;
             double LBvalue = 0;
             double RBvalue = 0;
+       
         while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
                 && Math.abs(LFvalue - LFtranslateController.getTarget()) > TOLERANCE
                 && Math.abs(RFvalue - RFtranslateController.getTarget()) > TOLERANCE
@@ -367,10 +369,10 @@ public class Translate implements Command {
             double RFpidOutput = RFtranslateController.getPIDOutput(RFvalue);
             double LBpidOutput = LBtranslateController.getPIDOutput(LBvalue);
             double RBpidOutput = RBtranslateController.getPIDOutput(RBvalue);
-            LFpidOutput = Math.min(Math.max(LFpidOutput, -1), 1);
-            RFpidOutput = Math.min(Math.max(RFpidOutput, -1), 1);
-            LBpidOutput = Math.min(Math.max(LBpidOutput, -1), 1);
-            RBpidOutput = Math.min(Math.max(RBpidOutput, -1), 1);
+            LFpidOutput = MathUtils.clamp(LFpidOutput, -1,1); 
+            RFpidOutput = MathUtils.clamp(RFpidOutput, -1,1); 
+            LBpidOutput = MathUtils.clamp(LBpidOutput, -1,1); 
+            RBpidOutput = MathUtils.clamp(RBpidOutput, -1,1); 
 
             LFpidOutput *= maxPower;
             RFpidOutput *= maxPower;
@@ -378,13 +380,14 @@ public class Translate implements Command {
             RBpidOutput *= maxPower;
 
             double headingOutput = headingController.getPIDOutput(robot.getHeadingSensor().getValue());
-            headingOutput = Math.min(Math.max(headingOutput, -1), 1);
+            headingOutput = MathUtils.clamp(headingOutput, -1, 1);
 
 
             double LFPower = LFpidOutput;
             double RFPower = RFpidOutput;
             double LBPower = LBpidOutput;
             double RBPower = RBpidOutput;
+            int[] issueArray = {0,0,0,0}; //if the angle modifier is = 0, and for_right is too far to the right, then the first elemenet will be 1, to far to left = 2, perfect = 0. Second element same thing but for back_right, third for Back_left, 4th for Forward_left
             // headingOutput <0 = too far to the left, >0 = too far to the right
             if (angleModifier != 0) {
                 if ((direction.getCode() == 0 || direction.getCode() == 5)) {
@@ -422,7 +425,83 @@ public class Translate implements Command {
                 }
             }
             else {
-                //TODO: add in heading for basic angles
+                switch(direction) {
+                    case FORWARD:
+                        if (headingOutput > 0){
+                            RFPower+= headingOutput;
+                            LBPower+= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            RFPower-= headingOutput;
+                            LBPower-= headingOutput;
+                        }
+                        break;
+                    case FORWARD_RIGHT:
+                        if (headingOutput > 0){
+                            issueArray[0] = 1;
+                        }
+                        else if (headingOutput < 0) {
+                            issueArray[0] = 2;
+                        }
+                        break;
+                    case RIGHT:
+                        if (headingOutput > 0) {
+                            RFPower-= headingOutput;
+                            LBPower-= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            RFPower+= headingOutput;
+                            LBPower+= headingOutput;
+                        }
+                        break;
+                    case BACKWARD_RIGHT:
+                        if (headingOutput > 0){
+                            issueArray[1] = 1;
+                        }
+                        else if (headingOutput < 0) {
+                            issueArray[1] = 2;
+                        }
+                        break;
+                        break;
+                    case BACKWARD:
+                        if (headingOutput > 0) {
+                            LFPower+= headingOutput;
+                            RBPower+= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            LFPower-= headingOutput;
+                            RBPower-= headingOutput;
+                        }
+                        break;
+                    case BACKWARD_LEFT:
+                        if (headingOutput > 0){
+                            issueArray[2] = 1;
+                        }
+                        else if (headingOutput < 0) {
+                            issueArray[2] = 2;
+                        }
+                        break;
+                    case LEFT:
+                        if (headingOutput > 0) {
+                            LFPower+= headingOutput;
+                            RBPower+= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            LFPower-= headingOutput;
+                            RBPower-= headingOutput;
+                        }
+                        break;
+                    case FORWARD_LEFT:
+                        if (headingOutput > 0){
+                            issueArray[3] = 1;
+                        }
+                        else if (headingOutput < 0) {
+                            issueArray[3] = 2;
+                        }
+                        break;
+                        
+
+                }
 
             }
 
@@ -455,7 +534,7 @@ public class Translate implements Command {
                 && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
             double headingOutput = headingController.getPIDOutput(robot.getHeadingSensor().getValue());
-            headingOutput = Math.min(Math.max(headingOutput, -1), 1);
+            headingOutput = MathUtils.clamp(headingOutput, -1, 1);
 
             double LFPower = maxPower;
             double RFPower = maxPower;
