@@ -7,6 +7,7 @@ import virtualRobot.components.LocationSensor;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.Servo;
+import virtualRobot.components.SyncedMotors;
 
 /**
  * Created by DOSullivan on 9/14/16.
@@ -19,6 +20,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private LocationSensor locationSensor;
     private ArrayList<String> robotProgress;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
+    private Motor Reaper;
+    private Servo CapLeft, CapRight;
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {
@@ -32,11 +35,13 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         LBMotor = new Motor();
         RFMotor = new Motor();
         RBMotor = new Motor();
+        Reaper = new Motor();
         LFEncoder = new Sensor();
         LBEncoder = new Sensor();
         RFEncoder = new Sensor();
         RBEncoder = new Sensor();
-
+        CapLeft = new Servo();
+        CapRight = new Servo();
     }
     //All of Autonomous and TeleopRobot's functions are created e.g. (public synchronized Motor getMotor() {return Motor;}
 
@@ -71,6 +76,12 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Motor getRFMotor() { return RFMotor; }
 
     public synchronized Motor getRBMotor() { return RBMotor; }
+
+    public synchronized Motor getReaperMotor() { return Reaper; }
+
+    public synchronized Servo getCapLeft() { return CapLeft; }
+
+    public synchronized Servo getCapRight() { return CapRight; }
 
     public synchronized LocationSensor getLocationSensor() {
         return locationSensor;

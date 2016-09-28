@@ -30,6 +30,12 @@ public interface AutonomousRobot {
 
     Motor getRBMotor();
 
+    Motor getReaperMotor();
+
+    Servo getCapLeft();
+
+    Servo getCapRight();
+
     Sensor getLFEncoder();
 
     Sensor getLBEncoder();
