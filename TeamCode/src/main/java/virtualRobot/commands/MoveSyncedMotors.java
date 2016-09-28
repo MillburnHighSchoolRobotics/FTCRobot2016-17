@@ -7,10 +7,14 @@ import virtualRobot.components.SyncedMotors;
  */
 public class MoveSyncedMotors implements Command {
 
+	SyncedMotors synced;
+
+	public MoveSyncedMotors(SyncedMotors synced) {
+		this.synced = synced;
+	}
+
     @Override
     public boolean changeRobotState() throws InterruptedException {
-        for(SyncedMotors a: SyncedMotors.getList())
-            a.move();
-        return false;
+        synced.move();
     }
 }
