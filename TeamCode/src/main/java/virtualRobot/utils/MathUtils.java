@@ -5,10 +5,13 @@ package virtualRobot.utils;
  */
 public class MathUtils {
 
-    public double sinDegrees(double  d) {
+    public static double sinDegrees(double  d) {
         return Math.sin(Math.toRadians(d));
     }
-    public double cosDegrees(double  d) {
+    public static double cosDegrees(double  d) {
         return Math.cos(Math.toRadians(d));
+    }
+    public static double clamp(int number, int lowerBound, int upperBound) {
+    	Math.max(lowerBound, Math.min(upperBound, number));
     }
 }
