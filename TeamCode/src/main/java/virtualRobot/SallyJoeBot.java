@@ -18,6 +18,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder;
     private LocationSensor locationSensor;
+    private ColorSensor colorSensor;
     private ArrayList<String> robotProgress;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
     private Motor Reaper;
@@ -41,6 +42,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         RFEncoder = new Sensor();
         RBEncoder = new Sensor();
         CapLeft = new Servo();
+        colorSensor = new ColorSensor();
         CapRight = new Servo();
     }
     //All of Autonomous and TeleopRobot's functions are created e.g. (public synchronized Motor getMotor() {return Motor;}
@@ -85,6 +87,10 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
     public synchronized LocationSensor getLocationSensor() {
         return locationSensor;
+    }
+
+    public synchronized ColorSensor getColorSensor() {
+        return colorSensor;
     }
 
     public synchronized JoystickController getJoystickController1() {
