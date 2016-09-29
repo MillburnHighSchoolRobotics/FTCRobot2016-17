@@ -20,36 +20,30 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
 
     @Override
     public void loadCommands() {
-        final ColorSensor csensor = robot.getColorSensor();
+        final Sensor csensor = robot.getLineSensor();
+
+        final ExitCondition atwhiteline = new ExitCondition() {
+            @Override
+            public boolean isConditionMet() {
+                if (robot.getLineSensor().getRawValue() > 10) {
+                    return true;
+                }
+                return false;
+            }
+        };
 
         //Move to knock ball
         commands.add(new Translate(10, Translate.Direction.FORWARD_LEFT, 15));
 
         //Strafe to first white line
         Translate moveToWhiteLine = new Translate(1000, Translate.Direction.LEFT, 10, 10);
-        moveToWhiteLine.setExitCondition(new ExitCondition() {
-            @Override
-            public boolean isConditionMet() {
-                if (robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape) {
-                    return true;
-                }
-                return false;
-            }
-        });
+        moveToWhiteLine.setExitCondition(atwhiteline);
         commands.add(moveToWhiteLine);
 
         //code to follow line and push button
 
         Translate moveToSecondWLine = new Translate(1000, Translate.Direction.BACKWARD, 10, 10);
-        moveToSecondWLine.setExitCondition(new ExitCondition() {
-            @Override
-            public boolean isConditionMet() {
-                if (robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape) {
-                    return true;
-                }
-                return false;
-            }
-        });
+        moveToSecondWLine.setExitCondition(atwhiteline);
         commands.add(moveToSecondWLine);
 
         //code to follow line and push button

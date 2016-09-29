@@ -89,7 +89,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         return locationSensor;
     }
 
-    public synchronized ColorSensor getColorSensor() {
+    public synchronized Sensor getLineSensor() {
         return colorSensor;
     }
 

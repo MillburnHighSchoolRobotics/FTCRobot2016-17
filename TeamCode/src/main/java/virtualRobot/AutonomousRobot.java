@@ -44,7 +44,7 @@ public interface AutonomousRobot {
 
     Sensor getRBEncoder();
 
-    ColorSensor getColorSensor();
+    Sensor getLineSensor();
 
     void addToProgress(String s);
 
