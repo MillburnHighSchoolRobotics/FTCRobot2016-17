@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -32,10 +33,11 @@ public abstract class UpdateThread extends OpMode {
 
 	private MPU9250 imu;
 	private DcMotor leftFront, leftBack, rightFront, rightBack;
+	private LightSensor lineSensor;
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
-	private Sensor vHeadingSensor, vPitchSensor, vRollSensor;
+	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vLineSensor;
 	private LocationSensor vLocationSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
@@ -67,6 +69,7 @@ public abstract class UpdateThread extends OpMode {
 
         //SENSOR SETUP e.g. colorSensor = hardwareMap.colorsensor.get("color"), sonar1 = hardwareMap.analogInput.get("sonar1"), liftEndStop1 = hardwareMap.digitalChannel.get("liftEndStop1")
 		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
+		lineSensor = hardwareMap.lightSensor.get("lineSensor");
 
 
         //FETCH VIRTUAL ROBOT FROM COMMAND INTERFACE
@@ -77,6 +80,7 @@ public abstract class UpdateThread extends OpMode {
 		vPitchSensor = robot.getPitchSensor();
 		vRollSensor = robot.getRollSensor();
 		vLocationSensor = robot.getLocationSensor();
+		vLineSensor = robot.getLineSensor();
 		vLeftFront = robot.getLFMotor();
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
@@ -134,6 +138,7 @@ public abstract class UpdateThread extends OpMode {
 		vPitchSensor.setRawValue(imu.getIntegratedPitch());
 		vHeadingSensor.setRawValue(headingAngle);
 		vRollSensor.setRawValue(imu.getIntegratedRoll());
+		vLineSensor.setRawValue(lineSensor.getLightDetected());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
