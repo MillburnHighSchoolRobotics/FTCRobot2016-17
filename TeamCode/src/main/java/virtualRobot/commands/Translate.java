@@ -387,7 +387,7 @@ public class Translate implements Command {
             double RFPower = RFpidOutput;
             double LBPower = LBpidOutput;
             double RBPower = RBpidOutput;
-            int[] issueArray = {0,0,0,0}; //if the angle modifier is = 0, and for_right is too far to the right, then the first elemenet will be 1, to far to left = 2, perfect = 0. Second element same thing but for back_right, third for Back_left, 4th for Forward_left
+            boolean[] issueArray = {false,false,false,false}; //if the angle modifier is = 0, and for_right is too far to the right or left will be true, perfect = false. Second element same thing but for back_right, third for Back_left, 4th for Forward_left
             // headingOutput <0 = too far to the left, >0 = too far to the right
             if (angleModifier != 0) {
                 if ((direction.getCode() == 0 || direction.getCode() == 5)) {
@@ -396,8 +396,8 @@ public class Translate implements Command {
                         LBPower+= headingOutput;
                     }
                     else if (headingOutput < 0) {
-                        RFPower-= headingOutput;
-                        LBPower-= headingOutput;
+                        RFPower-= Math.abs(headingOutput);
+                        LBPower-= Math.abs(headingOutput);
                     }
 
                 }
@@ -408,8 +408,8 @@ public class Translate implements Command {
                         LBPower-= headingOutput;
                     }
                     else if (headingOutput < 0) {
-                        RFPower+= headingOutput;
-                        LBPower+= headingOutput;
+                        RFPower+= Math.abs(headingOutput);
+                        LBPower+= Math.abs(headingOutput);
                     }
                 }
 
@@ -419,12 +419,28 @@ public class Translate implements Command {
                         RBPower+= headingOutput;
                     }
                     else if (headingOutput < 0) {
-                        LFPower-= headingOutput;
-                        RBPower-= headingOutput;
+                        LFPower-= Math.abs(headingOutput);
+                        RBPower-= Math.abs(headingOutput);
                     }
                 }
             }
             else {
+                if (issueArray[0] == true && headingOutput == 0) {
+                    issueArray[0] == false;
+                    multiplier[0] = POWER_MATRIX[direction.getCode()][0];
+                }
+                if (issueArray[1] == true && headingOutput == 0) {
+                    issueArray[1] == false;
+                    multiplier[1] = POWER_MATRIX[direction.getCode()][1];
+                }
+                if (issueArray[2] == true && headingOutput == 0) {
+                    issueArray[2] == false;
+                    multiplier[2] = POWER_MATRIX[direction.getCode()][2];
+                }
+                if (issueArray[3] == true && headingOutput == 0) {
+                    issueArray[3] == false;
+                    multiplier[3] = POWER_MATRIX[direction.getCode()][3];
+                }
                 switch(direction) {
                     case FORWARD:
                         if (headingOutput > 0){
@@ -432,16 +448,24 @@ public class Translate implements Command {
                             LBPower+= headingOutput;
                         }
                         else if (headingOutput < 0) {
-                            RFPower-= headingOutput;
-                            LBPower-= headingOutput;
+                            RFPower-= Math.abs(headingOutput);
+                            LBPower-= Math.abs(headingOutput);
                         }
                         break;
                     case FORWARD_RIGHT:
-                        if (headingOutput > 0){
-                            issueArray[0] = 1;
+                        if (headingOutput > 0){ 
+                            issueArray[0] = true;
+                            multiplier[1] = 1;
+                            multiplier[2] = 1;
+                            RFPower+= headingOutput;
+                            LBPower+= headingOutput;
                         }
                         else if (headingOutput < 0) {
-                            issueArray[0] = 2;
+                            issueArray[0] = true;
+                            multiplier[1] = -1;
+                            multiplier[2] = -1;
+                            RFPower+= Math.abs(headingOutput);
+                            LBPower+= Math.abs(headingOutput);
                         }
                         break;
                     case RIGHT:
@@ -450,16 +474,25 @@ public class Translate implements Command {
                             LBPower-= headingOutput;
                         }
                         else if (headingOutput < 0) {
-                            RFPower+= headingOutput;
-                            LBPower+= headingOutput;
+                            RFPower+= Math.abs(headingOutput);
+                            LBPower+= Math.abs(headingOutput);
                         }
                         break;
                     case BACKWARD_RIGHT:
                         if (headingOutput > 0){
-                            issueArray[1] = 1;
+                            issueArray[1] = true;
+                            multiplier[0] = -1;
+                            multiplier[3] = -1;
+                            LFPower+= headingOutput;
+                            RBPower+= headingOutput;
+
                         }
                         else if (headingOutput < 0) {
-                            issueArray[1] = 2;
+                            issueArray[1] = true;
+                            multiplier[0] = 1;
+                            multiplier[3] = 1;
+                            LFPower+= Math.abs(headingOutput);
+                            RBPower+= Math.abs(headingOutput);
                         }
                         break;
                         break;
@@ -469,16 +502,24 @@ public class Translate implements Command {
                             RBPower+= headingOutput;
                         }
                         else if (headingOutput < 0) {
-                            LFPower-= headingOutput;
-                            RBPower-= headingOutput;
+                            LFPower-= Math.abs(headingOutput);
+                            RBPower-= Math.abs(headingOutput);
                         }
                         break;
                     case BACKWARD_LEFT:
                         if (headingOutput > 0){
-                            issueArray[2] = 1;
+                            issueArray[2] = true;
+                            multiplier[1] = 1;
+                            multiplier[2] = 1;
+                            RFPower+=headingOutput;
+                            LBPower+=headingOutput;
                         }
                         else if (headingOutput < 0) {
-                            issueArray[2] = 2;
+                            issueArray[2] = true;
+                            mutliplier[1] = -1;
+                            multiplier[2] = -1;
+                            RFPower+= Math.abs(headingOutput);
+                            LBPower+=Math.abs(headingOutput);
                         }
                         break;
                     case LEFT:
@@ -487,16 +528,24 @@ public class Translate implements Command {
                             RBPower+= headingOutput;
                         }
                         else if (headingOutput < 0) {
-                            LFPower-= headingOutput;
-                            RBPower-= headingOutput;
+                            LFPower-= Math.abs(headingOutput);
+                            RBPower-= Math.abs(headingOutput);
                         }
                         break;
                     case FORWARD_LEFT:
                         if (headingOutput > 0){
-                            issueArray[3] = 1;
+                            issueArray[3] = true;
+                            multiplier[0] = -1;
+                            multiplier[3] = -1;
+                            LFPower+= headingOutput;
+                            RBPower+= headingOutput;
                         }
                         else if (headingOutput < 0) {
-                            issueArray[3] = 2;
+                            issueArray[3] = true;
+                            multiplier[0] = 1;
+                            multiplier[3] = 1;
+                            LFPower+= Math.abs(headingOutput);
+                            RBPower+= Math.abs(headingOutput);
                         }
                         break;
                         
@@ -540,20 +589,17 @@ public class Translate implements Command {
             double RFPower = maxPower;
             double LBPower = maxPower;
             double RBPower = maxPower;
+              boolean[] issueArray = {false,false,false,false}; //if the angle modifier is = 0, and for_right is too far to the right or left will be true, perfect = false. Second element same thing but for back_right, third for Back_left, 4th for Forward_left
             // headingOutput <0 = too far to the left, >0 = too far to the right
             if (angleModifier != 0) {
                 if ((direction.getCode() == 0 || direction.getCode() == 5)) {
                     if (headingOutput > 0){
                         RFPower+= headingOutput;
                         LBPower+= headingOutput;
-                        LFPower -= headingOutput;
-                        RBPower -= headingOutput;
                     }
                     else if (headingOutput < 0) {
-                        RFPower-= headingOutput;
-                        LBPower-= headingOutput;
-                        LFPower += headingOutput;
-                        RBPower += headingOutput;
+                        RFPower-= Math.abs(headingOutput);
+                        LBPower-= Math.abs(headingOutput);
                     }
 
                 }
@@ -562,14 +608,10 @@ public class Translate implements Command {
                     if (headingOutput > 0) {
                         RFPower-= headingOutput;
                         LBPower-= headingOutput;
-                        LFPower += headingOutput;
-                        RBPower += headingOutput;
                     }
                     else if (headingOutput < 0) {
-                        RFPower+= headingOutput;
-                        LBPower+= headingOutput;
-                        LFPower -= headingOutput;
-                        RBPower -= headingOutput;
+                        RFPower+= Math.abs(headingOutput);
+                        LBPower+= Math.abs(headingOutput);
                     }
                 }
 
@@ -577,19 +619,140 @@ public class Translate implements Command {
                     if (headingOutput > 0) {
                         LFPower+= headingOutput;
                         RBPower+= headingOutput;
-                        RFPower-= headingOutput;
-                        LBPower-= headingOutput;
                     }
                     else if (headingOutput < 0) {
-                        LFPower-= headingOutput;
-                        RBPower-= headingOutput;
-                        RFPower+= headingOutput;
-                        LBPower+= headingOutput;
+                        LFPower-= Math.abs(headingOutput);
+                        RBPower-= Math.abs(headingOutput);
                     }
                 }
             }
             else {
-                //TODO: add in heading for basic angles
+                if (issueArray[0] == true && headingOutput == 0) {
+                    issueArray[0] == false;
+                    multiplier[0] = POWER_MATRIX[direction.getCode()][0];
+                }
+                if (issueArray[1] == true && headingOutput == 0) {
+                    issueArray[1] == false;
+                    multiplier[1] = POWER_MATRIX[direction.getCode()][1];
+                }
+                if (issueArray[2] == true && headingOutput == 0) {
+                    issueArray[2] == false;
+                    multiplier[2] = POWER_MATRIX[direction.getCode()][2];
+                }
+                if (issueArray[3] == true && headingOutput == 0) {
+                    issueArray[3] == false;
+                    multiplier[3] = POWER_MATRIX[direction.getCode()][3];
+                }
+                switch(direction) {
+                    case FORWARD:
+                        if (headingOutput > 0){
+                            RFPower+= headingOutput;
+                            LBPower+= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            RFPower-= Math.abs(headingOutput);
+                            LBPower-= Math.abs(headingOutput);
+                        }
+                        break;
+                    case FORWARD_RIGHT:
+                        if (headingOutput > 0){ 
+                            issueArray[0] = true;
+                            multiplier[1] = 1;
+                            multiplier[2] = 1;
+                            RFPower+= headingOutput;
+                            LBPower+= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            issueArray[0] = true;
+                            multiplier[1] = -1;
+                            multiplier[2] = -1;
+                            RFPower+= Math.abs(headingOutput);
+                            LBPower+= Math.abs(headingOutput);
+                        }
+                        break;
+                    case RIGHT:
+                        if (headingOutput > 0) {
+                            RFPower-= headingOutput;
+                            LBPower-= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            RFPower+= Math.abs(headingOutput);
+                            LBPower+= Math.abs(headingOutput);
+                        }
+                        break;
+                    case BACKWARD_RIGHT:
+                        if (headingOutput > 0){
+                            issueArray[1] = true;
+                            multiplier[0] = -1;
+                            multiplier[3] = -1;
+                            LFPower+= headingOutput;
+                            RBPower+= headingOutput;
+
+                        }
+                        else if (headingOutput < 0) {
+                            issueArray[1] = true;
+                            multiplier[0] = 1;
+                            multiplier[3] = 1;
+                            LFPower+= Math.abs(headingOutput);
+                            RBPower+= Math.abs(headingOutput);
+                        }
+                        break;
+                        break;
+                    case BACKWARD:
+                        if (headingOutput > 0) {
+                            LFPower+= headingOutput;
+                            RBPower+= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            LFPower-= Math.abs(headingOutput);
+                            RBPower-= Math.abs(headingOutput);
+                        }
+                        break;
+                    case BACKWARD_LEFT:
+                        if (headingOutput > 0){
+                            issueArray[2] = true;
+                            multiplier[1] = 1;
+                            multiplier[2] = 1;
+                            RFPower+=headingOutput;
+                            LBPower+=headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            issueArray[2] = true;
+                            mutliplier[1] = -1;
+                            multiplier[2] = -1;
+                            RFPower+= Math.abs(headingOutput);
+                            LBPower+=Math.abs(headingOutput);
+                        }
+                        break;
+                    case LEFT:
+                        if (headingOutput > 0) {
+                            LFPower+= headingOutput;
+                            RBPower+= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            LFPower-= Math.abs(headingOutput);
+                            RBPower-= Math.abs(headingOutput);
+                        }
+                        break;
+                    case FORWARD_LEFT:
+                        if (headingOutput > 0){
+                            issueArray[3] = true;
+                            multiplier[0] = -1;
+                            multiplier[3] = -1;
+                            LFPower+= headingOutput;
+                            RBPower+= headingOutput;
+                        }
+                        else if (headingOutput < 0) {
+                            issueArray[3] = true;
+                            multiplier[0] = 1;
+                            multiplier[3] = 1;
+                            LFPower+= Math.abs(headingOutput);
+                            RBPower+= Math.abs(headingOutput);
+                        }
+                        break;
+                        
+
+                }
 
             }
             robot.getLFMotor().setPower(LFPower * multiplier[0]);
