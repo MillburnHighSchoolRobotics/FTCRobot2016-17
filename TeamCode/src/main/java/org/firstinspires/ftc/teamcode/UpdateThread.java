@@ -34,12 +34,12 @@ public abstract class UpdateThread extends OpMode {
 
 	private MPU9250 imu;
 	private DcMotor leftFront, leftBack, rightFront, rightBack;
-<<<<<<< HEAD
+
 	private com.qualcomm.robotcore.hardware.Servo capLeft, capRight;
 
-=======
+
 	private LightSensor lineSensor;
->>>>>>> d060ee6481fc68d2a9241dc479b727e01053a69f
+
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
@@ -48,12 +48,12 @@ public abstract class UpdateThread extends OpMode {
 	private JoystickController vJoystickController1, vJoystickController2;
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
-<<<<<<< HEAD
+
 	private virtualRobot.components.Servo vCapServo;
 
-=======
+
 	private SyncedMotors vRotateLeftMotor, vRotateRightMotor;
->>>>>>> d060ee6481fc68d2a9241dc479b727e01053a69f
+
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -96,14 +96,13 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
 		vRightBack = robot.getRBMotor();
-<<<<<<< HEAD
 		vCapServo = robot.getCapServo();
 
-=======
+
 		vRotateLeftMotor = robot.getRightRotate();
 		vRotateLeftMotor = robot.getLeftRotate();
 		
->>>>>>> d060ee6481fc68d2a9241dc479b727e01053a69f
+
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
 
@@ -164,6 +163,7 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
 		vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
 		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+		
 
 
 		try {
