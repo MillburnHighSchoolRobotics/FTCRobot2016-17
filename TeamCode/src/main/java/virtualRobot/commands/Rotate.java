@@ -145,11 +145,9 @@ public class Rotate implements Command {
                         powerScaler = (power-MIN_MAX_POWER)*ratio + MIN_MAX_POWER;
                     }
                     adjustedPower *= powerScaler;
-*/
-                    robot.getLFMotor().setPower(adjustedPower);
-                    robot.getLBMotor().setPower(adjustedPower);
-                    robot.getRFMotor().setPower(-adjustedPower);
-                    robot.getRBMotor().setPower(-adjustedPower);
+*/                  robot.getLeftRotate().setPower(adjustedPower);
+                    robot.getRightRotate().setPower(-adjustedPower);
+                    
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;
@@ -174,11 +172,9 @@ public class Rotate implements Command {
                 while (!exitCondition.isConditionMet() && Math.abs(Math.abs(pidController.getTarget())
                         - (Math.abs(robot.getLFEncoder().getValue()) + Math.abs(robot.getLBEncoder().getValue())
                         + Math.abs(robot.getRFEncoder().getValue()) + Math.abs(robot.getRBEncoder().getValue())) / 4) > 20){//Mehmet: Unsure of relevance of 20, may need to be changed.
-
-                    robot.getLFMotor().setPower(Math.signum(angleInDegrees)*power);
-                    robot.getLBMotor().setPower(Math.signum(angleInDegrees)*power);
-                    robot.getRFMotor().setPower(-Math.signum(angleInDegrees)*power);
-                    robot.getRBMotor().setPower(-Math.signum(angleInDegrees)*power);
+                    robot.getLeftRotate().setPower(Math.signum(angleInDegrees)*power);
+                    robot.getRightRotate().setPower(-Math.signum(angleInDegrees)*power);
+                    
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;

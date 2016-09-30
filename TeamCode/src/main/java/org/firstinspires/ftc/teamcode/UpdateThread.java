@@ -42,7 +42,7 @@ public abstract class UpdateThread extends OpMode {
 	private JoystickController vJoystickController1, vJoystickController2;
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
-
+	private SyncedMotors vRotateLeftMotor, vRotateRightMotor;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -85,7 +85,9 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
 		vRightBack = robot.getRBMotor();
-
+		vRotateLeftMotor = robot.getRightRotate();
+		vRotateLeftMotor = robot.getLeftRotate();
+		
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
 

@@ -23,7 +23,10 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
     private Motor Reaper;
     private Servo CapLeft, CapRight;
-
+    private SyncedMotors leftRotate, rightRotate;
+    private static final KP = 0; //TBD
+    private static final KI = 0; //TBD
+    private static final KD = 0; //TBD
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {
 
@@ -44,6 +47,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         CapLeft = new Servo();
         colorSensor = new ColorSensor();
         CapRight = new Servo();
+        leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD);
+        rightRotate = new SyncedMotors(RFMotor, RBMotor, RFEncoder, RBEncoder, KP, KI, KD);
     }
     //All of Autonomous and TeleopRobot's functions are created e.g. (public synchronized Motor getMotor() {return Motor;}
 
@@ -62,49 +67,75 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         return rollSensor;
     }
 
+    @Override
     public synchronized Sensor getLFEncoder() { return LFEncoder; }
 
+    @Override
     public synchronized Sensor getLBEncoder() { return LBEncoder;}
 
+    @Override
     public synchronized Sensor getRFEncoder() { return RFEncoder;}
 
+    @Override
     public synchronized Sensor getRBEncoder () {return RBEncoder;}
 
-
+    @Override
     public synchronized Motor getLFMotor() { return LFMotor; }
 
+    @Override
     public synchronized Motor getLBMotor() { return LBMotor; }
 
+    @Override
     public synchronized Motor getRFMotor() { return RFMotor; }
 
+    @Override
     public synchronized Motor getRBMotor() { return RBMotor; }
 
+    @Override
     public synchronized Motor getReaperMotor() { return Reaper; }
 
+    @Override
     public synchronized Servo getCapLeft() { return CapLeft; }
 
+    @Override
     public synchronized Servo getCapRight() { return CapRight; }
 
+    @Override
     public synchronized LocationSensor getLocationSensor() {
         return locationSensor;
     }
 
+    @Override
     public synchronized Sensor getLineSensor() {
         return colorSensor;
     }
 
+    @Override
+    public synchronized SyncedMotors getRightRotate() {
+        return rightRotate;
+    }
+
+    @Override
+    public synchronized SyncedMotors getLeftRotate() {
+        return leftRotate;
+    }
+
+    @Override
     public synchronized JoystickController getJoystickController1() {
         return joystickController1;
     }
 
+    @Override
     public synchronized JoystickController getJoystickController2() {
         return joystickController2;
     }
 
+    @Override
     public synchronized void addToProgress (String s) {
         robotProgress.add(s);
     }
 
+    @Override
     public synchronized ArrayList<String> getProgress () {
         return robotProgress;
     }

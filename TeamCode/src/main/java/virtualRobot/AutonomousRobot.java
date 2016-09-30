@@ -46,6 +46,10 @@ public interface AutonomousRobot {
 
     Sensor getLineSensor();
 
+    SyncedMotors getRightRotate();
+
+    SyncedMotors getLeftRotate();
+
     void addToProgress(String s);
 
     ArrayList<String> getProgress();
