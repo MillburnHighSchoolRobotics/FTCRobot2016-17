@@ -16,5 +16,6 @@ public class MoveSyncedMotors implements Command {
     @Override
     public boolean changeRobotState() throws InterruptedException {
         synced.move();
+        return false;
     }
 }

@@ -22,11 +22,16 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private ArrayList<String> robotProgress;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
     private Motor Reaper;
+<<<<<<< HEAD
+    private Servo CapServo;
+
+=======
     private Servo CapLeft, CapRight;
     private SyncedMotors leftRotate, rightRotate;
     private static final KP = 0; //TBD
     private static final KI = 0; //TBD
     private static final KD = 0; //TBD
+>>>>>>> d060ee6481fc68d2a9241dc479b727e01053a69f
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {
 
@@ -44,11 +49,14 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         LBEncoder = new Sensor();
         RFEncoder = new Sensor();
         RBEncoder = new Sensor();
-        CapLeft = new Servo();
+        CapServo = new Servo();
         colorSensor = new ColorSensor();
+<<<<<<< HEAD
+=======
         CapRight = new Servo();
         leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD);
         rightRotate = new SyncedMotors(RFMotor, RBMotor, RFEncoder, RBEncoder, KP, KI, KD);
+>>>>>>> d060ee6481fc68d2a9241dc479b727e01053a69f
     }
     //All of Autonomous and TeleopRobot's functions are created e.g. (public synchronized Motor getMotor() {return Motor;}
 
@@ -94,11 +102,15 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     @Override
     public synchronized Motor getReaperMotor() { return Reaper; }
 
+<<<<<<< HEAD
+    public synchronized Servo getCapServo() { return CapServo; }
+=======
     @Override
     public synchronized Servo getCapLeft() { return CapLeft; }
 
     @Override
     public synchronized Servo getCapRight() { return CapRight; }
+>>>>>>> d060ee6481fc68d2a9241dc479b727e01053a69f
 
     @Override
     public synchronized LocationSensor getLocationSensor() {

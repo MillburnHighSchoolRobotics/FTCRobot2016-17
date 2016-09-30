@@ -11,7 +11,7 @@ public class MathUtils {
     public static double cosDegrees(double  d) {
         return Math.cos(Math.toRadians(d));
     }
-    public static double clamp(int number, int lowerBound, int upperBound) {
-    	Math.max(lowerBound, Math.min(upperBound, number));
+    public static double clamp(double number, double lowerBound, double upperBound) {
+    	return Math.max(lowerBound, Math.min(upperBound, number));
     }
 }

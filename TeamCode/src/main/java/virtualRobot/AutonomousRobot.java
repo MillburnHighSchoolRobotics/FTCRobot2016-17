@@ -32,9 +32,7 @@ public interface AutonomousRobot {
 
     Motor getReaperMotor();
 
-    Servo getCapLeft();
-
-    Servo getCapRight();
+    Servo getCapServo();
 
     Sensor getLFEncoder();
 

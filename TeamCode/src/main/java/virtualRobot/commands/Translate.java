@@ -426,19 +426,19 @@ public class Translate implements Command {
             }
             else {
                 if (issueArray[0] == true && headingOutput == 0) {
-                    issueArray[0] == false;
+                    issueArray[0] = false;
                     multiplier[0] = POWER_MATRIX[direction.getCode()][0];
                 }
                 if (issueArray[1] == true && headingOutput == 0) {
-                    issueArray[1] == false;
+                    issueArray[1] = false;
                     multiplier[1] = POWER_MATRIX[direction.getCode()][1];
                 }
                 if (issueArray[2] == true && headingOutput == 0) {
-                    issueArray[2] == false;
+                    issueArray[2] = false;
                     multiplier[2] = POWER_MATRIX[direction.getCode()][2];
                 }
                 if (issueArray[3] == true && headingOutput == 0) {
-                    issueArray[3] == false;
+                    issueArray[3] = false;
                     multiplier[3] = POWER_MATRIX[direction.getCode()][3];
                 }
                 switch(direction) {
@@ -495,7 +495,6 @@ public class Translate implements Command {
                             RBPower+= Math.abs(headingOutput);
                         }
                         break;
-                        break;
                     case BACKWARD:
                         if (headingOutput > 0) {
                             LFPower+= headingOutput;
@@ -516,7 +515,7 @@ public class Translate implements Command {
                         }
                         else if (headingOutput < 0) {
                             issueArray[2] = true;
-                            mutliplier[1] = -1;
+                            multiplier[1] = -1;
                             multiplier[2] = -1;
                             RFPower+= Math.abs(headingOutput);
                             LBPower+=Math.abs(headingOutput);
@@ -628,19 +627,19 @@ public class Translate implements Command {
             }
             else {
                 if (issueArray[0] == true && headingOutput == 0) {
-                    issueArray[0] == false;
+                    issueArray[0] = false;
                     multiplier[0] = POWER_MATRIX[direction.getCode()][0];
                 }
                 if (issueArray[1] == true && headingOutput == 0) {
-                    issueArray[1] == false;
+                    issueArray[1] = false;
                     multiplier[1] = POWER_MATRIX[direction.getCode()][1];
                 }
                 if (issueArray[2] == true && headingOutput == 0) {
-                    issueArray[2] == false;
+                    issueArray[2] = false;
                     multiplier[2] = POWER_MATRIX[direction.getCode()][2];
                 }
                 if (issueArray[3] == true && headingOutput == 0) {
-                    issueArray[3] == false;
+                    issueArray[3] = false;
                     multiplier[3] = POWER_MATRIX[direction.getCode()][3];
                 }
                 switch(direction) {
@@ -697,7 +696,6 @@ public class Translate implements Command {
                             RBPower+= Math.abs(headingOutput);
                         }
                         break;
-                        break;
                     case BACKWARD:
                         if (headingOutput > 0) {
                             LFPower+= headingOutput;
@@ -718,7 +716,7 @@ public class Translate implements Command {
                         }
                         else if (headingOutput < 0) {
                             issueArray[2] = true;
-                            mutliplier[1] = -1;
+                            multiplier[1] = -1;
                             multiplier[2] = -1;
                             RFPower+= Math.abs(headingOutput);
                             LBPower+=Math.abs(headingOutput);

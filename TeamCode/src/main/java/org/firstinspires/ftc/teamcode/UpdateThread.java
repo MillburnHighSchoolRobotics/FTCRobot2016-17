@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImpl;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
@@ -33,7 +34,12 @@ public abstract class UpdateThread extends OpMode {
 
 	private MPU9250 imu;
 	private DcMotor leftFront, leftBack, rightFront, rightBack;
+<<<<<<< HEAD
+	private com.qualcomm.robotcore.hardware.Servo capLeft, capRight;
+
+=======
 	private LightSensor lineSensor;
+>>>>>>> d060ee6481fc68d2a9241dc479b727e01053a69f
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
@@ -42,7 +48,12 @@ public abstract class UpdateThread extends OpMode {
 	private JoystickController vJoystickController1, vJoystickController2;
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
+<<<<<<< HEAD
+	private virtualRobot.components.Servo vCapServo;
+
+=======
 	private SyncedMotors vRotateLeftMotor, vRotateRightMotor;
+>>>>>>> d060ee6481fc68d2a9241dc479b727e01053a69f
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -57,9 +68,9 @@ public abstract class UpdateThread extends OpMode {
 		rightFront = hardwareMap.dcMotor.get("rightFront");
 		rightBack = hardwareMap.dcMotor.get("rightBack");
 
-
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
-
+		capLeft = hardwareMap.servo.get("capLeft");
+		capRight = hardwareMap.servo.get("capRight");
 
         //REVERSE RIGHT SIDE (If needed, e.g. rightFront.setDirection(DcMotor.Direction.REVERSE)
 
@@ -85,9 +96,14 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
 		vRightBack = robot.getRBMotor();
+<<<<<<< HEAD
+		vCapServo = robot.getCapServo();
+
+=======
 		vRotateLeftMotor = robot.getRightRotate();
 		vRotateLeftMotor = robot.getLeftRotate();
 		
+>>>>>>> d060ee6481fc68d2a9241dc479b727e01053a69f
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
 
@@ -120,6 +136,7 @@ public abstract class UpdateThread extends OpMode {
 			vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
 			vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
 			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+			vCapServo.setPosition((capRight.getPosition() + capLeft.getPosition())/2);
 
 		t.start();
 	}
@@ -162,6 +179,7 @@ public abstract class UpdateThread extends OpMode {
 		double leftBackPower = vLeftBack.getPower();
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
+		double capPosition = vCapServo.getPosition();
 
 
 
@@ -170,6 +188,8 @@ public abstract class UpdateThread extends OpMode {
 		leftBack.setPower(leftBackPower);
 		rightFront.setPower(rightFrontPower);
 		rightBack.setPower(rightBackPower);
+		capRight.setPosition(capPosition);
+		capLeft.setPosition(capPosition);
 
 		for (int i = 0; i < robot.getProgress().size(); i++) {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
@@ -179,6 +199,7 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("leftBack Power", leftBackPower);
 		telemetry.addData("rightFront Power", rightFrontPower);
 		telemetry.addData("rightBack Power", rightBackPower);
+		telemetry.addData("capServo Position", capPosition);
 
     }
 	
