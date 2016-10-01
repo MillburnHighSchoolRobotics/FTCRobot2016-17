@@ -40,13 +40,28 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         moveToWhiteLine.setExitCondition(atwhiteline);
         commands.add(moveToWhiteLine);
 
-        //code to follow line and push button
+        //Insert placeholder code to align with wall
 
+        //Strafe left to move towards wall
+        Translate moveToWall = new Translate(1000, Translate.Direction.LEFT, 10, 0);
+        moveToWall.setExitCondition(new ExitCondition() {
+            @Override
+            public boolean isConditionMet() {
+               if (robot.getUltrasonicSensor().getValue() < 10) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        //get picture and press button
+
+        //Reverse to second white line
         Translate moveToSecondWLine = new Translate(1000, Translate.Direction.BACKWARD, 10, 10);
         moveToSecondWLine.setExitCondition(atwhiteline);
         commands.add(moveToSecondWLine);
 
-        //code to follow line and push button
+        //get picture and press button
 
         //Strafe to ramp
         commands.add(new Translate(10, Translate.Direction.BACKWARD, 0));

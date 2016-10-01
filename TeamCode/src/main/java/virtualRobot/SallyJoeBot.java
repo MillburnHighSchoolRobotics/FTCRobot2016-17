@@ -14,7 +14,7 @@ import virtualRobot.components.SyncedMotors;
  */
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
-    private Sensor headingSensor, pitchSensor, rollSensor;
+    private Sensor headingSensor, pitchSensor, rollSensor, ultraSonicSensor;
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder;
     private LocationSensor locationSensor;
@@ -24,9 +24,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private Motor Reaper;
     private Servo CapServo;
     private SyncedMotors leftRotate, rightRotate;
-    private static final KP = 0; //TBD
-    private static final KI = 0; //TBD
-    private static final KD = 0; //TBD
+    private static final double KP = 0; //TBD
+    private static final double KI = 0; //TBD
+    private static final double KD = 0; //TBD
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {
@@ -68,6 +68,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Sensor getRollSensor() {
         return rollSensor;
     }
+
+    @Override
+    public synchronized Sensor getUltrasonicSensor(){return ultraSonicSensor;}
 
     @Override
     public synchronized Sensor getLFEncoder() { return LFEncoder; }
