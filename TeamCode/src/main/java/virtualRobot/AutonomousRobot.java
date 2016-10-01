@@ -37,6 +37,8 @@ public interface AutonomousRobot {
 
     Servo getCapServo();
 
+    Servo getButtonServo();
+
     Sensor getLFEncoder();
 
     Sensor getLBEncoder();

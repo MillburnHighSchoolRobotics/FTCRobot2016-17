@@ -1,5 +1,7 @@
 package virtualRobot;
 
+import android.widget.Button;
+
 import java.util.ArrayList;
 
 import virtualRobot.components.ColorSensor;
@@ -23,6 +25,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
     private Motor Reaper;
     private Servo CapServo;
+    private Servo ButtonServo;
     private SyncedMotors leftRotate, rightRotate;
     private static final double KP = 0; //TBD
     private static final double KI = 0; //TBD
@@ -46,6 +49,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         RFEncoder = new Sensor();
         RBEncoder = new Sensor();
         CapServo = new Servo();
+        ButtonServo = new Servo();
         colorSensor = new ColorSensor();
 
         leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD);
@@ -99,7 +103,11 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     @Override
     public synchronized Motor getReaperMotor() { return Reaper; }
 
+    @Override
     public synchronized Servo getCapServo() { return CapServo; }
+
+    @Override
+    public synchronized Servo getButtonServo() { return ButtonServo; }
 
     @Override
     public synchronized LocationSensor getLocationSensor() {

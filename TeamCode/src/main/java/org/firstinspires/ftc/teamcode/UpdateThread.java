@@ -37,7 +37,7 @@ public abstract class UpdateThread extends OpMode {
 	private MPU9250 imu;
 	private DcMotor leftFront, leftBack, rightFront, rightBack;
 
-	private com.qualcomm.robotcore.hardware.Servo capLeft, capRight;
+	private com.qualcomm.robotcore.hardware.Servo capLeft, capRight, buttonServo;
 
 
 	private LightSensor lineSensor;
@@ -52,7 +52,7 @@ public abstract class UpdateThread extends OpMode {
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
 
-	private virtualRobot.components.Servo vCapServo;
+	private virtualRobot.components.Servo vCapServo, vButtonServo;
 
 
 	private SyncedMotors vRotateLeftMotor, vRotateRightMotor;
@@ -74,6 +74,7 @@ public abstract class UpdateThread extends OpMode {
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		capLeft = hardwareMap.servo.get("capLeft");
 		capRight = hardwareMap.servo.get("capRight");
+		buttonServo = hardwareMap.servo.get("buttonPusher");
 
         //REVERSE RIGHT SIDE (If needed, e.g. rightFront.setDirection(DcMotor.Direction.REVERSE)
 
@@ -102,6 +103,7 @@ public abstract class UpdateThread extends OpMode {
 		vRightFront = robot.getRFMotor();
 		vRightBack = robot.getRBMotor();
 		vCapServo = robot.getCapServo();
+		vButtonServo = robot.getButtonServo();
 
 
 		vRotateLeftMotor = robot.getRightRotate();
@@ -141,6 +143,7 @@ public abstract class UpdateThread extends OpMode {
 			vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
 			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
 			vCapServo.setPosition((capRight.getPosition() + capLeft.getPosition())/2);
+			vButtonServo.setPosition(buttonServo.getPosition());
 
 		t.start();
 	}
@@ -185,7 +188,7 @@ public abstract class UpdateThread extends OpMode {
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
 		double capPosition = vCapServo.getPosition();
-
+		double buttonPosition = vButtonServo.getPosition();
 
 
 		// Copy State of Motors and Servos E.g. leftFront.setPower(leftPower), Servo.setPosition(vServo.getPosition());
@@ -195,6 +198,7 @@ public abstract class UpdateThread extends OpMode {
 		rightBack.setPower(rightBackPower);
 		capRight.setPosition(capPosition);
 		capLeft.setPosition(capPosition);
+		buttonServo.setPosition(buttonPosition);
 
 		for (int i = 0; i < robot.getProgress().size(); i++) {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
@@ -205,6 +209,7 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("rightFront Power", rightFrontPower);
 		telemetry.addData("rightBack Power", rightBackPower);
 		telemetry.addData("capServo Position", capPosition);
+		telemetry.addData("buttonServo Position", buttonPosition);
 
     }
 	
