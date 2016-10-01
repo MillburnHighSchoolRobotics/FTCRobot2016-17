@@ -1,7 +1,5 @@
 package virtualRobot;
 
-import android.widget.Button;
-
 import java.util.ArrayList;
 
 import virtualRobot.components.ColorSensor;
