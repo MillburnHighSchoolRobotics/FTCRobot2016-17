@@ -14,11 +14,10 @@ import virtualRobot.components.SyncedMotors;
  */
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
-    private Sensor headingSensor, pitchSensor, rollSensor, ultraSonicSensor;
+    private Sensor headingSensor, pitchSensor, rollSensor, ultraSonicSensor, lightSensor;
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder;
     private LocationSensor locationSensor;
-    private ColorSensor colorSensor;
     private ArrayList<String> robotProgress;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
     private Motor Reaper;
@@ -28,6 +27,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private static final double KP = 0; //TBD
     private static final double KI = 0; //TBD
     private static final double KD = 0; //TBD
+    public static final double BWTHRESHOLD = 1;
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {
@@ -35,6 +35,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         headingSensor = new Sensor();
         pitchSensor = new Sensor();
         rollSensor = new Sensor();
+        ultraSonicSensor = new Sensor();
+        lightSensor = new Sensor();
         robotProgress = new ArrayList<String>();
         locationSensor = new LocationSensor();
         LFMotor = new Motor();
@@ -48,10 +50,11 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         RBEncoder = new Sensor();
         CapServo = new Servo();
         ButtonServo = new Servo();
-        colorSensor = new ColorSensor();
 
         leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD);
         rightRotate = new SyncedMotors(RFMotor, RBMotor, RFEncoder, RBEncoder, KP, KI, KD);
+        leftRotate.setRatio(1);
+        rightRotate.setRatio(1);
 
     }
     //All of Autonomous and TeleopRobot's functions are created e.g. (public synchronized Motor getMotor() {return Motor;}
@@ -114,7 +117,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
     @Override
     public synchronized Sensor getLineSensor() {
-        return colorSensor;
+        return lightSensor;
     }
 
     @Override
@@ -146,8 +149,5 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized ArrayList<String> getProgress () {
         return robotProgress;
     }
-
-
-
 
 }

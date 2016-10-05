@@ -50,6 +50,7 @@ public class SyncedMotors {
 
     public synchronized void setPower(double power) {
         this.power = MathUtils.clamp(power,-1,1);
+        move();
     }
 
     private synchronized double getSpeedA() {
@@ -76,7 +77,7 @@ public class SyncedMotors {
         return slaveB.getSpeedA();
     }
 
-    public synchronized void move() {
+    private synchronized void move() {
         double adjust = pid.getPIDOutput((getSpeedB()/getSpeedA()) - ratio);
         double slavePower = MathUtils.clamp(power*(ratio + adjust),-1,1);
         double realPower = MathUtils.clamp(power * (ratio - adjust), -1, 1);
