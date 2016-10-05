@@ -14,17 +14,21 @@ import org.firstinspires.ftc.robotcore.internal.VuforiaLocalizerImpl;
 
 import virtualRobot.ExitCondition;
 
-public class FTCTakePicture /*implements Command*/{
+public class FTCTakePicture implements Command{
     private ExitCondition exitCondition;
-
-    public FTCTakePicture () {
+    AtomicBoolean redisLeft;
+    
+    public FTCTakePicture (AtomicBoolean redisLeft) {
+        this.redisLeft = redisLeft;
         exitCondition = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
                 return false;
             }
         };
+    }
 
+    public boolean changeRobotState() throws InterruptedException {
         VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters();
         params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         params.vuforiaLicenseKey = "AcXbD9X/////AAAAGVpq1gdfDkIPp+j5hv1iV5RZXLWAWV4F7je9gks+8lHhZb6mwCj7xy9mapHP6sKO9OrPv5kVQDXhB+T+Rn7V7GUm4Ub4rmCanqv4frx8gT732qJUnTEj9POMufR9skjlXSEODbpThxrLCPqobHeAeSA5dUmUik3Rck0lcwhElw5yOBN45iklYnvC9GpPRv128ALcgt9Zpw/shit0erKmuyrT62NRUKgoHNMm5xV/Xqj8Vgwke8ESap+nK7v+6lx35vDZ6ISNDVMMM8h0VqeL0745MNPJoI1vgiNRo30R7WwtPYME44koOrWMUIxMXghtqxq7AfFxb6sbin0i5KSUJWtLsqmZOrAXxjxdUwY8f8tw";
@@ -36,6 +40,11 @@ public class FTCTakePicture /*implements Command*/{
             Bitmap bm =  Bitmap.createBitmap(vuforia.rgb.getWidth(), vuforia.rgb.getHeight(), Bitmap.Config.RGB_565);
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
         }
+
+        boolean analyzed = DavidClass.analyzePic2(bm);
+        Log.d("cameraReturn", analyzed + " ");
+        redisLeft.set(analyzed);
+        return false;
     }
 
     public void setExitCondition (ExitCondition e) {
