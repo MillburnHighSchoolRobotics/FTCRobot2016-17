@@ -43,8 +43,10 @@ public class HoldAngle implements Command {
             double adjustedPower = pidController.getPIDOutput(robot.getHeadingSensor().getValue() - angleToHold);
             adjustedPower = Math.min(Math.max(adjustedPower, -1), 1);
 
-            robot.getDriveLeftMotor().setPower(adjustedPower);
-            robot.getDriveRightMotor().setPower(-adjustedPower);
+            robot.getLFMotor().setPower(adjustedPower);
+            robot.getLBMotor().setPower(adjustedPower);
+            robot.getRFMotor().setPower(-adjustedPower);
+            robot.getRBMotor().setPower(-adjustedPower);
 
             if (Thread.currentThread().isInterrupted()) {
                 isInterrupted = true;

@@ -1,6 +1,8 @@
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.UpdateThread;
 
 import virtualRobot.godThreads.TeleopGodThread;
 
@@ -26,9 +28,7 @@ public class BlueTeleopUpdate extends UpdateThread {
 
     @Override
     public void addPresets() {
-        basket.setDirection(Servo.Direction.REVERSE);
-        scoop.setDirection(Servo.Direction.REVERSE);
-        gate.setDirection(Servo.Direction.REVERSE);
+
     }
 
 }

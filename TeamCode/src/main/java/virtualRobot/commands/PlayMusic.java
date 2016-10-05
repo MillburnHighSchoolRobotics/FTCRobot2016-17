@@ -3,7 +3,7 @@ package virtualRobot.commands;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
-import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
+//import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
 
 import java.io.IOException;
 
@@ -29,8 +29,8 @@ public class PlayMusic implements Command {
         try {
             mp.reset();
             AssetFileDescriptor afd;
-            afd = FtcRobotControllerActivity.context.getAssets().openFd(fileName);
-            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+           //afd = FtcRobotControllerActivity.context.getAssets().openFd(fileName);
+            //mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
             mp.prepare();
             mp.start();
         } catch (IllegalStateException e) {

@@ -1,4 +1,4 @@
-package com.qualcomm.ftcrobotcontroller.opmodes.TestingOpModes;
+package org.firstinspires.ftc.teamcode.TestingOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;

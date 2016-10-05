@@ -19,17 +19,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.ExitCondition;
 
-import static com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity.imageByteData;
+/*import static com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity.imageByteData;
 import static com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity.imageLock;
 import static com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity.imageParameters;
-import static com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity.mCamera;
+import static com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity.mCamera;*/
 
 
 /**
  * Created by DOSullivan on 11/25/15.
  */
 public class TakePicture implements Command {
-    //boolean[] redIsLeft;
+    @Override
+    public boolean changeRobotState() throws InterruptedException {
+        return false;
+    }
+    /*//boolean[] redIsLeft;
     ArrayList<Command> commands;
     boolean isRed;
     AtomicBoolean redisLeft;
@@ -117,7 +121,7 @@ public class TakePicture implements Command {
         mCamera.stopPreview();
         
         return false;
-    }
+    }*/
 }
 
 

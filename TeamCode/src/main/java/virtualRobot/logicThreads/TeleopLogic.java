@@ -2,12 +2,8 @@ package virtualRobot.logicThreads;
 
 import virtualRobot.JoystickController;
 import virtualRobot.LogicThread;
-import virtualRobot.PIDController;
 import virtualRobot.TeleopRobot;
 import virtualRobot.commands.Command;
-import virtualRobot.commands.MoveLift;
-import virtualRobot.commands.MoveServo;
-import virtualRobot.components.Servo;
 import virtualRobot.utils.MathUtils;
 
 /**

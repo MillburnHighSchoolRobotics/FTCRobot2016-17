@@ -29,14 +29,15 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.ftcrobotcontroller.opmodes.ExampleOpModes.navXPerformanceTuningOp;
-import com.qualcomm.ftcrobotcontroller.opmodes.TestingOpModes.IMUTest;
-import com.qualcomm.ftcrobotcontroller.opmodes.TestingOpModes.ServoCal;
-import com.qualcomm.ftcrobotcontroller.opmodes.TestingOpModes.TestingUpdate;
+
+package org.firstinspires.ftc.teamcode;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
+
+import org.firstinspires.ftc.teamcode.TestingOpModes.*;
+
 
 /**
  * Register Op Modes
@@ -59,7 +60,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      * If two or more op modes are registered with the same name, the app will display an error.
      */
 
-      manager.register("Diagnostic Op Mode", DiagnosticsOpMode.class);
+      /*manager.register("Diagnostic Op Mode", DiagnosticsOpMode.class);
       manager.register("Blue Teleop", BlueTeleopUpdate.class);
       manager.register("Red Teleop", RedTeleopUpdate.class);
 
@@ -68,8 +69,9 @@ public class FtcOpModeRegister implements OpModeRegister {
 
       manager.register("Navx imu test", navXPerformanceTuningOp.class);
 
-      manager.register("Testing", TestingUpdate.class);
-      manager.register("Servo Zero", ServoCal.class);
+
+      manager.register("Servo Zero", ServoCal.class);*/
+      manager.register("LineSensorTest", LineSensorTest.class);
 
 
     //  manager.register("N60Test", N60Test.class );

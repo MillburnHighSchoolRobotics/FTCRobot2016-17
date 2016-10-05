@@ -11,6 +11,6 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands() {
         Translate.setGlobalMaxPower(1.0);
-        commands.add(new Translate(1500, Translate.Direction.FORWARD));
+        commands.add(new Translate(1500, Translate.Direction.FORWARD, 0));
     }
 }

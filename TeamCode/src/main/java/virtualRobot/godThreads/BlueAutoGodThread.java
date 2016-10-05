@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
-import virtualRobot.logicThreads.BlueDumpPeople;
+//import virtualRobot.logicThreads.BlueDumpPeople;
 import virtualRobot.monitorThreads.TimeMonitor;
 
 //import virtualRobot.logicThreads.BlueDumpPeople;
@@ -26,7 +26,7 @@ public class BlueAutoGodThread extends GodThread {
         children.add(tm);
 
         //keep the program alive as long as the two monitor threads are still going - should proceed every logicThread addition: delegateMonitor(thread, newMonitorThread[]{yourmonitors})
-        delegateMonitor(mtb, new MonitorThread[]{watchingForTime});
+        //delegateMonitor(mtb, new MonitorThread[]{watchingForTime});
 
         //What Follows is Code we May use to push our button:
         //waitToProceed (mtb);
