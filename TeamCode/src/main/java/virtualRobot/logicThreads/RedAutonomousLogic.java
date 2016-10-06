@@ -6,6 +6,7 @@ import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.Command;
+import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.MoveServo;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
@@ -60,18 +61,7 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
                 return false;
             }
         });
-
-        //get picture and press button
-
-        //Reverse to second white line
-        Translate moveToSecondWLine = new Translate(1000, Translate.Direction.BACKWARD, 10, 10);
-        moveToSecondWLine.setExitCondition(atwhiteline);
-        commands.add(moveToSecondWLine);
-
-        //get picture and press button
-
-        //Strafe to ramp
-        commands.add(new Translate(10, Translate.Direction.BACKWARD, 0));
-
+        FTCTakePicture pic = new FTCTakePicture(redIsLeft);
+        commands.add(pic);
     }
 }

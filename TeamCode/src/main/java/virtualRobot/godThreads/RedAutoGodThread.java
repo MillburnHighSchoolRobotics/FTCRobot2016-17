@@ -10,6 +10,8 @@ import virtualRobot.logicThreads.BlueAutonomousLogic;
 import virtualRobot.logicThreads.PushLeftButton;
 import virtualRobot.logicThreads.PushRightButton;
 import virtualRobot.logicThreads.RedAutonomousLogic;
+import virtualRobot.logicThreads.RedMoveToSecondBeacon;
+import virtualRobot.logicThreads.RedStrafeToRamp;
 import virtualRobot.monitorThreads.TimeMonitor;
 
 /**
@@ -53,6 +55,37 @@ public class RedAutoGodThread extends GodThread {
             delegateMonitor(pr, new MonitorThread[]{});
         }
 
+        LogicThread merge = new RedMoveToSecondBeacon(redIsLeft);
+        Thread godThread = new Thread(merge);
+        godThread.start();
+        children.add(godThread);
+        delegateMonitor(godThread, new MonitorThread[]{watchingForTime});
+
+        waitToProceed(godThread);
+
+        if (!redIsLeft.get()) {
+            LogicThread pushLeft = new PushLeftButton();
+            Thread pl = new Thread(pushLeft);
+            pl.start();
+            children.add(pl);
+            delegateMonitor(pl, new MonitorThread[]{});
+        }
+
+        else if (redIsLeft.get()) {
+            LogicThread pushRight = new PushRightButton();
+            Thread pr = new Thread(pushRight);
+            pr.start();
+            children.add(pr);
+            delegateMonitor(pr, new MonitorThread[]{});
+        }
+
+        LogicThread derp = new RedStrafeToRamp();
+        Thread rageatgit = new Thread(merge);
+        rageatgit.start();
+        children.add(rageatgit);
+        delegateMonitor(rageatgit, new MonitorThread[]{watchingForTime});
+
+        waitToProceed(rageatgit);
 
     }
 }
