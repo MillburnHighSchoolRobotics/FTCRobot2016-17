@@ -1,6 +1,7 @@
 package virtualRobot.commands;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.qualcomm.robotcore.util.RobotLog;
 import com.vuforia.Frame;
@@ -11,6 +12,8 @@ import com.vuforia.State;
 import com.vuforia.Vuforia;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.internal.VuforiaLocalizerImpl;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.ExitCondition;
 
@@ -36,8 +39,9 @@ public class FTCTakePicture implements Command{
 
         Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS,4);
 
+        Bitmap bm = null;
         if(vuforia.rgb != null){
-            Bitmap bm =  Bitmap.createBitmap(vuforia.rgb.getWidth(), vuforia.rgb.getHeight(), Bitmap.Config.RGB_565);
+            bm =  Bitmap.createBitmap(vuforia.rgb.getWidth(), vuforia.rgb.getHeight(), Bitmap.Config.RGB_565);
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
         }
 
