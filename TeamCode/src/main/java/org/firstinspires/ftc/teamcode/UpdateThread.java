@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImpl;
@@ -54,10 +55,6 @@ public abstract class UpdateThread extends OpMode {
 
 	private virtualRobot.components.Servo vCapServo, vButtonServo;
 
-
-	private SyncedMotors vRotateLeftMotor, vRotateRightMotor;
-
-
     private ElapsedTime runtime = new ElapsedTime();
 
 	private ArrayList<String> robotProgress;
@@ -104,11 +101,6 @@ public abstract class UpdateThread extends OpMode {
 		vRightBack = robot.getRBMotor();
 		vCapServo = robot.getCapServo();
 		vButtonServo = robot.getButtonServo();
-
-
-		vRotateLeftMotor = robot.getRightRotate();
-		vRotateLeftMotor = robot.getLeftRotate();
-		
 
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
@@ -166,6 +158,7 @@ public abstract class UpdateThread extends OpMode {
 		vRollSensor.setRawValue(imu.getIntegratedRoll());
 		vLineSensor.setRawValue(lineSensor.getLightDetected());
 		vUltrasonicSensor.setRawValue(ultrasonicSensor.getUltrasonicLevel());
+
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
 		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
