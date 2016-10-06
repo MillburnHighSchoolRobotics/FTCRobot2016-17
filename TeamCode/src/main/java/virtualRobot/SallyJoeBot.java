@@ -32,6 +32,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {
 
+        joystickController1 = new JoystickController();
+        joystickController2 = new JoystickController();
         headingSensor = new Sensor();
         pitchSensor = new Sensor();
         rollSensor = new Sensor();
