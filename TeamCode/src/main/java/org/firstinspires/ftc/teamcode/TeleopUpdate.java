@@ -20,7 +20,7 @@ import virtualRobot.godThreads.TeleopGodThread;
  * <p>
  * Created by shant on 11/27/2015.
  */
-public class BlueTeleopUpdate extends UpdateThread {
+public class TeleopUpdate extends UpdateThread {
     @Override
     public void setGodThread() {
         godThread = TeleopGodThread.class;

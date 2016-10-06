@@ -6,6 +6,10 @@ import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
 //import virtualRobot.logicThreads.BlueDumpPeople;
+import virtualRobot.commands.Command;
+import virtualRobot.logicThreads.BlueAutonomousLogic;
+import virtualRobot.logicThreads.PushLeftButton;
+import virtualRobot.logicThreads.PushRightButton;
 import virtualRobot.monitorThreads.TimeMonitor;
 
 //import virtualRobot.logicThreads.BlueDumpPeople;
@@ -17,22 +21,27 @@ public class BlueAutoGodThread extends GodThread {
 
     @Override
     public void realRun() throws InterruptedException {
-        AtomicBoolean redisLeft = new AtomicBoolean();
+        AtomicBoolean redIsLeft = new AtomicBoolean();
 
 
         MonitorThread watchingForTime = new TimeMonitor(System.currentTimeMillis(), 30000);
         Thread tm = new Thread(watchingForTime);
-        //tm.start();
+        tm.start();
         children.add(tm);
 
-        //keep the program alive as long as the two monitor threads are still going - should proceed every logicThread addition: delegateMonitor(thread, newMonitorThread[]{yourmonitors})
-        //delegateMonitor(mtb, new MonitorThread[]{watchingForTime});
+        // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD TO THE LIST
+        LogicThread moveToFirstBeacon = new BlueAutonomousLogic(redIsLeft);
+        Thread mtfb = new Thread(moveToFirstBeacon);
+        mtfb.start();
+        children.add(mtfb);
 
-        //What Follows is Code we May use to push our button:
-        //waitToProceed (mtb);
-        /*
-        Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redisLeft.get()));
-        if (!redisLeft.get()) {
+        //keep the program alive as long as the two monitor threads are still going - should proceed every logicThread addition
+        delegateMonitor(mtfb, new MonitorThread[]{watchingForTime});
+
+        waitToProceed(mtfb);
+
+        Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
+        if (!redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton();
             Thread pl = new Thread(pushLeft);
             pl.start();
@@ -40,7 +49,7 @@ public class BlueAutoGodThread extends GodThread {
             delegateMonitor(pl, new MonitorThread[]{});
         }
 
-        else if (redisLeft.get()) {
+        else if (redIsLeft.get()) {
             LogicThread pushRight = new PushRightButton();
             Thread pr = new Thread(pushRight);
             pr.start();
@@ -48,6 +57,6 @@ public class BlueAutoGodThread extends GodThread {
             delegateMonitor(pr, new MonitorThread[]{});
         }
 
-        */
+
     }
 }

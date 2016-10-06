@@ -1,5 +1,7 @@
 package virtualRobot.logicThreads;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
@@ -17,7 +19,12 @@ import virtualRobot.components.Servo;
  */
 public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
     final int whiteTape = 20;
+    AtomicBoolean redIsLeft = new AtomicBoolean();
 
+    public RedAutonomousLogic(AtomicBoolean redIsLeft) {
+        super();
+        this.redIsLeft = redIsLeft;
+    }
     @Override
     public void loadCommands() {
         final Sensor csensor = robot.getLineSensor();
