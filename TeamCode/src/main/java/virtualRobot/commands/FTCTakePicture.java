@@ -39,15 +39,15 @@ public class FTCTakePicture implements Command{
 
         Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS,4);
 
-        Bitmap bm = null;
-        if(vuforia.rgb != null){
-            bm =  Bitmap.createBitmap(vuforia.rgb.getWidth(), vuforia.rgb.getHeight(), Bitmap.Config.RGB_565);
+        if (vuforia.rgb != null){
+           Bitmap bm =  Bitmap.createBitmap(vuforia.rgb.getWidth(), vuforia.rgb.getHeight(), Bitmap.Config.RGB_565);
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
+            boolean analyzed = DavidClass.analyzePic2(bm);
+            Log.d("cameraReturn", analyzed + " ");
+            redisLeft.set(analyzed);
         }
 
-        boolean analyzed = DavidClass.analyzePic2(bm);
-        Log.d("cameraReturn", analyzed + " ");
-        redisLeft.set(analyzed);
+
         return false;
     }
 

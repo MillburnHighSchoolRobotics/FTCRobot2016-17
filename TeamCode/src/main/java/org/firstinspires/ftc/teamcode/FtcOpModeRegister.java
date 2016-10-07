@@ -36,7 +36,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
-import org.firstinspires.ftc.teamcode.TestingOpModes.*;
+import org.firstinspires.ftc.teamcode.TestingOpModes.LineSensorTest;
 
 
 /**

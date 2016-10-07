@@ -8,14 +8,14 @@ import virtualRobot.components.SyncedMotors;
 public class MoveSyncedMotors implements Command {
 
 	SyncedMotors synced;
-
-	public MoveSyncedMotors(SyncedMotors synced) {
-		this.synced = synced;
+    double power;
+	public MoveSyncedMotors(SyncedMotors synced, double power) {
+		this.synced = synced; this.power = power;
 	}
 
     @Override
     public boolean changeRobotState() throws InterruptedException {
-        synced.move();
+        synced.setPower(power);
         return Thread.currentThread().isInterrupted();
     }
 }
