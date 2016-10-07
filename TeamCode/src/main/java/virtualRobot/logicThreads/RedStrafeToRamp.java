@@ -2,6 +2,7 @@ package virtualRobot.logicThreads;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;
+import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
 
 /**
@@ -10,7 +11,8 @@ import virtualRobot.commands.Translate;
 public class RedStrafeToRamp extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands (){
-        commands.add(new Translate(10, Translate.Direction.BACKWARD_LEFT,5));
-        commands.add(new Translate(10, Translate.Direction.BACKWARD_RIGHT,5));
+        commands.add(new Translate(10, Translate.Direction.BACKWARD_LEFT,5,3));
+        commands.add(new Rotate(-10));
+        commands.add(new Translate(10, Translate.Direction.BACKWARD,0,3));
     }
 }

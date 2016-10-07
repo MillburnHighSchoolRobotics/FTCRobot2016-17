@@ -41,17 +41,10 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         };
 
         //Move to knock ball
-        commands.add(new Translate(10, Translate.Direction.FORWARD_LEFT, 15));
-
-        //Strafe to first white line
-        Translate moveToWhiteLine = new Translate(1000, Translate.Direction.LEFT, 10, 10);
-        moveToWhiteLine.setExitCondition(atwhiteline);
-        commands.add(moveToWhiteLine);
-
-        //Insert placeholder code to align with wall
+        commands.add(new Translate(10, Translate.Direction.FORWARD_RIGHT, 5,5));
 
         //Strafe left to move towards wall
-        Translate moveToWall = new Translate(1000, Translate.Direction.LEFT, 10, 0);
+        Translate moveToWall = new Translate(1000, Translate.Direction.RIGHT, -10);
         moveToWall.setExitCondition(new ExitCondition() {
             @Override
             public boolean isConditionMet() {
@@ -61,6 +54,12 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
                 return false;
             }
         });
+
+        //Strafe to first white line
+        Translate moveToWhiteLine = new Translate(1000, Translate.Direction.BACKWARD, 0);
+        moveToWhiteLine.setExitCondition(atwhiteline);
+        commands.add(moveToWhiteLine);
+
         FTCTakePicture pic = new FTCTakePicture(redIsLeft);
         commands.add(pic);
     }

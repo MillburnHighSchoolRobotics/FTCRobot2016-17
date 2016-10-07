@@ -31,7 +31,7 @@ public class RedMoveToSecondBeacon extends LogicThread<AutonomousRobot> {
     }
     @Override
     public void loadCommands() {
-        Translate moveToSecondWLine = new Translate(1000, Translate.Direction.BACKWARD, 10, 10);
+        Translate moveToSecondWLine = new Translate(1000, Translate.Direction.BACKWARD, 0);
         moveToSecondWLine.setExitCondition(atwhiteline);
         commands.add(moveToSecondWLine);
         FTCTakePicture gitgood = new FTCTakePicture(mychangesareded);
