@@ -7,15 +7,32 @@ import virtualRobot.components.SyncedMotors;
  */
 public class MoveSyncedMotors implements Command {
 
-	SyncedMotors synced;
+    public void setSynced(SyncedMotors synced) {
+        this.synced = synced;
+    }
 
-	public MoveSyncedMotors(SyncedMotors synced) {
-		this.synced = synced;
-	}
+    public void setPower(double power) {
+        this.power = power;
+    }
+
+    public void setRatio(double ratio) {
+        this.ratio = ratio;
+    }
+
+    SyncedMotors synced;
+    double power;
+    double ratio;
+
+    public MoveSyncedMotors(SyncedMotors synced, double power, double ratio) {
+        this.synced = synced;
+        this.power = power;
+        this.ratio = ratio;
+    }
 
     @Override
     public boolean changeRobotState() throws InterruptedException {
-        synced.move();
+        synced.setRatio(ratio);
+        synced.setPower(power);
         return Thread.currentThread().isInterrupted();
     }
 }
