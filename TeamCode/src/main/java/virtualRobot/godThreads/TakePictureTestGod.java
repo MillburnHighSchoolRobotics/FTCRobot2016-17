@@ -19,6 +19,6 @@ public class TakePictureTestGod extends GodThread {
         Thread tp = new Thread(takePicture);
         tp.start();
         children.add(tp);
-
     }
+    public AtomicBoolean getRedIsLeft(){return redIsLeft;}
 }
