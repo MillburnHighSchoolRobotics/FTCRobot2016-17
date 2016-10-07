@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.kauailabs.navx.ftc.MPU9250;
+//import com.kauailabs.navx.ftc.MPU9250;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -35,7 +35,7 @@ public abstract class UpdateThread extends OpMode {
 	//also initiate sensors. E.g. private AnalogInput sonar, private ColorSensor colorSensor, private DigitalChannel ...
 
 
-	private MPU9250 imu;
+//	private MPU92 imu;
 	private DcMotor leftFront, leftBack, rightFront, rightBack;
 
 	private com.qualcomm.robotcore.hardware.Servo capLeft, capRight, buttonServo;
@@ -80,7 +80,7 @@ public abstract class UpdateThread extends OpMode {
 
 
         //SENSOR SETUP e.g. colorSensor = hardwareMap.colorsensor.get("color"), sonar1 = hardwareMap.analogInput.get("sonar1"), liftEndStop1 = hardwareMap.digitalChannel.get("liftEndStop1")
-		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
+//		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
 		lineSensor = hardwareMap.lightSensor.get("lineSensor");
 		ultrasonicSensor = hardwareMap.ultrasonicSensor.get("ultraSonicSensor");
 
@@ -122,9 +122,9 @@ public abstract class UpdateThread extends OpMode {
 	}
 
 	public void init_loop () {
-        imu.zeroYaw();
-		imu.zeroPitch();
-		imu.zeroRoll();
+//		imu.zeroPitch();
+//		imu.zeroYaw();
+//		imu.zeroRoll();
         telemetry.addData("Init Loop Time", runtime.toString());
 	}
 
@@ -146,16 +146,16 @@ public abstract class UpdateThread extends OpMode {
 		//TODO: Calculate values for prev and newEncoderValues (Not top priority, locationSensor may not be used)
 		double prevEncoderValue = 1;
 		double newEncoderValue = 1;
-		double headingAngle = imu.getIntegratedYaw();
-		vLocationSensor.setAngle(headingAngle);
+//		double headingAngle = imu.getIntegratedYaw();
+//		vLocationSensor.setAngle(headingAngle);
 		vLocationSensor.setX(vLocationSensor.getX() + ((newEncoderValue - prevEncoderValue) * Math.cos(Math.toRadians(vLocationSensor.getAngle()))));
 		vLocationSensor.setY(vLocationSensor.getY() + ((newEncoderValue - prevEncoderValue) * Math.sin(Math.toRadians(vLocationSensor.getAngle()))));
 
 
 		// Update Sensor Values E.g. vPitchSensor.setRawValue(imu.getIntegratedPitch()); vHeadingSensor, vRollSensor, vColorSensor...
-		vPitchSensor.setRawValue(imu.getIntegratedPitch());
-		vHeadingSensor.setRawValue(headingAngle);
-		vRollSensor.setRawValue(imu.getIntegratedRoll());
+//		vPitchSensor.setRawValue(imu.getIntegratedPitch());
+//		vHeadingSensor.setRawValue(headingAngle);
+//		vRollSensor.setRawValue(imu.getIntegratedRoll());
 		vLineSensor.setRawValue(lineSensor.getLightDetected());
 		vUltrasonicSensor.setRawValue(ultrasonicSensor.getUltrasonicLevel());
 
@@ -207,7 +207,7 @@ public abstract class UpdateThread extends OpMode {
     }
 	
 	public void stop() {
-		imu.close();
+//		imu.close();
 		t.interrupt();
 	}
 

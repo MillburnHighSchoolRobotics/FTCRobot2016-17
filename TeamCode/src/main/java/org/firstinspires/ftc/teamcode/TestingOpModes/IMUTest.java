@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.TestingOpModes;
 
 import com.kauailabs.navx.ftc.AHRS;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by Yanjun on 11/24/2015.
  */
+@Autonomous(name ="Sensor: Testing IMU", group="Sensor")
 public class IMUTest extends OpMode {
 
     //MPU9250 imu;
@@ -14,7 +16,7 @@ public class IMUTest extends OpMode {
     //private navXPerformanceMonitor navx_perfmon;
     private byte sensor_update_rate_hz = 40;
     private ElapsedTime runtime = new ElapsedTime();
-    private final int NAVX_DIM_I2C_PORT = 5;
+    private final int NAVX_DIM_I2C_PORT = 0;
 
     @Override
     public void init() {
