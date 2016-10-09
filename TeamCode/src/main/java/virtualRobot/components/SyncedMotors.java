@@ -78,7 +78,8 @@ public class SyncedMotors {
     }
 
     private synchronized void move() {
-        double adjust = pid.getPIDOutput((getSpeedB()/getSpeedA()) - ratio);
+        double speedA = getSpeedA();
+        double adjust = pid.getPIDOutput(speedA == 0 ? 0 : getSpeedB() / speedA);
         double slavePower = MathUtils.clamp(power*(ratio + adjust),-1,1);
         double realPower = MathUtils.clamp(power * (ratio - adjust), -1, 1);
         if (type == SyncType.MOTORS) {

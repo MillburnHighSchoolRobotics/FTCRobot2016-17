@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TestingOpModes;
 
 import com.kauailabs.navx.ftc.AHRS;
+import com.kauailabs.navx.ftc.MPU9250;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;

@@ -1,12 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
 //import com.kauailabs.navx.ftc.MPU9250;
+import android.util.Log;
+
 import com.kauailabs.navx.ftc.AHRS;
+import com.kauailabs.navx.ftc.MPU9250;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.LightSensor;
@@ -36,14 +40,13 @@ public abstract class UpdateThread extends OpMode {
 	//also initiate sensors. E.g. private AnalogInput sonar, private ColorSensor colorSensor, private DigitalChannel ...
 
 
-	private AHRS imu;
-	private DcMotor leftFront, leftBack, rightFront, rightBack;
+	private MPU9250 imu;
+	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper;
 
 	private com.qualcomm.robotcore.hardware.Servo capLeft, capRight, buttonServo;
 
 
-	private LightSensor lineSensor;
-	private UltrasonicSensor ultrasonicSensor;
+	private AnalogInput lineSensor, sonar1;
 
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
@@ -51,7 +54,7 @@ public abstract class UpdateThread extends OpMode {
 	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vLineSensor,vUltrasonicSensor;
 	private LocationSensor vLocationSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
-	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
+	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vReaper;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
 
 	private virtualRobot.components.Servo vCapServo, vButtonServo;
@@ -68,6 +71,7 @@ public abstract class UpdateThread extends OpMode {
 		leftBack = hardwareMap.dcMotor.get("leftBack");
 		rightFront = hardwareMap.dcMotor.get("rightFront");
 		rightBack = hardwareMap.dcMotor.get("rightBack");
+		reaper = hardwareMap.dcMotor.get("reaper");
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		capLeft = hardwareMap.servo.get("capLeft");
@@ -81,9 +85,9 @@ public abstract class UpdateThread extends OpMode {
 
 
         //SENSOR SETUP e.g. colorSensor = hardwareMap.colorsensor.get("color"), sonar1 = hardwareMap.analogInput.get("sonar1"), liftEndStop1 = hardwareMap.digitalChannel.get("liftEndStop1")
-//		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
-		lineSensor = hardwareMap.lightSensor.get("lineSensor");
-		ultrasonicSensor = hardwareMap.ultrasonicSensor.get("ultraSonicSensor");
+		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
+		lineSensor = hardwareMap.analogInput.get("lineSensor");
+		sonar1 = hardwareMap.analogInput.get("sonar1");
 
 
         //FETCH VIRTUAL ROBOT FROM COMMAND INTERFACE
@@ -100,14 +104,25 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
 		vRightBack = robot.getRBMotor();
+		vReaper = robot.getReaperMotor();
 		vCapServo = robot.getCapServo();
 		vButtonServo = robot.getButtonServo();
-
+		vLeftFrontEncoder = robot.getLFEncoder();
+		vLeftBackEncoder = robot.getLBEncoder();
+		vRightFrontEncoder = robot.getRFEncoder();
+		vRightBackEncoder = robot.getRBEncoder();
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
 
 		robotProgress = new ArrayList<String>();
-
+		//Setup Physical Components
+		leftFront.setDirection(DcMotor.Direction.REVERSE);
+		leftBack.setDirection(DcMotor.Direction.REVERSE);
+		capRight.setDirection(Servo.Direction.REVERSE);
+		Log.d("sss", "Initial servo Positions: " + capLeft.getPosition() + " " + capRight.getPosition() + " " + buttonServo.getPosition() );
+		capLeft.setPosition(0.5);
+		capRight.setPosition(0.5);
+		buttonServo.setPosition(0.5);
 
         addPresets();
         setGodThread();
@@ -123,9 +138,10 @@ public abstract class UpdateThread extends OpMode {
 	}
 
 	public void init_loop () {
-//		imu.zeroPitch();
+		imu.zeroPitch();
 		imu.zeroYaw();
-//		imu.zeroRoll();
+		imu.zeroRoll();
+		telemetry.addData("Is Running Newest Version", "yes");
         telemetry.addData("Init Loop Time", runtime.toString());
 	}
 
@@ -147,18 +163,18 @@ public abstract class UpdateThread extends OpMode {
 		//TODO: Calculate values for prev and newEncoderValues (Not top priority, locationSensor may not be used)
 		double prevEncoderValue = 1;
 		double newEncoderValue = 1;
-		double headingAngle = imu.getYaw();
+		double headingAngle = imu.getIntegratedYaw();
 		vLocationSensor.setAngle(headingAngle);
 		vLocationSensor.setX(vLocationSensor.getX() + ((newEncoderValue - prevEncoderValue) * Math.cos(Math.toRadians(vLocationSensor.getAngle()))));
 		vLocationSensor.setY(vLocationSensor.getY() + ((newEncoderValue - prevEncoderValue) * Math.sin(Math.toRadians(vLocationSensor.getAngle()))));
 
 
 		// Update Sensor Values E.g. vPitchSensor.setRawValue(imu.getIntegratedPitch()); vHeadingSensor, vRollSensor, vColorSensor...
-		vPitchSensor.setRawValue(imu.getPitch());
+		vPitchSensor.setRawValue(imu.getIntegratedPitch());
 		vHeadingSensor.setRawValue(headingAngle);
-		vRollSensor.setRawValue(imu.getRoll());
-		vLineSensor.setRawValue(lineSensor.getLightDetected());
-		vUltrasonicSensor.setRawValue(ultrasonicSensor.getUltrasonicLevel());
+		vRollSensor.setRawValue(imu.getIntegratedRoll());
+		vLineSensor.setRawValue(lineSensor.getVoltage());
+		vUltrasonicSensor.setRawValue(sonar1.getVoltage());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
@@ -181,15 +197,21 @@ public abstract class UpdateThread extends OpMode {
 		double leftBackPower = vLeftBack.getPower();
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
+		double reaperPower = vReaper.getPower();
 		double capPosition = vCapServo.getPosition();
 		double buttonPosition = vButtonServo.getPosition();
 
 
 		// Copy State of Motors and Servos E.g. leftFront.setPower(leftPower), Servo.setPosition(vServo.getPosition());
+		telemetry.addData("Servos: ", capPosition + " " + buttonPosition);
+		Log.d("qqq", capPosition + " " + buttonPosition);
+		telemetry.addData("Motors: ", leftFrontPower + " " + leftBackPower + " " + rightFrontPower + " " + rightBackPower);
+		Log.d("mmm", leftFrontPower + " " + leftBackPower + " " + rightFrontPower + " " + rightBackPower);
 		leftFront.setPower(leftFrontPower);
 		leftBack.setPower(leftBackPower);
 		rightFront.setPower(rightFrontPower);
 		rightBack.setPower(rightBackPower);
+		reaper.setPower(reaperPower);
 		capRight.setPosition(capPosition);
 		capLeft.setPosition(capPosition);
 		buttonServo.setPosition(buttonPosition);
@@ -198,10 +220,13 @@ public abstract class UpdateThread extends OpMode {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
 		}
 //then add additional ones, like telemetry.addData("left power", leftPower);
+		telemetry.addData("Dpad Input", gamepad1.dpad_up + " " + gamepad1.dpad_down + " " + gamepad1.dpad_left + " " + gamepad1.dpad_right);
+		Log.d("ddd", gamepad1.dpad_up + " " + gamepad1.dpad_down + " " + gamepad1.dpad_left + " " + gamepad1.dpad_right);
 		telemetry.addData("leftFront Power", leftFrontPower);
 		telemetry.addData("leftBack Power", leftBackPower);
 		telemetry.addData("rightFront Power", rightFrontPower);
 		telemetry.addData("rightBack Power", rightBackPower);
+		telemetry.addData("reaper Power", reaperPower);
 		telemetry.addData("capServo Position", capPosition);
 		telemetry.addData("buttonServo Position", buttonPosition);
 

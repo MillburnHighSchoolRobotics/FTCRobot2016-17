@@ -12,10 +12,10 @@ import virtualRobot.monitorThreads.TimeMonitor;
 public class TeleopGodThread extends GodThread {
     @Override
     public void realRun() throws InterruptedException {
-        MonitorThread watchForTime = new TimeMonitor(System.currentTimeMillis(), 120000);
+        /*MonitorThread watchForTime = new TimeMonitor(System.currentTimeMillis(), 120000);
         Thread tm = new Thread (watchForTime);
         tm.start();
-        children.add(tm);
+        children.add(tm);*/
 
 
         LogicThread teleop = new TeleopLogic();

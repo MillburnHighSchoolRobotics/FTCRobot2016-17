@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.UpdateThread;
@@ -20,6 +21,7 @@ import virtualRobot.godThreads.TeleopGodThread;
  * <p>
  * Created by shant on 11/27/2015.
  */
+@TeleOp(name = "Testing: teleop", group = "Testing")
 public class TeleopUpdate extends UpdateThread {
     @Override
     public void setGodThread() {

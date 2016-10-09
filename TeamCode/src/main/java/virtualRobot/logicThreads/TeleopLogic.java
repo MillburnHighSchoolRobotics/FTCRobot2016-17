@@ -47,9 +47,11 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
         commands.add(new Command() {
             @Override
             public boolean changeRobotState() {
+                boolean isInterrupted = false;
                 JoystickController controller1 = robot.getJoystickController1();
                 JoystickController controller2 = robot.getJoystickController2();
-                controller1.logicalRefresh();
+                while (!isInterrupted) {
+                    controller1.logicalRefresh();
                 controller2.logicalRefresh();
 
                 //Movement Code
@@ -95,7 +97,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
                 //Beacon Code
                 if (controller1.isPressed(JoystickController.BUTTON_X)) {
-                    PIDController allign = new PIDController(0,0,0, SallyJoeBot.BWTHRESHOLD);
+                    PIDController allign = new PIDController(0, 0, 0, SallyJoeBot.BWTHRESHOLD);
                     double adjustedPower;
                     while (robot.getUltrasonicSensor().getValue() < 5) {
                         adjustedPower = allign.getPIDOutput(robot.getLineSensor().getValue());
@@ -105,34 +107,50 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     robot.getLeftRotate().setPower(0);
                     robot.getRightRotate().setPower(0);
                 }
-                if (controller1.isDpadLeft()) {
-                    while (robot.getButtonServo().getPosition() < PushLeftButton.BUTTON_PUSHER_LEFT)
-                        robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
-                    while (robot.getButtonServo().getPosition() > BUTTON_PUSHER_STATIONARY)
-                        robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
-                } else if (controller1.isDpadRight()) {
-                    while (robot.getButtonServo().getPosition() > PushRightButton.BUTTON_PUSHER_RIGHT)
-                        robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
-                    while (robot.getButtonServo().getPosition() < BUTTON_PUSHER_STATIONARY)
-                        robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
-                }
+//                if (controller1.isDpadLeft()) {
+//                    robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
+//                    //robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
+//                } else if (controller1.isDpadRight()) {
+//                    robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
+//                    // robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
+//                }
+//
+//                //reaper forward and backward
+//                if (controller1.isDown(JoystickController.BUTTON_RB)) {
+//                    robot.getReaperMotor().setPower(1);
+//                } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
+//                    robot.getReaperMotor().setPower(-1);
+//                }
+//
+//                //lifting cap ball
+//                if (controller1.isDpadDown()) {
+//                    while (robot.getCapServo().getPosition() > servoValOpen)
+//                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() - 0.01);
+//                } else if (controller1.isDpadUp()) {
+//                    while (robot.getCapServo().getPosition() < servoValClosed)
+//                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() + 0.01);
+//                }
 
-                //reaper forward and backward
-                if (controller1.isDown(JoystickController.BUTTON_RB)) {
-                    robot.getReaperMotor().setPower(1);
-                } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
-                    robot.getReaperMotor().setPower(-1);
-                }
+                    if (controller1.isDpadLeft()) {
+                        robot.getLFMotor().setPower(1);
+                    }
+                    if (controller1.isDpadRight()) {
+                        robot.getRFMotor().setPower(1);
+                    }
+                    if (controller1.isDpadUp()) {
+                        robot.getLBMotor().setPower(1);
+                    }
+                    if (controller1.isDpadDown()) {
+                        robot.getRBMotor().setPower(1);
+                    }
+                    try {
+                        Thread.currentThread().sleep(30);
+                    } catch (InterruptedException e) {
+                        isInterrupted = true;
+                    }
 
-                //lifting cap ball
-                if (controller1.isDpadDown()) {
-                    while (robot.getCapServo().getPosition() > servoValOpen)
-                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() - 0.01);
-                } else if (controller1.isDpadUp()) {
-                    while (robot.getCapServo().getPosition() < servoValClosed)
-                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() + 0.01);
-                }
-                return Thread.currentThread().isInterrupted();
+            }
+                return isInterrupted;
             }
         });
     }

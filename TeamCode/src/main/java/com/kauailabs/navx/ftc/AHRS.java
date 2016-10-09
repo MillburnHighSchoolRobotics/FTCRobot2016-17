@@ -1,4 +1,5 @@
-/* ============================================
+/*
+============================================
  NavX-MXP and NavX-Micro source code is placed under the MIT license
  Copyright (c) 2015 Kauai Labs
 
