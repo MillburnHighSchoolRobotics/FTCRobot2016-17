@@ -1,5 +1,7 @@
 package virtualRobot.logicThreads;
 
+import android.util.Log;
+
 import virtualRobot.JoystickController;
 import virtualRobot.LogicThread;
 import virtualRobot.PIDController;
@@ -52,13 +54,14 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                 JoystickController controller2 = robot.getJoystickController2();
                 while (!isInterrupted) {
                     controller1.logicalRefresh();
-                controller2.logicalRefresh();
+                    controller2.logicalRefresh();
 
                 //Movement Code
                 if (controller1.isDown(JoystickController.BUTTON_LT)) {
                     //in the case of mecanum wheels, translating and strafing
                     double movementAngle = controller1.getValue(JoystickController.THETA_1);
                     double power = controller1.getValue(JoystickController.Y_2);
+                    Log.d("translateJoy", movementAngle + " " + power);
                     double scale = 0;
                     if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
                         scale = MathUtils.sinDegrees(45 - movementAngle) / MathUtils.cosDegrees(45 - movementAngle);
@@ -89,10 +92,11 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getRBMotor().setPower(power * POWER_MATRIX[6][3] * scale);
                     }
                 } else {
-
-                    //to be changed to synced motors
-                    robot.getLeftRotate().setPower(controller1.getValue(JoystickController.Y_1));
-                    robot.getRightRotate().setPower(controller1.getValue(JoystickController.Y_2));
+                    double leftPower = controller1.getValue(JoystickController.Y_1);
+                    double rightPower = controller1.getValue(JoystickController.Y_2);
+                    Log.d("tankJoy",leftPower + " " + rightPower);
+                    robot.getLeftRotate().setPower(leftPower);
+                    robot.getRightRotate().setPower(rightPower);
                 }
 
                 //Beacon Code
@@ -107,49 +111,38 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     robot.getLeftRotate().setPower(0);
                     robot.getRightRotate().setPower(0);
                 }
-//                if (controller1.isDpadLeft()) {
-//                    robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
-//                    //robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
-//                } else if (controller1.isDpadRight()) {
-//                    robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
-//                    // robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
-//                }
-//
-//                //reaper forward and backward
-//                if (controller1.isDown(JoystickController.BUTTON_RB)) {
-//                    robot.getReaperMotor().setPower(1);
-//                } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
-//                    robot.getReaperMotor().setPower(-1);
-//                }
-//
-//                //lifting cap ball
-//                if (controller1.isDpadDown()) {
-//                    while (robot.getCapServo().getPosition() > servoValOpen)
-//                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() - 0.01);
-//                } else if (controller1.isDpadUp()) {
-//                    while (robot.getCapServo().getPosition() < servoValClosed)
-//                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() + 0.01);
-//                }
+                if (controller1.isDpadLeft()) {
+                    robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
+                    robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
+                } else if (controller1.isDpadRight()) {
+                    robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
+                    robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
+                }
 
-                    if (controller1.isDpadLeft()) {
-                        robot.getLFMotor().setPower(1);
-                    }
-                    if (controller1.isDpadRight()) {
-                        robot.getRFMotor().setPower(1);
-                    }
-                    if (controller1.isDpadUp()) {
-                        robot.getLBMotor().setPower(1);
-                    }
-                    if (controller1.isDpadDown()) {
-                        robot.getRBMotor().setPower(1);
-                    }
+                //reaper forward and backward
+                if (controller1.isDown(JoystickController.BUTTON_RB)) {
+                    robot.getReaperMotor().setPower(1);
+                } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
+                    robot.getReaperMotor().setPower(-1);
+                } else {
+                    robot.getReaperMotor().setPower(0);
+                }
+
+                //lifting cap ball
+                if (controller1.isDpadDown()) {
+                    while (robot.getCapServo().getPosition() > servoValOpen)
+                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() - 0.01);
+                } else if (controller1.isDpadUp()) {
+                    while (robot.getCapServo().getPosition() < servoValClosed)
+                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() + 0.01);
+                }
                     try {
                         Thread.currentThread().sleep(30);
                     } catch (InterruptedException e) {
                         isInterrupted = true;
                     }
-
             }
+                Log.d("teleOpThread", "wasInterrupted");
                 return isInterrupted;
             }
         });

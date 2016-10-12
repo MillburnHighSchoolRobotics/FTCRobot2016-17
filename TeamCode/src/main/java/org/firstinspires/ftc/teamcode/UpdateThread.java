@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-//import com.kauailabs.navx.ftc.MPU9250;
 import android.util.Log;
 
 import com.kauailabs.navx.ftc.AHRS;
@@ -120,8 +119,8 @@ public abstract class UpdateThread extends OpMode {
 		leftBack.setDirection(DcMotor.Direction.REVERSE);
 		capRight.setDirection(Servo.Direction.REVERSE);
 		Log.d("sss", "Initial servo Positions: " + capLeft.getPosition() + " " + capRight.getPosition() + " " + buttonServo.getPosition() );
-		capLeft.setPosition(0.5);
-		capRight.setPosition(0.5);
+		capLeft.setPosition(0.3);
+		capRight.setPosition(0.3);
 		buttonServo.setPosition(0.5);
 
         addPresets();
@@ -220,12 +219,6 @@ public abstract class UpdateThread extends OpMode {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
 		}
 //then add additional ones, like telemetry.addData("left power", leftPower);
-		telemetry.addData("Dpad Input", gamepad1.dpad_up + " " + gamepad1.dpad_down + " " + gamepad1.dpad_left + " " + gamepad1.dpad_right);
-		Log.d("ddd", gamepad1.dpad_up + " " + gamepad1.dpad_down + " " + gamepad1.dpad_left + " " + gamepad1.dpad_right);
-		telemetry.addData("leftFront Power", leftFrontPower);
-		telemetry.addData("leftBack Power", leftBackPower);
-		telemetry.addData("rightFront Power", rightFrontPower);
-		telemetry.addData("rightBack Power", rightBackPower);
 		telemetry.addData("reaper Power", reaperPower);
 		telemetry.addData("capServo Position", capPosition);
 		telemetry.addData("buttonServo Position", buttonPosition);
