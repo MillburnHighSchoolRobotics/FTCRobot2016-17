@@ -34,10 +34,10 @@ public class DavidClass {
 
 
 
-        int[] pixels = new int[image.getWidth() * image.getHeight()];
+       // int[] pixels = new int[image.getWidth() * image.getHeight()];
 
         int height = image.getHeight(), width = image.getWidth();
-        image.getPixels(pixels, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight()); //gets pixels in pixel array
+      //  image.getPixels(pixels, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight()); //gets pixels in pixel array
 
         final int startX = (int) ((0.4) * width);
         final int endX = (int) (0.9*width);
@@ -46,31 +46,33 @@ public class DavidClass {
 
         final int midX = (startX + endX) / 2;
 
-        List<Integer> leftPixels = new ArrayList<Integer>();
-        List<Integer> rightPixels = new ArrayList<Integer>();
-        int lNum = 0;
-        int rNum = 0;
+        //int lNum = 0;
+        //int rNum = 0;
         long lSum = 0;
         long rSum = 0;
         long lAvg, rAvg;
         for (int i = startY; i < endY; i++) {
-            for (int j = startX; j < midX; j++) {
-                lSum += Color.red(pixels[width*i + j]);
-                lNum++;
+           for (int j = startX; j < midX; j++) {
+                lSum += Color.red(image.getPixel(j,i));
+                //lSum += Color.red(pixels[width*i + j]);
+               // lNum++;
 
-            }
+           }
 
-            for (int j = midX; j < endX; j++) {
-                rSum+= Color.red(pixels[width*i + j]);
-                rNum++;
+           for (int j = midX; j < endX; j++) {
+               rSum += Color.red(image.getPixel(j,i));
+                //rSum+= Color.red(pixels[width*i + j]);
+                //rNum++;
 
 
-            }
+           }
 
         }
 
-        lAvg = roundUp(lSum, lNum);
-        rAvg = roundUp(rSum, rNum);
+        //lAvg = roundUp(lSum, lNum);
+        //rAvg = roundUp(rSum, rNum);
+        lAvg = roundUp(lSum, (midX-startX));
+        rAvg = roundUp(rSum, (endX-midX));
         Log.d("qqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
 
 
