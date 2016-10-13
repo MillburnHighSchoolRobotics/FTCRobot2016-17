@@ -48,29 +48,27 @@ public class DavidClass {
 
         List<Integer> leftPixels = new ArrayList<Integer>();
         List<Integer> rightPixels = new ArrayList<Integer>();
-
+        int lNum = 0;
+        int rNum = 0;
+        long lSum = 0;
+        long rSum = 0;
+        long lAvg, rAvg;
         for (int i = startY; i < endY; i++) {
             for (int j = startX; j < midX; j++) {
-                leftPixels.add(pixels[width*i + j]);
+                lSum += Color.red(pixels[width*i + j]);
+                lNum++;
+
             }
 
             for (int j = midX; j < endX; j++) {
-                rightPixels.add(pixels[width*i + j]);
+                rSum+= Color.red(pixels[width*i + j]);
+                rNum++;
+
 
             }
 
         }
 
-        int lNum = leftPixels.size(), rNum = rightPixels.size();
-        long lSum = 0, rSum = 0;
-        long lAvg, rAvg;
-
-        for (int i = 0; i < lNum;i++){
-            lSum+= Color.red(leftPixels.get(i));
-        }
-        for (int i = 0; i <rNum;i++) {
-            rSum+=  Color.red(rightPixels.get(i));
-        }
         lAvg = roundUp(lSum, lNum);
         rAvg = roundUp(rSum, rNum);
         Log.d("qqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
