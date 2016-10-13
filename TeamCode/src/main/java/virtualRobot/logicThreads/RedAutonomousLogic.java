@@ -5,15 +5,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
-import virtualRobot.commands.Command;
 import virtualRobot.commands.FTCTakePicture;
-import virtualRobot.commands.MoveServo;
-import virtualRobot.commands.Pause;
-import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
-import virtualRobot.components.ColorSensor;
 import virtualRobot.components.Sensor;
-import virtualRobot.components.Servo;
 
 /**
  * Created by DOSullivan on 9/14/2016.

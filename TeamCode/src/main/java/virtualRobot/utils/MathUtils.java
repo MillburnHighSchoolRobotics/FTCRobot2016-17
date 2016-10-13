@@ -14,4 +14,7 @@ public class MathUtils {
     public static double clamp(double number, double lowerBound, double upperBound) {
     	return Math.max(lowerBound, Math.min(upperBound, number));
     }
+    public static double truncate(double d, int place) {
+        return (double) ((int)(d * place)) / place;
+    }
 }

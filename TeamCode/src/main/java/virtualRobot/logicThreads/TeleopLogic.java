@@ -40,7 +40,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
             {0, 1, 1, 0}
     };
 
-    private static final double servoValOpen = 0.05, servoValClosed = 0.45;
+    private static final double servoValOpen = 1.0, servoValClosed = 0.25;
 
     @Override
     public void loadCommands() {
@@ -58,33 +58,38 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
                 //Movement Code
                 if (controller1.isDown(JoystickController.BUTTON_LT)) {
+                    Log.d("thingDown?", "yes");
                     //in the case of mecanum wheels, translating and strafing
-                    double movementAngle = controller1.getValue(JoystickController.THETA_1);
+                    double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_1)),2);
                     double power = controller1.getValue(JoystickController.Y_2);
-                    Log.d("translateJoy", movementAngle + " " + power);
                     double scale = 0;
+                    movementAngle = movementAngle < 0 ? movementAngle + 360 : movementAngle;
+                    Log.d("translateJoy", movementAngle + " " + power);
                     if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
-                        scale = MathUtils.sinDegrees(45 - movementAngle) / MathUtils.cosDegrees(45 - movementAngle);
+                        scale = MathUtils.sinDegrees(movementAngle-45) / MathUtils.cosDegrees(movementAngle-45);
                         robot.getLFMotor().setPower(power * POWER_MATRIX[0][0]);
                         robot.getRFMotor().setPower(power * POWER_MATRIX[0][1] * scale);
                         robot.getLBMotor().setPower(power * POWER_MATRIX[0][2] * scale);
                         robot.getRBMotor().setPower(power * POWER_MATRIX[0][3]);
-                    } else if (movementAngle > -270 && movementAngle <= -180) { //quadrant 2
-                        scale = MathUtils.sinDegrees(135 - movementAngle) / MathUtils.cosDegrees(135 - movementAngle);
-
+                    } else if (movementAngle  > 90 && movementAngle <= 180 ) { //quadrant 2
+                        power *= -1;
+                        scale = MathUtils.sinDegrees(movementAngle - 135) / MathUtils.cosDegrees(movementAngle - 135);
                         robot.getLFMotor().setPower(power * POWER_MATRIX[2][0] * scale);
                         robot.getRFMotor().setPower(power * POWER_MATRIX[2][1]);
                         robot.getLBMotor().setPower(power * POWER_MATRIX[2][2]);
-                        robot.getRBMotor().setPower(power * POWER_MATRIX[2][3] * scale);
-                    } else if (movementAngle > -180 && movementAngle <= -90) { //quadrant 3
-                        scale = MathUtils.sinDegrees(225 - movementAngle) / MathUtils.cosDegrees(225 - movementAngle);
+                        robot.getRBMotor().setPower(power * POWER_MATRIX[2][3] * scale );
+                    } else if (movementAngle > 180 && movementAngle <= 270) { //quadrant 3
+                        scale = MathUtils.sinDegrees(movementAngle-225) / MathUtils.cosDegrees(movementAngle-225);
+                        Log.d("aaa",  "Quadrant 3: " + scale);
 
                         robot.getLFMotor().setPower(power * POWER_MATRIX[4][0]);
-                        robot.getRFMotor().setPower(power * POWER_MATRIX[4][1] * scale);
-                        robot.getLBMotor().setPower(power * POWER_MATRIX[4][2] * scale);
+                        robot.getRFMotor().setPower(power * POWER_MATRIX[4][1] * scale );
+                        robot.getLBMotor().setPower(power * POWER_MATRIX[4][2] * scale );
                         robot.getRBMotor().setPower(power * POWER_MATRIX[4][3]);
-                    } else if (movementAngle > -90 && movementAngle <= 0) { //quadrant 4
-                        scale = MathUtils.sinDegrees(315 - movementAngle) / MathUtils.cosDegrees(315 - movementAngle);
+                        Log.d("aaa", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
+                    } else if (movementAngle > 270 && movementAngle < 360) { //quadrant 4
+                        power *= -1;
+                        scale = MathUtils.sinDegrees(movementAngle - 315) / MathUtils.cosDegrees(movementAngle-315);
 
                         robot.getLFMotor().setPower(power * POWER_MATRIX[6][0] * scale);
                         robot.getRFMotor().setPower(power * POWER_MATRIX[6][1]);
@@ -111,11 +116,12 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     robot.getLeftRotate().setPower(0);
                     robot.getRightRotate().setPower(0);
                 }
+
                 if (controller1.isDpadLeft()) {
                     robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
-                    robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
                 } else if (controller1.isDpadRight()) {
                     robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
+                } else {
                     robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
                 }
 
@@ -130,11 +136,9 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
                 //lifting cap ball
                 if (controller1.isDpadDown()) {
-                    while (robot.getCapServo().getPosition() > servoValOpen)
-                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() - 0.01);
+                    robot.getCapServo().setPosition(servoValOpen);
                 } else if (controller1.isDpadUp()) {
-                    while (robot.getCapServo().getPosition() < servoValClosed)
-                        robot.getCapServo().setPosition(robot.getCapServo().getPosition() + 0.01);
+                    robot.getCapServo().setPosition(servoValClosed);
                 }
                     try {
                         Thread.currentThread().sleep(30);

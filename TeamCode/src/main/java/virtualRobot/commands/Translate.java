@@ -58,7 +58,7 @@ public class Translate implements Command {
             }
         };
 
-        runMode = RunMode.WITH_PID;
+        runMode = RunMode.CUSTOM;
 
         LFtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RFtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
@@ -241,28 +241,30 @@ public class Translate implements Command {
             case CUSTOM:
                 if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
 
-                    scale = sinDegrees(45 - movementAngle) / cosDegrees(45 - movementAngle);
+                    scale = Math.abs(sinDegrees(45 - movementAngle) / cosDegrees(45 - movementAngle));
 
                     robot.getLFMotor().setPower(maxPower * POWER_MATRIX[0][0]);
                     robot.getRFMotor().setPower(maxPower * POWER_MATRIX[0][1] * scale);
                     robot.getLBMotor().setPower(maxPower * POWER_MATRIX[0][2] * scale);
                     robot.getRBMotor().setPower(maxPower * POWER_MATRIX[0][3]);
-                } else if (movementAngle > -270 && movementAngle <= -180  ) { //quadrant 2
-                    scale = sinDegrees(135 - movementAngle) / cosDegrees(135 - movementAngle);
+                } else if (movementAngle > -270 && movementAngle <= -180) { //quadrant 2
+                    scale = Math.abs(sinDegrees(135 - movementAngle) / cosDegrees(135 - movementAngle));
 
                     robot.getLFMotor().setPower(maxPower * POWER_MATRIX[2][0] * scale);
                     robot.getRFMotor().setPower(maxPower * POWER_MATRIX[2][1]);
                     robot.getLBMotor().setPower(maxPower * POWER_MATRIX[2][2]);
                     robot.getRBMotor().setPower(maxPower * POWER_MATRIX[2][3] * scale );
                 } else if (movementAngle > -180 && movementAngle <= -90) { //quadrant 3
-                    scale = sinDegrees(225 - movementAngle) / cosDegrees(225 - movementAngle);
+                    scale = Math.abs(sinDegrees(225 - movementAngle) / cosDegrees(225 - movementAngle));
+                    Log.d("aaa",  "Quadrant 3: " + scale);
 
                     robot.getLFMotor().setPower(maxPower * POWER_MATRIX[4][0]);
                     robot.getRFMotor().setPower(maxPower * POWER_MATRIX[4][1] * scale );
                     robot.getLBMotor().setPower(maxPower * POWER_MATRIX[4][2] * scale );
                     robot.getRBMotor().setPower(maxPower * POWER_MATRIX[4][3]);
+                    Log.d("aaa", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
                 } else if (movementAngle > -90 && movementAngle <= 0) { //quadrant 4
-                    scale = sinDegrees(315 - movementAngle) / cosDegrees(315 - movementAngle);
+                    scale = Math.abs(sinDegrees(315 - movementAngle) / cosDegrees(315 - movementAngle));
 
                     robot.getLFMotor().setPower(maxPower * POWER_MATRIX[6][0] * scale);
                     robot.getRFMotor().setPower(maxPower * POWER_MATRIX[6][1]);
@@ -274,6 +276,7 @@ public class Translate implements Command {
 
         while (!exitCondition.isConditionMet() && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
+            Log.d("bbb", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
             if (Thread.currentThread().isInterrupted()) {
                 isInterrupted = true;
                 break;

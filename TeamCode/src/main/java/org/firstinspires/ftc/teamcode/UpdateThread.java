@@ -140,7 +140,7 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroPitch();
 		imu.zeroYaw();
 		imu.zeroRoll();
-		telemetry.addData("Is Running Newest Version", "yes");
+		telemetry.addData("Is Running Version: ", "1.7");
         telemetry.addData("Init Loop Time", runtime.toString());
 	}
 
@@ -180,7 +180,7 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
 		vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
 		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
-		
+
 
 
 		try {
@@ -219,9 +219,11 @@ public abstract class UpdateThread extends OpMode {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
 		}
 //then add additional ones, like telemetry.addData("left power", leftPower);
-		telemetry.addData("reaper Power", reaperPower);
+//		telemetry.addData("reaper Power", reaperPower);
 		telemetry.addData("capServo Position", capPosition);
 		telemetry.addData("buttonServo Position", buttonPosition);
+		telemetry.addData("theta 1: ", Math.toDegrees(robot.getJoystickController1().getValue(JoystickController.THETA_1)));
+		telemetry.addData("power: ", robot.getJoystickController1().getValue(JoystickController.Y_2));
 
     }
 	

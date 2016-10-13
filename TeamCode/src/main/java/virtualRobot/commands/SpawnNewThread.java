@@ -5,7 +5,6 @@ import java.util.List;
 
 import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
-import virtualRobot.commands.Command;
 
 /**
  * Created by DOSullivan on 10/28/15.
