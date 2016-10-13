@@ -224,7 +224,7 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("theta 1: ", Math.toDegrees(robot.getJoystickController1().getValue(JoystickController.THETA_1)));
 		telemetry.addData("power: ", robot.getJoystickController1().getValue(JoystickController.Y_2));
-
+		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
     }
 	
 	public void stop() {

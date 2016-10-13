@@ -241,21 +241,22 @@ public class Translate implements Command {
             case CUSTOM:
                 if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
 
-                    scale = Math.abs(sinDegrees(45 - movementAngle) / cosDegrees(45 - movementAngle));
+                    scale = Math.abs(sinDegrees(movementAngle -45) / cosDegrees(movementAngle - 45));
 
                     robot.getLFMotor().setPower(maxPower * POWER_MATRIX[0][0]);
                     robot.getRFMotor().setPower(maxPower * POWER_MATRIX[0][1] * scale);
                     robot.getLBMotor().setPower(maxPower * POWER_MATRIX[0][2] * scale);
                     robot.getRBMotor().setPower(maxPower * POWER_MATRIX[0][3]);
                 } else if (movementAngle > -270 && movementAngle <= -180) { //quadrant 2
-                    scale = Math.abs(sinDegrees(135 - movementAngle) / cosDegrees(135 - movementAngle));
 
+                    scale = Math.abs(sinDegrees(movementAngle - 135) / cosDegrees(movementAngle - 135));
+                    scale *= -1;
                     robot.getLFMotor().setPower(maxPower * POWER_MATRIX[2][0] * scale);
                     robot.getRFMotor().setPower(maxPower * POWER_MATRIX[2][1]);
                     robot.getLBMotor().setPower(maxPower * POWER_MATRIX[2][2]);
                     robot.getRBMotor().setPower(maxPower * POWER_MATRIX[2][3] * scale );
                 } else if (movementAngle > -180 && movementAngle <= -90) { //quadrant 3
-                    scale = Math.abs(sinDegrees(225 - movementAngle) / cosDegrees(225 - movementAngle));
+                    scale = Math.abs(sinDegrees(movementAngle - 225) / cosDegrees(movementAngle - 225));
                     Log.d("aaa",  "Quadrant 3: " + scale);
 
                     robot.getLFMotor().setPower(maxPower * POWER_MATRIX[4][0]);
@@ -264,8 +265,9 @@ public class Translate implements Command {
                     robot.getRBMotor().setPower(maxPower * POWER_MATRIX[4][3]);
                     Log.d("aaa", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
                 } else if (movementAngle > -90 && movementAngle <= 0) { //quadrant 4
-                    scale = Math.abs(sinDegrees(315 - movementAngle) / cosDegrees(315 - movementAngle));
 
+                    scale = Math.abs(sinDegrees(movementAngle - 315) / cosDegrees(movementAngle - 315));
+                    scale *= -1;
                     robot.getLFMotor().setPower(maxPower * POWER_MATRIX[6][0] * scale);
                     robot.getRFMotor().setPower(maxPower * POWER_MATRIX[6][1]);
                     robot.getLBMotor().setPower(maxPower * POWER_MATRIX[6][2]);
