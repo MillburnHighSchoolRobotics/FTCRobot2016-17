@@ -39,10 +39,10 @@ public class DavidClass {
         int height = image.getHeight(), width = image.getWidth();
       //  image.getPixels(pixels, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight()); //gets pixels in pixel array
 
-        final int startX = (int) ((0) * width); //.4
-        final int endX = (int) (0.5*width); //.9
+        final int startX = (int) ((.25) * width); //.4
+        final int endX = (int) (0.75*width); //.9
         final int startY = (int) (0.55*height); //.55
-        final int endY = (int) (1*height); //.77
+        final int endY = (int) (.65*height); //.77
 
         final int midX = (startX + endX) / 2;
 
