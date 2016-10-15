@@ -17,17 +17,25 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImpl;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.vuforia.HINT;
+import com.vuforia.Vuforia;
+
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.teamcode.TestingOpModes.TakePictureTest;
 
 import java.util.ArrayList;
 
 import virtualRobot.GodThread;
 import virtualRobot.JoystickController;
 import virtualRobot.SallyJoeBot;
+import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.Command;
+import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.components.LocationSensor;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.SyncedMotors;
+import virtualRobot.godThreads.TakePictureTestGod;
 
 public abstract class UpdateThread extends OpMode {
 	
@@ -44,7 +52,7 @@ public abstract class UpdateThread extends OpMode {
 
 	private com.qualcomm.robotcore.hardware.Servo capLeft, capRight, buttonServo;
 
-
+	private TakePictureTestGod tptg;
 	private AnalogInput lineSensor, sonar1;
 
 
@@ -123,11 +131,26 @@ public abstract class UpdateThread extends OpMode {
 		capRight.setPosition(0.3);
 		buttonServo.setPosition(0.5);
 
-        addPresets();
+		addPresets();
         setGodThread();
 
 		try {
-			t = new Thread(godThread.newInstance());
+			if (godThread.equals(TakePictureTestGod.class)) {
+				VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
+				params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+				params.vuforiaLicenseKey = "AcXbD9X/////AAAAGVpq1gdfDkIPp+j5hv1iV5RZXLWAWV4F7je9gks+8lHhZb6mwCj7xy9mapHP6sKO9OrPv5kVQDXhB+T+Rn7V7GUm4Ub4rmCanqv4frx8gT732qJUnTEj9POMufR9skjlXSEODbpThxrLCPqobHeAeSA5dUmUik3Rck0lcwhElw5yOBN45iklYnvC9GpPRv128ALcgt9Zpw/shit0erKmuyrT62NRUKgoHNMm5xV/Xqj8Vgwke8ESap+nK7v+6lx35vDZ6ISNDVMMM8h0VqeL0745MNPJoI1vgiNRo30R7WwtPYME44koOrWMUIxMXghtqxq7AfFxb6sbin0i5KSUJWtLsqmZOrAXxjxdUwY8f8tw";
+				//params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
+				Log.d("lalala", "location1");
+				VuforiaLocalizerImplSubclass vuforia = new VuforiaLocalizerImplSubclass(params);
+				//Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS,4);
+				tptg =(TakePictureTestGod)godThread.newInstance();
+				tptg.setVuforia(vuforia);
+				t = new Thread(tptg);
+
+			} else {
+				t = new Thread(godThread.newInstance());
+				Log.d("lalala", "location2");
+			}
 		} catch (InstantiationException e) {
 			return;
 		} catch (IllegalAccessException e) {
@@ -220,11 +243,12 @@ public abstract class UpdateThread extends OpMode {
 		}
 //then add additional ones, like telemetry.addData("left power", leftPower);
 //		telemetry.addData("reaper Power", reaperPower);
-		telemetry.addData("capServo Position", capPosition);
+		/*telemetry.addData("capServo Position", capPosition);
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("theta 1: ", Math.toDegrees(robot.getJoystickController1().getValue(JoystickController.THETA_1)));
 		telemetry.addData("power: ", robot.getJoystickController1().getValue(JoystickController.Y_2));
-		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
+		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());*/
+		telemetry.addData("redIsLeft: ", "" + tptg.getRedIsLeft().get());
     }
 	
 	public void stop() {
