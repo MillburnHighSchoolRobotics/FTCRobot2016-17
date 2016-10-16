@@ -58,7 +58,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
                 //Movement Code
                 if (controller1.isDown(JoystickController.BUTTON_LT)) {
-                    Log.d("thingDown?", "yes");
+                    Log.d("thingDown?", "Left Trigger");
                     //in the case of mecanum wheels, translating and strafing
                     double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_1)),2);
                     double power = controller1.getValue(JoystickController.Y_2);
@@ -80,8 +80,6 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getRBMotor().setPower(power * POWER_MATRIX[2][3] * scale );
                     } else if (movementAngle > 180 && movementAngle <= 270) { //quadrant 3
                         scale = MathUtils.sinDegrees(movementAngle-225) / MathUtils.cosDegrees(movementAngle-225);
-                        Log.d("aaa",  "Quadrant 3: " + scale);
-
                         robot.getLFMotor().setPower(power * POWER_MATRIX[4][0]);
                         robot.getRFMotor().setPower(power * POWER_MATRIX[4][1] * scale );
                         robot.getLBMotor().setPower(power * POWER_MATRIX[4][2] * scale );
@@ -140,6 +138,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                 } else if (controller1.isDpadUp()) {
                     robot.getCapServo().setPosition(servoValClosed);
                 }
+                    Log.d("TeleOp Motors", robot.getLFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getRBMotor().getPower());
                     try {
                         Thread.currentThread().sleep(30);
                     } catch (InterruptedException e) {

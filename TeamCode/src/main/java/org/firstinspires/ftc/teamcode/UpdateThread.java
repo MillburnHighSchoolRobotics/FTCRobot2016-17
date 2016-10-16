@@ -35,6 +35,7 @@ import virtualRobot.components.LocationSensor;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.SyncedMotors;
+import virtualRobot.utils.MathUtils;
 import virtualRobot.godThreads.TakePictureTestGod;
 
 public abstract class UpdateThread extends OpMode {
@@ -226,9 +227,9 @@ public abstract class UpdateThread extends OpMode {
 
 		// Copy State of Motors and Servos E.g. leftFront.setPower(leftPower), Servo.setPosition(vServo.getPosition());
 		telemetry.addData("Servos: ", capPosition + " " + buttonPosition);
-		Log.d("qqq", capPosition + " " + buttonPosition);
-		telemetry.addData("Motors: ", leftFrontPower + " " + leftBackPower + " " + rightFrontPower + " " + rightBackPower);
-		Log.d("mmm", leftFrontPower + " " + leftBackPower + " " + rightFrontPower + " " + rightBackPower);
+		Log.d("servoPosition", capPosition + " " + buttonPosition);
+		telemetry.addData("Motors: ", MathUtils.truncate(leftFrontPower,2) + " " + MathUtils.truncate(leftBackPower,2) + " " + MathUtils.truncate(rightFrontPower,2) + " " + MathUtils.truncate(rightBackPower,2));
+		Log.d("motorPower", leftFrontPower + " " + leftBackPower + " " + rightFrontPower + " " + rightBackPower);
 		leftFront.setPower(leftFrontPower);
 		leftBack.setPower(leftBackPower);
 		rightFront.setPower(rightFrontPower);
@@ -241,13 +242,14 @@ public abstract class UpdateThread extends OpMode {
 		for (int i = 0; i < robot.getProgress().size(); i++) {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
 		}
-//then add additional ones, like telemetry.addData("left power", leftPower);
-//		telemetry.addData("reaper Power", reaperPower);
-		/*telemetry.addData("capServo Position", capPosition);
+		telemetry.addData("capServo Position", capPosition);
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("theta 1: ", Math.toDegrees(robot.getJoystickController1().getValue(JoystickController.THETA_1)));
 		telemetry.addData("power: ", robot.getJoystickController1().getValue(JoystickController.Y_2));
-		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());*/
+		telemetry.addData("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
+		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
+		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
+		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
 		telemetry.addData("redIsLeft: ", "" + tptg.getRedIsLeft().get());
     }
 	

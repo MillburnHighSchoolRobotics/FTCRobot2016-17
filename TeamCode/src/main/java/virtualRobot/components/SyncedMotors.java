@@ -1,5 +1,7 @@
 package virtualRobot.components;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,8 @@ import virtualRobot.utils.MathUtils;
  * A class to sync two motors or two sets of motors
  */
 public class SyncedMotors {
-    private SyncType type;
+    private SyncMode type;
+    private SyncAlgo algo;
     Motor masterA;
     Motor slaveA;
     private long oldTimeA,oldTimeB;
@@ -25,22 +28,32 @@ public class SyncedMotors {
     private double ratio;
     private double power;
 
-    public SyncedMotors(Motor a, Motor b, Sensor eA, Sensor eB ,double KP, double KI, double KD) {
+    public SyncedMotors(Motor a, Motor b, Sensor eA, Sensor eB ,double KP, double KI, double KD, SyncAlgo algo) {
         this.masterA = a;
         this.slaveA = b;
         this.encoderA = eA;
         this.encoderB = eB;
-        pid = new PIDController(KP,KI,KD,0.01,1);
-        type = SyncType.MOTORS;
+        type = SyncMode.MOTORS;
+        this.algo = algo;
+        if (algo == SyncAlgo.SPEED){
+            pid = new PIDController(KP,KI,KD,0.01,1);
+        } else {
+            pid = new PIDController(KP,KI,KD,10,1);
+        }
         this.encoderA.clearValue();
         this.encoderB.clearValue();
     }
 
-    public SyncedMotors(SyncedMotors a, SyncedMotors b, double KP, double KI, double KD) {
+    public SyncedMotors(SyncedMotors a, SyncedMotors b, double KP, double KI, double KD, SyncAlgo algo) {
         this.masterB = a;
         this.slaveB = b;
-        pid = new PIDController(KP,KI,KD,0.01,1);
-        type = SyncType.SIDES;
+        this.algo = algo;
+        if (algo == SyncAlgo.SPEED){
+            pid = new PIDController(KP,KI,KD,0.01,1);
+        } else {
+            pid = new PIDController(KP,KI,KD,10,1);
+        }
+        type = SyncMode.SIDES;
     }
 
     public synchronized void setRatio(double ratio) {
@@ -53,11 +66,11 @@ public class SyncedMotors {
         move();
     }
 
-    private synchronized double getSpeedA() {
-        if (type == SyncType.MOTORS) {
+    public synchronized double getSpeedA() {
+        if (type == SyncMode.MOTORS) {
             double temp = encoderA.getValue();
             long tempTime = System.currentTimeMillis();
-            double res = (temp - oldEncoderA) * 1000 / (tempTime - oldTimeA);
+            double res = (temp - oldEncoderA) * 1000 / ((tempTime - oldTimeA) == 0 ? 1 : (tempTime - oldTimeA));
             oldTimeA = tempTime;
             oldEncoderA = temp;
             return res;
@@ -65,11 +78,11 @@ public class SyncedMotors {
         return masterB.getSpeedA();
     }
 
-    private synchronized double getSpeedB() {
-        if (type == SyncType.MOTORS) {
+    public synchronized double getSpeedB() {
+        if (type == SyncMode.MOTORS) {
             double temp = encoderB.getValue();
             long tempTime = System.currentTimeMillis();
-            double res = (temp - oldEncoderB) * 1000 / (tempTime - oldTimeB);
+            double res = (temp - oldEncoderB) * 1000 / ((tempTime - oldTimeB == 0 ? 1 : (tempTime - oldTimeB )));
             oldTimeB = tempTime;
             oldEncoderB = temp;
             return res;
@@ -77,12 +90,17 @@ public class SyncedMotors {
         return slaveB.getSpeedA();
     }
 
-    private synchronized void move() {
-        double speedA = getSpeedA();
-        double adjust = pid.getPIDOutput(speedA == 0 ? 0 : getSpeedB() / speedA);
+    public synchronized void move() {
+        double adjust = 0;
+        if (algo == SyncAlgo.SPEED) {
+            double speedA = getSpeedA();
+            adjust = pid.getPIDOutput(speedA == 0 ? 0 : getSpeedB() / speedA);
+        } else {
+            adjust = type == SyncMode.MOTORS ? pid.getPIDOutput(encoderA.getValue() - encoderB.getValue()) : pid.getPIDOutput(masterB.getEncoder().getValue() - slaveB.getEncoder().getValue());
+        }
         double slavePower = MathUtils.clamp(power*(ratio+adjust),-1,1);
         double realPower = MathUtils.clamp(power*(ratio-adjust), -1, 1);
-        if (type == SyncType.MOTORS) {
+        if (type == SyncMode.MOTORS) {
             masterA.setPower(realPower);
             slaveA.setPower(slavePower);
         }else {
@@ -101,7 +119,11 @@ public class SyncedMotors {
         
     }
 
-    static enum SyncType {
+    static enum SyncMode {
         MOTORS, SIDES
+    }
+
+    public static enum SyncAlgo {
+        POSITION, SPEED
     }
 }
