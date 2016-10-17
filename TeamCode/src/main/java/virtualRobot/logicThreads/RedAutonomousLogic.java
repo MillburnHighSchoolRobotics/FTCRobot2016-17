@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
+import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Translate;
 import virtualRobot.components.Sensor;
@@ -15,10 +16,12 @@ import virtualRobot.components.Sensor;
 public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
     final int whiteTape = 20;
     AtomicBoolean redIsLeft = new AtomicBoolean();
+    VuforiaLocalizerImplSubclass iloveinterfaces;
 
-    public RedAutonomousLogic(AtomicBoolean redIsLeft) {
+    public RedAutonomousLogic(AtomicBoolean redIsLeft,VuforiaLocalizerImplSubclass quallcom) {
         super();
         this.redIsLeft = redIsLeft;
+        this.iloveinterfaces = quallcom;
     }
     @Override
     public void loadCommands() {
@@ -54,7 +57,7 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         moveToWhiteLine.setExitCondition(atwhiteline);
         commands.add(moveToWhiteLine);
 
-        FTCTakePicture pic = new FTCTakePicture(redIsLeft);
+        FTCTakePicture pic = new FTCTakePicture(redIsLeft,iloveinterfaces);
         commands.add(pic);
     }
 }
