@@ -38,7 +38,7 @@ public class BlueAutoGodThread extends GodThread {
         //keep the program alive as long as the two monitor threads are still going - should proceed every logicThread addition
         delegateMonitor(mtfb, new MonitorThread[]{watchingForTime});
 
-        waitToProceed(mtfb);
+
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (!redIsLeft.get()) {

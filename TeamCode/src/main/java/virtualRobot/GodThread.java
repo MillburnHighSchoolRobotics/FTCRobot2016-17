@@ -62,15 +62,7 @@ public abstract class GodThread implements Runnable {
             }
         }
     }
-    protected void waitToProceed(Thread logic) throws InterruptedException {
-        synchronized (this) {
-            while (logic.isAlive()) {
-               wait();
-            }
-            notifyAll();
 
-        }
-    }
     protected void delegateMonitor(Thread logic, MonitorThread[] monitors) throws InterruptedException {
         while (logic.isAlive()) {
             boolean isNormal = true;

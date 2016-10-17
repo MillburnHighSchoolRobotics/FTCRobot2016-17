@@ -36,7 +36,7 @@ public class RedAutoGodThread extends GodThread {
         //keep the program alive as long as the two monitor threads are still going - should proceed every logicThread addition
         delegateMonitor(mtfb, new MonitorThread[]{watchingForTime});
 
-        waitToProceed(mtfb);
+
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (!redIsLeft.get()) {
@@ -61,7 +61,7 @@ public class RedAutoGodThread extends GodThread {
         children.add(godThread);
         delegateMonitor(godThread, new MonitorThread[]{watchingForTime});
 
-        waitToProceed(godThread);
+
 
         if (!redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton();
@@ -85,7 +85,7 @@ public class RedAutoGodThread extends GodThread {
         children.add(rageatgit);
         delegateMonitor(rageatgit, new MonitorThread[]{watchingForTime});
 
-        waitToProceed(rageatgit);
+
 
     }
 }
