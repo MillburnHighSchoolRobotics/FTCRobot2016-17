@@ -24,6 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.TestingOpModes.TakePictureTest;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import virtualRobot.GodThread;
 import virtualRobot.JoystickController;
@@ -241,6 +242,9 @@ public abstract class UpdateThread extends OpMode {
 
 		for (int i = 0; i < robot.getProgress().size(); i++) {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
+		}
+		for (Map.Entry<String,Object> e: robot.getTelemetry().entrySet()) {
+			telemetry.addData(e.getKey(),e.getValue().toString());
 		}
 		telemetry.addData("capServo Position", capPosition);
 		telemetry.addData("buttonServo Position", buttonPosition);

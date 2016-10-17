@@ -1,6 +1,7 @@
 package virtualRobot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.LocationSensor;
@@ -56,4 +57,8 @@ public interface AutonomousRobot {
     void addToProgress(String s);
 
     ArrayList<String> getProgress();
+
+    void addToTelemetry(String s, Object arg);
+
+    HashMap<String, Object> getTelemetry ();
 }

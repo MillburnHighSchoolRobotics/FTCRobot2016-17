@@ -1,6 +1,7 @@
 package virtualRobot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.LocationSensor;
@@ -19,6 +20,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder;
     private LocationSensor locationSensor;
     private ArrayList<String> robotProgress;
+    private HashMap<String, Object> telemetry;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
     private Motor Reaper;
     private Servo CapServo;
@@ -40,6 +42,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         ultraSonicSensor = new Sensor();
         lightSensor = new Sensor();
         robotProgress = new ArrayList<String>();
+        telemetry = new HashMap<>();
         locationSensor = new LocationSensor();
         LFMotor = new Motor();
         LBMotor = new Motor();
@@ -151,5 +154,11 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized ArrayList<String> getProgress () {
         return robotProgress;
     }
+
+    @Override
+    public synchronized void addToTelemetry(String s, Object arg) { telemetry.put(s,arg); }
+
+    @Override
+    public synchronized HashMap<String, Object> getTelemetry () { return telemetry; }
 
 }
