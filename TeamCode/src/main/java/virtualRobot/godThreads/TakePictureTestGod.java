@@ -26,10 +26,7 @@ public class TakePictureTestGod extends GodThread {
         children.add(tp);
         delegateMonitor(tp, new MonitorThread[]{});
     }
-
-
+    
     public AtomicBoolean getRedIsLeft(){return redIsLeft;}
-    public void setVuforia(VuforiaLocalizerImplSubclass vuforia) {
-        this.vuforia = vuforia;
-    }
+
 }
