@@ -58,7 +58,7 @@ public abstract class UpdateThread extends OpMode {
 	private CRServo capLeft, capRight;
 	private Servo buttonServo;
 
-	private TakePictureTestGod tptg;
+	private GodThread vuforiaEverywhere;
 	private AnalogInput lineSensor, sonar1;
 
 
@@ -143,22 +143,21 @@ public abstract class UpdateThread extends OpMode {
         setGodThread();
 
 		try {
-			if (godThread.equals(TakePictureTestGod.class)) {
+			//if (godThread.equals(TakePictureTestGod.class)) {
 				VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
 				params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 				params.vuforiaLicenseKey = "AcXbD9X/////AAAAGVpq1gdfDkIPp+j5hv1iV5RZXLWAWV4F7je9gks+8lHhZb6mwCj7xy9mapHP6sKO9OrPv5kVQDXhB+T+Rn7V7GUm4Ub4rmCanqv4frx8gT732qJUnTEj9POMufR9skjlXSEODbpThxrLCPqobHeAeSA5dUmUik3Rck0lcwhElw5yOBN45iklYnvC9GpPRv128ALcgt9Zpw/shit0erKmuyrT62NRUKgoHNMm5xV/Xqj8Vgwke8ESap+nK7v+6lx35vDZ6ISNDVMMM8h0VqeL0745MNPJoI1vgiNRo30R7WwtPYME44koOrWMUIxMXghtqxq7AfFxb6sbin0i5KSUJWtLsqmZOrAXxjxdUwY8f8tw";
-				//params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
 				Log.d("lalala", "location1");
 				VuforiaLocalizerImplSubclass vuforia = new VuforiaLocalizerImplSubclass(params);
-				//Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS,4);
-				tptg =(TakePictureTestGod)godThread.newInstance();
-				tptg.setVuforia(vuforia);
-				t = new Thread(tptg);
-
+				vuforiaEverywhere = godThread.newInstance();
+				vuforiaEverywhere.setVuforia(vuforia);
+				t = new Thread(vuforiaEverywhere);
+			/*
 			} else {
 				t = new Thread(godThread.newInstance());
 				Log.d("lalala", "location2");
 			}
+			*/
 		} catch (InstantiationException e) {
 			return;
 		} catch (IllegalAccessException e) {
@@ -260,7 +259,10 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
-		telemetry.addData("redIsLeft: ", "" + tptg.getRedIsLeft().get());
+
+		if (godThread.equals(TakePictureTestGod.class)) {
+			telemetry.addData("redIsLeft: ", "" + ((TakePictureTestGod)vuforiaEverywhere).getRedIsLeft().get());
+		}
     }
 	
 	public void stop() {

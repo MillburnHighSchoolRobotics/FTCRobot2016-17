@@ -9,6 +9,7 @@ public abstract class GodThread implements Runnable {
     private Thread innerThread;
     private boolean isInnerThreadRunning;
     protected ArrayList<Thread> children;
+    VuforiaLocalizerImplSubclass vuforia;
 
     private class InnerThread implements Runnable {
         public void run() {
@@ -86,4 +87,8 @@ public abstract class GodThread implements Runnable {
     }
 
     public abstract void realRun() throws InterruptedException;
+
+    public void setVuforia(VuforiaLocalizerImplSubclass vuforia) {
+        this.vuforia = vuforia;
+    }
 }
