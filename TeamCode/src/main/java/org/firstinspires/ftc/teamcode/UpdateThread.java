@@ -7,12 +7,14 @@ import com.kauailabs.navx.ftc.MPU9250;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServoImpl;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.LightSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImpl;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
@@ -32,6 +34,7 @@ import virtualRobot.SallyJoeBot;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.Command;
 import virtualRobot.commands.FTCTakePicture;
+import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.LocationSensor;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
@@ -52,7 +55,8 @@ public abstract class UpdateThread extends OpMode {
 	private MPU9250 imu;
 	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper;
 
-	private com.qualcomm.robotcore.hardware.Servo capLeft, capRight, buttonServo;
+	private CRServo capLeft, capRight;
+	private Servo buttonServo;
 
 	private TakePictureTestGod tptg;
 	private AnalogInput lineSensor, sonar1;
@@ -66,7 +70,9 @@ public abstract class UpdateThread extends OpMode {
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vReaper;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
 
-	private virtualRobot.components.Servo vCapServo, vButtonServo;
+	private virtualRobot.components.Servo vButtonServo;
+
+	private ContinuousRotationServo vCapServo;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -83,8 +89,8 @@ public abstract class UpdateThread extends OpMode {
 		reaper = hardwareMap.dcMotor.get("reaper");
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
-		capLeft = hardwareMap.servo.get("capLeft");
-		capRight = hardwareMap.servo.get("capRight");
+		capLeft = hardwareMap.crservo.get("capLeft");
+		capRight = hardwareMap.crservo.get("capRight");
 		buttonServo = hardwareMap.servo.get("buttonPusher");
 
         //REVERSE RIGHT SIDE (If needed, e.g. rightFront.setDirection(DcMotor.Direction.REVERSE)
@@ -127,10 +133,10 @@ public abstract class UpdateThread extends OpMode {
 		//Setup Physical Components
 		leftFront.setDirection(DcMotor.Direction.REVERSE);
 		leftBack.setDirection(DcMotor.Direction.REVERSE);
-		capRight.setDirection(Servo.Direction.REVERSE);
-		Log.d("sss", "Initial servo Positions: " + capLeft.getPosition() + " " + capRight.getPosition() + " " + buttonServo.getPosition() );
-		capLeft.setPosition(0.3);
-		capRight.setPosition(0.3);
+		capRight.setDirection(DcMotorSimple.Direction.REVERSE);
+		Log.d("sss", "Initial servo Positions: " + UpdateUtil.getPosition(capLeft) + " " + UpdateUtil.getPosition(capRight) + " " + buttonServo.getPosition() );
+		UpdateUtil.setPosition(capLeft,0.3);
+		UpdateUtil.setPosition(capRight,0.3);
 		buttonServo.setPosition(0.5);
 
 		addPresets();
@@ -175,7 +181,7 @@ public abstract class UpdateThread extends OpMode {
 			vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
 			vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
 			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
-			vCapServo.setPosition((capRight.getPosition() + capLeft.getPosition())/2);
+			vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			vButtonServo.setPosition(buttonServo.getPosition());
 
 		t.start();
@@ -222,13 +228,13 @@ public abstract class UpdateThread extends OpMode {
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
 		double reaperPower = vReaper.getPower();
-		double capPosition = vCapServo.getPosition();
+		double capPower = vCapServo.getSpeed();
 		double buttonPosition = vButtonServo.getPosition();
 
 
 		// Copy State of Motors and Servos E.g. leftFront.setPower(leftPower), Servo.setPosition(vServo.getPosition());
-		telemetry.addData("Servos: ", capPosition + " " + buttonPosition);
-		Log.d("servoPosition", capPosition + " " + buttonPosition);
+		telemetry.addData("Servos: ", capPower + " " + buttonPosition);
+		Log.d("servoState", capPower + " " + buttonPosition);
 		telemetry.addData("Motors: ", MathUtils.truncate(leftFrontPower,2) + " " + MathUtils.truncate(leftBackPower,2) + " " + MathUtils.truncate(rightFrontPower,2) + " " + MathUtils.truncate(rightBackPower,2));
 		Log.d("motorPower", leftFrontPower + " " + leftBackPower + " " + rightFrontPower + " " + rightBackPower);
 		leftFront.setPower(leftFrontPower);
@@ -236,8 +242,8 @@ public abstract class UpdateThread extends OpMode {
 		rightFront.setPower(rightFrontPower);
 		rightBack.setPower(rightBackPower);
 		reaper.setPower(reaperPower);
-		capRight.setPosition(capPosition);
-		capLeft.setPosition(capPosition);
+		capRight.setPower(capPower);
+		capLeft.setPower(capPower);
 		buttonServo.setPosition(buttonPosition);
 
 		for (int i = 0; i < robot.getProgress().size(); i++) {
@@ -246,7 +252,7 @@ public abstract class UpdateThread extends OpMode {
 		for (Map.Entry<String,Object> e: robot.getTelemetry().entrySet()) {
 			telemetry.addData(e.getKey(),e.getValue().toString());
 		}
-		telemetry.addData("capServo Position", capPosition);
+		telemetry.addData("capServo State", capPower);
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("theta 1: ", Math.toDegrees(robot.getJoystickController1().getValue(JoystickController.THETA_1)));
 		telemetry.addData("power: ", robot.getJoystickController1().getValue(JoystickController.Y_2));
@@ -265,5 +271,14 @@ public abstract class UpdateThread extends OpMode {
 	public abstract void setGodThread();
 
     public void addPresets(){}
+}
 
+class UpdateUtil {
+	public static void setPosition(CRServo servo, double position) {
+		servo.getController().setServoPosition(servo.getPortNumber(),position);
+	}
+
+	public static double getPosition(CRServo servo) {
+		return servo.getController().getServoPosition(servo.getPortNumber());
+	}
 }
