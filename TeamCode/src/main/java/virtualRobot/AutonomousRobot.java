@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import virtualRobot.components.ColorSensor;
+import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.LocationSensor;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
@@ -36,7 +37,7 @@ public interface AutonomousRobot {
 
     Motor getReaperMotor();
 
-    Servo getCapServo();
+    ContinuousRotationServo getCapServo();
 
     Servo getButtonServo();
 

@@ -134,9 +134,11 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
                 //lifting cap ball
                 if (controller1.isDpadDown()) {
-                    robot.getCapServo().setPosition(servoValOpen);
+                    robot.getCapServo().setSpeed(10);
                 } else if (controller1.isDpadUp()) {
-                    robot.getCapServo().setPosition(servoValClosed);
+                    robot.getCapServo().setSpeed(-10);
+                } else {
+                   robot.getCapServo().setSpeed(0);
                 }
                     Log.d("TeleOp Motors", robot.getLFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getRBMotor().getPower());
                     try {
