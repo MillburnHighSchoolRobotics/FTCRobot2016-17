@@ -34,6 +34,7 @@ import virtualRobot.SallyJoeBot;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.Command;
 import virtualRobot.commands.FTCTakePicture;
+import virtualRobot.commands.Translate;
 import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.LocationSensor;
 import virtualRobot.components.Motor;
@@ -170,16 +171,16 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroPitch();
 		imu.zeroYaw();
 		imu.zeroRoll();
-		telemetry.addData("Is Running Version: ", "1.7");
+		telemetry.addData("Is Running Version: ", Translate.KP);
         telemetry.addData("Init Loop Time", runtime.toString());
 	}
 
 	public void start() {
 		//set encoders e.g. vDriveRightMotorEncoder.setRawValue(-rightFront.getCurrentPosition())
-			vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
-			vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
-			vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
-			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+			vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
+			vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
+			vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
+			vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 			vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			vButtonServo.setPosition(buttonServo.getPosition());
 
@@ -206,10 +207,10 @@ public abstract class UpdateThread extends OpMode {
 		vUltrasonicSensor.setRawValue(sonar1.getVoltage());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
-		vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
-		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
-		vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
-		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
+		vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
+		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
+		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 
 
 
@@ -258,6 +259,7 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
+		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
 
 		if (godThread.equals(TakePictureTestGod.class)) {

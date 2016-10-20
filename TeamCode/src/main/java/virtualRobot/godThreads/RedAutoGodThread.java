@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
+import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.Command;
 import virtualRobot.logicThreads.BlueAutonomousLogic;
 import virtualRobot.logicThreads.PushLeftButton;
@@ -18,6 +19,8 @@ import virtualRobot.monitorThreads.TimeMonitor;
  * Created by shant on 1/10/2016.
  */
 public class RedAutoGodThread extends GodThread {
+    AtomicBoolean redIsLeft = new AtomicBoolean();
+    VuforiaLocalizerImplSubclass vuforia;
     @Override
     public void realRun() throws InterruptedException {
         AtomicBoolean redIsLeft = new AtomicBoolean();
@@ -28,7 +31,7 @@ public class RedAutoGodThread extends GodThread {
         children.add(tm);
 
         // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD TO THE LIST
-        LogicThread moveToFirstBeacon = new RedAutonomousLogic(redIsLeft);
+        LogicThread moveToFirstBeacon = new RedAutonomousLogic(redIsLeft, vuforia);
         Thread mtfb = new Thread(moveToFirstBeacon);
         mtfb.start();
         children.add(mtfb);
@@ -55,7 +58,7 @@ public class RedAutoGodThread extends GodThread {
             delegateMonitor(pr, new MonitorThread[]{});
         }
 
-        LogicThread merge = new RedMoveToSecondBeacon(redIsLeft);
+        LogicThread merge = new RedMoveToSecondBeacon(redIsLeft, vuforia);
         Thread godThread = new Thread(merge);
         godThread.start();
         children.add(godThread);

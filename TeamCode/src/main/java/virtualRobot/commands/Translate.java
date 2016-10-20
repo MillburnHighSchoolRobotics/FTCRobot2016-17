@@ -58,7 +58,7 @@ public class Translate implements Command {
             }
         };
 
-        runMode = RunMode.CUSTOM;
+        runMode = RunMode.WITH_PID;
 
         LFtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RFtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
@@ -357,10 +357,10 @@ public class Translate implements Command {
             double RBvalue = 0;
        
         while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                && Math.abs(LFvalue - LFtranslateController.getTarget()) > TOLERANCE
+                /*&& Math.abs(LFvalue - LFtranslateController.getTarget()) > TOLERANCE
                 && Math.abs(RFvalue - RFtranslateController.getTarget()) > TOLERANCE
                 && Math.abs(LBvalue - LBtranslateController.getTarget()) > TOLERANCE
-                && Math.abs(RBvalue - RBtranslateController.getTarget()) > TOLERANCE
+                && Math.abs(RBvalue - RBtranslateController.getTarget()) > TOLERANCE*/
                 && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
             LFvalue = robot.getLFEncoder().getValue();
@@ -378,7 +378,10 @@ public class Translate implements Command {
             RFpidOutput = MathUtils.clamp(RFpidOutput, -1,1); 
             LBpidOutput = MathUtils.clamp(LBpidOutput, -1,1); 
             RBpidOutput = MathUtils.clamp(RBpidOutput, -1,1); 
-
+            Log.d("PIDOUTLF", "" + LFpidOutput);
+            Log.d("PIDOUTRF", "" + RFpidOutput);
+            Log.d("PIDOUTLB", "" + LBpidOutput);
+            Log.d("PIDOUTRB", "" + RBpidOutput);
             LFpidOutput *= maxPower;
             RFpidOutput *= maxPower;
             LBpidOutput *= maxPower;
@@ -394,7 +397,7 @@ public class Translate implements Command {
             double RBPower = RBpidOutput;
             boolean[] issueArray = {false,false,false,false}; //if the angle modifier is = 0, and for_right is too far to the right or left will be true, perfect = false. Second element same thing but for back_right, third for Back_left, 4th for Forward_left
             // headingOutput <0 = too far to the left, >0 = too far to the right
-            if (angleModifier != 0) {
+            /*if (angleModifier != 0) {
                 if ((direction.getCode() == 0 || direction.getCode() == 5)) {
                     if (headingOutput > 0){
                         RFPower+= headingOutput;
@@ -556,7 +559,7 @@ public class Translate implements Command {
 
                 }
 
-            }
+            }*/
 
 
             robot.getLFMotor().setPower(LFPower * multiplier[0]);
@@ -854,9 +857,9 @@ public class Translate implements Command {
     private double cosDegrees(double  d) {
         return Math.cos(Math.toRadians(d));
     }
-    public static final double KP = 0.010125;
+    public static final double KP = .015; //.01 .015 LowerBound, UpperBound
     public static final double KI = 0.0000;
-    public static final double KD = 0.031641;
+    public static final double KD = 0;
     public static final double THRESHOLD = 1000;
 
     public static final double TOLERANCE = 10;
