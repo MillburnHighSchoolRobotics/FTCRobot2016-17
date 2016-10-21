@@ -57,89 +57,99 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     controller2.logicalRefresh();
 
                 //Movement Code
-                if (controller1.isDown(JoystickController.BUTTON_LT)) {
-                    Log.d("thingDown?", "Left Trigger");
-                    //in the case of mecanum wheels, translating and strafing
-                    double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_1)),2);
-                    double power = controller1.getValue(JoystickController.Y_2);
-                    double scale = 0;
-                    movementAngle = movementAngle < 0 ? movementAngle + 360 : movementAngle;
-                    Log.d("translateJoy", movementAngle + " " + power);
-                    if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
-                        scale = MathUtils.sinDegrees(movementAngle-45) / MathUtils.cosDegrees(movementAngle-45);
-                        robot.getLFMotor().setPower(power * POWER_MATRIX[0][0]);
-                        robot.getRFMotor().setPower(power * POWER_MATRIX[0][1] * scale);
-                        robot.getLBMotor().setPower(power * POWER_MATRIX[0][2] * scale);
-                        robot.getRBMotor().setPower(power * POWER_MATRIX[0][3]);
-                    } else if (movementAngle  > 90 && movementAngle <= 180 ) { //quadrant 2
-                        power *= -1;
-                        scale = MathUtils.sinDegrees(movementAngle - 135) / MathUtils.cosDegrees(movementAngle - 135);
-                        robot.getLFMotor().setPower(power * POWER_MATRIX[2][0] * scale);
-                        robot.getRFMotor().setPower(power * POWER_MATRIX[2][1]);
-                        robot.getLBMotor().setPower(power * POWER_MATRIX[2][2]);
-                        robot.getRBMotor().setPower(power * POWER_MATRIX[2][3] * scale );
-                    } else if (movementAngle > 180 && movementAngle <= 270) { //quadrant 3
-                        scale = MathUtils.sinDegrees(movementAngle-225) / MathUtils.cosDegrees(movementAngle-225);
-                        robot.getLFMotor().setPower(power * POWER_MATRIX[4][0]);
-                        robot.getRFMotor().setPower(power * POWER_MATRIX[4][1] * scale );
-                        robot.getLBMotor().setPower(power * POWER_MATRIX[4][2] * scale );
-                        robot.getRBMotor().setPower(power * POWER_MATRIX[4][3]);
-                        Log.d("aaa", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
-                    } else if (movementAngle > 270 && movementAngle < 360) { //quadrant 4
-                        power *= -1;
-                        scale = MathUtils.sinDegrees(movementAngle - 315) / MathUtils.cosDegrees(movementAngle-315);
+                    if (!MathUtils.equals(controller2.getValue(JoystickController.Y_1), 0)) {
+                        double angle = controller1.getValue(JoystickController.THETA_1);
+                        angle = angle < 0 ? angle + 360 : angle;
+                        if (angle >= 45 && angle < 135) {
+                            robot.getLeftRotate().setPower(1);
+                            robot.getRightRotate().setPower(1);
+                        } else if (angle < 45 || angle >= 315) {
+                            robot.getLeftRotate().setPower(-1);
+                            robot.getRightRotate().setPower(1);
+                        } else if (angle >= 225 && angle < 315) {
+                            robot.getLeftRotate().setPower(-1);
+                            robot.getRightRotate().setPower(-1);
+                        } else if (angle >= 135 && angle < 225) {
+                            robot.getLeftRotate().setPower(1);
+                            robot.getRightRotate().setPower(-1);
+                        }
+                    } else {
+                        Log.d("thingDown?", "Left Trigger");
+                        //in the case of mecanum wheels, translating and strafing
+                        double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_1)),2);
+                        double power = controller1.getValue(JoystickController.Y_2);
+                        double scale = 0;
+                        movementAngle = movementAngle < 0 ? movementAngle + 360 : movementAngle;
+                        Log.d("translateJoy", movementAngle + " " + power);
+                        if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
+                            scale = MathUtils.sinDegrees(movementAngle-45) / MathUtils.cosDegrees(movementAngle-45);
+                            robot.getLFMotor().setPower(power * POWER_MATRIX[0][0]);
+                            robot.getRFMotor().setPower(power * POWER_MATRIX[0][1] * scale);
+                            robot.getLBMotor().setPower(power * POWER_MATRIX[0][2] * scale);
+                            robot.getRBMotor().setPower(power * POWER_MATRIX[0][3]);
+                        } else if (movementAngle  > 90 && movementAngle <= 180 ) { //quadrant 2
+                            power *= -1;
+                            scale = MathUtils.sinDegrees(movementAngle - 135) / MathUtils.cosDegrees(movementAngle - 135);
+                            robot.getLFMotor().setPower(power * POWER_MATRIX[2][0] * scale);
+                            robot.getRFMotor().setPower(power * POWER_MATRIX[2][1]);
+                            robot.getLBMotor().setPower(power * POWER_MATRIX[2][2]);
+                            robot.getRBMotor().setPower(power * POWER_MATRIX[2][3] * scale );
+                        } else if (movementAngle > 180 && movementAngle <= 270) { //quadrant 3
+                            scale = MathUtils.sinDegrees(movementAngle-225) / MathUtils.cosDegrees(movementAngle-225);
+                            robot.getLFMotor().setPower(power * POWER_MATRIX[4][0]);
+                            robot.getRFMotor().setPower(power * POWER_MATRIX[4][1] * scale );
+                            robot.getLBMotor().setPower(power * POWER_MATRIX[4][2] * scale );
+                            robot.getRBMotor().setPower(power * POWER_MATRIX[4][3]);
+                            Log.d("aaa", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
+                        } else if (movementAngle > 270 && movementAngle < 360) { //quadrant 4
+                            power *= -1;
+                            scale = MathUtils.sinDegrees(movementAngle - 315) / MathUtils.cosDegrees(movementAngle-315);
 
-                        robot.getLFMotor().setPower(power * POWER_MATRIX[6][0] * scale);
-                        robot.getRFMotor().setPower(power * POWER_MATRIX[6][1]);
-                        robot.getLBMotor().setPower(power * POWER_MATRIX[6][2]);
-                        robot.getRBMotor().setPower(power * POWER_MATRIX[6][3] * scale);
+                            robot.getLFMotor().setPower(power * POWER_MATRIX[6][0] * scale);
+                            robot.getRFMotor().setPower(power * POWER_MATRIX[6][1]);
+                            robot.getLBMotor().setPower(power * POWER_MATRIX[6][2]);
+                            robot.getRBMotor().setPower(power * POWER_MATRIX[6][3] * scale);
+                        }
                     }
-                } else {
-                    double leftPower = controller1.getValue(JoystickController.Y_1);
-                    double rightPower = controller1.getValue(JoystickController.Y_2);
-                    Log.d("tankJoy",leftPower + " " + rightPower);
-                    robot.getLeftRotate().setPower(leftPower);
-                    robot.getRightRotate().setPower(rightPower);
-                }
 
-                //Beacon Code
-                if (controller1.isPressed(JoystickController.BUTTON_X)) {
-                    PIDController allign = new PIDController(0, 0, 0, SallyJoeBot.BWTHRESHOLD);
-                    double adjustedPower;
-                    while (robot.getUltrasonicSensor().getValue() < 5) {
-                        adjustedPower = allign.getPIDOutput(robot.getLineSensor().getValue());
-                        robot.getLeftRotate().setPower(adjustedPower);
-                        robot.getRightRotate().setPower(-adjustedPower);
+                    //Beacon Code
+                    if (controller1.isPressed(JoystickController.BUTTON_X)) {
+                        PIDController allign = new PIDController(0, 0, 0, SallyJoeBot.BWTHRESHOLD);
+                        double adjustedPower;
+                        while (robot.getUltrasonicSensor().getValue() < 5) {
+                            adjustedPower = allign.getPIDOutput(robot.getLineSensor().getValue());
+                            robot.getLeftRotate().setPower(adjustedPower);
+                            robot.getRightRotate().setPower(-adjustedPower);
+                        }
+                        robot.getLeftRotate().setPower(0);
+                        robot.getRightRotate().setPower(0);
                     }
-                    robot.getLeftRotate().setPower(0);
-                    robot.getRightRotate().setPower(0);
-                }
 
-                if (controller1.isDpadLeft()) {
-                    robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
-                } else if (controller1.isDpadRight()) {
-                    robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
-                } else {
-                    robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
-                }
+                    if (controller1.isDown(JoystickController.BUTTON_LT)) {
+                        robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
+                    } else if (controller1.isDown(JoystickController.BUTTON_RT)) {
+                        robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
+                    } else {
+                        robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
+                    }
 
-                //reaper forward and backward
-                if (controller1.isDown(JoystickController.BUTTON_RB)) {
-                    robot.getReaperMotor().setPower(1);
-                } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
-                    robot.getReaperMotor().setPower(-1);
-                } else {
-                    robot.getReaperMotor().setPower(0);
-                }
+                    //reaper forward and backward
+                    if (controller1.isDown(JoystickController.BUTTON_RB)) {
+                        robot.getReaperMotor().setPower(1);
+                    } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
+                        robot.getReaperMotor().setPower(-1);
+                    } else {
+                        robot.getReaperMotor().setPower(0);
+                    }
 
-                //lifting cap ball
-                if (controller1.isDpadDown()) {
-                    robot.getCapServo().setSpeed(10);
-                } else if (controller1.isDpadUp()) {
-                    robot.getCapServo().setSpeed(-10);
-                } else {
-                   robot.getCapServo().setSpeed(0);
-                }
+                    //lifting cap ball
+                    if (controller1.isDown(JoystickController.BUTTON_B)) {
+                        robot.getCapServo().setSpeed(10);
+                    } else if (controller1.isDown(JoystickController.BUTTON_A)) {
+                        robot.getCapServo().setSpeed(-10);
+                    } else {
+                       robot.getCapServo().setSpeed(0);
+                    }
                     Log.d("TeleOp Motors", robot.getLFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getRBMotor().getPower());
                     try {
                         Thread.currentThread().sleep(30);
