@@ -357,10 +357,10 @@ public class Translate implements Command {
             double RBvalue = 0;
        
         while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                /*&& Math.abs(LFvalue - LFtranslateController.getTarget()) > TOLERANCE
+                && Math.abs(LFvalue - LFtranslateController.getTarget()) > TOLERANCE
                 && Math.abs(RFvalue - RFtranslateController.getTarget()) > TOLERANCE
                 && Math.abs(LBvalue - LBtranslateController.getTarget()) > TOLERANCE
-                && Math.abs(RBvalue - RBtranslateController.getTarget()) > TOLERANCE*/
+                && Math.abs(RBvalue - RBtranslateController.getTarget()) > TOLERANCE
                 && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
             LFvalue = robot.getLFEncoder().getValue();
@@ -857,9 +857,10 @@ public class Translate implements Command {
     private double cosDegrees(double  d) {
         return Math.cos(Math.toRadians(d));
     }
-    public static final double KP = .015; //.01 .015 LowerBound, UpperBound
-    public static final double KI = 0.0000;
-    public static final double KD = 0;
+    //KU: .002993945 .00299414  LowerBound, UpperBound
+    public static final double KP = 0.0017964255;
+    public static final double KI = 0.00000443561;
+    public static final double KD = 0.03031468031;
     public static final double THRESHOLD = 1000;
 
     public static final double TOLERANCE = 10;
