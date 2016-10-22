@@ -20,7 +20,6 @@ import virtualRobot.monitorThreads.TimeMonitor;
  */
 public class RedAutoGodThread extends GodThread {
     AtomicBoolean redIsLeft = new AtomicBoolean();
-    VuforiaLocalizerImplSubclass vuforia;
     @Override
     public void realRun() throws InterruptedException {
         AtomicBoolean redIsLeft = new AtomicBoolean();
@@ -58,7 +57,7 @@ public class RedAutoGodThread extends GodThread {
             delegateMonitor(pr, new MonitorThread[]{});
         }
 
-        LogicThread merge = new RedMoveToSecondBeacon(redIsLeft, vuforia);
+        LogicThread merge = new RedMoveToSecondBeacon(redIsLeft, super.vuforia);
         Thread godThread = new Thread(merge);
         godThread.start();
         children.add(godThread);
@@ -82,11 +81,11 @@ public class RedAutoGodThread extends GodThread {
             delegateMonitor(pr, new MonitorThread[]{});
         }
 
-        LogicThread derp = new RedStrafeToRamp();
-        Thread rageatgit = new Thread(merge);
-        rageatgit.start();
-        children.add(rageatgit);
-        delegateMonitor(rageatgit, new MonitorThread[]{watchingForTime});
+        LogicThread rstr = new RedStrafeToRamp();
+        Thread rst = new Thread(rstr);
+        rst.start();
+        children.add(rst);
+        delegateMonitor(rst, new MonitorThread[]{watchingForTime});
 
 
 

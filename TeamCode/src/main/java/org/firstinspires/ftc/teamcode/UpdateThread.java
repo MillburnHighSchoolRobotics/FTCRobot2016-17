@@ -40,6 +40,7 @@ import virtualRobot.components.LocationSensor;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.SyncedMotors;
+import virtualRobot.godThreads.TeleopGodThread;
 import virtualRobot.utils.MathUtils;
 import virtualRobot.godThreads.TakePictureTestGod;
 
@@ -144,7 +145,7 @@ public abstract class UpdateThread extends OpMode {
         setGodThread();
 
 		try {
-			//if (godThread.equals(TakePictureTestGod.class)) {
+			if (!godThread.equals(TeleopGodThread.class)) {
 				VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
 				params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 				params.vuforiaLicenseKey = "AcXbD9X/////AAAAGVpq1gdfDkIPp+j5hv1iV5RZXLWAWV4F7je9gks+8lHhZb6mwCj7xy9mapHP6sKO9OrPv5kVQDXhB+T+Rn7V7GUm4Ub4rmCanqv4frx8gT732qJUnTEj9POMufR9skjlXSEODbpThxrLCPqobHeAeSA5dUmUik3Rck0lcwhElw5yOBN45iklYnvC9GpPRv128ALcgt9Zpw/shit0erKmuyrT62NRUKgoHNMm5xV/Xqj8Vgwke8ESap+nK7v+6lx35vDZ6ISNDVMMM8h0VqeL0745MNPJoI1vgiNRo30R7WwtPYME44koOrWMUIxMXghtqxq7AfFxb6sbin0i5KSUJWtLsqmZOrAXxjxdUwY8f8tw";
@@ -153,12 +154,11 @@ public abstract class UpdateThread extends OpMode {
 				vuforiaEverywhere = godThread.newInstance();
 				vuforiaEverywhere.setVuforia(vuforia);
 				t = new Thread(vuforiaEverywhere);
-			/*
 			} else {
 				t = new Thread(godThread.newInstance());
 				Log.d("lalala", "location2");
 			}
-			*/
+
 		} catch (InstantiationException e) {
 			return;
 		} catch (IllegalAccessException e) {

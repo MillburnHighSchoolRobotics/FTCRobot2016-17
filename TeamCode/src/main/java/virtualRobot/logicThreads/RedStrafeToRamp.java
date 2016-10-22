@@ -6,7 +6,7 @@ import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
 
 /**
- * Created by youarereallypushingitdavid on 10/6/2016.
+ * Created by Warren on 10/6/2016.
  */
 public class RedStrafeToRamp extends LogicThread<AutonomousRobot> {
     @Override

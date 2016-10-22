@@ -16,17 +16,16 @@ import virtualRobot.logicThreads.TakePictureTestLogic;
  */
 public class TakePictureTestGod extends GodThread {
     AtomicBoolean redIsLeft = new AtomicBoolean();
-    VuforiaLocalizerImplSubclass vuforia;
+
     @Override
     public void realRun() throws InterruptedException {
-
-        LogicThread takePicture = new TakePictureTestLogic(redIsLeft,vuforia);
+        LogicThread takePicture = new TakePictureTestLogic(redIsLeft,super.vuforia);
         Thread tp = new Thread(takePicture);
         tp.start();
         children.add(tp);
         delegateMonitor(tp, new MonitorThread[]{});
     }
-    
+
     public AtomicBoolean getRedIsLeft(){return redIsLeft;}
 
 }

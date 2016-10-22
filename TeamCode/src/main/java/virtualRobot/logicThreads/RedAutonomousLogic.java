@@ -14,18 +14,16 @@ import virtualRobot.components.Sensor;
  * Created by DOSullivan on 9/14/2016.
  */
 public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
-    final int whiteTape = 20;
     AtomicBoolean redIsLeft = new AtomicBoolean();
-    VuforiaLocalizerImplSubclass iloveinterfaces;
+    VuforiaLocalizerImplSubclass vuforia;
 
-    public RedAutonomousLogic(AtomicBoolean redIsLeft,VuforiaLocalizerImplSubclass quallcom) {
+    public RedAutonomousLogic(AtomicBoolean redIsLeft,VuforiaLocalizerImplSubclass vuforia) {
         super();
         this.redIsLeft = redIsLeft;
-        this.iloveinterfaces = quallcom;
+        this.vuforia = vuforia;
     }
     @Override
     public void loadCommands() {
-        final Sensor csensor = robot.getLineSensor();
 
         final ExitCondition atwhiteline = new ExitCondition() {
             @Override
@@ -57,7 +55,7 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         moveToWhiteLine.setExitCondition(atwhiteline);
         commands.add(moveToWhiteLine);
 
-        FTCTakePicture pic = new FTCTakePicture(redIsLeft,iloveinterfaces);
+        FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia);
         commands.add(pic);
     }
 }

@@ -9,6 +9,8 @@ import virtualRobot.monitorThreads.TimeMonitor;
 /**
  * Created by shant on 1/10/2016.
  */
+
+//DO NOT USE VUFORIA HERE
 public class TeleopGodThread extends GodThread {
     @Override
     public void realRun() throws InterruptedException {
