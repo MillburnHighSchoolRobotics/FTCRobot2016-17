@@ -176,10 +176,10 @@ public class Translate implements Command {
             }
             else {
                 //once again, multiply by sqrt(2) to math up with the end goal of 2*sqrt(2)*target.
-                LFtranslateController.setTarget(target * Math.sqrt(2));
+                LFtranslateController.setTarget(target *Math.sqrt(2));
                 RFtranslateController.setTarget(target * Math.sqrt(2));
-                LBtranslateController.setTarget(target * Math.sqrt(2));
-                RBtranslateController.setTarget(target * Math.sqrt(2));
+                LBtranslateController.setTarget(target* Math.sqrt(2));
+                RBtranslateController.setTarget(target*Math.sqrt(2));
             }
 
         }
@@ -363,10 +363,10 @@ public class Translate implements Command {
                 && Math.abs(RBvalue - RBtranslateController.getTarget()) > TOLERANCE
                 && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
-            LFvalue = robot.getLFEncoder().getValue();
-            RFvalue = robot.getRFEncoder().getValue();
-            LBvalue = robot.getLBEncoder().getValue();
-            RBvalue = robot.getRBEncoder().getValue();
+            LFvalue = Math.abs(robot.getLFEncoder().getValue());
+            RFvalue = Math.abs(robot.getRFEncoder().getValue());
+            LBvalue = Math.abs(robot.getLBEncoder().getValue());
+            RBvalue = Math.abs(robot.getRBEncoder().getValue());
 
 
 
@@ -566,6 +566,7 @@ public class Translate implements Command {
             robot.getRFMotor().setPower(RFPower * multiplier[1]);
             robot.getLBMotor().setPower(LBPower * multiplier[2]);
             robot.getRBMotor().setPower(RBPower * multiplier[3]);
+
 
 
             if (Thread.currentThread().isInterrupted()) {

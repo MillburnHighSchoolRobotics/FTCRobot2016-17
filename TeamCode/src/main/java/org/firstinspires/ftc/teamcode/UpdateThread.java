@@ -136,8 +136,10 @@ public abstract class UpdateThread extends OpMode {
 		leftBack.setDirection(DcMotor.Direction.REVERSE);
 		capRight.setDirection(DcMotorSimple.Direction.REVERSE);
 		Log.d("sss", "Initial servo Positions: " + UpdateUtil.getPosition(capLeft) + " " + UpdateUtil.getPosition(capRight) + " " + buttonServo.getPosition() );
-		UpdateUtil.setPosition(capLeft,0.3);
-		UpdateUtil.setPosition(capRight,0.3);
+		//UpdateUtil.setPosition(capLeft,0.3);
+		//UpdateUtil.setPosition(capRight,0.3);
+		capLeft.getController().setServoPosition(capLeft.getPortNumber(), .2);
+		capRight.getController().setServoPosition(capRight.getPortNumber(), .1);
 		buttonServo.setPosition(0.5);
 
 		addPresets();
@@ -176,12 +178,14 @@ public abstract class UpdateThread extends OpMode {
 
 	public void start() {
 		//set encoders e.g. vDriveRightMotorEncoder.setRawValue(-rightFront.getCurrentPosition())
-			vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
-			vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
-			vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
-			vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
-			vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
-			vButtonServo.setPosition(buttonServo.getPosition());
+			vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
+			vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
+			vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
+			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+			//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
+			vCapServo.setPosition((capLeft.getController().getServoPosition(capLeft.getPortNumber()) + capLeft.getController().getServoPosition(capRight.getPortNumber()))/2);
+
+		vButtonServo.setPosition(buttonServo.getPosition());
 			vUltrasonicSensor.setRawValue(sonar1.getUltrasonicLevel());
 		t.start();
 	}
@@ -206,10 +210,10 @@ public abstract class UpdateThread extends OpMode {
 		vUltrasonicSensor.setRawValue(sonar1.getUltrasonicLevel());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
-		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
-		vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
-		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
-		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
+		vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
+		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
+		vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
+		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
 
 
 
