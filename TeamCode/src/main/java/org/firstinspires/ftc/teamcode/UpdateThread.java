@@ -34,6 +34,7 @@ import virtualRobot.SallyJoeBot;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.Command;
 import virtualRobot.commands.FTCTakePicture;
+import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
 import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.LocationSensor;
@@ -45,7 +46,7 @@ import virtualRobot.utils.MathUtils;
 import virtualRobot.godThreads.TakePictureTestGod;
 
 public abstract class UpdateThread extends OpMode {
-	
+	private static final boolean withServos = false;
 	private SallyJoeBot robot;
 	protected Class<? extends GodThread> godThread;
 	private Thread t;
@@ -91,9 +92,11 @@ public abstract class UpdateThread extends OpMode {
 		reaper = hardwareMap.dcMotor.get("reaper");
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
-		capLeft = hardwareMap.crservo.get("capLeft");
-		capRight = hardwareMap.crservo.get("capRight");
-		buttonServo = hardwareMap.servo.get("buttonPusher");
+		if (withServos) {
+			capLeft = hardwareMap.crservo.get("capLeft");
+			capRight = hardwareMap.crservo.get("capRight");
+			buttonServo = hardwareMap.servo.get("buttonPusher");
+		}
 
         //REVERSE RIGHT SIDE (If needed, e.g. rightFront.setDirection(DcMotor.Direction.REVERSE)
 
@@ -122,8 +125,10 @@ public abstract class UpdateThread extends OpMode {
 		vRightFront = robot.getRFMotor();
 		vRightBack = robot.getRBMotor();
 		vReaper = robot.getReaperMotor();
-		vCapServo = robot.getCapServo();
-		vButtonServo = robot.getButtonServo();
+		if (withServos) {
+			vCapServo = robot.getCapServo();
+			vButtonServo = robot.getButtonServo();
+		}
 		vLeftFrontEncoder = robot.getLFEncoder();
 		vLeftBackEncoder = robot.getLBEncoder();
 		vRightFrontEncoder = robot.getRFEncoder();
@@ -135,13 +140,17 @@ public abstract class UpdateThread extends OpMode {
 		//Setup Physical Components
 		leftFront.setDirection(DcMotor.Direction.REVERSE);
 		leftBack.setDirection(DcMotor.Direction.REVERSE);
-		capRight.setDirection(DcMotorSimple.Direction.REVERSE);
-		Log.d("sss", "Initial servo Positions: " + UpdateUtil.getPosition(capLeft) + " " + UpdateUtil.getPosition(capRight) + " " + buttonServo.getPosition() );
-		//UpdateUtil.setPosition(capLeft,0.3);
+		if (withServos) {
+			capRight.setDirection(DcMotorSimple.Direction.REVERSE);
+			Log.d("sss", "Initial servo Positions: " + UpdateUtil.getPosition(capLeft) + " " + UpdateUtil.getPosition(capRight) + " " + buttonServo.getPosition());
+		}
+			//UpdateUtil.setPosition(capLeft,0.3);
 		//UpdateUtil.setPosition(capRight,0.3);
-		capLeft.getController().setServoPosition(capLeft.getPortNumber(), .2);
-		capRight.getController().setServoPosition(capRight.getPortNumber(), .1);
-		buttonServo.setPosition(0.5);
+		if (withServos) {
+			capLeft.getController().setServoPosition(capLeft.getPortNumber(), .2);
+			capRight.getController().setServoPosition(capRight.getPortNumber(), .1);
+			buttonServo.setPosition(0.5);
+		}
 
 		addPresets();
         setGodThread();
@@ -172,7 +181,7 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroPitch();
 		imu.zeroYaw();
 		imu.zeroRoll();
-		telemetry.addData("Is Running Version: ", Translate.KP);
+		telemetry.addData("Is Running Version: ", 1.0);
         telemetry.addData("Init Loop Time", runtime.toString());
 	}
 
@@ -182,10 +191,13 @@ public abstract class UpdateThread extends OpMode {
 			vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
 			vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
 			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
-			//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
-			vCapServo.setPosition((capLeft.getController().getServoPosition(capLeft.getPortNumber()) + capLeft.getController().getServoPosition(capRight.getPortNumber()))/2);
 
-		vButtonServo.setPosition(buttonServo.getPosition());
+		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
+			if (withServos) {
+				vCapServo.setPosition((capLeft.getController().getServoPosition(capLeft.getPortNumber()) + capLeft.getController().getServoPosition(capRight.getPortNumber())) / 2);
+
+				vButtonServo.setPosition(buttonServo.getPosition());
+			}
 			vUltrasonicSensor.setRawValue(sonar1.getUltrasonicLevel());
 		t.start();
 	}
@@ -231,11 +243,16 @@ public abstract class UpdateThread extends OpMode {
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
 		double reaperPower = vReaper.getPower();
-		double capPosition = vCapServo.getPosition();
-		double buttonPosition = vButtonServo.getPosition();
+		double capPosition = Double.NaN;
+		double buttonPosition = Double.NaN;
+		if (withServos) {
+			capPosition = vCapServo.getPosition();
+			buttonPosition = vButtonServo.getPosition();
+		}
 
 
 		// Copy State of Motors and Servos E.g. leftFront.setPower(leftPower), Servo.setPosition(vServo.getPosition());
+
 		telemetry.addData("Servos: ", capPosition + " " + buttonPosition);
 		Log.d("servoState", capPosition + " " + buttonPosition);
 		telemetry.addData("Motors: ", MathUtils.truncate(leftFrontPower,2) + " " + MathUtils.truncate(leftBackPower,2) + " " + MathUtils.truncate(rightFrontPower,2) + " " + MathUtils.truncate(rightBackPower,2));
@@ -245,9 +262,11 @@ public abstract class UpdateThread extends OpMode {
 		rightFront.setPower(rightFrontPower);
 		rightBack.setPower(rightBackPower);
 		reaper.setPower(reaperPower);
-		capRight.getController().setServoPosition(capRight.getPortNumber(),capPosition);
-		capLeft.getController().setServoPosition(capLeft.getPortNumber(),capPosition);
-		buttonServo.setPosition(buttonPosition);
+		if (withServos) {
+			capRight.getController().setServoPosition(capRight.getPortNumber(), capPosition);
+			capLeft.getController().setServoPosition(capLeft.getPortNumber(), capPosition);
+			buttonServo.setPosition(buttonPosition);
+		}
 
 		for (int i = 0; i < robot.getProgress().size(); i++) {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
@@ -264,7 +283,7 @@ public abstract class UpdateThread extends OpMode {
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
-
+		Log.d("Heading: ", String.valueOf(robot.getHeadingSensor().getValue()) + " " + imu.getIntegratedYaw());
 		if (godThread.equals(TakePictureTestGod.class)) {
 			telemetry.addData("redIsLeft: ", "" + ((TakePictureTestGod)vuforiaEverywhere).getRedIsLeft().get());
 		}

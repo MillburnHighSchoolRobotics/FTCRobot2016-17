@@ -12,10 +12,11 @@ import virtualRobot.PIDController;
 public class Rotate implements Command {
     private ExitCondition exitCondition;
 
-    public static final double THRESHOLD = 1.0;
-    public static final double KP = 0.4212;
+    public static final double THRESHOLD = 0;
+    //KU: 0, .1
+    public static final double KP = 0.02;
     public static final double KI = 0;
-    public static final double KD = 1.8954;
+    public static final double KD = 0;
 
     public static final double MIN_MAX_POWER = .99;
 
@@ -134,7 +135,8 @@ public class Rotate implements Command {
         initAngle = robot.getHeadingSensor().getValue();
         switch (runMode) {
             case WITH_ANGLE_SENSOR:
-                while (!exitCondition.isConditionMet() && Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
+                //Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE
+                while (!exitCondition.isConditionMet() && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
                     double adjustedPower = pidController.getPIDOutput(robot.getHeadingSensor().getValue());
                     adjustedPower = Math.min(Math.max(adjustedPower, -1), 1);
@@ -147,7 +149,8 @@ public class Rotate implements Command {
                     adjustedPower *= powerScaler;
 */                  robot.getLeftRotate().setPower(adjustedPower);
                     robot.getRightRotate().setPower(-adjustedPower);
-                    
+                    Log.d("PIDOUTROTATE", "" + adjustedPower);
+
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;
@@ -169,6 +172,7 @@ public class Rotate implements Command {
                 robot.getLBEncoder().clearValue();
                 robot.getRFEncoder().clearValue();
                 robot.getRBEncoder().clearValue();
+
                 while (!exitCondition.isConditionMet() && Math.abs(Math.abs(pidController.getTarget())
                         - (Math.abs(robot.getLFEncoder().getValue()) + Math.abs(robot.getLBEncoder().getValue())
                         + Math.abs(robot.getRFEncoder().getValue()) + Math.abs(robot.getRBEncoder().getValue())) / 4) > 20){//Mehmet: Unsure of relevance of 20, may need to be changed.

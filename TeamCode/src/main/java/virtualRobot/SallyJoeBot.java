@@ -59,6 +59,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
         leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.SPEED);
         rightRotate = new SyncedMotors(RFMotor, RBMotor, RFEncoder, RBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.SPEED);
+
         leftRotate.setRatio(1);
         rightRotate.setRatio(1);
 
@@ -130,6 +131,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized SyncedMotors getRightRotate() {
         return rightRotate;
     }
+
+
 
     @Override
     public synchronized SyncedMotors getLeftRotate() {

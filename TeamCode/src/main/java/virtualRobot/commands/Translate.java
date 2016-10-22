@@ -65,7 +65,7 @@ public class Translate implements Command {
         LBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         headingController = new PIDController(0.2, 0, 0, 0);
-
+        translateController = new PIDController(KPt, KIt, KDt, THRESHOLDt);
         maxPower = globalMaxPower;
         currentValue = 0;
         direction = Direction.FORWARD;
@@ -83,6 +83,7 @@ public class Translate implements Command {
         RFtranslateController.setTarget(target);
         LBtranslateController.setTarget(target);
         RBtranslateController.setTarget(target);
+        translateController.setTarget(target);
 
     }
 
@@ -169,17 +170,13 @@ public class Translate implements Command {
         else {
             multiplier = POWER_MATRIX[direction.getCode()];
             if (direction.getCode() % 2 == 0) {
-                LFtranslateController.setTarget(target);
-                RFtranslateController.setTarget(target);
-                LBtranslateController.setTarget(target);
-                RBtranslateController.setTarget(target);
+                translateController.setTarget(target);
+
             }
             else {
                 //once again, multiply by sqrt(2) to math up with the end goal of 2*sqrt(2)*target.
-                LFtranslateController.setTarget(target *Math.sqrt(2));
-                RFtranslateController.setTarget(target * Math.sqrt(2));
-                LBtranslateController.setTarget(target* Math.sqrt(2));
-                RBtranslateController.setTarget(target*Math.sqrt(2));
+                translateController.setTarget(target * Math.sqrt(2));
+
             }
 
         }
@@ -355,7 +352,7 @@ public class Translate implements Command {
             double RFvalue = 0;
             double LBvalue = 0;
             double RBvalue = 0;
-       
+      if (angleModifier != 0) {
         while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
                 && Math.abs(LFvalue - LFtranslateController.getTarget()) > TOLERANCE
                 && Math.abs(RFvalue - RFtranslateController.getTarget()) > TOLERANCE
@@ -397,7 +394,7 @@ public class Translate implements Command {
             double RBPower = RBpidOutput;
             boolean[] issueArray = {false,false,false,false}; //if the angle modifier is = 0, and for_right is too far to the right or left will be true, perfect = false. Second element same thing but for back_right, third for Back_left, 4th for Forward_left
             // headingOutput <0 = too far to the left, >0 = too far to the right
-            /*if (angleModifier != 0) {
+            if (angleModifier != 0) {
                 if ((direction.getCode() == 0 || direction.getCode() == 5)) {
                     if (headingOutput > 0){
                         RFPower+= headingOutput;
@@ -432,135 +429,6 @@ public class Translate implements Command {
                     }
                 }
             }
-            else {
-                if (issueArray[0] == true && headingOutput == 0) {
-                    issueArray[0] = false;
-                    multiplier[0] = POWER_MATRIX[direction.getCode()][0];
-                }
-                if (issueArray[1] == true && headingOutput == 0) {
-                    issueArray[1] = false;
-                    multiplier[1] = POWER_MATRIX[direction.getCode()][1];
-                }
-                if (issueArray[2] == true && headingOutput == 0) {
-                    issueArray[2] = false;
-                    multiplier[2] = POWER_MATRIX[direction.getCode()][2];
-                }
-                if (issueArray[3] == true && headingOutput == 0) {
-                    issueArray[3] = false;
-                    multiplier[3] = POWER_MATRIX[direction.getCode()][3];
-                }
-                switch(direction) {
-                    case FORWARD:
-                        if (headingOutput > 0){
-                            RFPower+= headingOutput;
-                            LBPower+= headingOutput;
-                        }
-                        else if (headingOutput < 0) {
-                            RFPower-= Math.abs(headingOutput);
-                            LBPower-= Math.abs(headingOutput);
-                        }
-                        break;
-                    case FORWARD_RIGHT:
-                        if (headingOutput > 0){ 
-                            issueArray[0] = true;
-                            multiplier[1] = 1;
-                            multiplier[2] = 1;
-                            RFPower+= headingOutput;
-                            LBPower+= headingOutput;
-                        }
-                        else if (headingOutput < 0) {
-                            issueArray[0] = true;
-                            multiplier[1] = -1;
-                            multiplier[2] = -1;
-                            RFPower+= Math.abs(headingOutput);
-                            LBPower+= Math.abs(headingOutput);
-                        }
-                        break;
-                    case RIGHT:
-                        if (headingOutput > 0) {
-                            RFPower-= headingOutput;
-                            LBPower-= headingOutput;
-                        }
-                        else if (headingOutput < 0) {
-                            RFPower+= Math.abs(headingOutput);
-                            LBPower+= Math.abs(headingOutput);
-                        }
-                        break;
-                    case BACKWARD_RIGHT:
-                        if (headingOutput > 0){
-                            issueArray[1] = true;
-                            multiplier[0] = -1;
-                            multiplier[3] = -1;
-                            LFPower+= headingOutput;
-                            RBPower+= headingOutput;
-
-                        }
-                        else if (headingOutput < 0) {
-                            issueArray[1] = true;
-                            multiplier[0] = 1;
-                            multiplier[3] = 1;
-                            LFPower+= Math.abs(headingOutput);
-                            RBPower+= Math.abs(headingOutput);
-                        }
-                        break;
-                    case BACKWARD:
-                        if (headingOutput > 0) {
-                            LFPower+= headingOutput;
-                            RBPower+= headingOutput;
-                        }
-                        else if (headingOutput < 0) {
-                            LFPower-= Math.abs(headingOutput);
-                            RBPower-= Math.abs(headingOutput);
-                        }
-                        break;
-                    case BACKWARD_LEFT:
-                        if (headingOutput > 0){
-                            issueArray[2] = true;
-                            multiplier[1] = 1;
-                            multiplier[2] = 1;
-                            RFPower+=headingOutput;
-                            LBPower+=headingOutput;
-                        }
-                        else if (headingOutput < 0) {
-                            issueArray[2] = true;
-                            multiplier[1] = -1;
-                            multiplier[2] = -1;
-                            RFPower+= Math.abs(headingOutput);
-                            LBPower+=Math.abs(headingOutput);
-                        }
-                        break;
-                    case LEFT:
-                        if (headingOutput > 0) {
-                            LFPower+= headingOutput;
-                            RBPower+= headingOutput;
-                        }
-                        else if (headingOutput < 0) {
-                            LFPower-= Math.abs(headingOutput);
-                            RBPower-= Math.abs(headingOutput);
-                        }
-                        break;
-                    case FORWARD_LEFT:
-                        if (headingOutput > 0){
-                            issueArray[3] = true;
-                            multiplier[0] = -1;
-                            multiplier[3] = -1;
-                            LFPower+= headingOutput;
-                            RBPower+= headingOutput;
-                        }
-                        else if (headingOutput < 0) {
-                            issueArray[3] = true;
-                            multiplier[0] = 1;
-                            multiplier[3] = 1;
-                            LFPower+= Math.abs(headingOutput);
-                            RBPower+= Math.abs(headingOutput);
-                        }
-                        break;
-                        
-
-                }
-
-            }*/
-
 
             robot.getLFMotor().setPower(LFPower * multiplier[0]);
             robot.getRFMotor().setPower(RFPower * multiplier[1]);
@@ -582,7 +450,171 @@ public class Translate implements Command {
             }
 
         }
+      }
+        else { //If angleModifier = 0
+          while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
+                  && shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
+                  && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
+          LFvalue = Math.abs(robot.getLFEncoder().getValue());
+          RFvalue = Math.abs(robot.getRFEncoder().getValue());
+          LBvalue = Math.abs(robot.getLBEncoder().getValue());
+          RBvalue = Math.abs(robot.getRBEncoder().getValue());
+            double pidOutput;
 
+              if (direction.getCode() %2 == 0)
+                 pidOutput = translateController.getPIDOutput(((Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)))/4)));
+              else
+                 pidOutput = translateController.getPIDOutput((Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)))/2));
+          pidOutput = MathUtils.clamp(pidOutput, -1, 1);
+          Log.d("PIDOUT", "" + pidOutput);
+          pidOutput *= maxPower;
+
+          double headingOutput = headingController.getPIDOutput(robot.getHeadingSensor().getValue());
+          headingOutput = MathUtils.clamp(headingOutput, -1, 1);
+
+
+              double LFPower = pidOutput;
+              double LBPower = pidOutput;
+              double RFPower = pidOutput;
+              double RBPower = pidOutput;
+          boolean[] issueArray = {false, false, false, false};
+          if (issueArray[0] == true && headingOutput == 0) {
+              issueArray[0] = false;
+              multiplier[0] = POWER_MATRIX[direction.getCode()][0];
+          }
+          if (issueArray[1] == true && headingOutput == 0) {
+              issueArray[1] = false;
+              multiplier[1] = POWER_MATRIX[direction.getCode()][1];
+          }
+          if (issueArray[2] == true && headingOutput == 0) {
+              issueArray[2] = false;
+              multiplier[2] = POWER_MATRIX[direction.getCode()][2];
+          }
+          if (issueArray[3] == true && headingOutput == 0) {
+              issueArray[3] = false;
+              multiplier[3] = POWER_MATRIX[direction.getCode()][3];
+          }
+          switch (direction) {
+              case FORWARD:
+                  if (headingOutput > 0) {
+                      RFPower += headingOutput;
+                      LBPower += headingOutput;
+                  } else if (headingOutput < 0) {
+                      RFPower -= Math.abs(headingOutput);
+                      LBPower -= Math.abs(headingOutput);
+                  }
+                  break;
+              case FORWARD_RIGHT:
+                  if (headingOutput > 0) {
+                      issueArray[0] = true;
+                      multiplier[1] = 1;
+                      multiplier[2] = 1;
+                      RFPower += headingOutput;
+                      LBPower += headingOutput;
+                  } else if (headingOutput < 0) {
+                      issueArray[0] = true;
+                      multiplier[1] = -1;
+                      multiplier[2] = -1;
+                      RFPower += Math.abs(headingOutput);
+                      LBPower += Math.abs(headingOutput);
+                  }
+                  break;
+              case RIGHT:
+                  if (headingOutput > 0) {
+                      RFPower -= headingOutput;
+                      LBPower -= headingOutput;
+                  } else if (headingOutput < 0) {
+                      RFPower += Math.abs(headingOutput);
+                      LBPower += Math.abs(headingOutput);
+                  }
+                  break;
+              case BACKWARD_RIGHT:
+                  if (headingOutput > 0) {
+                      issueArray[1] = true;
+                      multiplier[0] = -1;
+                      multiplier[3] = -1;
+                      LFPower += headingOutput;
+                      RBPower += headingOutput;
+
+                  } else if (headingOutput < 0) {
+                      issueArray[1] = true;
+                      multiplier[0] = 1;
+                      multiplier[3] = 1;
+                      LFPower += Math.abs(headingOutput);
+                      RBPower += Math.abs(headingOutput);
+                  }
+                  break;
+              case BACKWARD:
+                  if (headingOutput > 0) {
+                      LFPower += headingOutput;
+                      RBPower += headingOutput;
+                  } else if (headingOutput < 0) {
+                      LFPower -= Math.abs(headingOutput);
+                      RBPower -= Math.abs(headingOutput);
+                  }
+                  break;
+              case BACKWARD_LEFT:
+                  if (headingOutput > 0) {
+                      issueArray[2] = true;
+                      multiplier[1] = 1;
+                      multiplier[2] = 1;
+                      RFPower += headingOutput;
+                      LBPower += headingOutput;
+                  } else if (headingOutput < 0) {
+                      issueArray[2] = true;
+                      multiplier[1] = -1;
+                      multiplier[2] = -1;
+                      RFPower += Math.abs(headingOutput);
+                      LBPower += Math.abs(headingOutput);
+                  }
+                  break;
+              case LEFT:
+                  if (headingOutput > 0) {
+                      LFPower += headingOutput;
+                      RBPower += headingOutput;
+                  } else if (headingOutput < 0) {
+                      LFPower -= Math.abs(headingOutput);
+                      RBPower -= Math.abs(headingOutput);
+                  }
+                  break;
+              case FORWARD_LEFT:
+                  if (headingOutput > 0) {
+                      issueArray[3] = true;
+                      multiplier[0] = -1;
+                      multiplier[3] = -1;
+                      LFPower += headingOutput;
+                      RBPower += headingOutput;
+                  } else if (headingOutput < 0) {
+                      issueArray[3] = true;
+                      multiplier[0] = 1;
+                      multiplier[3] = 1;
+                      LFPower += Math.abs(headingOutput);
+                      RBPower += Math.abs(headingOutput);
+                  }
+                  break;
+
+
+          }
+              robot.getLFMotor().setPower(LFPower * multiplier[0]);
+              robot.getRFMotor().setPower(RFPower * multiplier[1]);
+              robot.getLBMotor().setPower(LBPower * multiplier[2]);
+              robot.getRBMotor().setPower(RBPower * multiplier[3]);
+
+
+
+              if (Thread.currentThread().isInterrupted()) {
+                  isInterrupted = true;
+                  break;
+              }
+
+              try {
+                  Thread.currentThread().sleep(10);
+              } catch (InterruptedException e) {
+                  isInterrupted = true;
+                  break;
+              }
+      }
+      }
         break;
         //TODO: heading
         case HEADING_ONLY:
@@ -858,11 +890,21 @@ public class Translate implements Command {
     private double cosDegrees(double  d) {
         return Math.cos(Math.toRadians(d));
     }
+    private boolean shouldKeepLooping(double LFvalue, double RFvalue, double LBvalue, double RBvalue, double target) {
+        if (direction.getCode() %2 == 0)
+        return ((Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)))/4 - translateController.getTarget()) > TOLERANCE);
+        else
+       return ((Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)))/2 - translateController.getTarget())> TOLERANCE);
+
+    }
     //KU: .002993945 .00299414  LowerBound, UpperBound
     public static final double KP = 0.0017964255;
     public static final double KI = 0.00000443561;
     public static final double KD = 0.03031468031;
     public static final double THRESHOLD = 1000;
-
+    public static final double KPt  = 0.0017964255;
+    public static final double  KIt = 0.00000443561;
+    public static final double KDt = 0.03031468031;
+    public static final double THRESHOLDt = 1000;
     public static final double TOLERANCE = 10;
 }
