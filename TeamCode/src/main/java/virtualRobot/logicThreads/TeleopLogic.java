@@ -57,27 +57,29 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     controller2.logicalRefresh();
 
                 //Movement Code
-                    if (!MathUtils.equals(controller2.getValue(JoystickController.Y_1), 0)) {
-                        double angle = controller1.getValue(JoystickController.THETA_1);
+                    if (!MathUtils.equals(controller1.getValue(JoystickController.R_1), 0) ) {
+                        double angle = Math.toDegrees(controller1.getValue(JoystickController.THETA_1));
+                        double power = controller1.getValue(JoystickController.R_1);
                         angle = angle < 0 ? angle + 360 : angle;
+                        robot.getTelemetry().put("Movement: ", angle + " " + power);
                         if (angle >= 45 && angle < 135) {
-                            robot.getLeftRotate().setPower(1);
-                            robot.getRightRotate().setPower(1);
+                            robot.getLeftRotate().setPower(power);
+                            robot.getRightRotate().setPower(power);
                         } else if (angle < 45 || angle >= 315) {
-                            robot.getLeftRotate().setPower(-1);
-                            robot.getRightRotate().setPower(1);
+                            robot.getLeftRotate().setPower(-power);
+                            robot.getRightRotate().setPower(power);
                         } else if (angle >= 225 && angle < 315) {
-                            robot.getLeftRotate().setPower(-1);
-                            robot.getRightRotate().setPower(-1);
+                            robot.getLeftRotate().setPower(-power);
+                            robot.getRightRotate().setPower(-power);
                         } else if (angle >= 135 && angle < 225) {
-                            robot.getLeftRotate().setPower(1);
-                            robot.getRightRotate().setPower(-1);
+                            robot.getLeftRotate().setPower(power);
+                            robot.getRightRotate().setPower(-power);
                         }
                     } else {
                         Log.d("thingDown?", "Left Trigger");
                         //in the case of mecanum wheels, translating and strafing
-                        double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_1)),2);
-                        double power = controller1.getValue(JoystickController.Y_2);
+                        double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_2)),2);
+                        double power = controller1.getValue(JoystickController.R_2);
                         double scale = 0;
                         movementAngle = movementAngle < 0 ? movementAngle + 360 : movementAngle;
                         Log.d("translateJoy", movementAngle + " " + power);
@@ -116,10 +118,12 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     if (controller1.isPressed(JoystickController.BUTTON_X)) {
                         PIDController allign = new PIDController(0, 0, 0, SallyJoeBot.BWTHRESHOLD);
                         double adjustedPower;
-                        while (robot.getUltrasonicSensor().getValue() < 5) {
+                        while (robot.getUltrasonicSensor().getValue() < 2) {
                             adjustedPower = allign.getPIDOutput(robot.getLineSensor().getValue());
-                            robot.getLeftRotate().setPower(adjustedPower);
-                            robot.getRightRotate().setPower(-adjustedPower);
+                            robot.getLFMotor().setPower(adjustedPower);
+                            robot.getLBMotor().setPower(-adjustedPower);
+                            robot.getRFMotor().setPower(-adjustedPower);
+                            robot.getRBMotor().setPower(adjustedPower);
                         }
                         robot.getLeftRotate().setPower(0);
                         robot.getRightRotate().setPower(0);
@@ -144,13 +148,11 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
                     //lifting cap ball
                     if (controller1.isDown(JoystickController.BUTTON_B)) {
-                        robot.getCapServo().setSpeed(10);
+                        robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() - 1);
                     } else if (controller1.isDown(JoystickController.BUTTON_A)) {
-                        robot.getCapServo().setSpeed(-10);
-                    } else {
-                       robot.getCapServo().setSpeed(0);
+                        robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() + 1);
                     }
-                    Log.d("TeleOp Motors", robot.getLFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getRBMotor().getPower());
+
                     try {
                         Thread.currentThread().sleep(30);
                     } catch (InterruptedException e) {
