@@ -12,11 +12,11 @@ import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Translate;
 
 /**
- * Created by goddamnitdavid on 10/6/2016.
+ * Created by Warren on 10/6/2016.
  */
 public class RedMoveToSecondBeacon extends LogicThread<AutonomousRobot> {
 
-    AtomicBoolean mychangesareded;
+    AtomicBoolean redIsLeft;
     VuforiaLocalizerImplSubclass vuforia;
 
     final ExitCondition atwhiteline = new ExitCondition() {
@@ -29,17 +29,17 @@ public class RedMoveToSecondBeacon extends LogicThread<AutonomousRobot> {
         }
     };
 
-    public RedMoveToSecondBeacon(AtomicBoolean screwpullproblems, VuforiaLocalizerImplSubclass cancer){
+    public RedMoveToSecondBeacon(AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia){
         super();
-        mychangesareded = screwpullproblems;
-        this.vuforia = cancer;
+        this.redIsLeft = redIsLeft;
+        this.vuforia = vuforia;
     }
     @Override
     public void loadCommands() {
         Translate moveToSecondWLine = new Translate(1000, Translate.Direction.BACKWARD, 0);
         moveToSecondWLine.setExitCondition(atwhiteline);
         commands.add(moveToSecondWLine);
-        FTCTakePicture gitgood = new FTCTakePicture(mychangesareded,vuforia);
+        FTCTakePicture gitgood = new FTCTakePicture(this.redIsLeft,this.vuforia);
         commands.add(gitgood);
     }
 }
