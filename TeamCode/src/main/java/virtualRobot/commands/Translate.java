@@ -453,18 +453,18 @@ public class Translate implements Command {
       }
         else { //If angleModifier = 0
           while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                  && shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
+                  //&& shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
                   && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
           LFvalue = Math.abs(robot.getLFEncoder().getValue());
           RFvalue = Math.abs(robot.getRFEncoder().getValue());
           LBvalue = Math.abs(robot.getLBEncoder().getValue());
           RBvalue = Math.abs(robot.getRBEncoder().getValue());
             double pidOutput;
-
+                Log.d("direction", "" + direction.getCode() % 2);
               if (direction.getCode() %2 == 0)
-                 pidOutput = translateController.getPIDOutput(((Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)))/4)));
+                  pidOutput = translateController.getPIDOutput((((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4)));
               else
-                 pidOutput = translateController.getPIDOutput((Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)))/2));
+                 pidOutput = translateController.getPIDOutput(((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/2));
           pidOutput = MathUtils.clamp(pidOutput, -1, 1);
           Log.d("PIDOUT", "" + pidOutput);
           pidOutput *= maxPower;
@@ -477,7 +477,7 @@ public class Translate implements Command {
               double LBPower = pidOutput;
               double RFPower = pidOutput;
               double RBPower = pidOutput;
-          boolean[] issueArray = {false, false, false, false};
+         /* boolean[] issueArray = {false, false, false, false};
           if (issueArray[0] == true && headingOutput == 0) {
               issueArray[0] = false;
               multiplier[0] = POWER_MATRIX[direction.getCode()][0];
@@ -594,7 +594,7 @@ public class Translate implements Command {
                   break;
 
 
-          }
+          }*/
               robot.getLFMotor().setPower(LFPower * multiplier[0]);
               robot.getRFMotor().setPower(RFPower * multiplier[1]);
               robot.getLBMotor().setPower(LBPower * multiplier[2]);
@@ -891,10 +891,10 @@ public class Translate implements Command {
         return Math.cos(Math.toRadians(d));
     }
     private boolean shouldKeepLooping(double LFvalue, double RFvalue, double LBvalue, double RBvalue, double target) {
-        if (direction.getCode() %2 == 0)
-        return ((Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)))/4 - translateController.getTarget()) > TOLERANCE);
+        if (direction.getCode() % 2 == 0)
+        return Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4 - translateController.getTarget()) > TOLERANCE;
         else
-       return ((Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)))/2 - translateController.getTarget())> TOLERANCE);
+       return Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/2 - translateController.getTarget()) > TOLERANCE;
 
     }
     //KU: .002993945 .00299414  LowerBound, UpperBound
@@ -902,9 +902,9 @@ public class Translate implements Command {
     public static final double KI = 0.00000443561;
     public static final double KD = 0.03031468031;
     public static final double THRESHOLD = 1000;
-    public static final double KPt  = 0.0017964255;
-    public static final double  KIt = 0.00000443561;
-    public static final double KDt = 0.03031468031;
+    public static final double KPt  = .01;
+    public static final double  KIt = 0;
+    public static final double KDt = 0;
     public static final double THRESHOLDt = 1000;
     public static final double TOLERANCE = 10;
 }

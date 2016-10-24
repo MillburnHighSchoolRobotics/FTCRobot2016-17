@@ -13,7 +13,7 @@ import virtualRobot.utils.MathUtils;
  *
  * A class to sync two motors or two sets of motors
  */
-public class SyncedMotors extends Motor {
+public class SyncedMotors{
     private SyncMode type;
     private SyncAlgo algo;
     Motor masterA;
@@ -62,7 +62,7 @@ public class SyncedMotors extends Motor {
     }
 
     public synchronized void setPower(double power) {
-       super.setPower(power);
+        this.power = MathUtils.clamp(power, -1, 1);
         move();
     }
 

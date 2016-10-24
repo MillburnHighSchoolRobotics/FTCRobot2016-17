@@ -98,8 +98,9 @@ public abstract class UpdateThread extends OpMode {
 			buttonServo = hardwareMap.servo.get("buttonPusher");
 		}
 
-        //REVERSE RIGHT SIDE (If needed, e.g. rightFront.setDirection(DcMotor.Direction.REVERSE)
-
+        //REVERSE ONE SIDE (If needed, e.g. rightFront.setDirection(DcMotor.Direction.REVERSE)
+		rightFront.setDirection(DcMotor.Direction.REVERSE);
+		rightBack.setDirection(DcMotor.Direction.REVERSE);
 
 
 
@@ -138,8 +139,7 @@ public abstract class UpdateThread extends OpMode {
 
 		robotProgress = new ArrayList<String>();
 		//Setup Physical Components
-		leftFront.setDirection(DcMotor.Direction.REVERSE);
-		leftBack.setDirection(DcMotor.Direction.REVERSE);
+
 		if (withServos) {
 			capRight.setDirection(DcMotorSimple.Direction.REVERSE);
 			Log.d("sss", "Initial servo Positions: " + UpdateUtil.getPosition(capLeft) + " " + UpdateUtil.getPosition(capRight) + " " + buttonServo.getPosition());
@@ -181,16 +181,16 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroPitch();
 		imu.zeroYaw();
 		imu.zeroRoll();
-		telemetry.addData("Is Running Version: ", 1.0);
+		telemetry.addData("Is Running Version: ", Translate.KPt + " 1.1");
         telemetry.addData("Init Loop Time", runtime.toString());
 	}
 
 	public void start() {
 		//set encoders e.g. vDriveRightMotorEncoder.setRawValue(-rightFront.getCurrentPosition())
-			vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
-			vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
-			vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
-			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+			vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
+			vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
+			vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
+			vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
@@ -222,10 +222,10 @@ public abstract class UpdateThread extends OpMode {
 		vUltrasonicSensor.setRawValue(sonar1.getUltrasonicLevel());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
-		vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
-		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
-		vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
-		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
+		vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
+		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
+		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 
 
 
@@ -243,8 +243,8 @@ public abstract class UpdateThread extends OpMode {
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
 		double reaperPower = vReaper.getPower();
-		double capPosition = Double.NaN;
-		double buttonPosition = Double.NaN;
+		double capPosition = 0;
+		double buttonPosition = 0;
 		if (withServos) {
 			capPosition = vCapServo.getPosition();
 			buttonPosition = vButtonServo.getPosition();

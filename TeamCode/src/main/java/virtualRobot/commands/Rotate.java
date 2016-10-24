@@ -147,8 +147,12 @@ public class Rotate implements Command {
                         powerScaler = (power-MIN_MAX_POWER)*ratio + MIN_MAX_POWER;
                     }
                     adjustedPower *= powerScaler;
-*/                  robot.getLeftRotate().setPower(adjustedPower);
-                    robot.getRightRotate().setPower(-adjustedPower);
+*/                  //robot.getLeftRotate().setPower(adjustedPower);
+                    //robot.getRightRotate().setPower(-adjustedPower);
+                    robot.getLBMotor().setPower(adjustedPower);
+                    robot.getLFMotor().setPower(adjustedPower);
+                    robot.getRFMotor().setPower(-adjustedPower);
+                    robot.getRBMotor().setPower(-adjustedPower);
                     Log.d("PIDOUTROTATE", "" + adjustedPower);
 
 
