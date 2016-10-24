@@ -27,6 +27,8 @@ public class SyncedMotors{
     private PIDController pid;
     private double ratio;
     private double power;
+    private boolean second0 = false;
+    private boolean first0 = false;
 
     public SyncedMotors(Motor a, Motor b, Sensor eA, Sensor eB ,double KP, double KI, double KD, SyncAlgo algo) {
         this.masterA = a;
@@ -61,6 +63,27 @@ public class SyncedMotors{
         this.pid.setTarget(ratio);
     }
 
+    public synchronized void setRatioAndPower(double pw1, double pw2) {
+        if(pw1 == 0){
+            this.first0 = true;
+            this.power = pw2;
+            move();
+            return;
+        } else
+            this.first0 = false;
+        if(pw2 == 0){
+            this.second0 = true;
+            this.power = pw1;
+            move();
+            return;}
+        else
+            this.second0 = false;
+        this.ratio = pw1/pw2;
+        this.pid.setTarget(ratio);
+        this.power = pw1;
+        move();
+    }
+
     public synchronized void setPower(double power) {
         this.power = MathUtils.clamp(power, -1, 1);
         move();
@@ -92,14 +115,18 @@ public class SyncedMotors{
 
     public synchronized void move() {
         double adjust = 0;
-        if (algo == SyncAlgo.SPEED) {
-            double speedA = getSpeedA();
-            adjust = pid.getPIDOutput(speedA == 0 ? 0 : getSpeedB() / speedA);
-        } else {
-            adjust = type == SyncMode.MOTORS ? pid.getPIDOutput(encoderA.getValue() - encoderB.getValue()) : pid.getPIDOutput(masterB.getEncoder().getValue() - slaveB.getEncoder().getValue());
+        if (!first0 || !second0) {
+            if (algo == SyncAlgo.SPEED) {
+                double speedA = getSpeedA();
+                adjust = pid.getPIDOutput(speedA == 0 ? 0 : getSpeedB() / speedA);
+            } else {
+                adjust = type == SyncMode.MOTORS ? pid.getPIDOutput(encoderA.getValue() - encoderB.getValue()) : pid.getPIDOutput(masterB.getEncoder().getValue() - slaveB.getEncoder().getValue());
+            }
         }
         double slavePower = MathUtils.clamp(power*(ratio+adjust),-1,1);
         double realPower = MathUtils.clamp(power*(ratio-adjust), -1, 1);
+        if (first0) {realPower = 0; slavePower = power;}
+        if (second0) {slavePower = 0; realPower = power;}
         if (type == SyncMode.MOTORS) {
             masterA.setPower(realPower);
             slaveA.setPower(slavePower);
