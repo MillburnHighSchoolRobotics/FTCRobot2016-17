@@ -142,7 +142,6 @@ public abstract class UpdateThread extends OpMode {
 
 		if (withServos) {
 			capRight.setDirection(DcMotorSimple.Direction.REVERSE);
-			Log.d("sss", "Initial servo Positions: " + UpdateUtil.getPosition(capLeft) + " " + UpdateUtil.getPosition(capRight) + " " + buttonServo.getPosition());
 		}
 			//UpdateUtil.setPosition(capLeft,0.3);
 		//UpdateUtil.setPosition(capRight,0.3);
@@ -188,9 +187,9 @@ public abstract class UpdateThread extends OpMode {
 	public void start() {
 		//set encoders e.g. vDriveRightMotorEncoder.setRawValue(-rightFront.getCurrentPosition())
 			vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
-			vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
+			vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
 			vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
-			vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
+			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
 
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
@@ -223,9 +222,9 @@ public abstract class UpdateThread extends OpMode {
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
-		vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
+		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
 		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
-		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
+		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
 
 
 
@@ -299,12 +298,3 @@ public abstract class UpdateThread extends OpMode {
     public void addPresets(){}
 }
 
-class UpdateUtil {
-	public static void setPosition(CRServo servo, double position) {
-		servo.getController().setServoPosition(servo.getPortNumber(),position);
-	 }
-
-	public static double getPosition(CRServo servo) {
-		return servo.getController().getServoPosition(servo.getPortNumber());
-	}
-}
