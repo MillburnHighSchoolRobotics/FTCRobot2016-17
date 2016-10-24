@@ -66,14 +66,14 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                             robot.getLeftRotate().setPower(power);
                             robot.getRightRotate().setPower(power);
                         } else if (angle < 45 || angle >= 315) {
-                            robot.getLeftRotate().setPower(-power);
-                            robot.getRightRotate().setPower(power);
+                            robot.getLeftRotate().setPower(power);
+                            robot.getRightRotate().setPower(-power);
                         } else if (angle >= 225 && angle < 315) {
                             robot.getLeftRotate().setPower(-power);
                             robot.getRightRotate().setPower(-power);
                         } else if (angle >= 135 && angle < 225) {
-                            robot.getLeftRotate().setPower(power);
-                            robot.getRightRotate().setPower(-power);
+                            robot.getLeftRotate().setPower(-power);
+                            robot.getRightRotate().setPower(power);
                         }
                     } else {
                         Log.d("thingDown?", "Left Trigger");
@@ -81,75 +81,81 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_2)),2);
                         double power = controller1.getValue(JoystickController.R_2);
                         double scale = 0;
+                        double LF = 0, RF = 0, LB = 1, RB = 1;
                         movementAngle = movementAngle < 0 ? movementAngle + 360 : movementAngle;
                         Log.d("translateJoy", movementAngle + " " + power);
                         if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
                             scale = MathUtils.sinDegrees(movementAngle-45) / MathUtils.cosDegrees(movementAngle-45);
-                            robot.getLFMotor().setPower(power * POWER_MATRIX[0][0]);
-                            robot.getRFMotor().setPower(power * POWER_MATRIX[0][1] * scale);
-                            robot.getLBMotor().setPower(power * POWER_MATRIX[0][2] * scale);
-                            robot.getRBMotor().setPower(power * POWER_MATRIX[0][3]);
+                            LF = power * POWER_MATRIX[0][0];
+                            RF = power * POWER_MATRIX[0][1] * scale;
+                            LB = power * POWER_MATRIX[0][2] * scale;
+                            RB = power * POWER_MATRIX[0][3];
                         } else if (movementAngle  > 90 && movementAngle <= 180 ) { //quadrant 2
                             power *= -1;
                             scale = MathUtils.sinDegrees(movementAngle - 135) / MathUtils.cosDegrees(movementAngle - 135);
-                            robot.getLFMotor().setPower(power * POWER_MATRIX[2][0] * scale);
-                            robot.getRFMotor().setPower(power * POWER_MATRIX[2][1]);
-                            robot.getLBMotor().setPower(power * POWER_MATRIX[2][2]);
-                            robot.getRBMotor().setPower(power * POWER_MATRIX[2][3] * scale );
+                            LF = (power * POWER_MATRIX[2][0] * scale);
+                            RF = (power * POWER_MATRIX[2][1]);
+                            LB = (power * POWER_MATRIX[2][2]);
+                            RB = (power * POWER_MATRIX[2][3] * scale );
                         } else if (movementAngle > 180 && movementAngle <= 270) { //quadrant 3
                             scale = MathUtils.sinDegrees(movementAngle-225) / MathUtils.cosDegrees(movementAngle-225);
-                            robot.getLFMotor().setPower(power * POWER_MATRIX[4][0]);
-                            robot.getRFMotor().setPower(power * POWER_MATRIX[4][1] * scale );
-                            robot.getLBMotor().setPower(power * POWER_MATRIX[4][2] * scale );
-                            robot.getRBMotor().setPower(power * POWER_MATRIX[4][3]);
+                            LF = (power * POWER_MATRIX[4][0]);
+                            RF = (power * POWER_MATRIX[4][1] * scale );
+                            LB = (power * POWER_MATRIX[4][2] * scale );
+                            RB = (power * POWER_MATRIX[4][3]);
                             Log.d("aaa", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
                         } else if (movementAngle > 270 && movementAngle < 360) { //quadrant 4
                             power *= -1;
                             scale = MathUtils.sinDegrees(movementAngle - 315) / MathUtils.cosDegrees(movementAngle-315);
-
-                            robot.getLFMotor().setPower(power * POWER_MATRIX[6][0] * scale);
-                            robot.getRFMotor().setPower(power * POWER_MATRIX[6][1]);
-                            robot.getLBMotor().setPower(power * POWER_MATRIX[6][2]);
-                            robot.getRBMotor().setPower(power * POWER_MATRIX[6][3] * scale);
+                            LF = (power * POWER_MATRIX[6][0] * scale);
+                            RF = (power * POWER_MATRIX[6][1]);
+                            LB = (power * POWER_MATRIX[6][2]);
+                            RB = (power * POWER_MATRIX[6][3] * scale);
                         }
+                        robot.getLeftRotate().setRatio(LF/LB);
+                        robot.getLeftRotate().setPower(LF);
+                        robot.getRightRotate().setRatio(RF/RB);
+                        robot.getRightRotate().setPower(RF);
                     }
 
                     //Beacon Code
                     if (controller1.isPressed(JoystickController.BUTTON_X)) {
                         PIDController allign = new PIDController(0, 0, 0, SallyJoeBot.BWTHRESHOLD);
                         double adjustedPower;
+                        double basePower = 0.5;
                         while (robot.getUltrasonicSensor().getValue() < 2) {
                             adjustedPower = allign.getPIDOutput(robot.getLineSensor().getValue());
-                            robot.getLFMotor().setPower(adjustedPower);
-                            robot.getLBMotor().setPower(-adjustedPower);
-                            robot.getRFMotor().setPower(-adjustedPower);
-                            robot.getRBMotor().setPower(adjustedPower);
+                            robot.getLFMotor().setPower(basePower + adjustedPower);
+                            robot.getLBMotor().setPower(-basePower + adjustedPower);
+                            robot.getRFMotor().setPower(-basePower - adjustedPower);
+                            robot.getRBMotor().setPower(basePower - adjustedPower);
                         }
                         robot.getLeftRotate().setPower(0);
                         robot.getRightRotate().setPower(0);
                     }
 
-                    if (controller1.isDown(JoystickController.BUTTON_LT)) {
+                    //button pusher
+                    if (controller2.isDown(JoystickController.BUTTON_LT)) {
                         robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
-                    } else if (controller1.isDown(JoystickController.BUTTON_RT)) {
+                    } else if (controller2.isDown(JoystickController.BUTTON_RT)) {
                         robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
                     } else {
                         robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
                     }
 
                     //reaper forward and backward
-                    if (controller1.isDown(JoystickController.BUTTON_RB)) {
+                    if (controller2.isDown(JoystickController.BUTTON_RB)) {
                         robot.getReaperMotor().setPower(1);
-                    } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
+                    } else if (controller2.isDown(JoystickController.BUTTON_LB)) {
                         robot.getReaperMotor().setPower(-1);
                     } else {
                         robot.getReaperMotor().setPower(0);
                     }
 
                     //lifting cap ball
-                    if (controller1.isDown(JoystickController.BUTTON_B)) {
+                    if (controller2.isDpadDown()) {
                         robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() - 1);
-                    } else if (controller1.isDown(JoystickController.BUTTON_A)) {
+                    } else if (controller2.isDpadUp()) {
                         robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() + 1);
                     }
 
