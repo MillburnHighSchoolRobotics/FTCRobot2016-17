@@ -26,7 +26,9 @@ public class SyncedMotors{
     SyncedMotors slaveB;
     private PIDController pid;
     private double ratio;
+    private double lastRatio;
     private double power;
+    private double lastSpeedRatio;
     private boolean second0 = false;
     private boolean first0 = false;
 
@@ -53,7 +55,7 @@ public class SyncedMotors{
         if (algo == SyncAlgo.SPEED){
             pid = new PIDController(KP,KI,KD,0.01,1);
         } else {
-            pid = new PIDController(KP,KI,KD,10,1);
+            pid = new PIDController(KP,KI,KD,5,0);
         }
         type = SyncMode.SIDES;
     }
@@ -81,12 +83,20 @@ public class SyncedMotors{
         this.ratio = pw1/pw2;
         this.pid.setTarget(ratio);
         this.power = pw1;
+        if (!MathUtils.equals(ratio,lastRatio)) {
+            zeroEncoders();
+            lastRatio = ratio;
+        }
         move();
     }
 
     public synchronized void setPower(double power) {
         this.power = MathUtils.clamp(power, -1, 1);
         move();
+    }
+
+    public synchronized double getSpeedRatio() {
+        return lastSpeedRatio;
     }
 
     public synchronized double getSpeedA() {
@@ -118,9 +128,12 @@ public class SyncedMotors{
         if (!first0 || !second0) {
             if (algo == SyncAlgo.SPEED) {
                 double speedA = getSpeedA();
-                adjust = pid.getPIDOutput(speedA == 0 ? 0 : getSpeedB() / speedA);
+                double speedRatio = speedA == 0 ? 0 : getSpeedB() / speedA;
+                lastSpeedRatio = speedRatio;
+                adjust = pid.getPIDOutput(speedRatio);
             } else {
-                adjust = type == SyncMode.MOTORS ? pid.getPIDOutput(encoderA.getValue() - encoderB.getValue()) : pid.getPIDOutput(masterB.getEncoder().getValue() - slaveB.getEncoder().getValue());
+                adjust = type == SyncMode.MOTORS ? pid.getPIDOutput(encoderA.getValue()*ratio - encoderB.getValue()) : pid.getPIDOutput(masterB.getEncoder().getValue()*ratio - slaveB.getEncoder().getValue());
+                lastSpeedRatio = adjust;
             }
         }
         double slavePower = MathUtils.clamp(power*(ratio+adjust),-1,1);
@@ -144,6 +157,16 @@ public class SyncedMotors{
 
     public synchronized void desync() {
         
+    }
+
+    public synchronized void zeroEncoders() {
+        if (type == SyncMode.MOTORS) {
+            encoderA.clearValue();
+            encoderB.clearValue();
+        } else {
+            masterB.zeroEncoders();
+            slaveB.zeroEncoders();
+        }
     }
 
     static enum SyncMode {

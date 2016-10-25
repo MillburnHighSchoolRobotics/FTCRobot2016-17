@@ -27,9 +27,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private ContinuousRotationServo CapServo;
     private Servo ButtonServo;
     private SyncedMotors leftRotate, rightRotate;
-    private static final double KP = 0.5; //TBD
-    private static final double KI = 0.5; //TBD
-    private static final double KD = 0.5; //TBD
+    private static final double KP = 0.0001; //TBD
+    private static final double KI = 0.0001; //TBD
+    private static final double KD = 0.0001; //TBD
     public static final double BWTHRESHOLD = 1;
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired

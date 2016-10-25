@@ -275,9 +275,6 @@ public abstract class UpdateThread extends OpMode {
 		}
 		telemetry.addData("capServo State", capPosition);
 		telemetry.addData("buttonServo Position", buttonPosition);
-		telemetry.addData("theta 1: ", Math.toDegrees(robot.getJoystickController1().getValue(JoystickController.THETA_1)));
-		telemetry.addData("power: ", robot.getJoystickController1().getValue(JoystickController.Y_2));
-		telemetry.addData("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());

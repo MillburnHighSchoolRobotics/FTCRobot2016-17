@@ -116,9 +116,11 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getRightRotate().setRatioAndPower(RF,RB);
                     }
 
+                    robot.getTelemetry().put("Speed Ratio: ", robot.getLeftRotate().getSpeedRatio() + " " + robot.getRightRotate().getSpeedRatio());
+
                     //Beacon Code
                     if (controller1.isPressed(JoystickController.BUTTON_X)) {
-                        PIDController allign = new PIDController(0, 0, 0, SallyJoeBot.BWTHRESHOLD);
+                        PIDController allign = new PIDController(0,0, 0, SallyJoeBot.BWTHRESHOLD);
                         double adjustedPower;
                         double basePower = 0.5;
                         while (robot.getUltrasonicSensor().getValue() < 2) {
@@ -148,6 +150,19 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getReaperMotor().setPower(-1);
                     } else {
                         robot.getReaperMotor().setPower(0);
+                    }
+
+                    if(controller1.isDpadLeft()) {
+                        robot.getLFMotor().setPower(1.0);
+                    }
+                    if(controller1.isDpadRight()) {
+                        robot.getRFMotor().setPower(1.0);
+                    }
+                    if(controller1.isDpadUp()) {
+                        robot.getLBMotor().setPower(1.0);
+                    }
+                    if(controller1.isDpadDown()) {
+                        robot.getRBMotor().setPower(1.0);
                     }
 
                     //lifting cap ball
