@@ -57,8 +57,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         CapServo = new ContinuousRotationServo();
         ButtonServo = new Servo();
 
-        leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.SPEED);
-        rightRotate = new SyncedMotors(RFMotor, RBMotor, RFEncoder, RBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.SPEED);
+        leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
+        rightRotate = new SyncedMotors(RFMotor, RBMotor, RFEncoder, RBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
 
         leftRotate.setRatio(1);
         rightRotate.setRatio(1);
