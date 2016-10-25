@@ -180,16 +180,16 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroPitch();
 		imu.zeroYaw();
 		imu.zeroRoll();
-		telemetry.addData("Is Running Version: ", Translate.KPt + " 1.1");
+		telemetry.addData("Is Running Version: ", Translate.KPt + " 1.6");
         telemetry.addData("Init Loop Time", runtime.toString());
 	}
 
 	public void start() {
 		//set encoders e.g. vDriveRightMotorEncoder.setRawValue(-rightFront.getCurrentPosition())
 			vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
-			vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
+			vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
 			vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
-			vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+			vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
@@ -222,9 +222,9 @@ public abstract class UpdateThread extends OpMode {
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
-		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
+		vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
 		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
-		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 
 
 
