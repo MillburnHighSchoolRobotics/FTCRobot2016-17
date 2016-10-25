@@ -13,7 +13,7 @@ public class Rotate implements Command {
     private ExitCondition exitCondition;
 
     public static final double THRESHOLD = 0;
-    //KU: 0, .1
+    //KU: .02, .2
     public static final double KP = 0.02;
     public static final double KI = 0;
     public static final double KD = 0;

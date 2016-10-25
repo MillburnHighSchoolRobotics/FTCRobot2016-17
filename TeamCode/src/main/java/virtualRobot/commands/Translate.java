@@ -444,7 +444,7 @@ public class Translate implements Command {
       }
         else { //If angleModifier = 0
           while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                  //&& shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
+                  && shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
                   && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
           LFvalue = robot.getLFEncoder().getValue();
           RFvalue = robot.getRFEncoder().getValue();
@@ -468,7 +468,7 @@ public class Translate implements Command {
               double LBPower = pidOutput;
               double RFPower = pidOutput;
               double RBPower = pidOutput;
-         /* boolean[] issueArray = {false, false, false, false};
+          boolean[] issueArray = {false, false, false, false};
           if (issueArray[0] == true && headingOutput == 0) {
               issueArray[0] = false;
               multiplier[0] = POWER_MATRIX[direction.getCode()][0];
@@ -485,7 +485,7 @@ public class Translate implements Command {
               issueArray[3] = false;
               multiplier[3] = POWER_MATRIX[direction.getCode()][3];
           }
-          switch (direction) {
+          /*switch (direction) {
               case FORWARD:
                   if (headingOutput > 0) {
                       RFPower += headingOutput;
@@ -893,10 +893,11 @@ public class Translate implements Command {
     public static final double KI = 0.00000443561;
     public static final double KD = 0.03031468031;
     public static final double THRESHOLD = 1000;
-    //KU: .005875, .006
-    public static final double KPt  = .1;
-    public static final double  KIt = 0;
-    public static final double KDt = 0;
-    public static final double THRESHOLDt = 0;
+    //KU: .00130625, .001325
+    //KU = .00131562
+    public static final double KPt  = .00078938;
+    public static final double  KIt = .00002255;
+    public static final double KDt = .00690708;
+    public static final double THRESHOLDt = 5697;
     public static final double TOLERANCE = 10;
 }
