@@ -112,10 +112,8 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                             LB = (power * POWER_MATRIX[6][2]);
                             RB = (power * POWER_MATRIX[6][3] * scale);
                         }
-                        robot.getLeftRotate().setRatio(LF/LB);
-                        robot.getLeftRotate().setPower(LF);
-                        robot.getRightRotate().setRatio(RF/RB);
-                        robot.getRightRotate().setPower(RF);
+                        robot.getLeftRotate().setRatioAndPower(LF,LB);
+                        robot.getRightRotate().setRatioAndPower(RF,RB);
                     }
 
                     //Beacon Code

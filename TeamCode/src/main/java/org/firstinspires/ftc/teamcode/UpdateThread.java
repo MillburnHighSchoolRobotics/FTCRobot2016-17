@@ -46,7 +46,7 @@ import virtualRobot.utils.MathUtils;
 import virtualRobot.godThreads.TakePictureTestGod;
 
 public abstract class UpdateThread extends OpMode {
-	private static final boolean withServos = false;
+	private static final boolean withServos = true;
 	private SallyJoeBot robot;
 	protected Class<? extends GodThread> godThread;
 	private Thread t;
