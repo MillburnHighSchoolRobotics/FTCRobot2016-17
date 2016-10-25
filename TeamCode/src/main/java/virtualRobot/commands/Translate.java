@@ -76,19 +76,10 @@ public class Translate implements Command {
         movementAngle = direction.getAngle();
     }
 
-    public Translate(double target) {
-        this();
 
-        LFtranslateController.setTarget(target);
-        RFtranslateController.setTarget(target);
-        LBtranslateController.setTarget(target);
-        RBtranslateController.setTarget(target);
-        translateController.setTarget(target);
-
-    }
 
     public Translate(double target, Direction direction, double angleModifier) {
-        this(target);
+        this();
 
         this.direction = direction;
         this.angleModifier = MathUtils.clamp(angleModifier, 0, 45);
@@ -360,10 +351,10 @@ public class Translate implements Command {
                 && Math.abs(RBvalue - RBtranslateController.getTarget()) > TOLERANCE
                 && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
-            LFvalue = Math.abs(robot.getLFEncoder().getValue());
-            RFvalue = Math.abs(robot.getRFEncoder().getValue());
-            LBvalue = Math.abs(robot.getLBEncoder().getValue());
-            RBvalue = Math.abs(robot.getRBEncoder().getValue());
+            LFvalue = robot.getLFEncoder().getValue();
+            RFvalue = robot.getRFEncoder().getValue();
+            LBvalue =robot.getLBEncoder().getValue();
+            RBvalue = robot.getRBEncoder().getValue();
 
 
 
@@ -455,10 +446,10 @@ public class Translate implements Command {
           while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
                   //&& shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
                   && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
-          LFvalue = Math.abs(robot.getLFEncoder().getValue());
-          RFvalue = Math.abs(robot.getRFEncoder().getValue());
-          LBvalue = Math.abs(robot.getLBEncoder().getValue());
-          RBvalue = Math.abs(robot.getRBEncoder().getValue());
+          LFvalue = robot.getLFEncoder().getValue();
+          RFvalue = robot.getRFEncoder().getValue();
+          LBvalue = robot.getLBEncoder().getValue();
+          RBvalue = robot.getRBEncoder().getValue();
             double pidOutput;
                 Log.d("direction", "" + direction.getCode() % 2);
               if (direction.getCode() %2 == 0)
@@ -466,7 +457,7 @@ public class Translate implements Command {
               else
                  pidOutput = translateController.getPIDOutput(((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/2));
           pidOutput = MathUtils.clamp(pidOutput, -1, 1);
-          Log.d("PIDOUT", "" + pidOutput);
+          Log.d("PIDOUT", "" + pidOutput + " Controller: " +  translateController.toString() + " Encoder Values" + Math.abs(LFvalue) + " " + Math.abs(RFvalue) + " " + Math.abs(LBvalue) + " " + Math.abs(RBvalue) + "Passing IN: " + Double.toString((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4));
           pidOutput *= maxPower;
 
           double headingOutput = headingController.getPIDOutput(robot.getHeadingSensor().getValue());
@@ -902,9 +893,10 @@ public class Translate implements Command {
     public static final double KI = 0.00000443561;
     public static final double KD = 0.03031468031;
     public static final double THRESHOLD = 1000;
-    public static final double KPt  = .01;
+    //KU: .005875, .006
+    public static final double KPt  = .1;
     public static final double  KIt = 0;
     public static final double KDt = 0;
-    public static final double THRESHOLDt = 1000;
+    public static final double THRESHOLDt = 0;
     public static final double TOLERANCE = 10;
 }

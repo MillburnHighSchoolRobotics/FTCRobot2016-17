@@ -36,7 +36,7 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         };
 
         //Move to knock ball
-        commands.add(new Translate(10, Translate.Direction.FORWARD_RIGHT, 5,5));
+        commands.add(new Translate(10, Translate.Direction.BACKWARD, 5,5));
 
         //Strafe left to move towards wall
         Translate moveToWall = new Translate(1000, Translate.Direction.RIGHT, -10);

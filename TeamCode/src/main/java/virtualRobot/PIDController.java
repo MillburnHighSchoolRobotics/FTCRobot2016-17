@@ -85,4 +85,8 @@ public class PIDController {
     public void setKD(double kD) {
         this.kD = kD;
     }
+
+    public String toString() {
+        return P + " " + I + " " + D;
+    }
 }
