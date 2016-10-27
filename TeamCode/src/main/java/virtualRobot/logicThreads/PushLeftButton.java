@@ -9,7 +9,7 @@ import virtualRobot.components.Servo;
  * Created by shant on 1/9/2016.
  */
 public class PushLeftButton extends LogicThread<AutonomousRobot> {
-    final static double BUTTON_PUSHER_LEFT = 0.9;
+    public final static double BUTTON_PUSHER_LEFT = 0.25;
     @Override
     public void loadCommands() {
 

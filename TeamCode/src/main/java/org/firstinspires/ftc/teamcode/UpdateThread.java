@@ -42,6 +42,8 @@ import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.SyncedMotors;
 import virtualRobot.godThreads.TeleopGodThread;
+import virtualRobot.logicThreads.PushRightButton;
+import virtualRobot.logicThreads.TeleopLogic;
 import virtualRobot.utils.MathUtils;
 import virtualRobot.godThreads.TakePictureTestGod;
 
@@ -147,8 +149,8 @@ public abstract class UpdateThread extends OpMode {
 		//UpdateUtil.setPosition(capRight,0.3);
 		if (withServos) {
 			capLeft.getController().setServoPosition(capLeft.getPortNumber(), .2);
-			capRight.getController().setServoPosition(capRight.getPortNumber(), .1);
-			buttonServo.setPosition(0.5);
+			capRight.getController().setServoPosition(capRight.getPortNumber(), .2);
+			buttonServo.setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
 		}
 
 		addPresets();

@@ -41,10 +41,12 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
     };
 
     private static final double servoValOpen = 1.0, servoValClosed = 0.25;
-
+    public static final double BUTTON_PUSHER_STATIONARY = (PushLeftButton.BUTTON_PUSHER_LEFT + PushRightButton.BUTTON_PUSHER_RIGHT) / 2;
+    public final static double CAP_MAX = .486;
+    public final static double CAP_MIN = .211;
     @Override
     public void loadCommands() {
-        final double BUTTON_PUSHER_STATIONARY = (PushLeftButton.BUTTON_PUSHER_LEFT + PushRightButton.BUTTON_PUSHER_RIGHT) / 2;
+
 
         commands.add(new Command() {
             @Override
@@ -167,9 +169,13 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
                     //lifting cap ball
                     if (controller2.isDpadDown()) {
+                        if (!(robot.getCapServo().getPosition() < CAP_MIN))
                         robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() - 1);
+                        //robot.getCapServo().setPositionDegrees(0);
                     } else if (controller2.isDpadUp()) {
-                        robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() + 1);
+
+                            robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() + 1);
+                        //robot.getCapServo().setPositionDegrees(180);
                     }
 
                     try {
