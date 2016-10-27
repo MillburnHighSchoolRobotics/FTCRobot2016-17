@@ -16,7 +16,7 @@ import virtualRobot.components.SyncedMotors;
  */
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
-    private Sensor headingSensor, pitchSensor, rollSensor, ultraSonicSensor, lightSensor;
+    private Sensor headingSensor, pitchSensor, rollSensor, sonarLeft, lightSensor, sonarRight;
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder;
     private LocationSensor locationSensor;
@@ -30,7 +30,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private static final double KP = 0.0001; //TBD
     private static final double KI = 0.0001; //TBD
     private static final double KD = 0.0001; //TBD
-    public static final double BWTHRESHOLD = 0.5;
+    public static final double BWTHRESHOLD = 2; //B+W/2 = 3.01
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {
@@ -40,7 +40,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         headingSensor = new Sensor();
         pitchSensor = new Sensor();
         rollSensor = new Sensor();
-        ultraSonicSensor = new Sensor();
+        sonarLeft = new Sensor();
+        sonarRight = new Sensor();
         lightSensor = new Sensor();
         robotProgress = new ArrayList<String>();
         telemetry = new HashMap<>();
@@ -82,7 +83,10 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     }
 
     @Override
-    public synchronized Sensor getUltrasonicSensor(){return ultraSonicSensor;}
+    public synchronized Sensor getSonarLeft(){return sonarLeft;}
+
+    @Override
+    public synchronized Sensor getSonarRight(){return sonarRight;}
 
     @Override
     public synchronized Sensor getLFEncoder() { return LFEncoder; }

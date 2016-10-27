@@ -25,7 +25,9 @@ public interface AutonomousRobot {
 
     LocationSensor getLocationSensor();
 
-    Sensor getUltrasonicSensor();
+    Sensor getSonarLeft();
+
+    Sensor getSonarRight();
 
     Motor getLFMotor();
 

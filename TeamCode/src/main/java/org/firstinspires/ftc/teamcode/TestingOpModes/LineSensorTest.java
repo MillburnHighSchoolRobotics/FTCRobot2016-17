@@ -15,12 +15,13 @@ import com.qualcomm.robotcore.hardware.*;
 ;
 @Autonomous(name ="Sensor: Testing All Sensors", group="Sensor")
 public class LineSensorTest extends OpMode {
-   AnalogInput linetest, sonar1;
+   AnalogInput linetest;
+    UltrasonicSensor sonar1;
     private MPU9250 imu;
     @Override
     public void init() {
-        linetest = hardwareMap.analogInput.get("line sensor");
-        sonar1 = hardwareMap.analogInput.get("sonar1");
+        linetest = hardwareMap.analogInput.get("lineSensor");
+        sonar1 = hardwareMap.ultrasonicSensor.get("sonar1");
         imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0 );
         imu.zeroPitch();
         imu.zeroRoll();
@@ -36,7 +37,7 @@ public class LineSensorTest extends OpMode {
      double Pitch = imu.getIntegratedPitch();
       double Roll = imu.getIntegratedRoll();
     telemetry.addData("Angle, Pitch, Roll: ", headingAngle + ", " + Pitch + " ," + Roll);
-        telemetry.addData("UltraSound: ", sonar1.getVoltage() );
+        telemetry.addData("UltraSound: ", sonar1.getUltrasonicLevel());
 
     }
 

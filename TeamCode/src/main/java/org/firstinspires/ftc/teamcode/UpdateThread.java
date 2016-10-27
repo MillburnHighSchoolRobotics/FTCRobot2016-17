@@ -59,7 +59,7 @@ public abstract class UpdateThread extends OpMode {
 
 	private MPU9250 imu;
 	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper;
-	private UltrasonicSensor sonar1;
+	private UltrasonicSensor sonarLeft, sonarRight;
 
 	private CRServo capLeft, capRight;
 	private Servo buttonServo;
@@ -70,7 +70,7 @@ public abstract class UpdateThread extends OpMode {
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
-	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vLineSensor,vUltrasonicSensor;
+	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vLineSensor,vSonarLeft,vSonarRight;
 	private LocationSensor vLocationSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vReaper;
@@ -110,7 +110,8 @@ public abstract class UpdateThread extends OpMode {
         //SENSOR SETUP e.g. colorSensor = hardwareMap.colorsensor.get("color"), sonar1 = hardwareMap.analogInput.get("sonar1"), liftEndStop1 = hardwareMap.digitalChannel.get("liftEndStop1")
 		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
 		lineSensor = hardwareMap.analogInput.get("lineSensor");
-		sonar1 = hardwareMap.ultrasonicSensor.get("sonar1");
+		sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");
+		sonarRight = hardwareMap.ultrasonicSensor.get("sonarRight");
 
 
         //FETCH VIRTUAL ROBOT FROM COMMAND INTERFACE
@@ -122,7 +123,7 @@ public abstract class UpdateThread extends OpMode {
 		vRollSensor = robot.getRollSensor();
 		vLocationSensor = robot.getLocationSensor();
 		vLineSensor = robot.getLineSensor();
-		vUltrasonicSensor = robot.getUltrasonicSensor();
+		vSonarLeft = robot.getSonarLeft();
 		vLeftFront = robot.getLFMotor();
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
@@ -199,7 +200,8 @@ public abstract class UpdateThread extends OpMode {
 
 				vButtonServo.setPosition(buttonServo.getPosition());
 			}
-			vUltrasonicSensor.setRawValue(sonar1.getUltrasonicLevel());
+			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
+			vSonarRight.setRawValue(sonarRight.getUltrasonicLevel());
 		t.start();
 	}
 	
@@ -220,7 +222,8 @@ public abstract class UpdateThread extends OpMode {
 		vHeadingSensor.setRawValue(headingAngle);
 		vRollSensor.setRawValue(imu.getIntegratedRoll());
 		vLineSensor.setRawValue(lineSensor.getVoltage());
-		vUltrasonicSensor.setRawValue(sonar1.getUltrasonicLevel());
+		vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
+		vSonarRight.setRawValue(sonarRight.getUltrasonicLevel());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
@@ -279,7 +282,7 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("Line Sensor: ", robot.getLineSensor().getValue());
-		telemetry.addData("Ultrasonic: ", robot.getUltrasonicSensor().getValue());
+		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
