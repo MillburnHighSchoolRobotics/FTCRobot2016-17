@@ -30,7 +30,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private static final double KP = 0.0001; //TBD
     private static final double KI = 0.0001; //TBD
     private static final double KD = 0.0001; //TBD
-    public static final double BWTHRESHOLD = 1;
+    public static final double BWTHRESHOLD = 0.5;
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {

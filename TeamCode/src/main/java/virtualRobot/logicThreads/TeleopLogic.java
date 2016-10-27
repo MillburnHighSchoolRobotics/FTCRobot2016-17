@@ -112,15 +112,21 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                             LB = (power * POWER_MATRIX[6][2]);
                             RB = (power * POWER_MATRIX[6][3] * scale);
                         }
-                        robot.getLeftRotate().setRatioAndPower(LF,LB);
-                        robot.getRightRotate().setRatioAndPower(RF,RB);
+//                        robot.getLeftRotate().setRatioAndPower(LF,LB);
+//                        robot.getRightRotate().setRatioAndPower(RF,RB);
+                        robot.getLFMotor().setPower(LF);
+                        robot.getLBMotor().setPower(LB);
+                        robot.getRFMotor().setPower(RF);
+                        robot.getRBMotor().setPower(RB);
+                        robot.getLeftRotate().zeroEncoders();
+                        robot.getRightRotate().zeroEncoders();
                     }
 
                     robot.getTelemetry().put("Speed Ratio: ", robot.getLeftRotate().getSpeedRatio() + " " + robot.getRightRotate().getSpeedRatio());
 
                     //Beacon Code
-                    if (controller1.isPressed(JoystickController.BUTTON_X)) {
-                        PIDController allign = new PIDController(0,0, 0, SallyJoeBot.BWTHRESHOLD);
+                    if (controller2.isPressed(JoystickController.BUTTON_X)) {
+                        PIDController allign = new PIDController(0.5,0.5,0.5, SallyJoeBot.BWTHRESHOLD);
                         double adjustedPower;
                         double basePower = 0.5;
                         while (robot.getUltrasonicSensor().getValue() < 2) {

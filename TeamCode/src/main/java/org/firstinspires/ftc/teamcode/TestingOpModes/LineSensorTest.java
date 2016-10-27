@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.*;
  */
 //note that to test componenets just create a basic OpMode
 ;
-@Autonomous(name ="Sensor: Testing Line Sensor", group="Sensor")
+@Autonomous(name ="Sensor: Testing All Sensors", group="Sensor")
 public class LineSensorTest extends OpMode {
    AnalogInput linetest, sonar1;
     private MPU9250 imu;
