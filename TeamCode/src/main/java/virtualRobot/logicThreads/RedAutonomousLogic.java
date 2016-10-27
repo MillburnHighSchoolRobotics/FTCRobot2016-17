@@ -7,6 +7,8 @@ import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.FTCTakePicture;
+import virtualRobot.commands.Pause;
+import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
 import virtualRobot.components.Sensor;
 
@@ -36,9 +38,21 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         };
 
         //Move to knock ball
+
+        commands.add(new Translate(10000, Translate.Direction.FORWARD, 0));
+        commands.add(new Pause(2000));
+        commands.add(new Rotate(7,0.8));
+        commands.add(new Pause(2000));
+        commands.add(new Translate(4000, Translate.Direction.FORWARD, 0));
+        commands.add(new Pause(2000));
+        commands.add(new Translate(7000, Translate.Direction.BACKWARD, 0));
+
+
         commands.add(new Translate(100, Translate.Direction.BACKWARD,0,1));
 
+
         //Strafe left to move towards wall
+        /*
         Translate moveToWall = new Translate(1000, Translate.Direction.RIGHT, -10);
         moveToWall.setExitCondition(new ExitCondition() {
             @Override
@@ -54,7 +68,7 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         Translate moveToWhiteLine = new Translate(1000, Translate.Direction.BACKWARD, 0);
         moveToWhiteLine.setExitCondition(atwhiteline);
         commands.add(moveToWhiteLine);
-
+*/
         FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia);
         commands.add(pic);
     }

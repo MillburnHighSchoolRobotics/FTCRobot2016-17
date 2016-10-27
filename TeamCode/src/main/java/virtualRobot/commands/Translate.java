@@ -29,7 +29,7 @@ public class Translate implements Command {
 
     private double time;
     private double timeLimit;
-
+    private double myTarget;
     private double referenceAngle;
     private double angleModifier; //(0-45) degrees, subtracts that angle from current movement (e.g. FORWARD_RIGTHT with angleModifier of 10, would move at 35 degrees, FORWARD_LEFT with same modifier would move at 125 degrees)
     private double movementAngle; //represents the actual angle the robot moves at
@@ -80,7 +80,7 @@ public class Translate implements Command {
 
     public Translate(double target, Direction direction, double angleModifier) {
         this();
-
+        this.myTarget = target;
         this.direction = direction;
         this.angleModifier = MathUtils.clamp(angleModifier, 0, 45);
         if (angleModifier == 45) {
@@ -162,11 +162,19 @@ public class Translate implements Command {
             multiplier = POWER_MATRIX[direction.getCode()];
             if (direction.getCode() % 2 == 0) {
                 translateController.setTarget(target);
+                LFtranslateController.setTarget(target);
+                RFtranslateController.setTarget(target);
+                LBtranslateController.setTarget(target);
+                RBtranslateController.setTarget(target);
 
             }
             else {
                 //once again, multiply by sqrt(2) to math up with the end goal of 2*sqrt(2)*target.
                 translateController.setTarget(target * Math.sqrt(2));
+                LFtranslateController.setTarget(target * Math.sqrt(2));
+                RFtranslateController.setTarget(target * Math.sqrt(2));
+                LBtranslateController.setTarget(target * Math.sqrt(2));
+                RBtranslateController.setTarget(target * Math.sqrt(2));
 
             }
 
@@ -296,28 +304,27 @@ public class Translate implements Command {
         robot.getRBMotor().setPower(maxPower * multiplier[3]);
         boolean notDone = true;
         while (!exitCondition.isConditionMet() && notDone && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
-            boolean LFnotDone = true;
-            boolean RFnotDone = true;
-            boolean LBnotDone= true;
-            boolean RBnotDone = true;
-            if (robot.getLFEncoder().getValue() >= LFtranslateController.getTarget()) {
+            double LFvalue = robot.getLFEncoder().getValue();
+            double RFvalue = robot.getRFEncoder().getValue();
+            double LBvalue = robot.getLBEncoder().getValue();
+            double RBvalue = robot.getRBEncoder().getValue();
+            double position= 0;
+            if (angleModifier == 0) {
+                if (direction.getCode() % 2 == 0)
+                    position = (((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)) / 4));
+                else
+                    position = ((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)) / 2);
+            }
+            else{
+               //TODO: do this shit
+            }
+            if (position >= myTarget) {
+                notDone = true;
                 robot.getLFMotor().setPower(0);
-                LFnotDone = false;
-            }
-            if (robot.getRFEncoder().getValue() >= RFtranslateController.getTarget()) {
                 robot.getRFMotor().setPower(0);
-                RFnotDone = false;
-            }
-            if (robot.getLBEncoder().getValue() >= LBtranslateController.getTarget()) {
                 robot.getLBMotor().setPower(0);
-                LBnotDone = false;
-            }
-            if (robot.getRBEncoder().getValue() >= RBtranslateController.getTarget()) {
                 robot.getRBMotor().setPower(0);
-                RBnotDone = false;
             }
-            notDone = LFnotDone || RFnotDone || LBnotDone || RBnotDone;
-
             if (Thread.currentThread().isInterrupted()) {
                 isInterrupted = true;
                 break;
@@ -898,6 +905,6 @@ public class Translate implements Command {
     public static final double KPt  = .00078938;
     public static final double  KIt = .00002255;
     public static final double KDt = .00690708;
-    public static final double THRESHOLDt = 5697;
+    public static final double THRESHOLDt = 1000; //5697
     public static final double TOLERANCE = 10;
 }
