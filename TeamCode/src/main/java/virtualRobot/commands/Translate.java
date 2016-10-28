@@ -902,9 +902,10 @@ public class Translate implements Command {
     public static final double THRESHOLD = 1000;
     //KU: .00130625, .001325
     //KU = .00131562
-    public static final double KPt  = .00078938;
-    public static final double  KIt = .00002255;
-    public static final double KDt = .00690708;
-    public static final double THRESHOLDt = 1000; //5697
+    //TU = 83
+    public static final double KPt  = 0.000789372;
+    public static final double  KIt = 0.00001902101;
+    public static final double KDt = 0.0081897345;
+    public static final double THRESHOLDt = 0;
     public static final double TOLERANCE = 10;
 }
