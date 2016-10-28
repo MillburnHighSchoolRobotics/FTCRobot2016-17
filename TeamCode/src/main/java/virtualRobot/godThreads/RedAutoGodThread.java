@@ -5,13 +5,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
-import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.Command;
-import virtualRobot.logicThreads.BlueAutonomousLogic;
 import virtualRobot.logicThreads.PushLeftButton;
 import virtualRobot.logicThreads.PushRightButton;
 import virtualRobot.logicThreads.RedAutonomousLogic;
-import virtualRobot.logicThreads.RedMoveToSecondBeacon;
+import virtualRobot.logicThreads.MoveToSecondBeacon;
 import virtualRobot.logicThreads.RedStrafeToRamp;
 import virtualRobot.monitorThreads.TimeMonitor;
 
@@ -41,44 +39,44 @@ public class RedAutoGodThread extends GodThread {
 
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
-        if (!redIsLeft.get()) {
+        if (redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton();
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
-            delegateMonitor(pl, new MonitorThread[]{});
+            delegateMonitor(pl, new MonitorThread[]{watchingForTime});
         }
 
-        else if (redIsLeft.get()) {
+        else {
             LogicThread pushRight = new PushRightButton();
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
-            delegateMonitor(pr, new MonitorThread[]{});
+            delegateMonitor(pr, new MonitorThread[]{watchingForTime});
         }
 
-        LogicThread merge = new RedMoveToSecondBeacon(redIsLeft, super.vuforia);
-        Thread godThread = new Thread(merge);
+        LogicThread rmtscb = new MoveToSecondBeacon(redIsLeft, super.vuforia);
+        Thread godThread = new Thread(rmtscb);
         godThread.start();
         children.add(godThread);
         delegateMonitor(godThread, new MonitorThread[]{watchingForTime});
 
 
 
-        if (!redIsLeft.get()) {
+        if (redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton();
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
-            delegateMonitor(pl, new MonitorThread[]{});
+            delegateMonitor(pl, new MonitorThread[]{watchingForTime});
         }
 
-        else if (redIsLeft.get()) {
+        else {
             LogicThread pushRight = new PushRightButton();
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
-            delegateMonitor(pr, new MonitorThread[]{});
+            delegateMonitor(pr, new MonitorThread[]{watchingForTime});
         }
 
         LogicThread rstr = new RedStrafeToRamp();

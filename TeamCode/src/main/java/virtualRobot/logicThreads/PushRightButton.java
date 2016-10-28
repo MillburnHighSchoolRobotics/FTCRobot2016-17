@@ -12,9 +12,8 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
     public final static double BUTTON_PUSHER_RIGHT = 0.0;
     public void loadCommands () {
         robot.addToProgress("Pushed Right Button");
-        commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{0}));
+        commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{BUTTON_PUSHER_RIGHT}));
 
-        //commands.add(new Pause(500));
-        //commands.add(new MoveLift(MoveLift.RunMode.TO_VALUE, MoveLift.Direction.IN, 0));
+
     }
 }

@@ -14,6 +14,7 @@ import virtualRobot.components.Sensor;
 
 /**
  * Created by DOSullivan on 9/14/2016.
+ * Go Trump.
  */
 public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
     AtomicBoolean redIsLeft = new AtomicBoolean();
@@ -39,17 +40,24 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
 
         //Move to knock ball
 
-        commands.add(new Translate(10000, Translate.Direction.FORWARD, 0));
+        commands.add(new Translate(10000, Translate.Direction.BACKWARD, 0));
         commands.add(new Pause(2000));
-        commands.add(new Rotate(7,0.8));
+        Translate toWhiteLine =  new Translate(4000, Translate.Direction.BACKWARD_RIGHT, 0, .5);
+        toWhiteLine.setExitCondition(atwhiteline);
         commands.add(new Pause(2000));
-        commands.add(new Translate(4000, Translate.Direction.FORWARD, 0));
+        Translate moveToWall = new Translate(10000, Translate.Direction.RIGHT, 0);
+        moveToWall.setExitCondition(new ExitCondition() {
+            @Override
+            public boolean isConditionMet() {
+                if (robot.getSonarLeft().getValue() < 12) {
+                    return true;
+                }
+                return false;
+            }
+        });
         commands.add(new Pause(2000));
-        commands.add(new Translate(7000, Translate.Direction.BACKWARD, 0));
-
-
-        commands.add(new Translate(100, Translate.Direction.BACKWARD,0,1));
-
+        FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia);
+        commands.add(pic);
 
         //Strafe left to move towards wall
         /*
@@ -69,7 +77,5 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         moveToWhiteLine.setExitCondition(atwhiteline);
         commands.add(moveToWhiteLine);
 */
-        FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia);
-        commands.add(pic);
     }
 }
