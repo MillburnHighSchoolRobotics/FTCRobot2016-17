@@ -128,16 +128,16 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
                     //Beacon Code
                     if (controller2.isPressed(JoystickController.BUTTON_X)) {
-                        PIDController allign = new PIDController(0.5,0.5,0.5, SallyJoeBot.BWTHRESHOLD);
-                        double adjustedPower;
-                        double basePower = 0.5;
-                        while (robot.getUltrasonicSensor().getValue() < 2) {
-                            adjustedPower = allign.getPIDOutput(robot.getLineSensor().getValue());
-                            robot.getLFMotor().setPower(basePower + adjustedPower);
-                            robot.getLBMotor().setPower(-basePower + adjustedPower);
-                            robot.getRFMotor().setPower(-basePower - adjustedPower);
-                            robot.getRBMotor().setPower(basePower - adjustedPower);
-                        }
+//                        PIDController allign = new PIDController(0.5,0.5,0.5, SallyJoeBot.BWTHRESHOLD);
+//                        double adjustedPower;
+//                        double basePower = 0.5;
+//                        while (robot.getUltrasonicSensor().getValue() < 2) {
+//                            adjustedPower = allign.getPIDOutput(robot.getLineSensor().getValue());
+//                            robot.getLFMotor().setPower(basePower + adjustedPower);
+//                            robot.getLBMotor().setPower(-basePower + adjustedPower);
+//                            robot.getRFMotor().setPower(-basePower - adjustedPower);
+//                            robot.getRBMotor().setPower(basePower - adjustedPower);
+//                        }
                         robot.getLeftRotate().setPower(0);
                         robot.getRightRotate().setPower(0);
                     }

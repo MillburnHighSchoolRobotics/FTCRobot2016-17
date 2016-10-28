@@ -124,6 +124,7 @@ public abstract class UpdateThread extends OpMode {
 		vLocationSensor = robot.getLocationSensor();
 		vLineSensor = robot.getLineSensor();
 		vSonarLeft = robot.getSonarLeft();
+		vSonarRight = robot.getSonarRight();
 		vLeftFront = robot.getLFMotor();
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
