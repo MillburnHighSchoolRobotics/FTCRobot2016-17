@@ -21,7 +21,7 @@ public class LineSensorTest extends OpMode {
     @Override
     public void init() {
         linetest = hardwareMap.analogInput.get("lineSensor");
-        sonar1 = hardwareMap.ultrasonicSensor.get("sonar1");
+        sonar1 = hardwareMap.ultrasonicSensor.get("sonarLeft");
         imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0 );
         imu.zeroPitch();
         imu.zeroRoll();

@@ -43,7 +43,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
     private static final double servoValOpen = 1.0, servoValClosed = 0.25;
     public static final double BUTTON_PUSHER_STATIONARY = (PushLeftButton.BUTTON_PUSHER_LEFT + PushRightButton.BUTTON_PUSHER_RIGHT) / 2;
     public final static double CAP_MAX = .486;
-    public final static double CAP_MIN = .211;
+    public final static double CAP_MIN = .189;
     @Override
     public void loadCommands() {
 

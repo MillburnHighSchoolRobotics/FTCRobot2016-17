@@ -21,7 +21,7 @@ public class Rotate implements Command {
 
     public static final double MIN_MAX_POWER = .99;
 
-    public static final double TOLERANCE = 1.0;
+    public static final double TOLERANCE = 3.0;
 
     private double power;
     private double angleInDegrees;

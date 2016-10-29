@@ -8,6 +8,7 @@ import virtualRobot.LogicThread;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
+import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
 import virtualRobot.components.Sensor;
 
@@ -30,7 +31,7 @@ public class BlueAutonomousLogic extends LogicThread<AutonomousRobot> {
         final ExitCondition atwhiteline = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                if (robot.getLineSensor().getRawValue() > 10) {
+                if (robot.getLineSensor().getRawValue() < 3) {
                     return true;
                 }
                 return false;
@@ -39,10 +40,12 @@ public class BlueAutonomousLogic extends LogicThread<AutonomousRobot> {
 
         //Move to knock ball
 
+        commands.add(new Pause(2000));
         commands.add(new Translate(10000, Translate.Direction.BACKWARD, 0));
         commands.add(new Pause(2000));
         Translate toWhiteLine =  new Translate(4000, Translate.Direction.BACKWARD_LEFT, 0, .5);
         toWhiteLine.setExitCondition(atwhiteline);
+        commands.add(toWhiteLine);
         commands.add(new Pause(2000));
         Translate moveToWall = new Translate(10000, Translate.Direction.LEFT, 0);
         moveToWall.setExitCondition(new ExitCondition() {
@@ -54,6 +57,7 @@ public class BlueAutonomousLogic extends LogicThread<AutonomousRobot> {
                 return false;
             }
         });
+        commands.add(moveToWall);
         commands.add(new Pause(2000));
         FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia);
         commands.add(pic);

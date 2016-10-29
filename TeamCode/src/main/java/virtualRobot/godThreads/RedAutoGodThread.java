@@ -22,10 +22,10 @@ public class RedAutoGodThread extends GodThread {
     public void realRun() throws InterruptedException {
         AtomicBoolean redIsLeft = new AtomicBoolean();
 
-        MonitorThread watchingForTime = new TimeMonitor(System.currentTimeMillis(), 30000);
+        /*MonitorThread watchingForTime = new TimeMonitor(System.currentTimeMillis(), 30000);
         Thread tm = new Thread(watchingForTime);
         tm.start();
-        children.add(tm);
+        children.add(tm);*/
 
         // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD TO THE LIST
         LogicThread moveToFirstBeacon = new RedAutonomousLogic(redIsLeft, vuforia);
@@ -34,7 +34,7 @@ public class RedAutoGodThread extends GodThread {
         children.add(mtfb);
 
         //keep the program alive as long as the two monitor threads are still going - should proceed every logicThread addition
-        delegateMonitor(mtfb, new MonitorThread[]{watchingForTime});
+        delegateMonitor(mtfb, new MonitorThread[]{});
 
 
 
@@ -44,7 +44,7 @@ public class RedAutoGodThread extends GodThread {
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
-            delegateMonitor(pl, new MonitorThread[]{watchingForTime});
+            delegateMonitor(pl, new MonitorThread[]{});
         }
 
         else {
@@ -52,14 +52,14 @@ public class RedAutoGodThread extends GodThread {
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
-            delegateMonitor(pr, new MonitorThread[]{watchingForTime});
+            delegateMonitor(pr, new MonitorThread[]{});
         }
 
         LogicThread rmtscb = new MoveToSecondBeacon(redIsLeft, super.vuforia);
         Thread godThread = new Thread(rmtscb);
         godThread.start();
         children.add(godThread);
-        delegateMonitor(godThread, new MonitorThread[]{watchingForTime});
+        delegateMonitor(godThread, new MonitorThread[]{});
 
 
 
@@ -68,7 +68,7 @@ public class RedAutoGodThread extends GodThread {
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
-            delegateMonitor(pl, new MonitorThread[]{watchingForTime});
+            delegateMonitor(pl, new MonitorThread[]{});
         }
 
         else {
@@ -76,14 +76,14 @@ public class RedAutoGodThread extends GodThread {
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
-            delegateMonitor(pr, new MonitorThread[]{watchingForTime});
+            delegateMonitor(pr, new MonitorThread[]{});
         }
 
         LogicThread rstr = new RedStrafeToRamp();
         Thread rst = new Thread(rstr);
         rst.start();
         children.add(rst);
-        delegateMonitor(rst, new MonitorThread[]{watchingForTime});
+        delegateMonitor(rst, new MonitorThread[]{});
 
 
 

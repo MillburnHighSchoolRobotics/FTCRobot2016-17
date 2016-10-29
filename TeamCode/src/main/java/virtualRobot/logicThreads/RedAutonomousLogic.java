@@ -1,5 +1,7 @@
 package virtualRobot.logicThreads;
 
+import android.util.Log;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.AutonomousRobot;
@@ -31,30 +33,46 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         final ExitCondition atwhiteline = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                if (robot.getLineSensor().getRawValue() > 10) {
+                if (robot.getLineSensor().getRawValue() < 3) {
                     return true;
                 }
                 return false;
             }
         };
 
-        //Move to knock ball
 
-        commands.add(new Translate(10000, Translate.Direction.BACKWARD, 0));
+        Translate escapeWall = new Translate(1200, Translate.Direction.BACKWARD, 0);
+        commands.add(escapeWall);
         commands.add(new Pause(2000));
-        Translate toWhiteLine =  new Translate(4000, Translate.Direction.BACKWARD_RIGHT, 0, .5);
+        commands.add(new Rotate(-36.5, 1));
+        commands.add(new Pause(2000));
+        commands.add(new Translate(10000, Translate.Direction.BACKWARD, 0, 1, -36.5));
+        commands.add(new Pause(2000));
+        commands.add(new Rotate(0, 1));
+        commands.add(new Pause(2000));
+        Translate moveToWall =  new Translate(Translate.RunMode.CUSTOM, Translate.Direction.RIGHT, 0, .3);
+        moveToWall.setExitCondition(
+                new ExitCondition() {
+                    @Override
+                    public boolean isConditionMet() {
+                        Log.d("UltraSOUND", "" + robot.getSonarLeft().getValue() + "" + robot.getSonarRight().getValue());
+
+                        if (robot.getSonarRight().getValue() < 9 ) {
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+        commands.add(moveToWall);
+        commands.add(new Pause(2000));
+        commands.add(new Rotate(0, 1));
+        commands.add(new Pause(2000));
+        Translate toWhiteLine =  new Translate(Translate.RunMode.HEADING_ONLY, Translate.Direction.BACKWARD, 0, .1);
         toWhiteLine.setExitCondition(atwhiteline);
+        commands.add(toWhiteLine);
         commands.add(new Pause(2000));
-        Translate moveToWall = new Translate(10000, Translate.Direction.RIGHT, 0);
-        moveToWall.setExitCondition(new ExitCondition() {
-            @Override
-            public boolean isConditionMet() {
-                if (robot.getSonarLeft().getValue() < 12) {
-                    return true;
-                }
-                return false;
-            }
-        });
+
+        commands.add(moveToWall);
         commands.add(new Pause(2000));
         FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia);
         commands.add(pic);
