@@ -49,26 +49,41 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
             @Override
             public boolean changeRobotState() throws InterruptedException
             {
-                double threshold = 1;
-                double curr = robot.getSonarLeft().getValue() - robot.getSonarRight().getValue();
-                double sign = Math.signum(curr);
-                double power = 0.15;
-                robot.addToTelemetry("Wall Values: ", curr + " " + sign);
-                Log.d("WallTrace", curr + " " + sign);
-                while (Math.abs(curr) > threshold) {
-                    robot.getLeftRotate().setPower(power*sign);
-                    robot.getRightRotate().setPower(-power*sign);
-                    curr = robot.getSonarLeft().getValue() - robot.getSonarRight().getValue();
-                    sign = Math.signum(curr);
-                    robot.addToTelemetry("Wall Values: ", curr + " " + sign);
-                    Log.d("WallTrace", curr + " " + sign);
-                }
-                Log.d("WallTrace", "Ended Orient");
+//                double threshold = 1;
+//                double curr = robot.getSonarLeft().getValue() - robot.getSonarRight().getValue();
+//                double sign = Math.signum(curr);
+//                double power = 0.15;
+//                robot.addToTelemetry("Wall Values: ", curr + " " + sign);
+//                Log.d("WallTrace", curr + " " + sign);
+//                while (Math.abs(curr) > threshold) {
+//                    robot.getLeftRotate().setPower(power*sign);
+//                    robot.getRightRotate().setPower(-power*sign);
+//                    curr = robot.getSonarLeft().getValue() - robot.getSonarRight().getValue();
+//                    sign = Math.signum(curr);
+//                    robot.addToTelemetry("Wall Values: ", curr + " " + sign);
+//                    Log.d("WallTrace", curr + " " + sign);
+//                }
+//                Log.d("WallTrace", "Ended Orient");
                 robot.stopMotors();
+                double tp = 0.2;
+                double kp = 3.1;
+                double kp2 = 5.1;
+                double kd = 3.1;
+                double target = 4.5;
+                PIDController close = new PIDController(0.07,0,0,0,13);
+                PIDController allign = new PIDController(0.13,0,0,0,0);
+                double currLeft, currRight, errClose, errAllign;
                 while (robot.getLineSensor().getValue() > SallyJoeBot.BWTHRESHOLD) {
-                    Log.d("WallTrace", "Forward");
-                    robot.getLeftRotate().setPower(0.15);
-                    robot.getRightRotate().setPower(0.15);
+                    currLeft = robot.getSonarLeft().getValue();
+                    currRight = robot.getSonarRight().getValue();
+
+                    errClose = close.getPIDOutput(currLeft);
+                    errAllign = allign.getPIDOutput(currLeft-currRight);
+                    robot.getRightRotate().setPower(tp - errClose - errAllign);
+                    robot.getLeftRotate().setPower(tp + errClose + errAllign);
+                    Log.d("WallTrace", "Forward " + currLeft + " " + currRight + "/n Errors: " + errClose + " " + errAllign);
+//                    robot.getLeftRotate().setPower(0.15);
+//                    robot.getRightRotate().setPower(0.15);
                 }
                 Log.d("WallTrace", "Ended Forward");
                 robot.stopMotors();
