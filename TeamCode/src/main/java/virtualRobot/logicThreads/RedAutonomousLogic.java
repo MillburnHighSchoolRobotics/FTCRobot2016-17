@@ -29,11 +29,11 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
     }
     @Override
     public void loadCommands() {
-
+        final double currentLine = robot.getLineSensor().getRawValue();
         final ExitCondition atwhiteline = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                if (robot.getLineSensor().getRawValue() < 3) {
+                if (Math.abs(robot.getLineSensor().getRawValue() - currentLine) > .7) {
                     return true;
                 }
                 return false;
@@ -50,14 +50,14 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         commands.add(new Pause(2000));
         commands.add(new Rotate(0, 1));
         commands.add(new Pause(2000));
-        Translate moveToWall =  new Translate(Translate.RunMode.CUSTOM, Translate.Direction.RIGHT, 0, .3);
+        Translate moveToWall =  new Translate(Translate.RunMode.CUSTOM, Translate.Direction.RIGHT, 0, .2);
         moveToWall.setExitCondition(
                 new ExitCondition() {
                     @Override
                     public boolean isConditionMet() {
                         Log.d("UltraSOUND", "" + robot.getSonarLeft().getValue() + "" + robot.getSonarRight().getValue());
 
-                        if (robot.getSonarRight().getValue() < 9 ) {
+                        if (robot.getSonarRight().getValue() < 14  ) {
                             return true;
                         }
                         return false;
@@ -67,12 +67,28 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
         commands.add(new Pause(2000));
         commands.add(new Rotate(0, 1));
         commands.add(new Pause(2000));
-        Translate toWhiteLine =  new Translate(Translate.RunMode.HEADING_ONLY, Translate.Direction.BACKWARD, 0, .1);
+        Translate toWhiteLine =  new Translate(Translate.RunMode.CUSTOM, Translate.Direction.BACKWARD, 0, .1);
         toWhiteLine.setExitCondition(atwhiteline);
         commands.add(toWhiteLine);
+        robot.addToProgress("Went to Line");
         commands.add(new Pause(2000));
+        commands.add(new Rotate(0, 1));
+        commands.add(new Pause(2000));
+        Translate moveToWall2 =  new Translate(Translate.RunMode.CUSTOM, Translate.Direction.RIGHT, 0, .2);
+        moveToWall2.setExitCondition(
+                new ExitCondition() {
+                    @Override
+                    public boolean isConditionMet() {
+                        Log.d("UltraSOUND", "" + robot.getSonarLeft().getValue() + "" + robot.getSonarRight().getValue());
 
-        commands.add(moveToWall);
+                        if (robot.getSonarRight().getValue() < 9  ) {
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+        commands.add(new Pause(2000));
+        commands.add(new Rotate(0, 1));
         commands.add(new Pause(2000));
         FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia);
         commands.add(pic);
