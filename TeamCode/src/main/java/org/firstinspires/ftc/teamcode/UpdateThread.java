@@ -150,8 +150,8 @@ public abstract class UpdateThread extends OpMode {
 			//UpdateUtil.setPosition(capLeft,0.3);
 		//UpdateUtil.setPosition(capRight,0.3);
 		if (withServos) {
-			capLeft.getController().setServoPosition(capLeft.getPortNumber(), .2);
-			capRight.getController().setServoPosition(capRight.getPortNumber(), .2);
+			capLeft.getController().setServoPosition(capLeft.getPortNumber(), .1889);
+			capRight.getController().setServoPosition(capRight.getPortNumber(), .1899);
 			buttonServo.setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
 		}
 
