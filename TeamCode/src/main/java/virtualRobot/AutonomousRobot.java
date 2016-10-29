@@ -59,6 +59,8 @@ public interface AutonomousRobot {
 
     void addToProgress(String s);
 
+    void stopMotors();
+
     ArrayList<String> getProgress();
 
     void addToTelemetry(String s, Object arg);
