@@ -32,4 +32,12 @@ public class Motor {
     	}
     }
 
+	public void setPosition(Sensor encoder, double target){
+		target %= 1120;
+		double curr = (Math.abs(encoder.getValue())%1120 - target);
+		while (Math.abs(curr) < 5) {
+			setPower(0.1);
+		}
+	}
+
 }
