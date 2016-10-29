@@ -136,7 +136,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         return rightRotate;
     }
 
-
+    @Override
+    public synchronized void stopMotors() {LFMotor.setPower(0); RFMotor.setPower(0); LBMotor.setPower(0); RBMotor.setPower(0);}
 
     @Override
     public synchronized SyncedMotors getLeftRotate() {

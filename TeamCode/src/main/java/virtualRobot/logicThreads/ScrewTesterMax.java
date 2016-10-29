@@ -49,10 +49,10 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
             @Override
             public boolean changeRobotState() throws InterruptedException
             {
-                double threshold = 2;
+                double threshold = 1;
                 double curr = robot.getSonarLeft().getValue() - robot.getSonarRight().getValue();
                 double sign = Math.signum(curr);
-                double power = 0.2;
+                double power = 0.15;
                 robot.addToTelemetry("Wall Values: ", curr + " " + sign);
                 Log.d("WallTrace", curr + " " + sign);
                 while (Math.abs(curr) > threshold) {
@@ -64,14 +64,14 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
                     Log.d("WallTrace", curr + " " + sign);
                 }
                 Log.d("WallTrace", "Ended Orient");
-                robot.getLeftRotate().setPower(0);
-                robot.getLeftRotate().setPower(0);
-                while (robot.getLineSensor().getValue() < SallyJoeBot.BWTHRESHOLD) {
+                robot.stopMotors();
+                while (robot.getLineSensor().getValue() > SallyJoeBot.BWTHRESHOLD) {
                     Log.d("WallTrace", "Forward");
-                    robot.getLeftRotate().setPower(1.0);
-                    robot.getRightRotate().setPower(1.0);
+                    robot.getLeftRotate().setPower(0.15);
+                    robot.getRightRotate().setPower(0.15);
                 }
                 Log.d("WallTrace", "Ended Forward");
+                robot.stopMotors();
                 return Thread.currentThread().isInterrupted();
             }
         });
