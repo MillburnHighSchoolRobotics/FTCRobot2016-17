@@ -11,6 +11,7 @@ import virtualRobot.commands.Pause;
 
 /**
  * Created by mehme_000 on 10/6/2016.
+ * Used to test the camera
  */
 public class TakePictureTestLogic extends LogicThread<AutonomousRobot> {
     AtomicBoolean redIsLeft;

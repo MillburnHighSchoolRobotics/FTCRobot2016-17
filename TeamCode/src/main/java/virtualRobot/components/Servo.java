@@ -4,6 +4,7 @@ package virtualRobot.components;
 
 /**
  * Created by Alex on 9/30/2015.
+ * The virtual servo component
  */
 public class Servo {
 

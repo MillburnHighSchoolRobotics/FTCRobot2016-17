@@ -4,6 +4,7 @@ import virtualRobot.utils.MathUtils;
 
 /**
  * Created by Alex on 10/1/2015.
+ * Virtual ContinousRotationServo. Set Position
  */
 public class ContinuousRotationServo extends Servo {
 //

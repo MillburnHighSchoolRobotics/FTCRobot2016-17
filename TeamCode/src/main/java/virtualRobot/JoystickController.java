@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Created by Yanjun on 11/12/2015.
+ * Represents the joystick
  */
 public class JoystickController {
     AtomicReferenceArray<Boolean> down, pressed, released;

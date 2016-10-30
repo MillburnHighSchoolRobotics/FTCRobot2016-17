@@ -13,6 +13,7 @@ import virtualRobot.components.SyncedMotors;
 
 /**
  * Created by DOSullivan on 11/18/2015.
+ * This interface represents the robot when used in autonomous
  */
 public interface AutonomousRobot {
 //Motors, sensors, servos will be added here e.g. Motor getMotor();

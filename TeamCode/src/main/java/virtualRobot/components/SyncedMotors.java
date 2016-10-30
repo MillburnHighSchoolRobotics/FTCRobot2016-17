@@ -10,8 +10,9 @@ import virtualRobot.utils.MathUtils;
 
 /**
  * Created by ethachu19 on 9/23/2016.
- *
- * A class to sync two motors or two sets of motors
+ * A purelely virtual component with no direct physical component.
+ * It represents two other virtual motors (or two sets of motors),
+ * and syncs those two motors or two sets of motors
  */
 public class SyncedMotors{
     private SyncMode type;

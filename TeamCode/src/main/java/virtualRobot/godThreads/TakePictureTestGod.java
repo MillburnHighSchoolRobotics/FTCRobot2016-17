@@ -13,6 +13,7 @@ import virtualRobot.logicThreads.TakePictureTestLogic;
 
 /**
  * Created by mehme_000 on 10/7/2016.
+ * Used for testing the camera
  */
 public class TakePictureTestGod extends GodThread {
     AtomicBoolean redIsLeft = new AtomicBoolean();

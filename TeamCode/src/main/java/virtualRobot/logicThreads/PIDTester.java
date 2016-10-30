@@ -8,6 +8,7 @@ import virtualRobot.commands.Translate;
 
 /**
  * Created by Yanjun on 11/28/2015.
+ * used for tuning PID
  */
 public class PIDTester extends LogicThread<AutonomousRobot> {
     @Override

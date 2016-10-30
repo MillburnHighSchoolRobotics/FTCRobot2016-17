@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 
 /**
  * Created by Yanjun on 11/24/2015.
+ * Our extentsion of the methods provides to us by the manufacturers of the imu.
+ * This is what should always be used in code.
  */
 public class MPU9250 extends AHRS {
     private double prevYaw, prevPitch, prevRoll;

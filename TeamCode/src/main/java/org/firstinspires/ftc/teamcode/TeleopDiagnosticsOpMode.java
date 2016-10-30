@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 //DONT USE THIS
+    @Deprecated
 public class TeleopDiagnosticsOpMode extends OpMode {
 
     private DcMotor rightFront, rightBack, leftFront, leftBack, reaper, liftRight, liftLeft, tapeMeasureMotor;

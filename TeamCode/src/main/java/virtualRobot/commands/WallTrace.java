@@ -10,7 +10,8 @@ import virtualRobot.components.Sensor;
 /**
  * Created by ethachu19 on 10/29/2016.
  *
- * Traces a wall to keep completely parallel with wall
+ * Moves the robot such that it traces a wall to keep completely parallel with wall,
+ * and stays within "target" cm of the wall
  */
 
 public class WallTrace implements Command {

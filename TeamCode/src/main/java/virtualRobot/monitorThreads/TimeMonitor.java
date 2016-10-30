@@ -7,6 +7,7 @@ import virtualRobot.MonitorThread;
 
 /**
  * Created by shant on 1/10/2016.
+ * Automatically stops robot after a certain number of seconds
  */
 public class TimeMonitor extends MonitorThread<AutonomousRobot> {
     private double startingTime;

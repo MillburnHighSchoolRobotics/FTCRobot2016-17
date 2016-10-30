@@ -25,7 +25,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.ExitCondition;
 import virtualRobot.VuforiaLocalizerImplSubclass;
-
+/**
+ * Takes a Picture Using Vuforia
+ */
 public class FTCTakePicture implements Command{
     private ExitCondition exitCondition;
     AtomicBoolean redisLeft;

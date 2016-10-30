@@ -2,6 +2,7 @@ package virtualRobot.components;
 
 /**
  * Created by shant on 2/8/2016.
+ * Location Sensor. Keeps track of bot's position on field
  */
 public class LocationSensor extends Sensor {
 

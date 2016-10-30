@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.internal.VuforiaLocalizerImpl;
 
 /**
  * Created by mehme_000 on 10/15/2016.
+ * Memes, nothing but pure memes.
  */
 
 public class VuforiaLocalizerImplSubclass extends VuforiaLocalizerImpl {

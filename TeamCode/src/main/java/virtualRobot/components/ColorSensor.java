@@ -2,6 +2,7 @@ package virtualRobot.components;
 
 /**
  * Created by shant on 12/10/2015.
+ * Virtual Color Sensor. Can red, blue, green, and alpha of sensor
  */
 public class ColorSensor extends Sensor {
 

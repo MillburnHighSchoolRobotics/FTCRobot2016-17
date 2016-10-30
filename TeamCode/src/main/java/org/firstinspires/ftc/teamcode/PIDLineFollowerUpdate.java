@@ -7,6 +7,7 @@ import virtualRobot.godThreads.RedAutoGodThread;
 
 /**
  * Created by ethachu19 on 10/27/2016.
+ * update thread used for testing ethan's algos
  */
 @Autonomous(name = "Testing PIDLine and java garbage", group =  "Autonomous")
 public class PIDLineFollowerUpdate extends UpdateThread {

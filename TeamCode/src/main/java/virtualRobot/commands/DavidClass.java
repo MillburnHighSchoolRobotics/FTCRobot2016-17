@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by DOSullivan on 11/4/15.
+ * ANalyzes the picture and determines whether or not red is left
  */
 
 public class DavidClass {

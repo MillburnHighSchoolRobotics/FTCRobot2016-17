@@ -10,6 +10,7 @@ import virtualRobot.logicThreads.ScrewTesterMax;
 
 /**
  * Created by ethachu19 on 10/27/2016.
+ * Used For Testing Out Ethan's algo (located in ScrewTesterMax)
  */
 
 public class PIDLineFollowerGod extends GodThread {

@@ -8,6 +8,7 @@ import virtualRobot.PIDController;
 
 /**
  * Created by shant on 10/27/2015.
+ * Rotates the Robot in place
  */
 public class Rotate implements Command {
     private ExitCondition exitCondition;
