@@ -176,12 +176,38 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     //lifting cap ball
                     if (controller2.isDpadDown()) {
                         if (!(robot.getCapServo().getPosition() < CAP_MIN))
-                        robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() - 1);
+                            robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() - 1);
                         //robot.getCapServo().setPositionDegrees(0);
                     } else if (controller2.isDpadUp()) {
-
+                        if (!(robot.getCapServo().getPosition() > CAP_MAX))
                             robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() + 1);
                         //robot.getCapServo().setPositionDegrees(180);
+                    }
+
+                    if (controller2.getValue(JoystickController.Y_1) > 0.05) {
+                        double currLeft = robot.getSonarLeft().getValue();
+                        double currRight = robot.getSonarRight().getValue();
+                        double tp = 0.2;
+
+                        double errClose = (8 - currLeft)*0.008;
+                        double errAllign = (currLeft - currRight)*0.012;
+
+                        robot.getLBMotor().setPower(tp - errClose - errAllign);
+                        robot.getLFMotor().setPower(tp - errClose - errAllign);
+                        robot.getRFMotor().setPower(tp + errClose + errAllign);
+                        robot.getRBMotor().setPower(tp + errClose + errAllign);
+                    } else if (controller2.getValue(JoystickController.Y_1) < -0.05) {
+                        double currLeft = robot.getSonarRight().getValue();
+                        double currRight = robot.getSonarLeft().getValue();
+                        double tp = 0.2;
+
+                        double errClose = (8 - currLeft)*0.008;
+                        double errAllign = (currLeft - currRight)*0.012;
+
+                        robot.getLBMotor().setPower((tp - errClose - errAllign)*-1);
+                        robot.getLFMotor().setPower((tp - errClose - errAllign)*-1);
+                        robot.getRFMotor().setPower((tp + errClose + errAllign)*-1);
+                        robot.getRBMotor().setPower((tp + errClose + errAllign)*-1);
                     }
 
                     try {
