@@ -11,6 +11,7 @@ import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Translate;
+import virtualRobot.commands.WallTrace;
 
 /**
  * Created by Warren on 10/6/2016.
@@ -21,10 +22,11 @@ public class MoveToSecondBeacon extends LogicThread<AutonomousRobot> {
     AtomicBoolean redIsLeft;
     VuforiaLocalizerImplSubclass vuforia;
 
+    final double currentLine = RedAutonomousLogic.Line;
     final ExitCondition atwhiteline = new ExitCondition() {
         @Override
         public boolean isConditionMet() {
-            if (robot.getLineSensor().getRawValue() > 10) {
+            if (Math.abs(robot.getLineSensor().getRawValue() - currentLine) > .7) {
                 return true;
             }
             return false;
@@ -38,9 +40,10 @@ public class MoveToSecondBeacon extends LogicThread<AutonomousRobot> {
     }
     @Override
     public void loadCommands() {
-        Translate moveToSecondWLine = new Translate(1000, Translate.Direction.FORWARD, 0);
-        moveToSecondWLine.setExitCondition(atwhiteline);
-        commands.add(moveToSecondWLine);
+        WallTrace toWhiteLine =  new WallTrace(WallTrace.Direction.FORWARD, 9);
+        toWhiteLine.setExitCondition(atwhiteline);
+        commands.add(toWhiteLine);
+        robot.addToProgress("Went to Line");
         commands.add(new Pause(2000));
         FTCTakePicture gitgood = new FTCTakePicture(this.redIsLeft,this.vuforia);
         commands.add(gitgood);

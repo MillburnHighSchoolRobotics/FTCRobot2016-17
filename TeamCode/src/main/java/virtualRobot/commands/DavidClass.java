@@ -76,6 +76,7 @@ public class DavidClass {
         Log.d("qqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
 
 
+
         OutputStream fos = null;
         try {
             fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/FIRST/" + Boolean.toString(lAvg>rAvg)+Long.toString(System.currentTimeMillis()) + ".jpg"));

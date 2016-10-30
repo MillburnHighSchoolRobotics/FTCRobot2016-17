@@ -3,6 +3,8 @@ package virtualRobot.logicThreads;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.MoveServo;
+import virtualRobot.commands.Pause;
+import virtualRobot.commands.Translate;
 import virtualRobot.components.Servo;
 
 /**
@@ -15,6 +17,9 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
 
         robot.addToProgress("Pushed Left Button");
         commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{BUTTON_PUSHER_LEFT}));
-
+        commands.add(new Pause(2000));
+        commands.add(new Translate(200, Translate.Direction.RIGHT, 0));
+        commands.add(new Pause(2000));
+        commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{TeleopLogic.BUTTON_PUSHER_STATIONARY}));
     }
 }

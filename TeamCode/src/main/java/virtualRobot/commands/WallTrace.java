@@ -15,10 +15,19 @@ public class WallTrace implements Command {
     ExitCondition exitCondition;
     Direction direction;
     private AutonomousRobot robot;
-
+    private double target = 10;
     public WallTrace() {
         robot = Command.AUTO_ROBOT;
         direction = Direction.FORWARD;
+    }
+    public WallTrace(Direction d) {
+        robot = Command.AUTO_ROBOT;
+        direction = d;
+    }
+    public WallTrace(Direction d, double target) {
+        robot = Command.AUTO_ROBOT;
+        direction = d;
+        this.target = target;
     }
 
     public void setDirection (Direction d) { direction = d; }
@@ -39,7 +48,7 @@ public class WallTrace implements Command {
         boolean isInterrupted = false;
         Sensor sonarLeft = direction == Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
         Sensor sonarRight = direction == Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
-        PIDController close = new PIDController(0.008,0,0,0,13);
+        PIDController close = new PIDController(0.008,0,0,0,target);
         PIDController allign = new PIDController(0.012,0,0,0,0);
         double currLeft, currRight, errClose = 0, errAllign;
         while (!exitCondition.isConditionMet()) {
@@ -50,11 +59,15 @@ public class WallTrace implements Command {
             errAllign = allign.getPIDOutput(currLeft-currRight);
 
             if (direction == Direction.FORWARD) {
-                robot.getLeftRotate().setPower(tp - errClose - errAllign);
-                robot.getRightRotate().setPower(tp + errClose + errAllign);
+                robot.getLBMotor().setPower(tp - errClose - errAllign);
+                robot.getLFMotor().setPower(tp - errClose - errAllign);
+                robot.getRFMotor().setPower(tp + errClose + errAllign);
+                robot.getRBMotor().setPower(tp + errClose + errAllign);
             } else {
-                robot.getRightRotate().setPower((tp - errClose - errAllign)*-1);
-                robot.getLeftRotate().setPower((tp + errClose + errAllign)*-1);
+                robot.getLBMotor().setPower((tp - errClose - errAllign)*-1);
+                robot.getLFMotor().setPower((tp - errClose - errAllign)*-1);
+                robot.getRFMotor().setPower((tp + errClose + errAllign)*-1);
+                robot.getRBMotor().setPower((tp + errClose + errAllign)*-1);
             }
 
             if(Thread.currentThread().isInterrupted()) {
@@ -69,6 +82,7 @@ public class WallTrace implements Command {
                 break;
             }
         }
+        robot.stopMotors();
         return isInterrupted;
     }
 

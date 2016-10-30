@@ -22,12 +22,11 @@ import virtualRobot.monitorThreads.TimeMonitor;
  */
 public class BlueAutoGodThread extends GodThread {
     AtomicBoolean redIsLeft = new AtomicBoolean();
-    VuforiaLocalizerImplSubclass vuforia;
     @Override
 
     public void realRun() throws InterruptedException {
 
-        AtomicBoolean redIsLeft = new AtomicBoolean();
+
 
         MonitorThread watchingForTime = new TimeMonitor(System.currentTimeMillis(), 30000);
         Thread tm = new Thread(watchingForTime);

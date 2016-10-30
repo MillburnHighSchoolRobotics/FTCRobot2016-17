@@ -18,9 +18,9 @@ import virtualRobot.monitorThreads.TimeMonitor;
  */
 public class RedAutoGodThread extends GodThread {
     AtomicBoolean redIsLeft = new AtomicBoolean();
+
     @Override
     public void realRun() throws InterruptedException {
-        AtomicBoolean redIsLeft = new AtomicBoolean();
 
         /*MonitorThread watchingForTime = new TimeMonitor(System.currentTimeMillis(), 30000);
         Thread tm = new Thread(watchingForTime);

@@ -65,37 +65,37 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //                }
 //                Log.d("WallTrace", "Ended Orient");
 
-                PIDController allign = new PIDController(0.5,0,0,0,robot.getLineSensor().getValue()-0.7);
-                double adjustedPower;
-                double basePower = 0.2;
-                while (robot.getSonarRight().getValue() > 12) {
-                    adjustedPower = allign.getPIDOutput(robot.getLineSensor().getValue());
-                    robot.getLFMotor().setPower(-basePower - adjustedPower);
-                    robot.getLBMotor().setPower(basePower - adjustedPower);
-                    robot.getRFMotor().setPower(basePower + adjustedPower);
-                    robot.getRBMotor().setPower(-basePower + adjustedPower);
-                }
-                robot.stopMotors();
-//                double tp = 0.2;
-//                PIDController close = new PIDController(0.008,0,0,0,13);
-//                PIDController allign = new PIDController(0.012,0,0,0,0);
-//                double currLeft, currRight, errClose = 0, errAllign;
-//                while (robot.getLineSensor().getValue() > SallyJoeBot.BWTHRESHOLD) {
-//                    currLeft = robot.getSonarLeft().getValue();
-//                    currRight = robot.getSonarRight().getValue();
-//
-//                    errClose = close.getPIDOutput(currLeft);
-//                    errAllign = allign.getPIDOutput(currLeft-currRight);
-//                    robot.getLeftRotate().setPower(tp - errClose - errAllign);
-//                    robot.getRightRotate().setPower(tp + errClose + errAllign);
-//                    Log.d("WallTrace", "Forward " + currLeft + " " + currRight + "/n Errors: " + errClose + " " + errAllign);
-//                    robot.addToTelemetry("WallTrace: ", currLeft + " " + currRight);
-//                    robot.addToTelemetry("Errors: ", errClose + " " + errAllign);
-//
-////                    robot.getLeftRotate().setPower(0.15);
-////                    robot.getRightRotate().setPower(0.15);
-//                    Thread.sleep(10);
+//                PIDController allign = new PIDController(0.5,0,0,0,robot.getLineSensor().getValue()-0.7);
+//                double adjustedPower;
+//                double basePower = 0.2;
+//                while (robot.getSonarRight().getValue() > 12) {
+//                    adjustedPower = allign.getPIDOutput(robot.getLineSensor().getValue());
+//                    robot.getLFMotor().setPower(-basePower - adjustedPower);
+//                    robot.getLBMotor().setPower(basePower - adjustedPower);
+//                    robot.getRFMotor().setPower(basePower + adjustedPower);
+//                    robot.getRBMotor().setPower(-basePower + adjustedPower);
 //                }
+//                robot.stopMotors();
+                double tp = 0.2;
+                PIDController close = new PIDController(0.008,0,0,0,13);
+                PIDController allign = new PIDController(0.012,0,0,0,0);
+                double currLeft, currRight, errClose = 0, errAllign;
+                while (robot.getLineSensor().getValue() > SallyJoeBot.BWTHRESHOLD) {
+                    currLeft = robot.getSonarRight().getValue();
+                    currRight = robot.getSonarLeft().getValue();
+
+                    errClose = close.getPIDOutput(currLeft);
+                    errAllign = allign.getPIDOutput(currLeft-currRight);
+                    robot.getLeftRotate().setPower((tp - errClose - errAllign)*-1);
+                    robot.getRightRotate().setPower((tp + errClose + errAllign)*-1);
+                    Log.d("WallTrace", "Forward " + currLeft + " " + currRight + "/n Errors: " + errClose + " " + errAllign);
+                    robot.addToTelemetry("WallTrace: ", currLeft + " " + currRight);
+                    robot.addToTelemetry("Errors: ", errClose + " " + errAllign);
+
+//                    robot.getLeftRotate().setPower(0.15);
+//                    robot.getRightRotate().setPower(0.15);
+                    Thread.sleep(10);
+                }
                 Log.d("WallTrace", "Ended Forward");
                 robot.stopMotors();
                 return Thread.currentThread().isInterrupted();

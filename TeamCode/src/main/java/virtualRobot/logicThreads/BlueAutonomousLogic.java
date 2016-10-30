@@ -17,7 +17,7 @@ import virtualRobot.components.Sensor;
  * Go Hillary.
  */
 public class BlueAutonomousLogic extends LogicThread<AutonomousRobot> {
-    AtomicBoolean redIsLeft = new AtomicBoolean();
+    AtomicBoolean redIsLeft;
     VuforiaLocalizerImplSubclass vuforia;
 
     public BlueAutonomousLogic(AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia) {
