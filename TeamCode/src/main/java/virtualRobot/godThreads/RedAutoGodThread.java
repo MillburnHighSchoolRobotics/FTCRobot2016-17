@@ -9,9 +9,8 @@ import virtualRobot.commands.Command;
 import virtualRobot.logicThreads.PushLeftButton;
 import virtualRobot.logicThreads.PushRightButton;
 import virtualRobot.logicThreads.RedAutonomousLogic;
-import virtualRobot.logicThreads.MoveToSecondBeacon;
+import virtualRobot.logicThreads.RedMoveToSecondBeacon;
 import virtualRobot.logicThreads.RedStrafeToRamp;
-import virtualRobot.monitorThreads.TimeMonitor;
 
 /**
  * Created by shant on 1/10/2016.
@@ -55,7 +54,7 @@ public class RedAutoGodThread extends GodThread {
             delegateMonitor(pr, new MonitorThread[]{});
         }
 
-        LogicThread rmtscb = new MoveToSecondBeacon(redIsLeft, super.vuforia);
+        LogicThread rmtscb = new RedMoveToSecondBeacon(redIsLeft, super.vuforia);
         Thread godThread = new Thread(rmtscb);
         godThread.start();
         children.add(godThread);

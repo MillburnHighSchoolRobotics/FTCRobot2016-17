@@ -15,9 +15,8 @@ import virtualRobot.commands.WallTrace;
 
 /**
  * Created by Warren on 10/6/2016.
- * For Blue and Red. We are all inclusive.
  */
-public class MoveToSecondBeacon extends LogicThread<AutonomousRobot> {
+public class RedMoveToSecondBeacon extends LogicThread<AutonomousRobot> {
 
     AtomicBoolean redIsLeft;
     VuforiaLocalizerImplSubclass vuforia;
@@ -33,7 +32,7 @@ public class MoveToSecondBeacon extends LogicThread<AutonomousRobot> {
         }
     };
 
-    public MoveToSecondBeacon(AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia){
+    public RedMoveToSecondBeacon(AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia){
         super();
         this.redIsLeft = redIsLeft;
         this.vuforia = vuforia;
@@ -43,9 +42,13 @@ public class MoveToSecondBeacon extends LogicThread<AutonomousRobot> {
         WallTrace toWhiteLine =  new WallTrace(WallTrace.Direction.FORWARD, 9);
         toWhiteLine.setExitCondition(atwhiteline);
         commands.add(toWhiteLine);
+        commands.add(new Pause(2000));
+        WallTrace toWhiteLine2 =  new WallTrace(WallTrace.Direction.FORWARD, 9);
+        toWhiteLine2.setExitCondition(atwhiteline);
+        commands.add(toWhiteLine2);
         robot.addToProgress("Went to Line");
         commands.add(new Pause(2000));
-        FTCTakePicture gitgood = new FTCTakePicture(this.redIsLeft,this.vuforia);
-        commands.add(gitgood);
+        FTCTakePicture pic = new FTCTakePicture(this.redIsLeft,this.vuforia);
+        commands.add(pic);
     }
 }

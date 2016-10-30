@@ -16,9 +16,9 @@ public class RedStrafeToRamp extends LogicThread<AutonomousRobot> {
     public void loadCommands (){
         commands.add(new Translate(1500, Translate.Direction.FORWARD_LEFT,0));
         commands.add(new Pause(2000));
-        commands.add(new Rotate(10));
+        commands.add(new Rotate(20));
         commands.add(new Pause(2000));
-        commands.add(new Translate(1000, Translate.Direction.FORWARD,0));
+        commands.add(new Translate(1500, Translate.Direction.FORWARD,0));
         commands.add(new MoveMotor(robot.getReaperMotor()));
     }
 }
