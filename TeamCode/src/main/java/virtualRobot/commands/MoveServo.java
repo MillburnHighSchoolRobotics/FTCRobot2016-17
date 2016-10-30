@@ -7,6 +7,7 @@ import virtualRobot.components.Servo;
 
 /**
  * Created by shant on 10/9/2015.
+ * Moves a Servo
  */
 public class MoveServo implements Command {
     private ExitCondition exitCondition;

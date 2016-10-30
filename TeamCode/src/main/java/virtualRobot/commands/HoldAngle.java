@@ -8,6 +8,7 @@ import virtualRobot.PIDController;
 
 /**
  * Created by shant on 2/16/2016.
+ * Holds Our angle (Help Prevent Ramming Issues)
  */
 public class HoldAngle implements Command {
     private ExitCondition exitCondition;

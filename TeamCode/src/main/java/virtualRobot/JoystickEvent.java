@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 /**
  * Created by shant on 11/14/2015.
+ * When anything happens on the joystick
  */
 public class JoystickEvent {
     

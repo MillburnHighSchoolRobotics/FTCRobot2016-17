@@ -42,6 +42,7 @@ import org.firstinspires.ftc.teamcode.TestingOpModes.LineSensorTest;
 /**
  * Register Op Modes
  */
+
 public class FtcOpModeRegister implements OpModeRegister {
 
   /**
@@ -60,33 +61,6 @@ public class FtcOpModeRegister implements OpModeRegister {
      * If two or more op modes are registered with the same name, the app will display an error.
      */
 
-      /*manager.register("Diagnostic Op Mode", DiagnosticsOpMode.class);
-      manager.register("Blue Teleop", TeleopUpdate.class);
-      manager.register("Red Teleop", RedTeleopUpdate.class);
-
-      manager.register("IMU Test", IMUTest.class);
-
-
-      manager.register("Navx imu test", navXPerformanceTuningOp.class);
-
-
-      manager.register("Servo Zero", ServoCal.class);*/
-      manager.register("LineSensorTest", LineSensorTest.class);
-
-
-    //  manager.register("N60Test", N60Test.class );
-    //  manager.register("Debris Dump Blue", DebrisTestBlue.class);
-      //manager.register("Servo Zero", ArmTest.class);
-      //  manager.register("Lift Test Left", LiftTestLeft.class);
-      //  manager.register("Lift Test Right", LiftTestRight.class);
-      //  manager.register("Lift Test Both", LiftTestBoth.class);
-      //manager.register("PIDTester", PIDTesterUpdate.class);
-      //manager.register("Red Climber Autonomous", RedAutoUpdate.class);
-      //manager.register("Blue Mountain Autonomous", BlueMountainUpdate.class);
-      //manager.register("Sonar Test", SonarTest.class);
-      //manager.register("Wheel Test", WheelTest.class);
-
-      //manager.register("ServoCal", ServoCal.class);
 
   }
 }

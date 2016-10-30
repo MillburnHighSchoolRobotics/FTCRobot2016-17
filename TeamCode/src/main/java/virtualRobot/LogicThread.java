@@ -11,14 +11,14 @@ import virtualRobot.commands.Translate;
 
 /**
  * Created by shant on 10/8/2015.
- * can access certain virtualRobot features, such as setting motor power.
- *
- * Implements Runnable, which contains a loop that executes commands and
- * exits when the thread is interrupted or when custom ExitCondition is met
+ * Every LogicThread class when it is extends this abstract class will create to a queue of commands.
+ * This is done in the abstract loadCommands method.
+ * When that logic thread is instantiated and a thread is made and started using it, the run() commands is excecuted
+ * This goes through the aforementioned queue of commands, executing (calling changeRobotState()) each one
  */
 public abstract class LogicThread<T extends AutonomousRobot> implements Runnable {
-    protected List<Command> commands;
-    protected List<Thread> children;
+    protected List<Command> commands; //contains our queue of commands
+    protected List<Thread> children; //contains a list of threads created under this logic Thread using spawn new thread
     protected T robot;
 
     protected double startTime, elapsedTime;
@@ -44,7 +44,7 @@ public abstract class LogicThread<T extends AutonomousRobot> implements Runnable
             catch (InterruptedException e) {
                 isInterrupted = true;
             }
-            if (c instanceof SpawnNewThread) {
+            if (c instanceof SpawnNewThread) { //If a new thread is spawned well in the logic Thread, we have to pay special attention to it, because we want to be able to automatically kill it if this logicThread every dies.
                 List<Thread> threadList = ((SpawnNewThread) c).getThreads();
 
                 for (Thread t : threadList) {
@@ -60,7 +60,7 @@ public abstract class LogicThread<T extends AutonomousRobot> implements Runnable
         }
 
 
-        for (Thread x: children)
+        for (Thread x: children) //Kill any threads made using spawn new thread
             if (x.isAlive())
                 x.interrupt();
 

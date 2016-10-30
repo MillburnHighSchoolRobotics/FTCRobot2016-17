@@ -10,6 +10,7 @@ import virtualRobot.commands.Rotate;
 
 /**
  * Created by shant on 1/15/2016.
+ * Basic Test of GodThread
  */
 public class TestingGodThread extends GodThread {
     @Override

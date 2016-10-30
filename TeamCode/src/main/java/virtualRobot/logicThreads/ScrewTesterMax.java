@@ -10,6 +10,7 @@ import virtualRobot.commands.Command;
 
 /**
  * Created by ethachu19 on 10/27/2016.
+ * used to test ethan's algos
  */
 
 public class ScrewTesterMax extends LogicThread<AutonomousRobot> {

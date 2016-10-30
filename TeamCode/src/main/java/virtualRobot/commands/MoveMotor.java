@@ -7,6 +7,7 @@ import virtualRobot.components.Sensor;
 
 /**
  * Created by shant on 11/5/2015.
+ * Moves a Motor
  */
 public class MoveMotor implements Command {
 	private ExitCondition exitCondition;

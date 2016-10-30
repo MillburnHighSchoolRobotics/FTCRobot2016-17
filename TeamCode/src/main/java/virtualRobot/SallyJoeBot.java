@@ -13,6 +13,7 @@ import virtualRobot.components.SyncedMotors;
 
 /**
  * Created by DOSullivan on 9/14/16.
+ * All of our our virtual components and there getters are housed in SallyJoeBot
  */
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)

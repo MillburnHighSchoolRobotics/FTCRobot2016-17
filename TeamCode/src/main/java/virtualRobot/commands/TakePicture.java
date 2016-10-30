@@ -27,7 +27,9 @@ import static com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity.mCamera
 
 /**
  * Created by DOSullivan on 11/25/15.
+ * DEPRECATED: takes a picture using janky means
  */
+@Deprecated
 public class TakePicture implements Command {
     @Override
     public boolean changeRobotState() throws InterruptedException {

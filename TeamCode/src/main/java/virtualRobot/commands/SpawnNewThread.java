@@ -8,6 +8,7 @@ import virtualRobot.LogicThread;
 
 /**
  * Created by DOSullivan on 10/28/15.
+ * this command will create a new thread happening at the same time as the other commands in the queue of the logic thread
  */
 public class SpawnNewThread implements Command {
 	private List<LogicThread> logic;

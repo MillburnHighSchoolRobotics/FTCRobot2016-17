@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * Created by shant on 1/29/2016.
+ * Plays a Music file
  */
 public class PlayMusic implements Command {
     private String fileName;

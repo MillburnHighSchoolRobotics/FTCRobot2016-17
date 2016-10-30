@@ -1,6 +1,8 @@
 package virtualRobot.components;
 
-
+/*
+The virtual Motor component
+ */
 public class Motor {
 
     private volatile double power;

@@ -4,6 +4,7 @@ import virtualRobot.components.SyncedMotors;
 
 /**
  * Created by ethachu19 on 9/24/2016.
+ * Moves SynchronizedMotors
  */
 public class MoveSyncedMotors implements Command {
 

@@ -4,6 +4,14 @@ import java.util.ArrayList;
 
 /**
  * Created by shant on 1/5/2016.
+ * This will do a couple things:
+ * 1. First it starts innerThread, which will run all of the logic threads located in the instantiaion of godThrad
+ * 2. At the same time it checks to make sure innerThread is still running. If It detects that it has been interreptuted it kills innerThread
+ * and all of it's children (the logicThreads that are still running in the innerThread)
+ * 3. GodThread also has the delegateMonitor Method. All Logic Threads that are created in the innerThread
+ * should have delegateMonitor called with them passed in. It will automatically stop ALL logic Threads (it kills innerThread) in innerThread if
+ * there is a monitor and it goes off, and will at the very minimum  also make sure that that logicThread completeley finishes
+ * executing before the next one in the innerThread is started
  */
 public abstract class GodThread implements Runnable {
     private Thread innerThread;

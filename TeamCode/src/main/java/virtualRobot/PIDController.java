@@ -2,6 +2,7 @@ package virtualRobot;
 
 /**
  * Created by Yanjun on 10/14/2015.
+ * Our PID Controller implementation.
  */
 public class PIDController {
     private double kP;

@@ -6,6 +6,7 @@ import virtualRobot.godThreads.RedAutoGodThread;
 
 /**
  * Created by 17osullivand on 10/6/16.
+ * Update Thread for our Red autonomous
  */
 @Autonomous(name = "Testing: Red Autonomous", group =  "Autonomous")
 public class RedAutoUpdate extends UpdateThread {

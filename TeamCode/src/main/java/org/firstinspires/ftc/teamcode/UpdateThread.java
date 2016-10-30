@@ -46,7 +46,10 @@ import virtualRobot.logicThreads.PushRightButton;
 import virtualRobot.logicThreads.TeleopLogic;
 import virtualRobot.utils.MathUtils;
 import virtualRobot.godThreads.TakePictureTestGod;
-
+/*
+Updates Virtual sensors etc to corresponds to their real components.
+Updates Real components (e.g. motors) to correspond to the values of their virtual componennts
+ */
 public abstract class UpdateThread extends OpMode {
 	private static final boolean withServos = true;
 	private SallyJoeBot robot;

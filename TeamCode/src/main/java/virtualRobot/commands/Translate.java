@@ -10,6 +10,7 @@ import virtualRobot.utils.MathUtils;
 
 /**
  * Created by shant on 10/14/2015.
+ * Transaltes the Robot In any direction
  */
 public class Translate implements Command {
     private ExitCondition exitCondition;

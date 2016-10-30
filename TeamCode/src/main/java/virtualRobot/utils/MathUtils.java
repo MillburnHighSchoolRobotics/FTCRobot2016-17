@@ -2,6 +2,7 @@ package virtualRobot.utils;
 
 /**
  * Created by 17osullivand on 9/26/16.
+ * Various mathematical tools.
  */
 public class MathUtils {
     private static double epsilon = 0.01;

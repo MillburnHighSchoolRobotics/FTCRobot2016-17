@@ -20,6 +20,7 @@ import virtualRobot.godThreads.TeleopGodThread;
  * /__|    |__\
  * <p>
  * Created by shant on 11/27/2015.
+ * The Update Thread for Teleop
  */
 @TeleOp(name = "Testing: teleop", group = "Testing")
 public class TeleopUpdate extends UpdateThread {

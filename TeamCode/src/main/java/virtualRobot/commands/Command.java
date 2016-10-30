@@ -6,6 +6,7 @@ import virtualRobot.TeleopRobot;
 
 /**
  * Created by shant on 10/8/2015.
+ * Logicthread will go through a queue of these commands
  */
 public interface Command  {
     /*
