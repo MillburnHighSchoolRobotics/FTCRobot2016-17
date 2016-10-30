@@ -153,7 +153,7 @@ public abstract class UpdateThread extends OpMode {
 		if (withServos) {
 			capLeft.getController().setServoPosition(capLeft.getPortNumber(), .1889);
 			capRight.getController().setServoPosition(capRight.getPortNumber(), .1899);
-			buttonServo.setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
+			buttonServo.setPosition(TeleopLogic.BUTTON_PUSHER_STATIONARY);
 		}
 
 		addPresets();
