@@ -499,7 +499,7 @@ public class Translate implements Command {
               multiplier[3] = POWER_MATRIX[direction.getCode()][3];
           }
               double absHead = Math.abs(headingOutput);
-          switch (direction) {
+          /*switch (direction) {
             //TODO: Everything that doesn't use absHead still needs to be updated
               case FORWARD:
                   if (headingOutput > 0) {
@@ -612,7 +612,7 @@ public class Translate implements Command {
                   break;
 
 
-          }
+          }*/
               robot.getLFMotor().setPower(LFPower * multiplier[0]);
               robot.getRFMotor().setPower(RFPower * multiplier[1]);
               robot.getLBMotor().setPower(LBPower * multiplier[2]);
