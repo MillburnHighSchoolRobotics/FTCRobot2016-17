@@ -61,7 +61,7 @@ public class BlueAutoGodThread extends GodThread {
             delegateMonitor(pr, new MonitorThread[]{});
         }
 
-        LogicThread rmtscb = new BlueMoveToSecondBeacon(redIsLeft, super.vuforia);
+       /* LogicThread rmtscb = new BlueMoveToSecondBeacon(redIsLeft, super.vuforia);
         Thread godThread = new Thread(rmtscb);
         godThread.start();
         children.add(godThread); //Goes to second beacon, takes pic
@@ -90,7 +90,7 @@ public class BlueAutoGodThread extends GodThread {
         Thread rst = new Thread(rstr);
         rst.start();
         children.add(rst);
-        delegateMonitor(rst, new MonitorThread[]{});
+        delegateMonitor(rst, new MonitorThread[]{}); */
 
 
 

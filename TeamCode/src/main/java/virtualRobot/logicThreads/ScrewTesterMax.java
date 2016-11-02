@@ -78,17 +78,17 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //                }
 //                robot.stopMotors();
                 double tp = 0.2;
-                PIDController close = new PIDController(0.008,0,0,0,13);
+                PIDController close = new PIDController(0.008,0,0,0,8);
                 PIDController allign = new PIDController(0.012,0,0,0,0);
                 double currLeft, currRight, errClose = 0, errAllign;
                 while (robot.getLineSensor().getValue() > SallyJoeBot.BWTHRESHOLD) {
-                    currLeft = robot.getSonarRight().getValue();
-                    currRight = robot.getSonarLeft().getValue();
+                    currLeft = robot.getSonarLeft().getValue();
+                    currRight = robot.getSonarRight().getValue();
 
                     errClose = close.getPIDOutput(currLeft);
                     errAllign = allign.getPIDOutput(currLeft-currRight);
-                    robot.getLeftRotate().setPower((tp - errClose - errAllign)*-1);
-                    robot.getRightRotate().setPower((tp + errClose + errAllign)*-1);
+                    robot.getLeftRotate().setPower((tp - errClose - errAllign)*1);
+                    robot.getRightRotate().setPower((tp + errClose + errAllign)*1);
                     Log.d("WallTrace", "Forward " + currLeft + " " + currRight + "/n Errors: " + errClose + " " + errAllign);
                     robot.addToTelemetry("WallTrace: ", currLeft + " " + currRight);
                     robot.addToTelemetry("Errors: ", errClose + " " + errAllign);

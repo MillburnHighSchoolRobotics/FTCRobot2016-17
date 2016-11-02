@@ -54,7 +54,7 @@ public class RedAutoGodThread extends GodThread {
             children.add(pr);
             delegateMonitor(pr, new MonitorThread[]{});
         }
-
+        /*
         LogicThread rmtscb = new RedMoveToSecondBeacon(redIsLeft, super.vuforia);
         Thread godThread = new Thread(rmtscb);
         godThread.start();
@@ -84,7 +84,7 @@ public class RedAutoGodThread extends GodThread {
         Thread rst = new Thread(rstr);
         rst.start();
         children.add(rst);
-        delegateMonitor(rst, new MonitorThread[]{});
+        delegateMonitor(rst, new MonitorThread[]{});*/
 
 
 

@@ -27,5 +27,6 @@ public class TakePictureTestLogic extends LogicThread<AutonomousRobot> {
 
         commands.add(new FTCTakePicture(redIsLeft,vuforia));
 
+
     }
 }
