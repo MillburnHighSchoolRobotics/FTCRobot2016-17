@@ -1,5 +1,7 @@
 package com.sensors;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 
@@ -7,27 +9,32 @@ import com.qualcomm.robotcore.hardware.DigitalChannelController;
  * Created by ethachu19 on 10/31/2016.
  */
 
-public class ParallaxPingSensor extends DigitalChannel {
+@Deprecated
+public class ParallaxPingSensor {
 
-    public ParallaxPingSensor(DigitalChannelController controller, int channel) {
-        super(controller,channel);
+    DigitalChannel channel;
+
+    public ParallaxPingSensor(DigitalChannel channel) {
+        this.channel = channel;
     }
 
     public double getResponseTime() {
-        setMode(DigitalChannelController.Mode.OUTPUT);
+        channel.setMode(DigitalChannelController.Mode.OUTPUT);
         try {
-            setState(false);
+            channel.setState(false);
             Thread.sleep(0, 2000);
-            setState(true);
+            channel.setState(true);
             Thread.sleep(0, 5000);
-            setState(false);
+            channel.setState(false);
         } catch (InterruptedException ex) {
             return -1;
         }
 
         long start = System.nanoTime();
-        setMode(DigitalChannelController.Mode.INPUT);
-        while (!getState()) {}
+        channel.setMode(DigitalChannelController.Mode.INPUT);
+        while (!channel.getState()) {
+            Log.d("ChannelLoop", "In Loop Channel");
+        }
         return (System.nanoTime() - start)/1000;
     }
 
