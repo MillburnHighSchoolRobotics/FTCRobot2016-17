@@ -33,7 +33,7 @@ import virtualRobot.godThreads.TakePictureTestGod;
  * Created by mehme_000 on 10/7/2016.
  */
 
-@Autonomous(name ="Sensor: Camera", group="Sensor")
+//@Autonomous(name ="Sensor: Camera", group="Sensor")
 public class TakePictureTest extends LinearOpMode {
     //private TakePictureTestGod tp;
     private AtomicBoolean redisLeft = new AtomicBoolean();
