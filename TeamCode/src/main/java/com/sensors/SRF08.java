@@ -43,7 +43,7 @@ public class SRF08 extends I2CSensor {
             setDistanceUnit(DistUnit.MICROSECONDS);
         }
         double ret;
-        if (distUnit == DistUnit.CM) {
+        if (distUnit == DistUnit.CM  ) {
             ret = getEcho(echo);
         } else {
             ret = getEcho(echo) / 29 / 2;
