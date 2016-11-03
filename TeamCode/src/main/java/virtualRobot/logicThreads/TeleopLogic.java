@@ -158,7 +158,8 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
                         robot.getReaperMotor().setPower(-1);
                     } else {
-                        robot.getReaperMotor().setPosition(robot.getReaperEncoder(), 500);
+//                        robot.getReaperMotor().setPosition(robot.getReaperEncoder(), 500);
+                        robot.getReaperMotor().setPower(0);
                     }
 
                     if(controller1.isDpadLeft()) {

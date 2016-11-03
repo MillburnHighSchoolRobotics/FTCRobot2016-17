@@ -6,6 +6,7 @@ import virtualRobot.MonitorThread;
 import virtualRobot.PIDController;
 import virtualRobot.SallyJoeBot;
 import virtualRobot.logicThreads.RedAutonomousLogic;
+import virtualRobot.logicThreads.RedStrafeToRamp;
 import virtualRobot.logicThreads.ScrewTesterMax;
 
 /**
@@ -16,12 +17,15 @@ import virtualRobot.logicThreads.ScrewTesterMax;
 public class PIDLineFollowerGod extends GodThread {
     @Override
     public void realRun() throws InterruptedException {
-        LogicThread moveToFirstBeacon = new ScrewTesterMax();
-        Thread mtfb = new Thread(moveToFirstBeacon);
-        mtfb.start();
-        children.add(mtfb);
-
+       // LogicThread moveToFirstBeacon = new ScrewTesterMax();
+        //Thread mtfb = new Thread(moveToFirstBeacon);
+        //mtfb.start();
+        //children.add(mtfb);
+        LogicThread rstr = new RedStrafeToRamp();
+        Thread threa = new Thread(rstr);
+        threa.start();
+        children.add(threa);
         //keep the program alive as long as the two monitor threads are still going - should proceed every logicThread addition
-        delegateMonitor(mtfb, new MonitorThread[]{});
+        delegateMonitor(threa, new MonitorThread[]{});
     }
 }
