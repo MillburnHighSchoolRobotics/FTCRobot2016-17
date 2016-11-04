@@ -8,10 +8,12 @@ import virtualRobot.utils.MathUtils;
 
 public class UltrasonicSensor extends Sensor {
     public double getFilteredValue() {
-        byte levels[] = new byte[10];
-        bytefill(levels, (byte) MathUtils.clamp((getValue()), -128, 127));
+        double levels[] = new double[10];
+        for(int i = 0; i < levels.length; i++) {
+            levels[i] = getValue();
+        }
         for (int i = 1; i < levels.length; i++) {
-            byte temp = levels[i];
+            double temp = levels[i];
             int j;
             for (j = i - 1; j >= 0 && temp < levels[j]; j--) {
                 levels[j+1] = levels[j];
@@ -19,14 +21,6 @@ public class UltrasonicSensor extends Sensor {
             levels[j+1] = temp;
         }
         return levels[levels.length/2];
-    }
-    public static void bytefill(byte[] array, byte value) {
-        int len = array.length;
-        if (len > 0)
-            array[0] = value;
-        for (int i = 1; i < len; i += i) {
-            System.arraycopy( array, 0, array, i, ((len - i) < i) ? (len - i) : i);
-        }
     }
 
 }

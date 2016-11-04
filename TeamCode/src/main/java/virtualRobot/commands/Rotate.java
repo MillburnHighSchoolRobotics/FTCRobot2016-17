@@ -13,12 +13,12 @@ import virtualRobot.PIDController;
 public class Rotate implements Command {
     private ExitCondition exitCondition;
 
-    public static final double THRESHOLD = 12.13;
+    public static final double THRESHOLD = 0;//12.13;
     //KU:  0.0351875, 0.0377188, 0.04025
     //KU: 0.0377188; TU: 106
-    public static final double KP =  0.02263128;
-    public static final double KI = 0.000427005283;
-    public static final double KD = .29986446;
+    public static final double KP =  0.037;
+    public static final double KI = 0;
+    public static final double KD = 0;
 
     public static final double MIN_MAX_POWER = .99;
 
@@ -138,7 +138,7 @@ public class Rotate implements Command {
         switch (runMode) {
             case WITH_ANGLE_SENSOR:
 
-                while (!exitCondition.isConditionMet() &&  Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
+                while (!exitCondition.isConditionMet() && /* Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE && */ (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
                     double adjustedPower = pidController.getPIDOutput(robot.getHeadingSensor().getValue());
                     adjustedPower = Math.min(Math.max(adjustedPower, -1), 1);
