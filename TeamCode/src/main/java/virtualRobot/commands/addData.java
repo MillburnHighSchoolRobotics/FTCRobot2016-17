@@ -1,5 +1,8 @@
 package virtualRobot.commands;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;
 
@@ -16,6 +19,7 @@ public class addData implements Command {
     }
     @Override
     public boolean changeRobotState() throws InterruptedException {
+        logicThread.data.addAll(Arrays.asList(myData));
         return false;
     }
     public LogicThread<AutonomousRobot> getLogicThread() {

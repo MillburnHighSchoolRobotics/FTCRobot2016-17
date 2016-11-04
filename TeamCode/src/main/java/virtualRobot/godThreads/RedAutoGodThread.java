@@ -177,8 +177,7 @@ public class RedAutoGodThread extends GodThread {
 
     }
     private double getLineValue(LogicThread<AutonomousRobot> l) {
-        Object[] o =  l.data.get(l);
-        double lineValue = (Double) o[0];
+        double lineValue = (double) l.data.get(0);
         return lineValue;
     }
 }

@@ -180,8 +180,7 @@ public class BlueAutoGodThread extends GodThread {
 
     }
     private double getLineValue(LogicThread<AutonomousRobot> l) {
-        Object[] o = (Object[]) l.data.get(l);
-        double lineValue = (Double) o[0];
+        double lineValue = (double) l.data.get(0);
         return lineValue;
     }
 

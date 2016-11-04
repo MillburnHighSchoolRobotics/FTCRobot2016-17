@@ -2,6 +2,7 @@ package virtualRobot;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public abstract class LogicThread<T extends AutonomousRobot> implements Runnable
     protected T robot;
 
     protected double startTime, elapsedTime;
-    public HashMap<LogicThread<AutonomousRobot>, Object[]> data = new HashMap<LogicThread<AutonomousRobot>, Object[]>(); //if a logic thread wants to store data
+    public List<Object> data = Collections.synchronizedList(new ArrayList<Object>());
+    //public HashMap<LogicThread<AutonomousRobot>, Object[]> datam = new HashMap<LogicThread<AutonomousRobot>, Object[]>(); //if a logic thread wants to store data
     @Override
     public void run(){
 
@@ -41,7 +43,8 @@ public abstract class LogicThread<T extends AutonomousRobot> implements Runnable
                 if (((Translate)c).getName() != null) robot.addToProgress(((Translate)c).getName());
             }
             if (c instanceof addData) {
-                data.put(((addData)c).getLogicThread(), ((addData)c).getMyData());
+                //data.put(((addData)c).getLogicThread(), ((addData)c).getMyData());
+                data.add(((addData)c).getMyData());
             }
             try {
                 isInterrupted = c.changeRobotState();
