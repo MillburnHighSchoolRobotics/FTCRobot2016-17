@@ -113,8 +113,8 @@ public abstract class UpdateThread extends OpMode {
         //SENSOR SETUP e.g. colorSensor = hardwareMap.colorsensor.get("color"), sonar1 = hardwareMap.analogInput.get("sonar1"), liftEndStop1 = hardwareMap.digitalChannel.get("liftEndStop1")
 		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
 		lineSensor = hardwareMap.analogInput.get("lineSensor");
-//		sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");
-//		sonarRight = hardwareMap.ultrasonicSensor.get("sonarRight");
+		sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");
+		sonarRight = hardwareMap.ultrasonicSensor.get("sonarRight");
 
 
         //FETCH VIRTUAL ROBOT FROM COMMAND INTERFACE
@@ -206,8 +206,8 @@ public abstract class UpdateThread extends OpMode {
 
 				vButtonServo.setPosition(buttonServo.getPosition());
 			}
-//			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
-//			vSonarRight.setRawValue(sonarRight.getUltrasonicLevel());
+			vSonarLeft.setRawValue(getMedianLevel(sonarLeft));
+			vSonarRight.setRawValue(getMedianLevel(sonarRight));
 		t.start();
 	}
 	
@@ -228,8 +228,8 @@ public abstract class UpdateThread extends OpMode {
 		vHeadingSensor.setRawValue(headingAngle);
 		vRollSensor.setRawValue(imu.getIntegratedRoll());
 		vLineSensor.setRawValue(lineSensor.getVoltage());
-		vSonarLeft.setRawValue(0);
-		vSonarRight.setRawValue(0);
+		vSonarLeft.setRawValue(getMedianLevel(sonarLeft));
+		vSonarRight.setRawValue(getMedianLevel(sonarRight));
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
@@ -285,7 +285,7 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("Line Sensor: ", robot.getLineSensor().getValue());
-//		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
+		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
@@ -303,5 +303,21 @@ public abstract class UpdateThread extends OpMode {
 	public abstract void setGodThread();
 
     public void addPresets(){}
+
+	public double getMedianLevel(UltrasonicSensor sonar) {
+		double levels[] = new double[10];
+		for (int i = 0; i < levels.length; i++) {
+			levels[i] = sonar.getUltrasonicLevel();
+		}
+		for (int i = 1; i < levels.length; i++) {
+			double temp = levels[i];
+			int j;
+			for (j = i - 1; j >= 0 && temp < levels[j]; j--) {
+				levels[j+1] = levels[j];
+			}
+			levels[j+1] = temp;
+		}
+		return levels[levels.length/2];
+	}
 }
 

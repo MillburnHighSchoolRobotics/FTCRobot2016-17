@@ -1,5 +1,7 @@
 package com.sensors;
 
+import android.util.Log;
+
 import com.I2CUtils.I2CSensor;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.sensors.ftc.SRF08Protocol;
@@ -32,9 +34,16 @@ public class SRF08 extends I2CSensor {
     }
 
     public double getEcho(int echo) {
+        if (echo < 1 || echo > 17) {
+            throw new IllegalArgumentException("Echo Is Too High:"+echo);
+        }
         SensorReadRequest read = new SensorReadRequest(SRF08Registers.FIRST_ECHO + echo - 1, 2);
-        read.setReadData();
+        while (!read.hasReadData()) {
+            portIsReady(1);
+            Log.d("ErrorTracking", "In set read data");
+        }
         byte data[] = read.getReadData();
+        Log.d("ErrorTracking", data.length + " ");
         return data[0] << 8 | data [1];
     }
 
@@ -79,6 +88,10 @@ public class SRF08 extends I2CSensor {
         write.sendRequest();
         while (!write.wasSent()){}
     }
+
+//    protected void readyCallback() {
+//        Log.d("I2C","Call done");
+//    }
 
     @Override
     protected int getAddress() {
