@@ -3,14 +3,12 @@ package virtualRobot;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import virtualRobot.commands.Command;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.SpawnNewThread;
 import virtualRobot.commands.Translate;
-import virtualRobot.commands.addData;
 
 /**
  * Created by shant on 10/8/2015.
@@ -42,10 +40,7 @@ public abstract class LogicThread<T extends AutonomousRobot> implements Runnable
             if (c instanceof Translate) {
                 if (((Translate)c).getName() != null) robot.addToProgress(((Translate)c).getName());
             }
-            if (c instanceof addData) {
-                //data.put(((addData)c).getLogicThread(), ((addData)c).getMyData());
-                data.add(((addData)c).getMyData());
-            }
+
             try {
                 isInterrupted = c.changeRobotState();
             }

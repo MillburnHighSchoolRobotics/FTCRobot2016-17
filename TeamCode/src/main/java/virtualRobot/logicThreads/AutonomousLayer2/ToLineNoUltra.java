@@ -8,7 +8,6 @@ import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Translate;
-import virtualRobot.commands.addData;
 
 /**
  * Created by 17osullivand on 11/3/16.
@@ -40,7 +39,7 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
                 return false;
             }
         }; //if our line sensor detects a change >.7, we're at the line, stop moving!
-        commands.add(new addData(this, currentLine));
+        data.add(currentLine);
         commands.add(new Pause(500));
         commands.add(new Translate(ESCAPE_WALL, Translate.Direction.LEFT, 0)); //Welp we've just missed our sonar so lets get outttt of here
         commands.add(new Pause(500));

@@ -72,12 +72,12 @@ public abstract class UpdateThread extends OpMode {
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
-	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vLineSensor,vSonarLeft,vSonarRight,vReaperEncoder;
+	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vLineSensor,vReaperEncoder;
 	private LocationSensor vLocationSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vReaper;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
-
+	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
 	private virtualRobot.components.Servo vButtonServo;
 
 
@@ -200,8 +200,8 @@ public abstract class UpdateThread extends OpMode {
 				vButtonServo.setPosition(buttonServo.getPosition());
 			}
 		if (WITH_SONAR) {
-			vSonarLeft.setRawValue(getMedianLevel(sonarLeft));
-			vSonarRight.setRawValue(getMedianLevel(sonarRight));
+			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
+			vSonarRight.setRawValue(sonarRight.getUltrasonicLevel());
 		}
 		t.start();
 	}
@@ -224,8 +224,8 @@ public abstract class UpdateThread extends OpMode {
 		vRollSensor.setRawValue(imu.getIntegratedRoll());
 		vLineSensor.setRawValue(lineSensor.getVoltage());
 		if (WITH_SONAR) {
-			vSonarLeft.setRawValue(getMedianLevel(sonarLeft));
-			vSonarRight.setRawValue(getMedianLevel(sonarRight));
+			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
+			vSonarRight.setRawValue(sonarRight.getUltrasonicLevel());
 		}
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
@@ -297,20 +297,6 @@ public abstract class UpdateThread extends OpMode {
 
     public void addPresets(){}
 
-	public double getMedianLevel(UltrasonicSensor sonar) {
-		double levels[] = new double[10];
-		for (int i = 0; i < levels.length; i++) {
-			levels[i] = sonar.getUltrasonicLevel();
-		}
-		for (int i = 1; i < levels.length; i++) {
-			double temp = levels[i];
-			int j;
-			for (j = i - 1; j >= 0 && temp < levels[j]; j--) {
-				levels[j+1] = levels[j];
-			}
-			levels[j+1] = temp;
-		}
-		return levels[levels.length/2];
-	}
+
 }
 

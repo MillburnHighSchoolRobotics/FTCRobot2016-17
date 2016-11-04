@@ -6,6 +6,7 @@ import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.PIDController;
 import virtualRobot.components.Sensor;
+import virtualRobot.components.UltrasonicSensor;
 
 /**
  * Created by ethachu19 on 10/29/2016.
@@ -56,14 +57,14 @@ public class WallTrace implements Command {
     public boolean changeRobotState() throws InterruptedException {
         double tp = 0.2;
         boolean isInterrupted = false;
-        Sensor sonarLeft = direction == Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
-        Sensor sonarRight = direction == Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
+        UltrasonicSensor sonarLeft = direction == Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
+        UltrasonicSensor sonarRight = direction == Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
         PIDController close = new PIDController(0.008,0,0,0,target);
         PIDController allign = new PIDController(0.012,0,0,0,0);
         double currLeft, currRight, errClose = 0, errAllign;
         while (!exitCondition.isConditionMet() && (getAvgDistance() < maxDistance)) {
-            currLeft = sonarLeft.getValue();
-            currRight = sonarRight.getValue();
+            currLeft = sonarLeft.getFilteredValue();
+            currRight = sonarRight.getFilteredValue();
 
             errClose = close.getPIDOutput(currLeft);
             errAllign = allign.getPIDOutput(currLeft-currRight);

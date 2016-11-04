@@ -10,6 +10,7 @@ import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.Servo;
 import virtualRobot.components.SyncedMotors;
+import virtualRobot.components.UltrasonicSensor;
 
 /**
  * Created by DOSullivan on 11/18/2015.
@@ -26,9 +27,9 @@ public interface AutonomousRobot {
 
     LocationSensor getLocationSensor();
 
-    Sensor getSonarLeft();
+    UltrasonicSensor getSonarLeft();
 
-    Sensor getSonarRight();
+    UltrasonicSensor getSonarRight();
 
     Motor getLFMotor();
 

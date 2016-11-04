@@ -10,6 +10,7 @@ import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.Servo;
 import virtualRobot.components.SyncedMotors;
+import virtualRobot.components.UltrasonicSensor;
 
 /**
  * Created by DOSullivan on 9/14/16.
@@ -17,7 +18,8 @@ import virtualRobot.components.SyncedMotors;
  */
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
-    private Sensor headingSensor, pitchSensor, rollSensor, sonarLeft, lightSensor, sonarRight;
+    private Sensor headingSensor, pitchSensor, rollSensor, lightSensor;
+    private UltrasonicSensor sonarLeft, sonarRight;
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder, ReaperEncoder;
     private LocationSensor locationSensor;
@@ -41,8 +43,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         headingSensor = new Sensor();
         pitchSensor = new Sensor();
         rollSensor = new Sensor();
-        sonarLeft = new Sensor();
-        sonarRight = new Sensor();
+        sonarLeft = new UltrasonicSensor();
+        sonarRight = new UltrasonicSensor();
         lightSensor = new Sensor();
         robotProgress = new ArrayList<String>();
         telemetry = new HashMap<>();
@@ -85,10 +87,10 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     }
 
     @Override
-    public synchronized Sensor getSonarLeft(){return sonarLeft;}
+    public synchronized UltrasonicSensor getSonarLeft(){return sonarLeft;}
 
     @Override
-    public synchronized Sensor getSonarRight(){return sonarRight;}
+    public synchronized UltrasonicSensor getSonarRight(){return sonarRight;}
 
     @Override
     public synchronized Sensor getLFEncoder() { return LFEncoder; }

@@ -48,11 +48,13 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
             strafeRight.setExitCondition(new ExitCondition() {
                 @Override
                 public boolean isConditionMet() {
+                    double sonarRight = robot.getSonarRight().getFilteredValue();
+                    double sonarLeft = robot.getSonarLeft().getFilteredValue();
                     Log.d("UltraSOUND", "" + robot.getSonarLeft().getValue() + "" + robot.getSonarRight().getValue());
-                    if (robot.getSonarRight().getValue() <= SONAR_ERROR_MIN || robot.getSonarLeft().getValue() <= SONAR_ERROR_MIN || robot.getSonarRight().getValue() >= SONAR_ERROR_MAX || robot.getSonarLeft().getValue() >= SONAR_ERROR_MAX) {
+                    if (sonarRight <= SONAR_ERROR_MIN || sonarLeft <= SONAR_ERROR_MIN ||sonarRight >= SONAR_ERROR_MAX || sonarLeft >= SONAR_ERROR_MAX) {
                         sonarWorks.set(false);
 
-                    } else if (robot.getSonarRight().getValue() < CLOSE_TO_WALL || robot.getSonarLeft().getValue() < CLOSE_TO_WALL) {
+                    } else if (sonarRight < CLOSE_TO_WALL || sonarLeft < CLOSE_TO_WALL) {
                         sonarWorks.set(true);
                         robot.addToProgress("SONAR GOOD DATA");
                         return true;

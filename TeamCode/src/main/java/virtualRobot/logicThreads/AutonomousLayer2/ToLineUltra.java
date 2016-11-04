@@ -6,11 +6,8 @@ import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
-import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.Pause;
-import virtualRobot.commands.Translate;
 import virtualRobot.commands.WallTrace;
-import virtualRobot.commands.addData;
 
 /**
  * Created by 17osullivand on 11/3/16.
@@ -42,7 +39,7 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
                 return false;
             }
         }; //if our line sensor detects a change >.7, we're at the line, stop moving!
-        commands.add(new addData(this, currentLine));
+        data.add(currentLine);
         commands.add(new Pause(500));
         if (type==GodThread.Line.RED_FIRST_LINE || type==GodThread.Line.BLUE_SECOND_LINE) {
             WallTrace toWhiteLine = new WallTrace(WallTrace.Direction.BACKWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_LINE);
