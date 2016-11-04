@@ -75,6 +75,7 @@ public abstract class I2CSensor implements I2cController.I2cPortReadyCallback {
         }
         public void sendRequest() {
             I2CSensor.this.device.enableI2cReadMode(I2CSensor.this.getWrappedAddress(), this.getRegister(), this.getLength());
+            I2CSensor.this.device.writeI2cCacheToController();
             I2CSensor.this.lastRead = this;
         }
         //Record new data that has been received
@@ -119,6 +120,7 @@ public abstract class I2CSensor implements I2cController.I2cPortReadyCallback {
             this.resetActionTimer();
             I2CSensor.this.device.enableI2cWriteMode(I2CSensor.this.getWrappedAddress(), this.getRegister(), this.writeData.length);
             I2CSensor.this.device.copyBufferIntoWriteBuffer(this.writeData);
+            I2CSensor.this.device.writeI2cCacheToController();
             this.sent = true;
             I2CSensor.this.lastRead = null; //there is no read request being responded to
         }
@@ -166,6 +168,10 @@ public abstract class I2CSensor implements I2cController.I2cPortReadyCallback {
             }
         }
         this.readyCallback();
+    }
+
+    public I2cDevice getDevice() {
+        return device;
     }
     //Can be overridden in subclasses to provide a callback function when an I2C request is completed
     protected void readyCallback() {}
