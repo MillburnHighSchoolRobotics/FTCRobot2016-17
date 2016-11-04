@@ -6,7 +6,6 @@ import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
-import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Translate;
 import virtualRobot.commands.addData;

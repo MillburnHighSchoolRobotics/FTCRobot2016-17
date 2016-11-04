@@ -42,7 +42,6 @@ import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.SyncedMotors;
 import virtualRobot.godThreads.TeleopGodThread;
-import virtualRobot.logicThreads.PushRightButton;
 import virtualRobot.logicThreads.TeleopLogic;
 import virtualRobot.utils.MathUtils;
 import virtualRobot.godThreads.TakePictureTestGod;
@@ -52,6 +51,7 @@ Updates Real components (e.g. motors) to correspond to the values of their virtu
  */
 public abstract class UpdateThread extends OpMode {
 	private static final boolean withServos = true;
+	public static final boolean WITH_SONAR = true;
 	private SallyJoeBot robot;
 	protected Class<? extends GodThread> godThread;
 	private Thread t;
@@ -64,7 +64,6 @@ public abstract class UpdateThread extends OpMode {
 	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper;
 	private UltrasonicSensor sonarLeft, sonarRight;
 
-	private CRServo capLeft, capRight;
 	private Servo buttonServo;
 
 	private GodThread vuforiaEverywhere;
@@ -81,7 +80,6 @@ public abstract class UpdateThread extends OpMode {
 
 	private virtualRobot.components.Servo vButtonServo;
 
-	private ContinuousRotationServo vCapServo;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -98,8 +96,7 @@ public abstract class UpdateThread extends OpMode {
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		if (withServos) {
-			capLeft = hardwareMap.crservo.get("capLeft");
-			capRight = hardwareMap.crservo.get("capRight");
+
 			buttonServo = hardwareMap.servo.get("buttonPusher");
 		}
 
@@ -113,9 +110,10 @@ public abstract class UpdateThread extends OpMode {
         //SENSOR SETUP e.g. colorSensor = hardwareMap.colorsensor.get("color"), sonar1 = hardwareMap.analogInput.get("sonar1"), liftEndStop1 = hardwareMap.digitalChannel.get("liftEndStop1")
 		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
 		lineSensor = hardwareMap.analogInput.get("lineSensor");
-		sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");
-		sonarRight = hardwareMap.ultrasonicSensor.get("sonarRight");
-
+		if (WITH_SONAR) {
+			sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");
+			sonarRight = hardwareMap.ultrasonicSensor.get("sonarRight");
+		}
 
         //FETCH VIRTUAL ROBOT FROM COMMAND INTERFACE
 		robot = Command.ROBOT;
@@ -126,15 +124,16 @@ public abstract class UpdateThread extends OpMode {
 		vRollSensor = robot.getRollSensor();
 		vLocationSensor = robot.getLocationSensor();
 		vLineSensor = robot.getLineSensor();
-		vSonarLeft = robot.getSonarLeft();
-		vSonarRight = robot.getSonarRight();
+		if (WITH_SONAR) {
+			vSonarLeft = robot.getSonarLeft();
+			vSonarRight = robot.getSonarRight();
+		}
 		vLeftFront = robot.getLFMotor();
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
 		vRightBack = robot.getRBMotor();
 		vReaper = robot.getReaperMotor();
 		if (withServos) {
-			vCapServo = robot.getCapServo();
 			vButtonServo = robot.getButtonServo();
 		}
 		vLeftFrontEncoder = robot.getLFEncoder();
@@ -148,14 +147,10 @@ public abstract class UpdateThread extends OpMode {
 		robotProgress = new ArrayList<String>();
 		//Setup Physical Components
 
-		if (withServos) {
-			capRight.setDirection(DcMotorSimple.Direction.REVERSE);
-		}
+
 			//UpdateUtil.setPosition(capLeft,0.3);
 		//UpdateUtil.setPosition(capRight,0.3);
 		if (withServos) {
-			capLeft.getController().setServoPosition(capLeft.getPortNumber(), .1889);
-			capRight.getController().setServoPosition(capRight.getPortNumber(), .1899);
 			buttonServo.setPosition(TeleopLogic.BUTTON_PUSHER_STATIONARY);
 		}
 
@@ -202,12 +197,12 @@ public abstract class UpdateThread extends OpMode {
 
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
-				vCapServo.setPosition((capLeft.getController().getServoPosition(capLeft.getPortNumber()) + capLeft.getController().getServoPosition(capRight.getPortNumber())) / 2);
-
 				vButtonServo.setPosition(buttonServo.getPosition());
 			}
+		if (WITH_SONAR) {
 			vSonarLeft.setRawValue(getMedianLevel(sonarLeft));
 			vSonarRight.setRawValue(getMedianLevel(sonarRight));
+		}
 		t.start();
 	}
 	
@@ -228,8 +223,10 @@ public abstract class UpdateThread extends OpMode {
 		vHeadingSensor.setRawValue(headingAngle);
 		vRollSensor.setRawValue(imu.getIntegratedRoll());
 		vLineSensor.setRawValue(lineSensor.getVoltage());
-		vSonarLeft.setRawValue(getMedianLevel(sonarLeft));
-		vSonarRight.setRawValue(getMedianLevel(sonarRight));
+		if (WITH_SONAR) {
+			vSonarLeft.setRawValue(getMedianLevel(sonarLeft));
+			vSonarRight.setRawValue(getMedianLevel(sonarRight));
+		}
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
@@ -253,18 +250,15 @@ public abstract class UpdateThread extends OpMode {
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
 		double reaperPower = vReaper.getPower();
-		double capPosition = 0;
 		double buttonPosition = 0;
 		if (withServos) {
-			capPosition = vCapServo.getPosition();
 			buttonPosition = vButtonServo.getPosition();
 		}
 
 
 		// Copy State of Motors and Servos E.g. leftFront.setPower(leftPower), Servo.setPosition(vServo.getPosition());
 
-		telemetry.addData("Servos: ", capPosition + " " + buttonPosition);
-		Log.d("servoState", capPosition + " " + buttonPosition);
+		Log.d("servoState", " " + buttonPosition);
 		telemetry.addData("Motors: ", MathUtils.truncate(leftFrontPower,2) + " " + MathUtils.truncate(leftBackPower,2) + " " + MathUtils.truncate(rightFrontPower,2) + " " + MathUtils.truncate(rightBackPower,2));
 		Log.d("motorPower", leftFrontPower + " " + leftBackPower + " " + rightFrontPower + " " + rightBackPower);
 		leftFront.setPower(leftFrontPower);
@@ -273,18 +267,17 @@ public abstract class UpdateThread extends OpMode {
 		rightBack.setPower(rightBackPower);
 		reaper.setPower(reaperPower);
 		if (withServos) {
-			capRight.getController().setServoPosition(capRight.getPortNumber(), capPosition);
-			capLeft.getController().setServoPosition(capLeft.getPortNumber(), capPosition);
+
 			buttonServo.setPosition(buttonPosition);
 		}
 
 		for (Map.Entry<String,Object> e: robot.getTelemetry().entrySet()) {
 			telemetry.addData(e.getKey(),e.getValue());
 		}
-		telemetry.addData("capServo State", capPosition);
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("Line Sensor: ", robot.getLineSensor().getValue());
+		if (WITH_SONAR)
 		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());

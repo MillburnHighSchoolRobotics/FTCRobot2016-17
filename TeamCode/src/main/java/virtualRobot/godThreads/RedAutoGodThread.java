@@ -1,5 +1,7 @@
 package virtualRobot.godThreads;
 
+import org.firstinspires.ftc.teamcode.UpdateThread;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.AutonomousRobot;
@@ -29,6 +31,7 @@ public class RedAutoGodThread extends GodThread {
     private AtomicBoolean secondRedIsLeft = new AtomicBoolean();
     private AtomicBoolean sonarWorks = new AtomicBoolean();
     private AtomicBoolean lineSensorWorks = new AtomicBoolean();
+    private final static boolean WITH_SONAR = UpdateThread.WITH_SONAR;
 
     @Override
     public void realRun() throws InterruptedException {
@@ -44,7 +47,7 @@ public class RedAutoGodThread extends GodThread {
 
 //THE FOLLOWING BLOCK MOVES TO FIRST BEACON, TAKES PIC AND PUSHES BUTTON
 //*****************************
-        if (sonarWorks.get()) { //If our sonar works
+        if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
             LogicThread toFirstLine = new ToLineUltra(lineSensorWorks, Line.RED_FIRST_LINE); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
@@ -65,7 +68,7 @@ public class RedAutoGodThread extends GodThread {
                 delegateMonitor(fa, new MonitorThread[]{});
             }
 
-        } else { //our sonar fails
+        } else { //our sonar fails or we're not using one
             LogicThread toFirstLine = new ToLineNoUltra(lineSensorWorks, Line.RED_FIRST_LINE); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
@@ -88,7 +91,7 @@ public class RedAutoGodThread extends GodThread {
         }
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(firstRedIsLeft.get()));
         if (firstRedIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get());
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
@@ -96,7 +99,7 @@ public class RedAutoGodThread extends GodThread {
         }
 
         else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get());
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
@@ -105,7 +108,7 @@ public class RedAutoGodThread extends GodThread {
 //*****************************
 //THE FOLLOWING BLOCK MOVES TO SECOND BEACON, TAKES PIC AND PUSHES BUTTON (note that it's the same as above, but the Linetype is changed to second beacon)
 //*****************************
-        if (sonarWorks.get()) { //If our sonar works
+        if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
             LogicThread toFirstLine = new ToLineUltra(lineSensorWorks, Line.RED_SECOND_LINE); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
@@ -126,7 +129,7 @@ public class RedAutoGodThread extends GodThread {
                 delegateMonitor(fa, new MonitorThread[]{});
             }
 
-        } else { //our sonar fails
+        } else { //our sonar fails, or we're not using one
             LogicThread toFirstLine = new ToLineNoUltra(lineSensorWorks, Line.RED_SECOND_LINE); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
@@ -149,7 +152,7 @@ public class RedAutoGodThread extends GodThread {
         }
         Command.ROBOT.addToProgress("second red is left /" + Boolean.toString(secondRedIsLeft.get()));
         if (secondRedIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get());
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
@@ -157,7 +160,7 @@ public class RedAutoGodThread extends GodThread {
         }
 
         else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get());
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
