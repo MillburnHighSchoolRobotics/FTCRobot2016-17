@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\values-v14\\values-v14.xml",
+        "outputFile": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\values-v14\\values-v14.xml",
         "map": [
             {
                 "to": {
@@ -12,33 +12,7 @@
                     "endOffset": 201
                 },
                 "from": {
-                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\values-v14\\values-v14.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 55,
-                        "endLine": 4,
-                        "endColumn": 12,
-                        "endOffset": 201
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\res\\merged\\debug\\values-v14\\values-v14.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endLine": 4,
-                    "endColumn": 12,
-                    "endOffset": 201
-                },
-                "from": {
-                    "file": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\values-v14\\values-v14.xml",
+                    "file": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\TeamCode\\build\\intermediates\\exploded-aar\\FTCRobot2016-17\\FtcRobotController\\unspecified\\res\\values-v14\\values-v14.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,

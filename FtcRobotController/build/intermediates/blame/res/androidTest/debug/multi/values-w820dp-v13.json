@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 108
                 },
                 "from": {
-                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -72,6 +72,54 @@
         ]
     },
     {
+        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 57,
+                        "endOffset": 108
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 57,
+                        "endOffset": 108
+                    }
+                }
+            }
+        ]
+    },
+    {
         "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
         "map": [
             {
@@ -96,54 +144,6 @@
         ]
     },
     {
-        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 57,
-                    "endOffset": 108
-                },
-                "from": {
-                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 55,
-                        "endColumn": 57,
-                        "endOffset": 108
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 57,
-                    "endOffset": 108
-                },
-                "from": {
-                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 55,
-                        "endColumn": 57,
-                        "endOffset": 108
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
         "map": [
             {
@@ -156,6 +156,30 @@
                 },
                 "from": {
                     "file": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 57,
+                        "endOffset": 108
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,

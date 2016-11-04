@@ -1,19 +1,11 @@
 [
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
-    },
-    {
         "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
     },
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
     },
     {
         "merged": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
@@ -24,64 +16,80 @@
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
     },
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
+        "merged": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
+        "source": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
     },
     {
         "merged": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
         "source": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
     },
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
-    },
-    {
-        "merged": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
-        "source": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
-    },
-    {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
     },
     {
         "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
     },
     {
+        "merged": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
+        "source": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
+    },
+    {
+        "merged": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
+        "source": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
+    },
+    {
+        "merged": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
+        "source": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
+    },
+    {
         "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
     },
     {
         "merged": "C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
@@ -92,23 +100,31 @@
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
     },
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
     },
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\button_shape.xml",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\mehme_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable\\button_shape.xml"
     },
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
+        "merged": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
+        "source": "C:\\Users\\adqa_\\Documents\\Gits\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
     },
     {
         "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
         "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
     },
     {
-        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\black_border.xml",
-        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Blocks-release\\res\\drawable\\black_border.xml"
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_menu.png",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_menu.png"
+    },
+    {
+        "merged": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable\\icon_robotcontroller.png",
+        "source": "C:\\Users\\17osullivand\\FTCRobot2016-17\\C:\\Users\\ethan_000\\Documents\\FTCRobot2016-17\\FtcRobotController\\build\\intermediates\\exploded-aar\\Inspection-release\\res\\drawable\\icon_robotcontroller.png"
     }
 ]
