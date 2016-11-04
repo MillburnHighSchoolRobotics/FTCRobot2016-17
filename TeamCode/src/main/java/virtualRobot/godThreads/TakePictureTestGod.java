@@ -1,15 +1,11 @@
 package virtualRobot.godThreads;
 
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.teamcode.R;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
-import virtualRobot.VuforiaLocalizerImplSubclass;
-import virtualRobot.logicThreads.TakePictureTestLogic;
+import virtualRobot.logicThreads.TestingAutonomouses.TakePictureTestLogic;
 
 /**
  * Created by mehme_000 on 10/7/2016.

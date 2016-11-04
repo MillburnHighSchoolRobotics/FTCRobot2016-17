@@ -99,4 +99,11 @@ public abstract class GodThread implements Runnable {
     public void setVuforia(VuforiaLocalizerImplSubclass vuforia) {
         this.vuforia = vuforia;
     }
+
+    public enum Line { //For use in autonomous to determine which line we're shooting for
+        BLUE_FIRST_LINE,
+        BLUE_SECOND_LINE,
+        RED_FIRST_LINE,
+        RED_SECOND_LINE
+    }
 }

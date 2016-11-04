@@ -19,6 +19,7 @@ public class WallTrace implements Command {
     Direction direction;
     private AutonomousRobot robot;
     private double target = 10;
+    private double maxDistance = Double.MAX_VALUE;
     public WallTrace() {
         robot = Command.AUTO_ROBOT;
         direction = Direction.FORWARD;
@@ -31,6 +32,12 @@ public class WallTrace implements Command {
         robot = Command.AUTO_ROBOT;
         direction = d;
         this.target = target;
+    }
+    public WallTrace(Direction d, double target, double maxDistance) {
+        robot = Command.AUTO_ROBOT;
+        direction = d;
+        this.target = target;
+        this.maxDistance = maxDistance;
     }
 
     public void setDirection (Direction d) { direction = d; }
@@ -54,7 +61,7 @@ public class WallTrace implements Command {
         PIDController close = new PIDController(0.008,0,0,0,target);
         PIDController allign = new PIDController(0.012,0,0,0,0);
         double currLeft, currRight, errClose = 0, errAllign;
-        while (!exitCondition.isConditionMet()) {
+        while (!exitCondition.isConditionMet() && (getAvgDistance() < maxDistance)) {
             currLeft = sonarLeft.getValue();
             currRight = sonarRight.getValue();
 
@@ -88,7 +95,17 @@ public class WallTrace implements Command {
         robot.stopMotors();
         return isInterrupted;
     }
-
+    private double getAvgDistance() {
+        robot.getLFEncoder().clearValue();
+        robot.getRFEncoder().clearValue();
+        robot.getLBEncoder().clearValue();
+        robot.getRBEncoder().clearValue();
+       double LFvalue = robot.getLFEncoder().getValue();
+        double RFvalue = robot.getRFEncoder().getValue();
+        double LBvalue = robot.getLBEncoder().getValue();
+        double RBvalue = robot.getRBEncoder().getValue();
+        return Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4);
+    }
     public enum Direction {
         FORWARD,
         BACKWARD

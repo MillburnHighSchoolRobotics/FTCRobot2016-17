@@ -1,13 +1,11 @@
-package virtualRobot.logicThreads;
+package virtualRobot.logicThreads.TestingAutonomouses;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;
 import virtualRobot.VuforiaLocalizerImplSubclass;
-import virtualRobot.commands.Command;
 import virtualRobot.commands.FTCTakePicture;
-import virtualRobot.commands.Pause;
 
 /**
  * Created by mehme_000 on 10/6/2016.

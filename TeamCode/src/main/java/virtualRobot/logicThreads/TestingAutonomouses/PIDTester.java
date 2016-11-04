@@ -1,9 +1,8 @@
-package virtualRobot.logicThreads;
+package virtualRobot.logicThreads.TestingAutonomouses;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.Pause;
-import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
 
 /**

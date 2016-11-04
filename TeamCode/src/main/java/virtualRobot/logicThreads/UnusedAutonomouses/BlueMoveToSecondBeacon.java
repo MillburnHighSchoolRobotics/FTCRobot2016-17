@@ -1,28 +1,25 @@
-package virtualRobot.logicThreads;
-
-import com.vuforia.Vuforia;
+package virtualRobot.logicThreads.UnusedAutonomouses;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
-import virtualRobot.commands.Translate;
 import virtualRobot.commands.WallTrace;
+import virtualRobot.logicThreads.UnusedAutonomouses.BlueAutonomousLogic;
 
 /**
- * Created by Warren on 10/6/2016.
+ * Created by 17osullivand on 10/29/16.
  * Takes pic of second beacon
  */
-public class RedMoveToSecondBeacon extends LogicThread<AutonomousRobot> {
-
+@Deprecated
+public class BlueMoveToSecondBeacon extends LogicThread{
     AtomicBoolean redIsLeft;
     VuforiaLocalizerImplSubclass vuforia;
 
-    final double currentLine = RedAutonomousLogic.Line; //get the value of what the color sensor was at the start of autonomous (what the value of grey is)
+    final double currentLine = BlueAutonomousLogic.Line; //get the value of what the color sensor was at the start of autonomous (what the value of grey is)
     final ExitCondition atwhiteline = new ExitCondition() {
         @Override
         public boolean isConditionMet() {
@@ -33,14 +30,14 @@ public class RedMoveToSecondBeacon extends LogicThread<AutonomousRobot> {
         }
     };
 
-    public RedMoveToSecondBeacon(AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia){
+    public BlueMoveToSecondBeacon(AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia){
         super();
         this.redIsLeft = redIsLeft;
         this.vuforia = vuforia;
     }
     @Override
     public void loadCommands() {
-        WallTrace toWhiteLine =  new WallTrace(WallTrace.Direction.FORWARD, 8); //Move to the other beacon
+        WallTrace toWhiteLine =  new WallTrace(WallTrace.Direction.BACKWARD, 8); //Move to the other beacon
         toWhiteLine.setExitCondition(atwhiteline);
         commands.add(toWhiteLine);
         commands.add(new Pause(500));

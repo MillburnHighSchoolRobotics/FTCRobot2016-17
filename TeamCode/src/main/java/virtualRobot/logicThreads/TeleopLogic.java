@@ -4,10 +4,10 @@ import android.util.Log;
 
 import virtualRobot.JoystickController;
 import virtualRobot.LogicThread;
-import virtualRobot.PIDController;
-import virtualRobot.SallyJoeBot;
 import virtualRobot.TeleopRobot;
 import virtualRobot.commands.Command;
+import virtualRobot.logicThreads.NoSensorAutonomouses.PushLeftButton;
+import virtualRobot.logicThreads.NoSensorAutonomouses.PushRightButton;
 import virtualRobot.utils.MathUtils;
 
 /**

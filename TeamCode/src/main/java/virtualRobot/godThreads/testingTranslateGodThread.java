@@ -3,8 +3,7 @@ package virtualRobot.godThreads;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
-import virtualRobot.logicThreads.TeleopLogic;
-import virtualRobot.logicThreads.testingTranslateLogicThread;
+import virtualRobot.logicThreads.TestingAutonomouses.testingTranslateLogicThread;
 
 /**
  * Created by ethachu19 on 10/11/2016.

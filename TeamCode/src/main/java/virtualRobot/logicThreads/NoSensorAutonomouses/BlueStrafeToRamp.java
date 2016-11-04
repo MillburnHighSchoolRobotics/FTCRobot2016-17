@@ -1,4 +1,4 @@
-package virtualRobot.logicThreads;
+package virtualRobot.logicThreads.NoSensorAutonomouses;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;

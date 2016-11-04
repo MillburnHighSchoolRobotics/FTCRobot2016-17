@@ -3,7 +3,7 @@ package virtualRobot.godThreads;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
-import virtualRobot.logicThreads.PIDTester;
+import virtualRobot.logicThreads.TestingAutonomouses.PIDTester;
 
 /**
  * Created by shant on 1/10/2016.

@@ -3,11 +3,7 @@ package virtualRobot.godThreads;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
-import virtualRobot.PIDController;
-import virtualRobot.SallyJoeBot;
-import virtualRobot.logicThreads.RedAutonomousLogic;
-import virtualRobot.logicThreads.RedStrafeToRamp;
-import virtualRobot.logicThreads.ScrewTesterMax;
+import virtualRobot.logicThreads.NoSensorAutonomouses.RedStrafeToRamp;
 
 /**
  * Created by ethachu19 on 10/27/2016.

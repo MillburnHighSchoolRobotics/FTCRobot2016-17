@@ -1,6 +1,5 @@
-package virtualRobot.logicThreads;
+package virtualRobot.logicThreads.TestingAutonomouses;
 
-import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Translate;
