@@ -1,8 +1,11 @@
 package virtualRobot.godThreads;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
+import virtualRobot.logicThreads.AutonomousLayer1.RedGoToWall;
 import virtualRobot.logicThreads.TestingAutonomouses.testingTranslateLogicThread;
 
 /**
@@ -12,11 +15,17 @@ import virtualRobot.logicThreads.TestingAutonomouses.testingTranslateLogicThread
 public class testingTranslateGodThread extends GodThread {
     @Override
     public void realRun() throws InterruptedException {
-        LogicThread translate = new testingTranslateLogicThread();
+        LogicThread translate = new RedGoToWall(new AtomicBoolean());
         Thread teleopThread = new Thread(translate);
         teleopThread.start();
         children.add(teleopThread);
         delegateMonitor(teleopThread, new MonitorThread[]{});
+
+        LogicThread translate2 = new testingTranslateLogicThread();
+        Thread t2 = new Thread(translate2);
+        t2.start();
+        children.add(t2);
+        delegateMonitor(t2, new MonitorThread[]{});
 
     }
 }

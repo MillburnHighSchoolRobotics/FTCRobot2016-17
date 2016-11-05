@@ -31,7 +31,7 @@ public class AllignLineNoUltraNoLine extends LogicThread<AutonomousRobot> {
 
     @Override
     public void loadCommands() {
-
+        robot.addToProgress("Alligning with Line, with NO Ultra and NO Line");
         if (type== GodThread.Line.RED_FIRST_LINE || type== GodThread.Line.BLUE_SECOND_LINE) {
            Translate toWhiteLine2 =  new Translate(CORRECTION_VALUE, Translate.Direction.FORWARD, 0, .15); //go slowly just to minimize error
             commands.add(toWhiteLine2);

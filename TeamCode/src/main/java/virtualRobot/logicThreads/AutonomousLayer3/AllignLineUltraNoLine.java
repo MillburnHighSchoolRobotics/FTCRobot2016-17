@@ -11,6 +11,7 @@ import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.WallTrace;
+import virtualRobot.logicThreads.AutonomousLayer2.ToLineUltra;
 
 /**
  * Created by 17osullivand on 11/3/16.
@@ -18,7 +19,9 @@ import virtualRobot.commands.WallTrace;
  */
 
 public class AllignLineUltraNoLine extends LogicThread<AutonomousRobot>  {
-    public static final double CORRECTION_VALUE = 400; //since we've very much overshot the line, we need to go back;
+    public static final double CORRECTION_VALUE = 1000; //since we've very much overshot the line, we need to go back;
+    public static final double WALL_TRACE_SONAR_THRESHOLD = ToLineUltra.WALL_TRACE_SONAR_THRESHOLD; //How close we want to trace wall
+
     GodThread.Line type;
     VuforiaLocalizerImplSubclass vuforia;
     AtomicBoolean redIsLeft;
@@ -30,9 +33,9 @@ public class AllignLineUltraNoLine extends LogicThread<AutonomousRobot>  {
 
     @Override
     public void loadCommands() {
-
+        robot.addToProgress("Alligning with Line, with Ultra and NO Line");
         if (type== GodThread.Line.RED_FIRST_LINE || type== GodThread.Line.BLUE_SECOND_LINE) {
-            WallTrace toWhiteLine2 =  new WallTrace(WallTrace.Direction.FORWARD, 8, CORRECTION_VALUE);
+            WallTrace toWhiteLine2 =  new WallTrace(WallTrace.Direction.FORWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE);
             commands.add(toWhiteLine2);
             commands.add(new Pause(500));
             commands.add(new Rotate(0, 1));
@@ -43,7 +46,7 @@ public class AllignLineUltraNoLine extends LogicThread<AutonomousRobot>  {
 
         }
         else if (type== GodThread.Line.RED_SECOND_LINE || type== GodThread.Line.BLUE_FIRST_LINE) {
-            WallTrace toWhiteLine2 =  new WallTrace(WallTrace.Direction.BACKWARD, 8, CORRECTION_VALUE);
+            WallTrace toWhiteLine2 =  new WallTrace(WallTrace.Direction.BACKWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE);
             commands.add(toWhiteLine2);
             commands.add(new Pause(500));
             commands.add(new Rotate(0, 1));

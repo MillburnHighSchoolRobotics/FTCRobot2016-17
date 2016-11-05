@@ -276,6 +276,11 @@ public abstract class UpdateThread extends OpMode {
 		for (Map.Entry<String,Object> e: robot.getTelemetry().entrySet()) {
 			telemetry.addData(e.getKey(),e.getValue());
 		}
+
+		for (int i = 0; i < robot.getProgress().size(); i++) {
+			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
+		}
+
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("Line Sensor: ", robot.getLineSensor().getValue());

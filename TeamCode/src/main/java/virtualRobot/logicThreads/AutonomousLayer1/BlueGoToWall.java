@@ -22,9 +22,10 @@ import virtualRobot.components.Servo;
 
 public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
     public static final boolean WITH_SONAR = UpdateThread.WITH_SONAR; //Are we using a sonar?
-    public static final double CLOSE_TO_WALL = 10; //How close we want to strafe to wall
-    public static final double SONAR_ERROR_MAX = CLOSE_TO_WALL+2; //the threshold at which if a sonar is >= than this when at wall, it's wrong
-    public static final double SONAR_ERROR_MIN = CLOSE_TO_WALL-2; //the threshold at which if a sonar is <= than this when at wall, it's wrong
+    public static final double CLOSE_TO_WALL = RedGoToWall.CLOSE_TO_WALL; //How close we want to strafe to wall
+    public static final double SONAR_ERROR_MAX = CLOSE_TO_WALL+3; //the threshold at which if a sonar is >= than this when at wall, it's wrong
+    public static final double SONAR_ERROR_MIN = CLOSE_TO_WALL-3; //the threshold at which if a sonar is <= than this when at wall, it's wrong
+    protected static final double INT_ANGLE = 45; //inital angle of rotation
     AtomicBoolean sonarWorks;
 
     public BlueGoToWall(AtomicBoolean sonarWorks) {
@@ -33,13 +34,14 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
     }
     @Override
     public void loadCommands() {
-        Translate escapeWall = new Translate(1500, Translate.Direction.FORWARD, 0);
+
+        Translate escapeWall = new Translate(1200, Translate.Direction.FORWARD, 0);
         commands.add(escapeWall); //Move Away from wall
         commands.add(new Pause(500));
-        commands.add(new Rotate(40, 1)); //Rotate In such a way to glance the ball
+        commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
         commands.add(new Pause(500));
         commands.add(new Pause(500));
-        commands.add(new Translate(10000, Translate.Direction.FORWARD, 0, 1, 40)); //Continue forward (relative to the angle we just rotated to)
+        commands.add(new Translate(12000, Translate.Direction.FORWARD, 0, 1, INT_ANGLE)); //Continue forward (relative to the angle we just rotated to)
         commands.add(new Pause(500));
         commands.add(new Rotate(0, 1)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
         commands.add(new Pause(500));
@@ -69,6 +71,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
         commands.add(new Pause(1000));
         commands.add(new Rotate(0, 1)); //Straighten out again
         commands.add(new Pause(1000));
+        robot.addToProgress("Went To Wall");
     }
 
     }

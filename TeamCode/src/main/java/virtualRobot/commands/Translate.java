@@ -457,7 +457,7 @@ public class Translate implements Command {
       }
         else { //If angleModifier = 0
           while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                  //&& shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
+                  && shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
                   && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
           LFvalue = robot.getLFEncoder().getValue();
           RFvalue = robot.getRFEncoder().getValue();

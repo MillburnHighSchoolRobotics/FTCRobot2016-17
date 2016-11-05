@@ -35,7 +35,7 @@ public class RedAutoGodThread extends GodThread {
 
     @Override
     public void realRun() throws InterruptedException {
-
+     double lineTarget = 4;
         // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD
         LogicThread goToWall = new RedGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
         Thread gtw = new Thread(goToWall);
@@ -55,6 +55,7 @@ public class RedAutoGodThread extends GodThread {
             delegateMonitor(tfl, new MonitorThread[]{});
             if (lineSensorWorks.get()) { //If our line sensor works
                 LogicThread fixAllignment = new AllignLineUltraLine(Line.RED_FIRST_LINE, getLineValue(toFirstLine), firstRedIsLeft, vuforia); //ReAdjust to Line, take pic
+                lineTarget = getLineValue(toFirstLine);
                 Thread fa = new Thread(fixAllignment);
                 fa.start();
                 children.add(fa);
@@ -76,6 +77,7 @@ public class RedAutoGodThread extends GodThread {
             delegateMonitor(tfl, new MonitorThread[]{});
             if (lineSensorWorks.get()) { //If our line sensor works
                 LogicThread fixAllignment = new AllignLineNoUltraLine(Line.RED_FIRST_LINE, getLineValue(toFirstLine), firstRedIsLeft, vuforia); //ReAdjust to Line, take pic
+                lineTarget = getLineValue(toFirstLine);
                 Thread fa = new Thread(fixAllignment);
                 fa.start();
                 children.add(fa);
@@ -115,7 +117,7 @@ public class RedAutoGodThread extends GodThread {
             children.add(tfl);
             delegateMonitor(tfl, new MonitorThread[]{});
             if (lineSensorWorks.get()) { //If our line sensor works (note we are rechecking this again even after checking before)
-                LogicThread fixAllignment = new AllignLineUltraLine(Line.RED_SECOND_LINE, getLineValue(toFirstLine), secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
+                LogicThread fixAllignment = new AllignLineUltraLine(Line.RED_SECOND_LINE, lineTarget, secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
                 Thread fa = new Thread(fixAllignment);
                 fa.start();
                 children.add(fa);
@@ -136,7 +138,7 @@ public class RedAutoGodThread extends GodThread {
             children.add(tfl);
             delegateMonitor(tfl, new MonitorThread[]{});
             if (lineSensorWorks.get()) { //If our line sensor works
-                LogicThread fixAllignment = new AllignLineNoUltraLine(Line.RED_SECOND_LINE, getLineValue(toFirstLine), secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
+                LogicThread fixAllignment = new AllignLineNoUltraLine(Line.RED_SECOND_LINE, lineTarget, secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
                 Thread fa = new Thread(fixAllignment);
                 fa.start();
                 children.add(fa);

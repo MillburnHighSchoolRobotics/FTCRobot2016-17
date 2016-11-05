@@ -24,6 +24,12 @@ public class WallTrace implements Command {
     public WallTrace() {
         robot = Command.AUTO_ROBOT;
         direction = Direction.FORWARD;
+        exitCondition = new ExitCondition() {
+            @Override
+            public boolean isConditionMet() {
+                return false;
+            }
+        };
     }
     public WallTrace(Direction d) {
         robot = Command.AUTO_ROBOT;
@@ -62,6 +68,10 @@ public class WallTrace implements Command {
         PIDController close = new PIDController(0.008,0,0,0,target);
         PIDController allign = new PIDController(0.012,0,0,0,0);
         double currLeft, currRight, errClose = 0, errAllign;
+        robot.getLFEncoder().clearValue();
+        robot.getRFEncoder().clearValue();
+        robot.getLBEncoder().clearValue();
+        robot.getRBEncoder().clearValue();
         while (!exitCondition.isConditionMet() && (getAvgDistance() < maxDistance)) {
             currLeft = sonarLeft.getFilteredValue();
             currRight = sonarRight.getFilteredValue();
@@ -97,14 +107,11 @@ public class WallTrace implements Command {
         return isInterrupted;
     }
     private double getAvgDistance() {
-        robot.getLFEncoder().clearValue();
-        robot.getRFEncoder().clearValue();
-        robot.getLBEncoder().clearValue();
-        robot.getRBEncoder().clearValue();
        double LFvalue = robot.getLFEncoder().getValue();
         double RFvalue = robot.getRFEncoder().getValue();
         double LBvalue = robot.getLBEncoder().getValue();
         double RBvalue = robot.getRBEncoder().getValue();
+        Log.d("AVGDIST", " " + Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4));
         return Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4);
     }
     public enum Direction {

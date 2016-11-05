@@ -13,6 +13,7 @@ import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.WallTrace;
+import virtualRobot.logicThreads.AutonomousLayer2.ToLineUltra;
 
 /**
  * Created by 17osullivand on 11/3/16.
@@ -22,6 +23,8 @@ import virtualRobot.commands.WallTrace;
 public class AllignLineUltraLine extends LogicThread<AutonomousRobot>  {
     GodThread.Line type;
     double currentLine;
+    public static final double WALL_TRACE_SONAR_THRESHOLD = ToLineUltra.WALL_TRACE_SONAR_THRESHOLD; //How close we want to trace wall
+
     VuforiaLocalizerImplSubclass vuforia;
     AtomicBoolean redIsLeft;
     public AllignLineUltraLine(GodThread.Line type, double currentLine, AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia) {
@@ -36,14 +39,15 @@ public class AllignLineUltraLine extends LogicThread<AutonomousRobot>  {
         final ExitCondition atwhiteline = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                if (Math.abs(robot.getLineSensor().getRawValue() - currentLine) > .7) {
+                if (Math.abs(robot.getLineSensor().getRawValue() - currentLine) > 2) {
                     return true;
                 }
                 return false;
             }
         };
+        robot.addToProgress("Alligning with Line, with Ultra and Line");
        if (type==GodThread.Line.RED_FIRST_LINE || type==GodThread.Line.BLUE_SECOND_LINE) {
-           WallTrace toWhiteLine2 =  new WallTrace(WallTrace.Direction.FORWARD, 8);
+           WallTrace toWhiteLine2 =  new WallTrace(WallTrace.Direction.FORWARD,  WALL_TRACE_SONAR_THRESHOLD);
            toWhiteLine2.setExitCondition(atwhiteline);
            commands.add(toWhiteLine2);
            commands.add(new Pause(500));
@@ -55,7 +59,7 @@ public class AllignLineUltraLine extends LogicThread<AutonomousRobot>  {
 
        }
        else if (type==GodThread.Line.RED_SECOND_LINE || type==GodThread.Line.BLUE_FIRST_LINE) {
-           WallTrace toWhiteLine2 =  new WallTrace(WallTrace.Direction.BACKWARD, 8);
+           WallTrace toWhiteLine2 =  new WallTrace(WallTrace.Direction.BACKWARD,  WALL_TRACE_SONAR_THRESHOLD);
            toWhiteLine2.setExitCondition(atwhiteline);
            commands.add(toWhiteLine2);
            commands.add(new Pause(500));
