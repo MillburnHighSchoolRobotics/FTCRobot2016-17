@@ -71,8 +71,8 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
             });
         }
         commands.add(strafeRight);
-        commands.add(new Pause(1000));
-        commands.add(new Rotate(0, 1)); //Straighten out again
-        commands.add(new Pause(1000));
+        commands.add(new Pause(500));
+        commands.add(new Rotate(0, .5)); //Straighten out again
+        commands.add(new Pause(500));
         robot.addToProgress("Went To Wall");
 }}

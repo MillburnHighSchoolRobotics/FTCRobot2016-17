@@ -14,7 +14,7 @@ import virtualRobot.logicThreads.TeleopLogic;
  */
 public class PushRightButton extends LogicThread<AutonomousRobot> {
     public final static double BUTTON_PUSHER_RIGHT = 0.0;
-    public final static double BEACON_RAM_TRANSLATE = 200; //translate to get the robot to hit button
+    public final static double BEACON_RAM_TRANSLATE = 600; //translate to get the robot to hit button
     sonarStatus status;
     public PushRightButton(sonarStatus status) {
         this.status = status;
@@ -33,7 +33,8 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
             commands.add(new Translate(BEACON_RAM_TRANSLATE, Translate.Direction.RIGHT, 0)); //ram beacon to ensure push
             commands.add(new Pause(500));
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{TeleopLogic.BUTTON_PUSHER_STATIONARY})); //move pusher back to stationary
-            commands.add(new Pause(500));
+            commands.add(new Translate(BEACON_RAM_TRANSLATE, Translate.Direction.LEFT, 0)); //ram beacon to ensure push
+
         }
         else {
             robot.addToProgress("Pushed Right Button");
@@ -42,7 +43,6 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
             commands.add(new Translate(BEACON_RAM_TRANSLATE, Translate.Direction.RIGHT, 0)); //ram beacon to ensure push
             commands.add(new Pause(500));
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{TeleopLogic.BUTTON_PUSHER_STATIONARY})); //move pusher back to stationary
-            commands.add(new Pause(500));
             commands.add(new Translate(BEACON_RAM_TRANSLATE, Translate.Direction.LEFT, 0)); //ram beacon to ensure push
         }
     }

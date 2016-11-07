@@ -40,10 +40,10 @@ public class DavidClass {
         int height = image.getHeight(), width = image.getWidth();
       //  image.getPixels(pixels, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight()); //gets pixels in pixel array
 
-        final int startX = (int) ((.155) * width); //.4
-        final int endX = (int) (0.891*width); //.9
-        final int startY = (int) (0.444*height); //.55
-        final int endY = (int) (.45*height); //.77
+        final int startX = (int) ((.2) * width); //.4
+        final int endX = (int) (0.94*width); //.9
+        final int startY = (int) (.433*height); //.55
+        final int endY = (int) (0.536*height); //.77
 
         final int midX = (startX + endX) / 2;
 
@@ -74,7 +74,7 @@ public class DavidClass {
         //rAvg = roundUp(rSum, rNum);
         lAvg = roundUp(lSum, (midX-startX));
         rAvg = roundUp(rSum, (endX-midX));
-        Log.d("qqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
+        /*Log.d("qqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
 
 
 
@@ -92,7 +92,7 @@ public class DavidClass {
                     e.printStackTrace();
                 }
             }
-        }
+        }*/
 
         return (lAvg-RED > rAvg-RED);}
     /*public static boolean analyzePic(Bitmap bmp) {

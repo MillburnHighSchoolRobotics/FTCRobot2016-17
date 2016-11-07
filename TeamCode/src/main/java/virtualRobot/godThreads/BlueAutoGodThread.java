@@ -18,6 +18,7 @@ import virtualRobot.logicThreads.AutonomousLayer3.AllignLineNoUltraLine;
 import virtualRobot.logicThreads.AutonomousLayer3.AllignLineNoUltraNoLine;
 import virtualRobot.logicThreads.AutonomousLayer3.AllignLineUltraLine;
 import virtualRobot.logicThreads.AutonomousLayer3.AllignLineUltraNoLine;
+import virtualRobot.logicThreads.NoSensorAutonomouses.BlueStrafeToRamp;
 import virtualRobot.logicThreads.NoSensorAutonomouses.RedStrafeToRamp;
 import virtualRobot.logicThreads.UnusedAutonomouses.BlueAutonomousLogic;
 import virtualRobot.logicThreads.NoSensorAutonomouses.PushLeftButton;
@@ -31,14 +32,15 @@ import virtualRobot.logicThreads.NoSensorAutonomouses.PushRightButton;
  * THIS IS EXACTLY SAME AS REDAUTOGODTHREAD EXCEPT THE LINETYPE ENUM IS CHANGED FROM RED TO BLUE AND THE GO TO WALL CHANGED TO BLUE (Go Hillary)
  */
 public class BlueAutoGodThread extends GodThread {
-   private AtomicBoolean firstRedIsLeft = new AtomicBoolean();
+    private AtomicBoolean firstRedIsLeft = new AtomicBoolean();
     private AtomicBoolean secondRedIsLeft = new AtomicBoolean();
     private AtomicBoolean sonarWorks = new AtomicBoolean();
     private AtomicBoolean lineSensorWorks = new AtomicBoolean();
     private final static boolean WITH_SONAR = UpdateThread.WITH_SONAR;
-    @Override
 
+    @Override
     public void realRun() throws InterruptedException {
+        double lineTarget = 4;
         // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD
         LogicThread goToWall = new BlueGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
         Thread gtw = new Thread(goToWall);
@@ -50,7 +52,7 @@ public class BlueAutoGodThread extends GodThread {
 
 //THE FOLLOWING BLOCK MOVES TO FIRST BEACON, TAKES PIC AND PUSHES BUTTON
 //*****************************
-        if (sonarWorks.get() && WITH_SONAR) { //If our sonar works
+        if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
             LogicThread toFirstLine = new ToLineUltra(lineSensorWorks, Line.BLUE_FIRST_LINE); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
@@ -58,6 +60,7 @@ public class BlueAutoGodThread extends GodThread {
             delegateMonitor(tfl, new MonitorThread[]{});
             if (lineSensorWorks.get()) { //If our line sensor works
                 LogicThread fixAllignment = new AllignLineUltraLine(Line.BLUE_FIRST_LINE, getLineValue(toFirstLine), firstRedIsLeft, vuforia); //ReAdjust to Line, take pic
+                lineTarget = getLineValue(toFirstLine);
                 Thread fa = new Thread(fixAllignment);
                 fa.start();
                 children.add(fa);
@@ -71,7 +74,7 @@ public class BlueAutoGodThread extends GodThread {
                 delegateMonitor(fa, new MonitorThread[]{});
             }
 
-        } else { //our sonar fails, or we're not using
+        } else { //our sonar fails or we're not using one
             LogicThread toFirstLine = new ToLineNoUltra(lineSensorWorks, Line.BLUE_FIRST_LINE); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
@@ -79,6 +82,7 @@ public class BlueAutoGodThread extends GodThread {
             delegateMonitor(tfl, new MonitorThread[]{});
             if (lineSensorWorks.get()) { //If our line sensor works
                 LogicThread fixAllignment = new AllignLineNoUltraLine(Line.BLUE_FIRST_LINE, getLineValue(toFirstLine), firstRedIsLeft, vuforia); //ReAdjust to Line, take pic
+                lineTarget = getLineValue(toFirstLine);
                 Thread fa = new Thread(fixAllignment);
                 fa.start();
                 children.add(fa);
@@ -111,14 +115,14 @@ public class BlueAutoGodThread extends GodThread {
 //*****************************
 //THE FOLLOWING BLOCK MOVES TO SECOND BEACON, TAKES PIC AND PUSHES BUTTON (note that it's the same as above, but the Linetype is changed to second beacon)
 //*****************************
-        if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
-            LogicThread toFirstLine = new ToLineUltra(lineSensorWorks, Line.BLUE_SECOND_LINE); //Goes to firstLine
+       /* if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
+            LogicThread toFirstLine = new ToLineUltra(lineSensorWorks, Line.BLUE_SECOND_LINE, lineTarget, lineSensorWorks.get()); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
             children.add(tfl);
             delegateMonitor(tfl, new MonitorThread[]{});
             if (lineSensorWorks.get()) { //If our line sensor works (note we are rechecking this again even after checking before)
-                LogicThread fixAllignment = new AllignLineUltraLine(Line.BLUE_SECOND_LINE, getLineValue(toFirstLine), secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
+                LogicThread fixAllignment = new AllignLineUltraLine(Line.BLUE_SECOND_LINE, lineTarget, secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
                 Thread fa = new Thread(fixAllignment);
                 fa.start();
                 children.add(fa);
@@ -132,14 +136,14 @@ public class BlueAutoGodThread extends GodThread {
                 delegateMonitor(fa, new MonitorThread[]{});
             }
 
-        } else { //our sonar fails, or we're not using
-            LogicThread toFirstLine = new ToLineNoUltra(lineSensorWorks, Line.BLUE_SECOND_LINE); //Goes to firstLine
+        } else { //our sonar fails, or we're not using one
+            LogicThread toFirstLine = new ToLineNoUltra(lineSensorWorks, Line.BLUE_SECOND_LINE, lineTarget, lineSensorWorks.get()); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
             children.add(tfl);
             delegateMonitor(tfl, new MonitorThread[]{});
             if (lineSensorWorks.get()) { //If our line sensor works
-                LogicThread fixAllignment = new AllignLineNoUltraLine(Line.BLUE_SECOND_LINE, getLineValue(toFirstLine), secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
+                LogicThread fixAllignment = new AllignLineNoUltraLine(Line.BLUE_SECOND_LINE, lineTarget, secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
                 Thread fa = new Thread(fixAllignment);
                 fa.start();
                 children.add(fa);
@@ -168,11 +172,11 @@ public class BlueAutoGodThread extends GodThread {
             pr.start();
             children.add(pr);
             delegateMonitor(pr, new MonitorThread[]{});
-        }
+        }*/
 //*****************************
 //THE FOLLOWING BLOCK STRAFES TO RAMP
 //*****************************
-        LogicThread strafeToRamp = new RedStrafeToRamp();
+        LogicThread strafeToRamp = new BlueStrafeToRamp();
         Thread str = new Thread(strafeToRamp);
         str.start();
         children.add(str);

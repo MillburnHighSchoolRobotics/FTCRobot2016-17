@@ -32,18 +32,15 @@ public class WallTrace implements Command {
         };
     }
     public WallTrace(Direction d) {
-        robot = Command.AUTO_ROBOT;
+        this();
         direction = d;
     }
     public WallTrace(Direction d, double target) {
-        robot = Command.AUTO_ROBOT;
-        direction = d;
+        this(d);
         this.target = target;
     }
     public WallTrace(Direction d, double target, double maxDistance) {
-        robot = Command.AUTO_ROBOT;
-        direction = d;
-        this.target = target;
+        this(d, target);
         this.maxDistance = maxDistance;
     }
 

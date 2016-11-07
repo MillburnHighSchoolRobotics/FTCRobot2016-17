@@ -65,7 +65,7 @@ public abstract class UpdateThread extends OpMode {
 	private MPU9250 imu;
 	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper;
 	private UltrasonicSensor sonarLeft, sonarRight;
-
+	private LightSensor nxtLight;
 	private Servo buttonServo;
 
 	private GodThread vuforiaEverywhere;
@@ -81,7 +81,7 @@ public abstract class UpdateThread extends OpMode {
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
 	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
 	private virtualRobot.components.Servo vButtonServo;
-
+	private Sensor vLightSensor;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -116,7 +116,7 @@ public abstract class UpdateThread extends OpMode {
 			sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");
 			sonarRight = hardwareMap.ultrasonicSensor.get("sonarRight");
 		}
-
+		nxtLight = hardwareMap.lightSensor.get("nxtLight");
         //FETCH VIRTUAL ROBOT FROM COMMAND INTERFACE
 		robot = Command.ROBOT;
 
@@ -126,6 +126,7 @@ public abstract class UpdateThread extends OpMode {
 		vRollSensor = robot.getRollSensor();
 		vLocationSensor = robot.getLocationSensor();
 		vLineSensor = robot.getLineSensor();
+		vLightSensor = robot.getLightSensor();
 		if (WITH_SONAR) {
 			vSonarLeft = robot.getSonarLeft();
 			vSonarRight = robot.getSonarRight();
@@ -236,7 +237,7 @@ public abstract class UpdateThread extends OpMode {
 		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
 		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 		vReaperEncoder.setRawValue(reaper.getCurrentPosition());
-
+		vLightSensor.setRawValue(nxtLight.getRawLightDetected());
 
 		try {
             vJoystickController1.copyStates(gamepad1);

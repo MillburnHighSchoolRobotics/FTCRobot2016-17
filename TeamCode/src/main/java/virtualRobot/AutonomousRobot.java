@@ -57,6 +57,8 @@ public interface AutonomousRobot {
 
     Sensor getLineSensor();
 
+    Sensor getLightSensor();
+
     SyncedMotors getRightRotate();
 
     SyncedMotors getLeftRotate();

@@ -110,8 +110,8 @@ public class RedAutoGodThread extends GodThread {
 //*****************************
 //THE FOLLOWING BLOCK MOVES TO SECOND BEACON, TAKES PIC AND PUSHES BUTTON (note that it's the same as above, but the Linetype is changed to second beacon)
 //*****************************
-        if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
-            LogicThread toFirstLine = new ToLineUltra(lineSensorWorks, Line.RED_SECOND_LINE); //Goes to firstLine
+       /* if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
+            LogicThread toFirstLine = new ToLineUltra(lineSensorWorks, Line.RED_SECOND_LINE, lineTarget, lineSensorWorks.get()); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
             children.add(tfl);
@@ -132,7 +132,7 @@ public class RedAutoGodThread extends GodThread {
             }
 
         } else { //our sonar fails, or we're not using one
-            LogicThread toFirstLine = new ToLineNoUltra(lineSensorWorks, Line.RED_SECOND_LINE); //Goes to firstLine
+            LogicThread toFirstLine = new ToLineNoUltra(lineSensorWorks, Line.RED_SECOND_LINE, lineTarget, lineSensorWorks.get()); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
             children.add(tfl);
@@ -167,7 +167,7 @@ public class RedAutoGodThread extends GodThread {
             pr.start();
             children.add(pr);
             delegateMonitor(pr, new MonitorThread[]{});
-        }
+        }*/
 //*****************************
 //THE FOLLOWING BLOCK STRAFES TO RAMP
 //*****************************

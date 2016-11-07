@@ -23,6 +23,8 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
     GodThread.Line type;
     double targetLine;
     boolean linePassed = false;
+    boolean lineAlreadyWorks = false;
+    boolean lineEntered = false; //checks if they entered wheter or not line works
     public ToLineNoUltra(AtomicBoolean lineWorks, GodThread.Line type) {
         super();
         this.lineWorks = lineWorks;
@@ -35,6 +37,15 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
         this.targetLine = targetLine;
         linePassed = true;
     }
+    public ToLineNoUltra(AtomicBoolean lineWorks, GodThread.Line type, double targetLine, boolean lineAlreadyWorks) {
+        super();
+        this.type = type;
+        this.lineWorks = lineWorks;
+        this.targetLine = targetLine;
+        linePassed = true;
+        this.lineAlreadyWorks = lineAlreadyWorks;
+        lineEntered = true;
+    }
     @Override
     public void loadCommands() {
         if (!linePassed)
@@ -42,7 +53,7 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
         final ExitCondition atwhiteline = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                if (Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 2) {
+                if (Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85 || robot.getLightSensor().getRawValue() > .73) {
                     lineWorks.set(true);
                     return true;
                 }
@@ -61,7 +72,10 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
             toWhiteLine = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_LINE, Translate.Direction.BACKWARD, 0, .15);
             else
                 toWhiteLine = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE, Translate.Direction.BACKWARD, 0, .15);
+            if ((lineAlreadyWorks && lineEntered) || !lineEntered);
             toWhiteLine.setExitCondition(atwhiteline);
+            if (type== GodThread.Line.BLUE_SECOND_LINE)
+                commands.add(new Translate(400, Translate.Direction.BACKWARD, 0));
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
         }
@@ -71,7 +85,10 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
                 toWhiteLine = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_LINE, Translate.Direction.FORWARD, 0, .15);
             else
                 toWhiteLine = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE, Translate.Direction.FORWARD, 0, .15);
+            if ((lineAlreadyWorks && lineEntered) || !lineEntered);
             toWhiteLine.setExitCondition(atwhiteline);
+            if (type== GodThread.Line.RED_SECOND_LINE)
+                commands.add(new Translate(400, Translate.Direction.FORWARD, 0));
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
         }

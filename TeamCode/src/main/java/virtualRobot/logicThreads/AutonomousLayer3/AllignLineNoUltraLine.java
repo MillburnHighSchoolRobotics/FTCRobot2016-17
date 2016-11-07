@@ -37,7 +37,7 @@ public class AllignLineNoUltraLine extends LogicThread<AutonomousRobot>  {
         final ExitCondition atwhiteline = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                if (Math.abs(robot.getLineSensor().getRawValue() - currentLine) > 2) {
+                if (Math.abs(robot.getLineSensor().getRawValue() - currentLine) > 1.85 || robot.getLightSensor().getRawValue() > .73) {
                     return true;
                 }
                 return false;
@@ -45,6 +45,7 @@ public class AllignLineNoUltraLine extends LogicThread<AutonomousRobot>  {
         };
         robot.addToProgress("Alligning with Line, with NO Ultra and Line");
         if (type == GodThread.Line.RED_FIRST_LINE || type == GodThread.Line.BLUE_SECOND_LINE) {
+
             Translate toWhiteLine2 =  new Translate(Translate.RunMode.CUSTOM, Translate.Direction.FORWARD, 0, .15);
             toWhiteLine2.setExitCondition(atwhiteline);
             commands.add(toWhiteLine2);

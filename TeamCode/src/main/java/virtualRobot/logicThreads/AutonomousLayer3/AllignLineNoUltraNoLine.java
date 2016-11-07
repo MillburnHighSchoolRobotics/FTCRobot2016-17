@@ -20,6 +20,8 @@ import virtualRobot.commands.WallTrace;
 
 public class AllignLineNoUltraNoLine extends LogicThread<AutonomousRobot> {
     public static final double CORRECTION_VALUE = AllignLineUltraNoLine.CORRECTION_VALUE; //since we've very much overshot the line, we need to go back;
+    public static final double CORRECTION_VALUE_TWO = 1200;
+
     GodThread.Line type;
     VuforiaLocalizerImplSubclass vuforia;
     AtomicBoolean redIsLeft;
@@ -33,7 +35,11 @@ public class AllignLineNoUltraNoLine extends LogicThread<AutonomousRobot> {
     public void loadCommands() {
         robot.addToProgress("Alligning with Line, with NO Ultra and NO Line");
         if (type== GodThread.Line.RED_FIRST_LINE || type== GodThread.Line.BLUE_SECOND_LINE) {
-           Translate toWhiteLine2 =  new Translate(CORRECTION_VALUE, Translate.Direction.FORWARD, 0, .15); //go slowly just to minimize error
+           Translate toWhiteLine2;
+            if (type == GodThread.Line.RED_FIRST_LINE)
+           toWhiteLine2 =  new Translate(CORRECTION_VALUE, Translate.Direction.FORWARD, 0, .15); //go slowly just to minimize error
+            else
+                toWhiteLine2 =  new Translate(CORRECTION_VALUE_TWO, Translate.Direction.FORWARD, 0, .15); //go slowly just to minimize error
             commands.add(toWhiteLine2);
             commands.add(new Pause(500));
             commands.add(new Rotate(0, 1));
@@ -44,7 +50,11 @@ public class AllignLineNoUltraNoLine extends LogicThread<AutonomousRobot> {
 
         }
         else if (type== GodThread.Line.RED_SECOND_LINE || type== GodThread.Line.BLUE_FIRST_LINE) {
-            Translate toWhiteLine2 =  new Translate(CORRECTION_VALUE, Translate.Direction.BACKWARD, 0, .15); //go slowly just to minimize error
+           Translate toWhiteLine2;
+            if (type == GodThread.Line.BLUE_FIRST_LINE)
+            toWhiteLine2 =  new Translate(CORRECTION_VALUE, Translate.Direction.BACKWARD, 0, .15); //go slowly just to minimize error
+            else
+                toWhiteLine2 =  new Translate(CORRECTION_VALUE_TWO, Translate.Direction.BACKWARD, 0, .15); //go slowly just to minimize error
             commands.add(toWhiteLine2);
             commands.add(new Pause(500));
             commands.add(new Rotate(0, 1));

@@ -17,12 +17,14 @@ import com.qualcomm.robotcore.hardware.*;
 public class LineSensorTest extends OpMode {
    AnalogInput linetest;
     UltrasonicSensor sonar1, sonar2;
+    LightSensor light;
     private MPU9250 imu;
     @Override
     public void init() {
         linetest = hardwareMap.analogInput.get("lineSensor");
         sonar1 = hardwareMap.ultrasonicSensor.get("sonarLeft");
         sonar2 = hardwareMap.ultrasonicSensor.get("sonarRight");
+        light = hardwareMap.lightSensor.get("nxtLight");
         imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0 );
         imu.zeroPitch();
         imu.zeroRoll();
@@ -40,6 +42,7 @@ public class LineSensorTest extends OpMode {
     telemetry.addData("Angle, Pitch, Roll: ", headingAngle + ", " + Pitch + " ," + Roll);
         telemetry.addData("UltraSound: ", sonar1.getUltrasonicLevel());
         telemetry.addData(" ", sonar2.getUltrasonicLevel());
+        telemetry.addData(" LIGHT", light.getRawLightDetected());
 
     }
 

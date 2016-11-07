@@ -19,9 +19,9 @@ import virtualRobot.logicThreads.AutonomousLayer2.ToLineUltra;
  */
 
 public class AllignLineUltraNoLine extends LogicThread<AutonomousRobot>  {
-    public static final double CORRECTION_VALUE = 1000; //since we've very much overshot the line, we need to go back;
+    public static final double CORRECTION_VALUE = 1350; //since we've very much overshot the line, we need to go back;
     public static final double WALL_TRACE_SONAR_THRESHOLD = ToLineUltra.WALL_TRACE_SONAR_THRESHOLD; //How close we want to trace wall
-
+    public static final double CORRECTION_VALUE_TWO = 1200;
     GodThread.Line type;
     VuforiaLocalizerImplSubclass vuforia;
     AtomicBoolean redIsLeft;

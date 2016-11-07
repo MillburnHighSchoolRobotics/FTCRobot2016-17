@@ -18,7 +18,7 @@ import virtualRobot.components.UltrasonicSensor;
  */
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
-    private Sensor headingSensor, pitchSensor, rollSensor, lightSensor;
+    private Sensor headingSensor, pitchSensor, rollSensor, lightSensor, nxtlightSensor;
     private UltrasonicSensor sonarLeft, sonarRight;
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder, ReaperEncoder;
@@ -43,6 +43,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         headingSensor = new Sensor();
         pitchSensor = new Sensor();
         rollSensor = new Sensor();
+        nxtlightSensor = new Sensor();
         sonarLeft = new UltrasonicSensor();
         sonarRight = new UltrasonicSensor();
         lightSensor = new Sensor();
@@ -103,6 +104,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
     @Override
     public synchronized Sensor getRBEncoder () {return RBEncoder;}
+
+    @Override
+    public synchronized Sensor getLightSensor() {return nxtlightSensor;}
 
     @Override
     public synchronized Sensor getReaperEncoder() {return ReaperEncoder;}
