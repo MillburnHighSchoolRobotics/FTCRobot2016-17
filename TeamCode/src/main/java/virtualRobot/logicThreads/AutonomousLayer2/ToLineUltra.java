@@ -8,6 +8,7 @@ import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
+import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Translate;
 import virtualRobot.commands.WallTrace;
@@ -52,11 +53,20 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
     public void loadCommands() {
         if (!linePassed)
         targetLine = robot.getLineSensor().getRawValue(); //The current value of the color sensor
-
-        final ExitCondition atwhiteline = new ExitCondition() {
+        final AtomicBoolean farDisplacedment = new AtomicBoolean(false);
+        final int whiteTape = 5;
+        final ExitCondition atwhitelineFIRST = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                if ((Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85) || robot.getLightSensor().getRawValue() > .73) {
+                //This checks the left1 light sensor or the color sensor
+                //Second Conditional check left2 light sensor.
+                if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape) ||
+                        ((Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85) || robot.getLightSensor().getRawValue() > .73)){
+                    lineWorks.set(true);
+                    Log.d("LINELINELINE", " GOOD:" + robot.getLineSensor().getRawValue());
+                    return true;
+                }else if((Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85) || robot.getLightSensor().getRawValue() > .73){
+                    farDisplacedment.set(true);
                     lineWorks.set(true);
                     Log.d("LINELINELINE", " GOOD:" + robot.getLineSensor().getRawValue());
                     return true;
@@ -65,6 +75,26 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
                 return false;
             }
         }; //if our line sensor detects a change >.7, we're at the line, stop moving!
+        final ExitCondition atwhitelineSECOND = new ExitCondition() {
+            @Override
+            public boolean isConditionMet() {
+                //This checks the right1 light sensor or the color sensor
+                //Second Conditional check right2 light sensor.
+                if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape) ||
+                        ((Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85) || robot.getLightSensor().getRawValue() > .73)){
+                    lineWorks.set(true);
+                    Log.d("LINELINELINE", " GOOD:" + robot.getLineSensor().getRawValue());
+                    return true;
+                }else if((Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85) || robot.getLightSensor().getRawValue() > .73){
+                    farDisplacedment.set(true);
+                    lineWorks.set(true);
+                    Log.d("LINELINELINE", " GOOD:" + robot.getLineSensor().getRawValue());
+                    return true;
+                }
+                lineWorks.set(false);
+                return false;
+            }
+        };
         Log.d("LINELINELINE", " " + targetLine);
         data.add(targetLine);
         robot.addToProgress("Going To Line with Ultra");
@@ -75,12 +105,18 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
            toWhiteLine = new WallTrace(WallTrace.Direction.BACKWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_LINE);
             else
                 toWhiteLine = new WallTrace(WallTrace.Direction.BACKWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE);
-            if ((lineAlreadyWorks && lineEntered) || !lineEntered);
-            toWhiteLine.setExitCondition(atwhiteline);
+            if ((lineAlreadyWorks && lineEntered) || !lineEntered)
+            toWhiteLine.setExitCondition(atwhitelineFIRST);
             if (type== GodThread.Line.BLUE_SECOND_LINE)
                 commands.add(new Translate(400, Translate.Direction.BACKWARD, 0));
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
+            if(farDisplacedment.get()){
+                //random value needs adjustment
+                commands.add(new Translate(400, Translate.Direction.BACKWARD, 0));
+                commands.add(new Pause(500));
+            }
+
         }
         else if (type==GodThread.Line.RED_SECOND_LINE || type==GodThread.Line.BLUE_FIRST_LINE) {
             WallTrace toWhiteLine;
@@ -88,12 +124,17 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
                 toWhiteLine = new WallTrace(WallTrace.Direction.FORWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_LINE);
             else
                 toWhiteLine = new WallTrace(WallTrace.Direction.FORWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE);
-            if ((lineAlreadyWorks && lineEntered) || !lineEntered);
-            toWhiteLine.setExitCondition(atwhiteline);
+            if ((lineAlreadyWorks && lineEntered) || !lineEntered)
+            toWhiteLine.setExitCondition(atwhitelineSECOND);
             if (type== GodThread.Line.RED_SECOND_LINE)
                 commands.add(new Translate(400, Translate.Direction.FORWARD, 0));
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
+            if(farDisplacedment.get()){
+                //random value needs adjustment
+                commands.add(new Translate(400, Translate.Direction.BACKWARD, 0));
+                commands.add(new Pause(500));
+            }
         }
     }
 
