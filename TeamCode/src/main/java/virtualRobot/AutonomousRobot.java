@@ -25,6 +25,8 @@ public interface AutonomousRobot {
 
     Sensor getRollSensor();
 
+    ColorSensor getColorSensor();
+
     LocationSensor getLocationSensor();
 
     UltrasonicSensor getSonarLeft();

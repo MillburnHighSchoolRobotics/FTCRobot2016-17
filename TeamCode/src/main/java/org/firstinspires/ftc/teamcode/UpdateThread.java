@@ -66,6 +66,7 @@ public abstract class UpdateThread extends OpMode {
 	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper;
 	private UltrasonicSensor sonarLeft, sonarRight;
 	private LightSensor nxtLight;
+	private ColorSensor colorSensor;
 	private Servo buttonServo;
 
 	private GodThread vuforiaEverywhere;
@@ -82,6 +83,7 @@ public abstract class UpdateThread extends OpMode {
 	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
 	private virtualRobot.components.Servo vButtonServo;
 	private Sensor vLightSensor;
+	private virtualRobot.components.ColorSensor vColorSensor;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -116,6 +118,7 @@ public abstract class UpdateThread extends OpMode {
 			sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");
 			sonarRight = hardwareMap.ultrasonicSensor.get("sonarRight");
 		}
+		colorSensor = hardwareMap.colorSensor.get("color");
 		nxtLight = hardwareMap.lightSensor.get("nxtLight");
         //FETCH VIRTUAL ROBOT FROM COMMAND INTERFACE
 		robot = Command.ROBOT;
@@ -127,6 +130,7 @@ public abstract class UpdateThread extends OpMode {
 		vLocationSensor = robot.getLocationSensor();
 		vLineSensor = robot.getLineSensor();
 		vLightSensor = robot.getLightSensor();
+		vColorSensor = robot.getColorSensor();
 		if (WITH_SONAR) {
 			vSonarLeft = robot.getSonarLeft();
 			vSonarRight = robot.getSonarRight();
@@ -230,6 +234,7 @@ public abstract class UpdateThread extends OpMode {
 			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
 			vSonarRight.setRawValue(sonarRight.getUltrasonicLevel());
 		}
+		vColorSensor.setRawValue(colorSensor.argb());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
@@ -287,6 +292,7 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("Line Sensor: ", robot.getLineSensor().getValue());
 		if (WITH_SONAR)
 		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
+		telemetry.addData("Color sensor: ", "Red: " + vColorSensor.getRed() + " Green: " + vColorSensor.getGreen() + " Blue: " + vColorSensor.getBlue());
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());

@@ -19,6 +19,7 @@ import virtualRobot.components.UltrasonicSensor;
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
     private Sensor headingSensor, pitchSensor, rollSensor, lightSensor, nxtlightSensor;
+    private ColorSensor colorSensor;
     private UltrasonicSensor sonarLeft, sonarRight;
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder, ReaperEncoder;
@@ -181,4 +182,6 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     @Override
     public synchronized HashMap<String, Object> getTelemetry () { return telemetry; }
 
+    @Override
+    public synchronized ColorSensor getColorSensor(){return colorSensor;}
 }
