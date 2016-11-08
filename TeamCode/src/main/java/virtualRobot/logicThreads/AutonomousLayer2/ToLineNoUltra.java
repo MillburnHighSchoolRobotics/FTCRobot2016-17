@@ -51,23 +51,23 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
     @Override
     public void loadCommands() {
         if (!linePassed)
-            targetLine = robot.getLineSensor().getRawValue();//The current value of the color sensor
+            targetLine = robot.getLightSensor1().getRawValue();//The current value of the color sensor
         final AtomicBoolean farDisplacedment = new AtomicBoolean(false);
         final int whiteTape = 5;
         final ExitCondition atwhitelineFIRST = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                //This checks the left1 light sensor or the color sensor
-                //Second Conditional check left2 light sensor.
+                //This checks the right1 light sensor or the color sensor
+                //Second Conditional check right2 light sensor.
                 if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape) ||
-                        ((Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85) || robot.getLightSensor().getRawValue() > .73)){
+                        (Math.abs(robot.getLightSensor3().getRawValue() - targetLine) > 1.85)){
                     lineWorks.set(true);
-                    Log.d("LINELINELINE", " GOOD:" + robot.getLineSensor().getRawValue());
+                    Log.d("LINELINELINE", " GOOD:" + robot.getLightSensor3().getRawValue());
                     return true;
-                }else if((Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85) || robot.getLightSensor().getRawValue() > .73){
+                }else if((Math.abs(robot.getLightSensor4().getRawValue() - targetLine) > 1.85)){
                     farDisplacedment.set(true);
                     lineWorks.set(true);
-                    Log.d("LINELINELINE", " GOOD:" + robot.getLineSensor().getRawValue());
+                    Log.d("LINELINELINE", " GOOD:" + robot.getLightSensor4().getRawValue());
                     return true;
                 }
                 lineWorks.set(false);
@@ -77,17 +77,17 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
         final ExitCondition atwhitelineSECOND = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                //This checks the right1 light sensor or the color sensor
-                //Second Conditional check right2 light sensor.
+                //This checks the left1 light sensor or the color sensor
+                //Second Conditional check left2 light sensor.
                 if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape) ||
-                        ((Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85) || robot.getLightSensor().getRawValue() > .73)){
+                        (Math.abs(robot.getLightSensor2().getRawValue() - targetLine) > 1.85)){
                     lineWorks.set(true);
-                    Log.d("LINELINELINE", " GOOD:" + robot.getLineSensor().getRawValue());
+                    Log.d("LINELINELINE", " GOOD:" + robot.getLightSensor2().getRawValue());
                     return true;
-                }else if((Math.abs(robot.getLineSensor().getRawValue() - targetLine) > 1.85) || robot.getLightSensor().getRawValue() > .73){
+                }else if((Math.abs(robot.getLightSensor1().getRawValue() - targetLine) > 1.85)){
                     farDisplacedment.set(true);
                     lineWorks.set(true);
-                    Log.d("LINELINELINE", " GOOD:" + robot.getLineSensor().getRawValue());
+                    Log.d("LINELINELINE", " GOOD:" + robot.getLightSensor1().getRawValue());
                     return true;
                 }
                 lineWorks.set(false);
