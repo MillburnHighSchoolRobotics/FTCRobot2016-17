@@ -18,7 +18,7 @@ import virtualRobot.components.UltrasonicSensor;
  */
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
-    private Sensor headingSensor, pitchSensor, rollSensor, lightSensor, nxtlightSensor;
+    private Sensor headingSensor, pitchSensor, rollSensor, nxtlightSensor1, nxtlightSensor2, nxtlightSensor3, nxtlightSensor4;
     private ColorSensor colorSensor;
     private UltrasonicSensor sonarLeft, sonarRight;
     private JoystickController joystickController1, joystickController2;
@@ -44,10 +44,12 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         headingSensor = new Sensor();
         pitchSensor = new Sensor();
         rollSensor = new Sensor();
-        nxtlightSensor = new Sensor();
+        nxtlightSensor1 = new Sensor();
+        nxtlightSensor2 = new Sensor();
+        nxtlightSensor3 = new Sensor();
+        nxtlightSensor4 = new Sensor();
         sonarLeft = new UltrasonicSensor();
         sonarRight = new UltrasonicSensor();
-        lightSensor = new Sensor();
         robotProgress = new ArrayList<String>();
         telemetry = new HashMap<>();
         locationSensor = new LocationSensor();
@@ -107,7 +109,16 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Sensor getRBEncoder () {return RBEncoder;}
 
     @Override
-    public synchronized Sensor getLightSensor() {return nxtlightSensor;}
+    public synchronized Sensor getLightSensor1() {return nxtlightSensor1;}
+
+    @Override
+    public synchronized Sensor getLightSensor2() {return nxtlightSensor2;}
+
+    @Override
+    public synchronized Sensor getLightSensor3() {return nxtlightSensor3;}
+
+    @Override
+    public synchronized Sensor getLightSensor4() {return nxtlightSensor4;}
 
     @Override
     public synchronized Sensor getReaperEncoder() {return ReaperEncoder;}
@@ -136,11 +147,6 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     @Override
     public synchronized LocationSensor getLocationSensor() {
         return locationSensor;
-    }
-
-    @Override
-    public synchronized Sensor getLineSensor() {
-        return lightSensor;
     }
 
     @Override

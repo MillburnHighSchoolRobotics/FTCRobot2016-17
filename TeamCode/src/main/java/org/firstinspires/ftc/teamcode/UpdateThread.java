@@ -65,24 +65,23 @@ public abstract class UpdateThread extends OpMode {
 	private MPU9250 imu;
 	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper;
 	private UltrasonicSensor sonarLeft, sonarRight;
-	private LightSensor nxtLight;
+	private LightSensor nxtLight1, nxtLight2, nxtLight3, nxtLight4;
 	private ColorSensor colorSensor;
 	private Servo buttonServo;
 
 	private GodThread vuforiaEverywhere;
-	private AnalogInput lineSensor;
 
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
-	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vLineSensor,vReaperEncoder;
+	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vReaperEncoder;
 	private LocationSensor vLocationSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vReaper;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
 	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
 	private virtualRobot.components.Servo vButtonServo;
-	private Sensor vLightSensor;
+	private Sensor vLightSensor1, vLightSensor2, vLightSensor3, vLightSensor4;
 	private virtualRobot.components.ColorSensor vColorSensor;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -113,14 +112,20 @@ public abstract class UpdateThread extends OpMode {
 
         //SENSOR SETUP e.g. colorSensor = hardwareMap.colorsensor.get("color"), sonar1 = hardwareMap.analogInput.get("sonar1"), liftEndStop1 = hardwareMap.digitalChannel.get("liftEndStop1")
 		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
-		lineSensor = hardwareMap.analogInput.get("lineSensor");
 		if (WITH_SONAR) {
 			sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");
 			sonarRight = hardwareMap.ultrasonicSensor.get("sonarRight");
 		}
 		colorSensor = hardwareMap.colorSensor.get("color");
-		nxtLight = hardwareMap.lightSensor.get("nxtLight");
-        //FETCH VIRTUAL ROBOT FROM COMMAND INTERFACE
+		nxtLight1 = hardwareMap.lightSensor.get("nxtLight1");
+		nxtLight2 = hardwareMap.lightSensor.get("nxtLight2");
+		nxtLight3 = hardwareMap.lightSensor.get("nxtLight3");
+		nxtLight4 = hardwareMap.lightSensor.get("nxtLight4");
+
+
+
+
+		//FETCH VIRTUAL ROBOT FROM COMMAND INTERFACE
 		robot = Command.ROBOT;
 
         //FETCH VIRTUAL COMPONENTS OF VIRTUAL ROBOT from robot. E.g. vDriveLeftMotor = robot.getDriveLeftMotor();
@@ -128,8 +133,10 @@ public abstract class UpdateThread extends OpMode {
 		vPitchSensor = robot.getPitchSensor();
 		vRollSensor = robot.getRollSensor();
 		vLocationSensor = robot.getLocationSensor();
-		vLineSensor = robot.getLineSensor();
-		vLightSensor = robot.getLightSensor();
+		vLightSensor1 = robot.getLightSensor1();
+		vLightSensor2 = robot.getLightSensor2();
+		vLightSensor3 = robot.getLightSensor3();
+		vLightSensor4 = robot.getLightSensor4();
 		vColorSensor = robot.getColorSensor();
 		if (WITH_SONAR) {
 			vSonarLeft = robot.getSonarLeft();
@@ -229,7 +236,6 @@ public abstract class UpdateThread extends OpMode {
 		vPitchSensor.setRawValue(imu.getIntegratedPitch());
 		vHeadingSensor.setRawValue(headingAngle);
 		vRollSensor.setRawValue(imu.getIntegratedRoll());
-		vLineSensor.setRawValue(lineSensor.getVoltage());
 		if (WITH_SONAR) {
 			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
 			vSonarRight.setRawValue(sonarRight.getUltrasonicLevel());
@@ -242,7 +248,12 @@ public abstract class UpdateThread extends OpMode {
 		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
 		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 		vReaperEncoder.setRawValue(reaper.getCurrentPosition());
-		vLightSensor.setRawValue(nxtLight.getRawLightDetected());
+		vLightSensor1.setRawValue(nxtLight1.getRawLightDetected());
+		vLightSensor2.setRawValue(nxtLight2.getRawLightDetected());
+		vLightSensor3.setRawValue(nxtLight3.getRawLightDetected());
+		vLightSensor4.setRawValue(nxtLight4.getRawLightDetected());
+
+
 
 		try {
             vJoystickController1.copyStates(gamepad1);
@@ -289,7 +300,7 @@ public abstract class UpdateThread extends OpMode {
 
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
-		telemetry.addData("Line Sensor: ", robot.getLineSensor().getValue());
+		telemetry.addData("Light Sensor Arrays: ", robot.getLightSensor1().getValue() + " " + robot.getLightSensor2().getValue() + " " + robot.getLightSensor3().getValue() + " " + robot.getLightSensor4().getValue());
 		if (WITH_SONAR)
 		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
 		telemetry.addData("Color sensor: ", "Red: " + vColorSensor.getRed() + " Green: " + vColorSensor.getGreen() + " Blue: " + vColorSensor.getBlue());

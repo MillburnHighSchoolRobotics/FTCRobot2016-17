@@ -57,9 +57,13 @@ public interface AutonomousRobot {
 
     Sensor getReaperEncoder();
 
-    Sensor getLineSensor();
+    Sensor getLightSensor1();
 
-    Sensor getLightSensor();
+    Sensor getLightSensor2();
+
+    Sensor getLightSensor3();
+
+    Sensor getLightSensor4();
 
     SyncedMotors getRightRotate();
 
