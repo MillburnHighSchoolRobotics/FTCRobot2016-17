@@ -46,13 +46,13 @@ public class FTCTakePicture implements Command{
 
     public boolean changeRobotState() throws InterruptedException {
 
+        //Converts VuforiaLocalizerImplSubclass' picture to a bitmap for analysis by DavidClass
         if (vuforia.rgb != null){
             Bitmap bm =  Bitmap.createBitmap(vuforia.rgb.getWidth(), vuforia.rgb.getHeight(), Bitmap.Config.RGB_565);
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
             boolean analyzed = DavidClass.analyzePic2(bm);
             Log.d("cameraReturn ", analyzed + " ");
             redisLeft.set(analyzed);
-
        }
 
         return Thread.currentThread().isInterrupted();

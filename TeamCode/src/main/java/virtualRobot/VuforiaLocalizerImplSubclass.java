@@ -64,7 +64,7 @@ public class VuforiaLocalizerImplSubclass extends VuforiaLocalizerImpl {
         this.vuforiaCallback = new VuforiaCallbackSubclass();
         startAR();
 
-        // Optional: set the pixel format(s) that you want to have in the callback
+        //Set pixel format. This will be either RGB565 or RGB888 depedning on the phone used
         Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
     }
 

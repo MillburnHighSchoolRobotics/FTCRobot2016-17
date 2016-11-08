@@ -71,7 +71,7 @@ public class Translate implements Command {
         maxPower = globalMaxPower;
         currentValue = 0;
         direction = Direction.FORWARD;
-        multiplier = POWER_MATRIX[direction.getCode()];
+        multiplier = POWER_MATRIX[direction.getCode()]; //When Direction is FORWARD, code is 0
         timeLimit = -1;
         referenceAngle = Double.MIN_VALUE;
         angleModifier = 0;
@@ -100,13 +100,13 @@ public class Translate implements Command {
         if (angleModifier != 0) { //some trig, based on angleModifier. Basically the goal is to get the resultant between two wheels to be sqrt(2)*target, for a total resultant of 2*sqrt(2)*target. This is done to match up the distance with a translate forward/back/side (which would have a net movement of 2*sqrt(2)*target)
             multiplier = POWER_MATRIX[0];
             switch(direction.getCode()){
-                case 0:
+                case 0: //Forward
                     LFtranslateController.setTarget(SQRT_2*target*cosDegrees(45-angleModifier));
                     RFtranslateController.setTarget(SQRT_2*target*sinDegrees(45-angleModifier));
                     LBtranslateController.setTarget(SQRT_2*target*cosDegrees(45-angleModifier));
                     RBtranslateController.setTarget(SQRT_2*target*sinDegrees(45-angleModifier));
                     break;
-                case 1:
+                case 1: //Forward Right
                     LFtranslateController.setTarget(SQRT_2*target*cosDegrees(angleModifier));
                     RFtranslateController.setTarget(SQRT_2*target*sinDegrees(angleModifier));
                     LBtranslateController.setTarget(SQRT_2*target*cosDegrees(angleModifier));
@@ -114,7 +114,7 @@ public class Translate implements Command {
                     multiplier[1] = -1;
                     multiplier[2]= -1;
                     break;
-                case 2:
+                case 2: //Right
                     LFtranslateController.setTarget(SQRT_2*target*cosDegrees(45+angleModifier));
                     RFtranslateController.setTarget(SQRT_2*target*sinDegrees(45+angleModifier));
                     LBtranslateController.setTarget(SQRT_2*target*cosDegrees(45+angleModifier));
@@ -122,7 +122,7 @@ public class Translate implements Command {
                     multiplier[1] = -1;
                     multiplier[2]= -1;
                     break;
-                case 3:
+                case 3: //Backward Right
                     LFtranslateController.setTarget(SQRT_2*target*sinDegrees(angleModifier));
                     RFtranslateController.setTarget(SQRT_2*target*cosDegrees(angleModifier));
                     LBtranslateController.setTarget(SQRT_2*target*sinDegrees(angleModifier));
@@ -130,9 +130,9 @@ public class Translate implements Command {
                     multiplier[0] = -1;
                     multiplier[1]= -1;
                     multiplier[2] = -1;
-                    multiplier[3] = - 1;
+                    multiplier[3] = -1;
                     break;
-                case 4:
+                case 4: //Backward
                     LFtranslateController.setTarget(SQRT_2*target*sinDegrees(45+angleModifier));
                     RFtranslateController.setTarget(SQRT_2*target*cosDegrees(45+angleModifier));
                     LBtranslateController.setTarget(SQRT_2*target*sinDegrees(45+angleModifier));
@@ -140,9 +140,9 @@ public class Translate implements Command {
                     multiplier[0] = -1;
                     multiplier[1]= -1;
                     multiplier[2] = -1;
-                    multiplier[3] = - 1;
+                    multiplier[3] = -1;
                     break;
-                case 5:
+                case 5: //Backward Left
                     LFtranslateController.setTarget(SQRT_2*target*cosDegrees(angleModifier));
                     RFtranslateController.setTarget(SQRT_2*target*sinDegrees(angleModifier));
                     LBtranslateController.setTarget(SQRT_2*target*cosDegrees(angleModifier));
@@ -150,7 +150,7 @@ public class Translate implements Command {
                     multiplier[0] = -1;
                     multiplier[3] = -1;
                     break;
-                case 6:
+                case 6: //Left
                     LFtranslateController.setTarget(SQRT_2*target*sinDegrees(45-angleModifier));
                     RFtranslateController.setTarget(SQRT_2*target*cosDegrees(45-angleModifier));
                     LBtranslateController.setTarget(SQRT_2*target*sinDegrees(45-angleModifier));
@@ -158,7 +158,7 @@ public class Translate implements Command {
                     multiplier[0] = -1;
                     multiplier[3] = -1;
                     break;
-                case 7:
+                case 7: //Forward Left
                     LFtranslateController.setTarget(SQRT_2*target*sinDegrees(angleModifier));
                     RFtranslateController.setTarget(SQRT_2*target*cosDegrees(angleModifier));
                     LBtranslateController.setTarget(SQRT_2*target*sinDegrees(angleModifier));
@@ -396,8 +396,8 @@ public class Translate implements Command {
             double RFPower = RFpidOutput;
             double LBPower = LBpidOutput;
             double RBPower = RBpidOutput;
-            boolean[] issueArray = {false,false,false,false}; //if the angle modifier is = 0, and for_right is too far to the right or left will be true, perfect = false. Second element same thing but for back_right, third for Back_left, 4th for Forward_left
-            // headingOutput <0 = too far to the left, >0 = too far to the right
+            boolean[] issueArray = {false,false,false,false}; //if the angle modifier is = 0, and forward_right is too far to the right or to the left, this will be true, perfect = false. Second element same thing but for back_right, third for Back_left, 4th for Forward_left
+            // headingOutput < 0 = too far to the left, > 0 = too far to the right
             if (angleModifier != 0) {
                 if ((direction.getCode() == 0 || direction.getCode() == 5)) {
                     if (headingOutput > 0){
@@ -499,12 +499,12 @@ public class Translate implements Command {
               multiplier[3] = POWER_MATRIX[direction.getCode()][3];
           }
               double absHead = Math.abs(headingOutput);
-          /*switch (direction) {
+          switch (direction) {
             //TODO: Everything that doesn't use absHead still needs to be updated
               case FORWARD:
                   if (headingOutput > 0) {
                       RFPower -= absHead;
-                      RBPower-= absHead;
+                      RBPower -= absHead;
                       LBPower += absHead;
                       LFPower += absHead;
                   } else if (headingOutput < 0) {
@@ -520,7 +520,7 @@ public class Translate implements Command {
                       multiplier[1] = 1;
                       multiplier[2] = 1;
                       RFPower -= absHead;
-                      RBPower-= absHead;
+                      RBPower -= absHead;
                       LBPower += absHead;
                       LFPower += absHead;
                   } else if (headingOutput < 0) {
@@ -535,11 +535,11 @@ public class Translate implements Command {
                   break;
               case RIGHT:
                   if (headingOutput > 0) {
-                      RFPower -= headingOutput;
-                      LBPower -= headingOutput;
+                      RFPower -= absHead;
+                      LBPower -= absHead;
                   } else if (headingOutput < 0) {
-                      RFPower += Math.abs(headingOutput);
-                      LBPower += Math.abs(headingOutput);
+                      RFPower += absHead;
+                      LBPower += absHead;
                   }
                   break;
               case BACKWARD_RIGHT:
@@ -547,15 +547,15 @@ public class Translate implements Command {
                       issueArray[1] = true;
                       multiplier[0] = -1;
                       multiplier[3] = -1;
-                      LFPower += headingOutput;
-                      RBPower += headingOutput;
+                      LFPower += absHead;
+                      RBPower += absHead;
 
                   } else if (headingOutput < 0) {
                       issueArray[1] = true;
                       multiplier[0] = 1;
                       multiplier[3] = 1;
-                      LFPower += Math.abs(headingOutput);
-                      RBPower += Math.abs(headingOutput);
+                      LFPower += absHead;
+                      RBPower += absHead;
                   }
                   break;
               case BACKWARD:
@@ -576,23 +576,23 @@ public class Translate implements Command {
                       issueArray[2] = true;
                       multiplier[1] = 1;
                       multiplier[2] = 1;
-                      RFPower += headingOutput;
-                      LBPower += headingOutput;
+                      RFPower += absHead;
+                      LBPower += absHead;
                   } else if (headingOutput < 0) {
                       issueArray[2] = true;
                       multiplier[1] = -1;
                       multiplier[2] = -1;
-                      RFPower += Math.abs(headingOutput);
-                      LBPower += Math.abs(headingOutput);
+                      RFPower += absHead;
+                      LBPower += absHead;
                   }
                   break;
               case LEFT:
                   if (headingOutput > 0) {
-                      LFPower += headingOutput;
-                      RBPower += headingOutput;
+                      LFPower += absHead;
+                      RBPower += absHead;
                   } else if (headingOutput < 0) {
-                      LFPower -= Math.abs(headingOutput);
-                      RBPower -= Math.abs(headingOutput);
+                      LFPower -= absHead;
+                      RBPower -= absHead;
                   }
                   break;
               case FORWARD_LEFT:
@@ -600,19 +600,17 @@ public class Translate implements Command {
                       issueArray[3] = true;
                       multiplier[0] = -1;
                       multiplier[3] = -1;
-                      LFPower += headingOutput;
-                      RBPower += headingOutput;
+                      LFPower += absHead;
+                      RBPower += absHead;
                   } else if (headingOutput < 0) {
                       issueArray[3] = true;
                       multiplier[0] = 1;
                       multiplier[3] = 1;
-                      LFPower += Math.abs(headingOutput);
-                      RBPower += Math.abs(headingOutput);
+                      LFPower += absHead;
+                      RBPower += absHead;
                   }
                   break;
-
-
-          }*/
+          }
               robot.getLFMotor().setPower(LFPower * multiplier[0]);
               robot.getRFMotor().setPower(RFPower * multiplier[1]);
               robot.getLBMotor().setPower(LBPower * multiplier[2]);
