@@ -206,6 +206,9 @@ public abstract class UpdateThread extends OpMode {
 		while (!cv.getGood()) {
 			//Chill
 		}
+		t = cv.t;
+		vuforiaEverywhere = cv.vuforiaEverywhere;
+		godThread = cv.godThread;
 		t.start();
 	}
 	

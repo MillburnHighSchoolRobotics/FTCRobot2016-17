@@ -44,6 +44,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         headingSensor = new Sensor();
         pitchSensor = new Sensor();
         rollSensor = new Sensor();
+        colorSensor = new ColorSensor();
         nxtlightSensor1 = new Sensor();
         nxtlightSensor2 = new Sensor();
         nxtlightSensor3 = new Sensor();
@@ -65,7 +66,6 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         ReaperEncoder = new Sensor();
         CapServo = new ContinuousRotationServo();
         ButtonServo = new Servo();
-
         leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
         rightRotate = new SyncedMotors(RFMotor, RBMotor, RFEncoder, RBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
 
