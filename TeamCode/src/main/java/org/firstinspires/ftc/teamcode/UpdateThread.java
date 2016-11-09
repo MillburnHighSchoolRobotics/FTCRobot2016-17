@@ -57,6 +57,7 @@ public abstract class UpdateThread extends OpMode {
 	private SallyJoeBot robot;
 	protected Class<? extends GodThread> godThread;
 	private Thread t;
+	private CreateVuforia cv;
 
 	//here we will initiate all of our PHYSICAL components. E.g: private DcMotor leftBack...
 	//also initiate sensors. E.g. private AnalogInput sonar, private ColorSensor colorSensor, private DigitalChannel ...
@@ -170,27 +171,10 @@ public abstract class UpdateThread extends OpMode {
 
 		addPresets();
         setGodThread();
+		cv = new CreateVuforia(godThread, vuforiaEverywhere, t);
+		new Thread (cv).start();
 
-		try {
-			if (!godThread.equals(TeleopGodThread.class) && !godThread.equals(PIDTesterGodThread.class)) {
-				VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
-				params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-				params.vuforiaLicenseKey = "AcXbD9X/////AAAAGVpq1gdfDkIPp+j5hv1iV5RZXLWAWV4F7je9gks+8lHhZb6mwCj7xy9mapHP6sKO9OrPv5kVQDXhB+T+Rn7V7GUm4Ub4rmCanqv4frx8gT732qJUnTEj9POMufR9skjlXSEODbpThxrLCPqobHeAeSA5dUmUik3Rck0lcwhElw5yOBN45iklYnvC9GpPRv128ALcgt9Zpw/shit0erKmuyrT62NRUKgoHNMm5xV/Xqj8Vgwke8ESap+nK7v+6lx35vDZ6ISNDVMMM8h0VqeL0745MNPJoI1vgiNRo30R7WwtPYME44koOrWMUIxMXghtqxq7AfFxb6sbin0i5KSUJWtLsqmZOrAXxjxdUwY8f8tw";
-				Log.d("lalala", "location1");
-				VuforiaLocalizerImplSubclass vuforia = new VuforiaLocalizerImplSubclass(params);
-				vuforiaEverywhere = godThread.newInstance();
-				vuforiaEverywhere.setVuforia(vuforia);
-				t = new Thread(vuforiaEverywhere);
-			} else {
-				t = new Thread(godThread.newInstance());
-				Log.d("lalala", "location2");
-			}
 
-		} catch (InstantiationException e) {
-			return;
-		} catch (IllegalAccessException e) {
-			return;
-		}
 	}
 
 	public void init_loop () {
@@ -199,6 +183,8 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroRoll();
 		telemetry.addData("Is Running Version: ", Rotate.KP + " 1.0");
         telemetry.addData("Init Loop Time", runtime.toString());
+
+
 	}
 
 	public void start() {
@@ -216,6 +202,9 @@ public abstract class UpdateThread extends OpMode {
 		if (WITH_SONAR) {
 			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
 			vSonarRight.setRawValue(sonarRight.getUltrasonicLevel());
+		}
+		while (!cv.getGood()) {
+			//Chill
 		}
 		t.start();
 	}
