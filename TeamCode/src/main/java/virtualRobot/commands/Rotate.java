@@ -5,6 +5,7 @@ import android.util.Log;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.PIDController;
+import virtualRobot.utils.MathUtils;
 
 /**
  * Created by shant on 10/27/2015.
@@ -141,7 +142,7 @@ public class Rotate implements Command {
                 while (!exitCondition.isConditionMet() && Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
                     double adjustedPower = pidController.getPIDOutput(robot.getHeadingSensor().getValue());
-                    adjustedPower = Math.min(Math.max(adjustedPower, -1), 1);
+                    adjustedPower = MathUtils.clamp(adjustedPower, -1, 1);
 
                     /*double ratio = Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) / (Math.abs(angleInDegrees - initAngle));
                     double powerScaler = power;
@@ -196,10 +197,7 @@ public class Rotate implements Command {
                 break;
         }
 
-    	robot.getLFMotor().setPower(0);
-        robot.getLBMotor().setPower(0);
-        robot.getRFMotor().setPower(0);
-        robot.getRBMotor().setPower(0);
+    	robot.stopMotors();
         
         return isInterrupted;
         

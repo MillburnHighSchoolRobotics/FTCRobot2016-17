@@ -107,8 +107,6 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
                 toWhiteLine = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE, Translate.Direction.BACKWARD, 0, .15);
             if ((lineAlreadyWorks && lineEntered) || !lineEntered)
             toWhiteLine.setExitCondition(atwhitelineFIRST);
-            if (type== GodThread.Line.BLUE_SECOND_LINE)
-                commands.add(new Translate(400, Translate.Direction.BACKWARD, 0));
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
             if(farDisplacedment.get()){
@@ -125,8 +123,6 @@ public class ToLineNoUltra extends LogicThread<AutonomousRobot>  {
                 toWhiteLine = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE, Translate.Direction.FORWARD, 0, .15);
             if ((lineAlreadyWorks && lineEntered) || !lineEntered)
             toWhiteLine.setExitCondition(atwhitelineSECOND);
-            if (type== GodThread.Line.RED_SECOND_LINE)
-                commands.add(new Translate(400, Translate.Direction.FORWARD, 0));
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
             if(farDisplacedment.get()){

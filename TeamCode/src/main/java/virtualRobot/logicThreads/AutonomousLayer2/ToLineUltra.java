@@ -107,8 +107,6 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
                 toWhiteLine = new WallTrace(WallTrace.Direction.BACKWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE);
             if ((lineAlreadyWorks && lineEntered) || !lineEntered)
             toWhiteLine.setExitCondition(atwhitelineFIRST);
-            if (type== GodThread.Line.BLUE_SECOND_LINE)
-                commands.add(new Translate(400, Translate.Direction.BACKWARD, 0));
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
             if(farDisplacedment.get()){
@@ -126,8 +124,6 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
                 toWhiteLine = new WallTrace(WallTrace.Direction.FORWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE);
             if ((lineAlreadyWorks && lineEntered) || !lineEntered)
             toWhiteLine.setExitCondition(atwhitelineSECOND);
-            if (type== GodThread.Line.RED_SECOND_LINE)
-                commands.add(new Translate(400, Translate.Direction.FORWARD, 0));
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
             if(farDisplacedment.get()){

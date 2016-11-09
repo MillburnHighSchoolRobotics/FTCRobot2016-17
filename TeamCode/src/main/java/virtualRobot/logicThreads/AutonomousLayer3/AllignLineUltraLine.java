@@ -19,7 +19,7 @@ import virtualRobot.logicThreads.AutonomousLayer2.ToLineUltra;
  * Created by 17osullivand on 11/3/16.
  * Accounts for slight overshoot when going to line
  */
-
+@Deprecated
 public class AllignLineUltraLine extends LogicThread<AutonomousRobot>  {
     GodThread.Line type;
     double currentLine;

@@ -109,7 +109,7 @@ public class WallTrace implements Command {
         double LBvalue = robot.getLBEncoder().getValue();
         double RBvalue = robot.getRBEncoder().getValue();
         Log.d("AVGDIST", " " + Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4));
-        return Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4);
+        return (Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4;
     }
     public enum Direction {
         FORWARD,

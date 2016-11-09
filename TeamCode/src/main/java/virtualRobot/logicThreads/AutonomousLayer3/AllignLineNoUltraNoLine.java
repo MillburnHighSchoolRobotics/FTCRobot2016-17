@@ -17,7 +17,7 @@ import virtualRobot.commands.WallTrace;
  * Accounts for slight overshoot when going to line
  * EVERYTHING IS BROKEEEN YAAAAY
  */
-
+@Deprecated
 public class AllignLineNoUltraNoLine extends LogicThread<AutonomousRobot> {
     public static final double CORRECTION_VALUE = AllignLineUltraNoLine.CORRECTION_VALUE; //since we've very much overshot the line, we need to go back;
     public static final double CORRECTION_VALUE_TWO = 1200;
