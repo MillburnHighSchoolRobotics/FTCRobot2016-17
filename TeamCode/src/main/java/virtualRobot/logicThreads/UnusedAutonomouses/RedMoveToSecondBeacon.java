@@ -25,7 +25,7 @@ public class RedMoveToSecondBeacon extends LogicThread<AutonomousRobot> {
     final ExitCondition atwhiteline = new ExitCondition() {
         @Override
         public boolean isConditionMet() {
-            if (Math.abs(robot.getLineSensor().getRawValue() - currentLine) > .7) {
+            if (Math.abs(robot.getLightSensor1().getRawValue() - currentLine) > .7) {
                 return true;
             }
             return false;

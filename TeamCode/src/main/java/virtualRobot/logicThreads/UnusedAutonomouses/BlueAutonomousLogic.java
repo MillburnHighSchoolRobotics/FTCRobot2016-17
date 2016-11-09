@@ -34,12 +34,12 @@ public class BlueAutonomousLogic extends LogicThread<AutonomousRobot> {
     }
     @Override
     public void loadCommands() {
-        final double currentLine = robot.getLineSensor().getRawValue(); //The current value of the color sensor
+        final double currentLine = robot.getLightSensor1().getRawValue(); //The current value of the color sensor
         Line = currentLine; //So BlueMoveToSecondBeacon knows the current value of the color sensor
         final ExitCondition atwhiteline = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                if (Math.abs(robot.getLineSensor().getRawValue() - currentLine) > .7) {
+                if (Math.abs(robot.getLightSensor1().getRawValue() - currentLine) > .7) {
                     return true;
                 }
                 return false;

@@ -37,7 +37,7 @@ public class AllignLineNoUltraLine extends LogicThread<AutonomousRobot>  {
         final ExitCondition atwhiteline = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                if (Math.abs(robot.getLineSensor().getRawValue() - currentLine) > 1.85 || robot.getLightSensor().getRawValue() > .73) {
+                if (Math.abs(robot.getLightSensor1().getRawValue() - currentLine) > 1.85 || robot.getLightSensor1().getRawValue() > .73) {
                     return true;
                 }
                 return false;

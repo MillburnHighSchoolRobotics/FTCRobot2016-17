@@ -81,7 +81,7 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
                 PIDController close = new PIDController(0.008,0,0,0,8);
                 PIDController allign = new PIDController(0.012,0,0,0,0);
                 double currLeft, currRight, errClose = 0, errAllign;
-                while (robot.getLineSensor().getValue() > SallyJoeBot.BWTHRESHOLD) {
+                while (robot.getColorSensor().getValue() > SallyJoeBot.BWTHRESHOLD) {
                     currLeft = robot.getSonarLeft().getValue();
                     currRight = robot.getSonarRight().getValue();
 
