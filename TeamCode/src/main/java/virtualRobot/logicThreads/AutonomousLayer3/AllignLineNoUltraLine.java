@@ -19,7 +19,7 @@ import virtualRobot.commands.WallTrace;
  * Created by 17osullivand on 11/3/16.
  * Accounts for slight overshoot when going to line
  */
-
+@Deprecated
 public class AllignLineNoUltraLine extends LogicThread<AutonomousRobot>  {
     GodThread.Line type;
     double currentLine;

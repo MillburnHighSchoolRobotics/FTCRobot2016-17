@@ -17,7 +17,7 @@ import virtualRobot.logicThreads.AutonomousLayer2.ToLineUltra;
  * Created by 17osullivand on 11/3/16.
  * Accounts for slight overshoot when going to line
  */
-
+@Deprecated
 public class AllignLineUltraNoLine extends LogicThread<AutonomousRobot>  {
     public static final double CORRECTION_VALUE = 1350; //since we've very much overshot the line, we need to go back;
     public static final double WALL_TRACE_SONAR_THRESHOLD = ToLineUltra.WALL_TRACE_SONAR_THRESHOLD; //How close we want to trace wall
