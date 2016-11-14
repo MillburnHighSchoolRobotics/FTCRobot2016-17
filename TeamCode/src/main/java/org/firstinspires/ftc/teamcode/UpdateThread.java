@@ -68,7 +68,7 @@ public abstract class UpdateThread extends OpMode {
 	private UltrasonicSensor sonarLeft, sonarRight;
 	private LightSensor nxtLight1, nxtLight2, nxtLight3, nxtLight4;
 	private ColorSensor colorSensor;
-	private Servo buttonServo;
+	private Servo buttonServo, capLeftServo, capRightServo, ballLauncherServo;
 
 	private GodThread vuforiaEverywhere;
 
@@ -81,7 +81,7 @@ public abstract class UpdateThread extends OpMode {
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vReaper;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
 	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
-	private virtualRobot.components.Servo vButtonServo;
+	private virtualRobot.components.Servo vButtonServo, vCapLeftServo, vCapRightServo, vBallLauncherServo;
 	private Sensor vLightSensor1, vLightSensor2, vLightSensor3, vLightSensor4;
 	private virtualRobot.components.ColorSensor vColorSensor;
 
@@ -100,7 +100,9 @@ public abstract class UpdateThread extends OpMode {
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		if (withServos) {
-
+			capLeftServo = hardwareMap.servo.get("capLeft");
+			capRightServo = hardwareMap.servo.get("capRight");
+			ballLauncherServo = hardwareMap.servo.get("ballLauncher");
 			buttonServo = hardwareMap.servo.get("buttonPusher");
 		}
 
@@ -112,7 +114,7 @@ public abstract class UpdateThread extends OpMode {
 
 
         //SENSOR SETUP e.g. colorSensor = hardwareMap.colorsensor.get("color"), sonar1 = hardwareMap.analogInput.get("sonar1"), liftEndStop1 = hardwareMap.digitalChannel.get("liftEndStop1")
-		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0);
+		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 1);
 		if (WITH_SONAR) {
 			sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");
 			sonarRight = hardwareMap.ultrasonicSensor.get("sonarRight");
@@ -150,6 +152,9 @@ public abstract class UpdateThread extends OpMode {
 		vReaper = robot.getReaperMotor();
 		if (withServos) {
 			vButtonServo = robot.getButtonServo();
+			vCapLeftServo = robot.getCapLeftServo();
+			vCapRightServo = robot.getCapRightServo();
+			vBallLauncherServo = robot.getBallLauncherServo();
 		}
 		vLeftFrontEncoder = robot.getLFEncoder();
 		vLeftBackEncoder = robot.getLBEncoder();
@@ -198,6 +203,10 @@ public abstract class UpdateThread extends OpMode {
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
 				vButtonServo.setPosition(buttonServo.getPosition());
+				vCapLeftServo.setPosition(buttonServo.getPosition());
+				vCapRightServo.setPosition(buttonServo.getPosition());
+				vBallLauncherServo.setPosition(buttonServo.getPosition());
+
 			}
 		if (WITH_SONAR) {
 			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
@@ -262,8 +271,14 @@ public abstract class UpdateThread extends OpMode {
 		double rightBackPower = vRightBack.getPower();
 		double reaperPower = vReaper.getPower();
 		double buttonPosition = 0;
+		double capLeftPosition = 0;
+		double capRightPosition = 0;
+		double ballLauncherPosition = 0;
 		if (withServos) {
 			buttonPosition = vButtonServo.getPosition();
+			capLeftPosition = vCapLeftServo.getPosition();
+			capRightPosition = vCapRightServo.getPosition();
+			ballLauncherPosition = vBallLauncherServo.getPosition();
 		}
 
 
@@ -278,8 +293,12 @@ public abstract class UpdateThread extends OpMode {
 		rightBack.setPower(rightBackPower);
 		reaper.setPower(reaperPower);
 		if (withServos) {
-
 			buttonServo.setPosition(buttonPosition);
+			capLeftServo.setPosition(capLeftPosition);
+			capRightServo.setPosition(capRightPosition);
+			ballLauncherServo.setPosition(ballLauncherPosition);
+
+
 		}
 
 		for (Map.Entry<String,Object> e: robot.getTelemetry().entrySet()) {
