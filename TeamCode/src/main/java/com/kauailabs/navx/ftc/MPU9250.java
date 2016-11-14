@@ -10,12 +10,14 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 public class MPU9250 extends AHRS {
     private double prevYaw, prevPitch, prevRoll;
     private double yawOffset, pitchOffset, rollOffset;
+    private double xOffset, yOffset, zOffset;
 
 
     protected MPU9250(DeviceInterfaceModule dim, int dim_i2c_port,
                    DeviceDataType data_type, int update_rate_hz) {
         super(dim, dim_i2c_port, data_type, update_rate_hz);
-        
+
+        xOffset = yawOffset = zOffset = 0;
         prevYaw = prevPitch = prevRoll = 0;
         yawOffset = pitchOffset = rollOffset = 0;
     }
@@ -84,7 +86,23 @@ public class MPU9250 extends AHRS {
         return getRoll() + rollOffset;
     }
 
-    public void zeroRoll() {
-        rollOffset = -getRoll();
+    public void zeroRoll() { rollOffset = -getRoll(); }
+
+    public double getIntegratedAccelX() { return getRawAccelX() - xOffset; }
+
+    public void zeroAccelX() { xOffset = getRawAccelX(); }
+
+    public double getIntegratedAccelY() { return getRawAccelY() - yOffset; }
+
+    public void zeroAccelY() { yOffset = getRawAccelY(); }
+
+    public double getIntegratedAccelZ() { return getRawAccelZ() - zOffset; }
+
+    public void zeroAccelZ() { zOffset = getRawAccelZ(); }
+
+    public void zeroAccel(){
+        zeroAccelX();
+        zeroAccelY();
+        zeroAccelZ();
     }
 }

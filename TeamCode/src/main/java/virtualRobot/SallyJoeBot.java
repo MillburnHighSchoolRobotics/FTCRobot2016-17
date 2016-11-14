@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.ContinuousRotationServo;
-import virtualRobot.components.LocationSensor;
+import virtualRobot.components.StateSensor;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.Servo;
@@ -23,7 +23,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private UltrasonicSensor sonarLeft, sonarRight;
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder, ReaperEncoder;
-    private LocationSensor locationSensor;
+    private StateSensor locationSensor;
     private ArrayList<String> robotProgress;
     private HashMap<String, Object> telemetry;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
@@ -53,7 +53,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         sonarRight = new UltrasonicSensor();
         robotProgress = new ArrayList<String>();
         telemetry = new HashMap<>();
-        locationSensor = new LocationSensor();
+        locationSensor = new StateSensor();
         LFMotor = new Motor();
         LBMotor = new Motor();
         RFMotor = new Motor();
@@ -145,7 +145,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Servo getButtonServo() { return ButtonServo; }
 
     @Override
-    public synchronized LocationSensor getLocationSensor() {
+    public synchronized StateSensor getLocationSensor() {
         return locationSensor;
     }
 
