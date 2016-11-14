@@ -44,9 +44,13 @@ public interface AutonomousRobot {
 
     Motor getReaperMotor();
 
-    ContinuousRotationServo getCapServo();
-
     Servo getButtonServo();
+
+    Servo getCapLeftServo();
+
+    Servo getCapRightServo();
+
+    Servo getBallLauncherServo();
 
     Sensor getLFEncoder();
 
