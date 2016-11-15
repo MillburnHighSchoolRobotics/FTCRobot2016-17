@@ -360,10 +360,10 @@ public class Translate implements Command {
             double RBvalue = 0;
       if (angleModifier != 0) {
         while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                && Math.abs(LFvalue - LFtranslateController.getTarget()) > TOLERANCE
+               && Math.abs(LFvalue - LFtranslateController.getTarget()) > TOLERANCE
                 && Math.abs(RFvalue - RFtranslateController.getTarget()) > TOLERANCE
-                && Math.abs(LBvalue - LBtranslateController.getTarget()) > TOLERANCE
-                && Math.abs(RBvalue - RBtranslateController.getTarget()) > TOLERANCE
+               && Math.abs(LBvalue - LBtranslateController.getTarget()) > TOLERANCE
+               && Math.abs(RBvalue - RBtranslateController.getTarget()) > TOLERANCE
                 && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
             LFvalue = robot.getLFEncoder().getValue();
@@ -459,7 +459,7 @@ public class Translate implements Command {
       }
         else { //If angleModifier = 0
           while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                  && shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
+                  //&& shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
                   && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
           LFvalue = robot.getLFEncoder().getValue();
           RFvalue = robot.getRFEncoder().getValue();
@@ -506,7 +506,7 @@ public class Translate implements Command {
               multiplier[3] = POWER_MATRIX[direction.getCode()][3];
           }
           */
-              double absHead = Math.abs(headingOutput);
+              /*double absHead = Math.abs(headingOutput);
               Arrays.fill(multiplier,1);
 
               //Multiplier: LF, RF, LB, RB
@@ -613,7 +613,7 @@ public class Translate implements Command {
                           LBPower += absHead;
                       }
                       break;
-              }
+              }*/
               robot.getLFMotor().setPower(LFPower * multiplier[0]);
               robot.getRFMotor().setPower(RFPower * multiplier[1]);
               robot.getLBMotor().setPower(LBPower * multiplier[2]);
