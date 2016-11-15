@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.ContinuousRotationServo;
-import virtualRobot.components.LocationSensor;
+import virtualRobot.components.StateSensor;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.Servo;

@@ -17,7 +17,7 @@ public class IMUTest extends OpMode {
     //private navXPerformanceMonitor navx_perfmon;
     private byte sensor_update_rate_hz = 40;
     private ElapsedTime runtime = new ElapsedTime();
-    private final int NAVX_DIM_I2C_PORT = 0;
+    private final int NAVX_DIM_I2C_PORT = 1;
 
     @Override
     public void init() {

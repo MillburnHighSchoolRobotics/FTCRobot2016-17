@@ -22,11 +22,23 @@ public class MPU9250 extends AHRS {
         yawOffset = pitchOffset = rollOffset = 0;
     }
 
+    protected MPU9250(DeviceInterfaceModule dim, AHRS instance) {
+        super(dim, instance.getDimI2cPort(), instance.getDeviceDataType(), NAVX_DEFAULT_UPDATE_RATE_HZ);
+        xOffset = yawOffset = zOffset = 0;
+        prevYaw = prevPitch = prevRoll = 0;
+        yawOffset = pitchOffset = rollOffset = 0;
+    }
+
     public static MPU9250 getInstance(DeviceInterfaceModule dim, int port) {
-        if (instance == null) {
+        MPU9250 imu = null;
+        try {
+            imu = new MPU9250(dim, instance);
+        }
+        //if (instance == null)
+        catch (NullPointerException ex){
             instance = new MPU9250(dim, port, DeviceDataType.kProcessedData, NAVX_DEFAULT_UPDATE_RATE_HZ);
         }
-        return (MPU9250) instance;
+        return imu;
     }
 
     @Override

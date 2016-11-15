@@ -37,7 +37,7 @@ import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
 import virtualRobot.components.ContinuousRotationServo;
-import virtualRobot.components.LocationSensor;
+//import virtualRobot.components.LocationSensor;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Sensor;
 import virtualRobot.components.SyncedMotors;
@@ -76,7 +76,7 @@ public abstract class UpdateThread extends OpMode {
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
 	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vReaperEncoder;
-	private LocationSensor vLocationSensor;
+//	private LocationSensor vLocationSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vReaper;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
@@ -96,7 +96,7 @@ public abstract class UpdateThread extends OpMode {
 		leftBack = hardwareMap.dcMotor.get("leftBack");
 		rightFront = hardwareMap.dcMotor.get("rightFront");
 		rightBack = hardwareMap.dcMotor.get("rightBack");
-		reaper = hardwareMap.dcMotor.get("reaper");
+//		reaper = hardwareMap.dcMotor.get("reaper");
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		if (withServos) {
@@ -135,7 +135,7 @@ public abstract class UpdateThread extends OpMode {
 		vHeadingSensor = robot.getHeadingSensor();
 		vPitchSensor = robot.getPitchSensor();
 		vRollSensor = robot.getRollSensor();
-		vLocationSensor = robot.getLocationSensor();
+//		vLocationSensor = robot.getLocationSensor();
 		vLightSensor1 = robot.getLightSensor1();
 		vLightSensor2 = robot.getLightSensor2();
 		vLightSensor3 = robot.getLightSensor3();
@@ -149,7 +149,7 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
 		vRightBack = robot.getRBMotor();
-		vReaper = robot.getReaperMotor();
+//		vReaper = robot.getReaperMotor();
 		if (withServos) {
 			vButtonServo = robot.getButtonServo();
 			vCapLeftServo = robot.getCapLeftServo();
@@ -160,7 +160,7 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBackEncoder = robot.getLBEncoder();
 		vRightFrontEncoder = robot.getRFEncoder();
 		vRightBackEncoder = robot.getRBEncoder();
-		vReaperEncoder = robot.getReaperEncoder();
+//		vReaperEncoder = robot.getReaperEncoder();
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
 
@@ -198,7 +198,7 @@ public abstract class UpdateThread extends OpMode {
 			vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
 			vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
 			vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
-			vReaperEncoder.setRawValue(reaper.getCurrentPosition());
+//			vReaperEncoder.setRawValue(reaper.getCurrentPosition());
 
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
@@ -228,9 +228,9 @@ public abstract class UpdateThread extends OpMode {
 		double prevEncoderValue = 1;
 		double newEncoderValue = 1;
 		double headingAngle = imu.getIntegratedYaw();
-		vLocationSensor.setAngle(headingAngle);
-		vLocationSensor.setX(vLocationSensor.getX() + ((newEncoderValue - prevEncoderValue) * Math.cos(Math.toRadians(vLocationSensor.getAngle()))));
-		vLocationSensor.setY(vLocationSensor.getY() + ((newEncoderValue - prevEncoderValue) * Math.sin(Math.toRadians(vLocationSensor.getAngle()))));
+//		vLocationSensor.setAngle(headingAngle);
+//		vLocationSensor.setX(vLocationSensor.getX() + ((newEncoderValue - prevEncoderValue) * Math.cos(Math.toRadians(vLocationSensor.getAngle()))));
+//		vLocationSensor.setY(vLocationSensor.getY() + ((newEncoderValue - prevEncoderValue) * Math.sin(Math.toRadians(vLocationSensor.getAngle()))));
 
 
 		// Update Sensor Values E.g. vPitchSensor.setRawValue(imu.getIntegratedPitch()); vHeadingSensor, vRollSensor, vColorSensor...
@@ -248,7 +248,7 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
 		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
 		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
-		vReaperEncoder.setRawValue(reaper.getCurrentPosition());
+//		vReaperEncoder.setRawValue(reaper.getCurrentPosition());
 		vLightSensor1.setRawValue(nxtLight1.getRawLightDetected());
 		vLightSensor2.setRawValue(nxtLight2.getRawLightDetected());
 		vLightSensor3.setRawValue(nxtLight3.getRawLightDetected());
@@ -269,7 +269,7 @@ public abstract class UpdateThread extends OpMode {
 		double leftBackPower = vLeftBack.getPower();
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
-		double reaperPower = vReaper.getPower();
+//		double reaperPower = vReaper.getPower();
 		double buttonPosition = 0;
 		double capLeftPosition = 0;
 		double capRightPosition = 0;
@@ -291,7 +291,7 @@ public abstract class UpdateThread extends OpMode {
 		leftBack.setPower(leftBackPower);
 		rightFront.setPower(rightFrontPower);
 		rightBack.setPower(rightBackPower);
-		reaper.setPower(reaperPower);
+//		reaper.setPower(reaperPower);
 		if (withServos) {
 			buttonServo.setPosition(buttonPosition);
 			capLeftServo.setPosition(capLeftPosition);
@@ -316,7 +316,7 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
 		telemetry.addData("Color sensor: ", "Red: " + vColorSensor.getRed() + " Green: " + vColorSensor.getGreen() + " Blue: " + vColorSensor.getBlue());
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
-		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
+//		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
 		Log.d("Heading: ", String.valueOf(robot.getHeadingSensor().getValue()) + " " + imu.getIntegratedYaw());
 		if (godThread.equals(TakePictureTestGod.class)) {
