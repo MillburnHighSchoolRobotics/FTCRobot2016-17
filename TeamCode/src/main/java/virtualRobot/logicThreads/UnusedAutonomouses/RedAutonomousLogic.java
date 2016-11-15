@@ -53,12 +53,12 @@ public class RedAutonomousLogic extends LogicThread<AutonomousRobot> {
        commands.add(new Pause(500));
        commands.add(new Rotate(-40, 1)); //Rotate In such a way to glance the ball
         commands.add(new Pause(500));
-        commands.add(
-                new MoveServo(
-                        new Servo[]{robot.getCapServo()},
-                        new double[]{.2}
-                )
-        );
+//        commands.add(
+//                new MoveServo(
+//                        new Servo[]{robot.getCapServo()},
+//                        new double[]{.2}
+//                )
+//        );
         commands.add(new Pause(500));
         commands.add(new Translate(10000, Translate.Direction.BACKWARD, 0, 1, -40)); //Continue forward (relative to the angle we just rotated to)
         commands.add(new Pause(500));

@@ -45,23 +45,23 @@ public class BlueAutonomousLogic extends LogicThread<AutonomousRobot> {
                 return false;
             }
         }; //if our line sensor detects a change >.7, we're at the line, stop moving!
-        commands.add(
-                new MoveServo(
-                        new Servo[]{robot.getCapServo()},
-                        new double[]{.2}
-                )
-        );
+//        commands.add(
+//                new MoveServo(
+//                        new Servo[]{robot.getCapServo()},
+//                        new double[]{.2}
+//                )
+//        );
         Translate escapeWall = new Translate(1500, Translate.Direction.FORWARD, 0);
         commands.add(escapeWall); //Move Away from wall
         commands.add(new Pause(500));
         commands.add(new Rotate(40, 1)); //Rotate In such a way to glance the ball
         commands.add(new Pause(500));
-        commands.add(
-                new MoveServo(
-                        new Servo[]{robot.getCapServo()},
-                        new double[]{.2}
-                )
-        );
+//        commands.add(
+//                new MoveServo(
+//                        new Servo[]{robot.getCapServo()},
+//                        new double[]{.2}
+//                )
+//        );
         commands.add(new Pause(500));
         commands.add(new Translate(10000, Translate.Direction.FORWARD, 0, 1, 40)); //Continue forward (relative to the angle we just rotated to)
         commands.add(new Pause(500));

@@ -5,8 +5,8 @@ package virtualRobot.utils;
  * Various mathematical tools.
  */
 public class MathUtils {
-    private static double epsilon = 0.01;
-    private static double epsilonSquared = 0.001;
+    private static final double epsilon = 0.01;
+    private static final double epsilonSquared = 0.001;
 
     public static double sinDegrees(double  d) {
         return Math.sin(Math.toRadians(d));
@@ -21,6 +21,9 @@ public class MathUtils {
         return (double) ((int)(d * place)) / place;
     }
     public static boolean equals(double d, double e) {
-        return Math.abs(d-e) < epsilon;
+        return equals(d,e,epsilon);
+    }
+    public static boolean equals(double d, double e, double tolerance) {
+        return Math.abs(d-e) < tolerance;
     }
 }

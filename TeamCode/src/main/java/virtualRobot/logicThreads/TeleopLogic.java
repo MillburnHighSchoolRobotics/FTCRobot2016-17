@@ -176,15 +176,15 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     }
 
                     //lifting cap ball
-                    if (controller2.isDpadDown()) {
-                        if (!(robot.getCapServo().getPosition() < CAP_MIN))
-                            robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() - 1);
-                        //robot.getCapServo().setPositionDegrees(0);
-                    } else if (controller2.isDpadUp()) {
-                        if (!(robot.getCapServo().getPosition() > CAP_MAX))
-                            robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() + 1);
-                        //robot.getCapServo().setPositionDegrees(180);
-                    }
+//                    if (controller2.isDpadDown()) {
+//                        if (!(robot.getCapServo().getPosition() < CAP_MIN))
+//                            robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() - 1);
+//                        //robot.getCapServo().setPositionDegrees(0);
+//                    } else if (controller2.isDpadUp()) {
+//                        if (!(robot.getCapServo().getPosition() > CAP_MAX))
+//                            robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() + 1);
+//                        //robot.getCapServo().setPositionDegrees(180);
+//                    }
 
                     if (controller2.getValue(JoystickController.Y_1) > 0.05) {
                         double currLeft = robot.getSonarLeft().getValue();
