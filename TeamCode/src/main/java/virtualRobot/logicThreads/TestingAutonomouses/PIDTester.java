@@ -21,12 +21,11 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
         //commands.add(new Pause(3000));
         //commands.add(new Translate(3000, Translate.Direction.BACKWARD, 0));
         //commands.add(new Pause(3000));
-       commands.add(new Translate(1000, Translate.Direction.FORWARD, 0));
+//       commands.add(new Translate(1000, Translate.Direction.FORWARD, 0));
 //        commands.add(new Pause(3000));
 //        commands.add(new Translate(7000, Translate.Direction.LEFT, 0));
-        //commands.add(new Rotate(90));
-       // commands.add(new Rotate(90, 1));
-
+        commands.add(new Rotate(60));
+//        commands.add(new Rotate(90, 1));
 
     }
 }

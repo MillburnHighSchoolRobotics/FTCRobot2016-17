@@ -167,6 +167,10 @@ public abstract class UpdateThread extends OpMode {
 
 		robotProgress = new ArrayList<String>();
 		//Setup Physical Components
+		capLeftServo.setPosition(0);
+		buttonServo.setPosition(0.5);
+		capRightServo.setPosition(0);
+		ballLauncherServo.setPosition(0);
 
 
 			//UpdateUtil.setPosition(capLeft,0.3);
@@ -207,7 +211,6 @@ public abstract class UpdateThread extends OpMode {
 				vCapLeftServo.setPosition(capLeftServo.getPosition());
 				vCapRightServo.setPosition(capRightServo.getPosition());
 				vBallLauncherServo.setPosition(ballLauncherServo.getPosition());
-
 			}
 		if (WITH_SONAR) {
 			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
@@ -322,6 +325,9 @@ public abstract class UpdateThread extends OpMode {
 		Log.d("Heading: ", String.valueOf(robot.getHeadingSensor().getValue()) + " " + imu.getIntegratedYaw());
 		if (godThread.equals(TakePictureTestGod.class)) {
 			telemetry.addData("redIsLeft: ", "" + ((TakePictureTestGod)vuforiaEverywhere).getRedIsLeft().get());
+		}
+		if (godThread.equals(PIDTesterGodThread.class)) {
+			telemetry.addData("KP: ", Rotate.KP);
 		}
     }
 	
