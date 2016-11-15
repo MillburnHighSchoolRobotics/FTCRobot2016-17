@@ -986,12 +986,13 @@ public class Translate implements Command {
     public static final double KI = 0.00000443561;
     public static final double KD = 0.03031468031;
     public static final double THRESHOLD = 1000;
-    //KU: .00130625, .001325
-    //KU = .00131562
-    //TU = 83
-    public static final double KPt  = .001086096;
-    public static final double  KIt = 0.00003681681;
-    public static final double KDt = 0.008009958;
-    public static final double THRESHOLDt = 964;
+
+
+    public static final double KPt  = .001;
+    public static final double  KIt = 0;
+    public static final double KDt = 0;
+    public static final double THRESHOLDt = 0;
     public static final double TOLERANCE = 100;
+
+    //OLD KU, TU, KP, THRESHOLD, TOLERANCE: .00131562, 83, .001086096, 964, 100
 }

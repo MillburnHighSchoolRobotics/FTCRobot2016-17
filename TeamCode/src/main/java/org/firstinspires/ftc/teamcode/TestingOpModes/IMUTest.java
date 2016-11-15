@@ -44,4 +44,8 @@ public class IMUTest extends OpMode {
         telemetry.addData("pitch", imu.getPitch());
         telemetry.addData("roll", imu.getRoll());
     }
+    public void stop() {
+        imu.close();
+
+    }
 }

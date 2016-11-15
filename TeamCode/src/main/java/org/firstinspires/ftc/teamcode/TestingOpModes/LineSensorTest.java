@@ -15,17 +15,21 @@ import com.qualcomm.robotcore.hardware.*;
 ;
 @Autonomous(name ="Sensor: Testing All Sensors", group="Sensor")
 public class LineSensorTest extends OpMode {
-   AnalogInput linetest;
+    ColorSensor linetest;
     UltrasonicSensor sonar1, sonar2;
-    LightSensor light;
+    LightSensor light1, light2, light3, light4;
     private MPU9250 imu;
     @Override
     public void init() {
-        linetest = hardwareMap.analogInput.get("lineSensor");
+        linetest = hardwareMap.colorSensor.get("color");
         sonar1 = hardwareMap.ultrasonicSensor.get("sonarLeft");
         sonar2 = hardwareMap.ultrasonicSensor.get("sonarRight");
-        light = hardwareMap.lightSensor.get("nxtLight");
-        imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0 );
+        light1 = hardwareMap.lightSensor.get("nxtLight1");
+        light2 = hardwareMap.lightSensor.get("nxtLight2");
+        light3 = hardwareMap.lightSensor.get("nxtLight3");
+        light4 = hardwareMap.lightSensor.get("nxtLight4");
+
+        imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 1);
         imu.zeroPitch();
         imu.zeroRoll();
         imu.zeroYaw();
@@ -35,14 +39,24 @@ public class LineSensorTest extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("LineSense: ", linetest.getVoltage());
+       int argb = linetest.argb();
+       int red = (argb & 0x00FF0000) >> 16;
+        int green = (argb & 0x0000FF00) >> 8;
+        int blue = (argb & 0x000000FF);
+        int alpha =(argb & 0xFF000000) >> 24;
+
+        telemetry.addData("LineSense: ", "RED: " + red + "GREEN: " + green + "BLUE: " + blue + "ALPHA: " + alpha);
      double headingAngle = imu.getIntegratedYaw();
      double Pitch = imu.getIntegratedPitch();
       double Roll = imu.getIntegratedRoll();
     telemetry.addData("Angle, Pitch, Roll: ", headingAngle + ", " + Pitch + " ," + Roll);
         telemetry.addData("UltraSound: ", sonar1.getUltrasonicLevel());
         telemetry.addData(" ", sonar2.getUltrasonicLevel());
-        telemetry.addData(" LIGHT", light.getRawLightDetected());
+        telemetry.addData(" LIGHT", light1.getRawLightDetected() + " " + light2.getRawLightDetected() + " " + light3.getRawLightDetected() + " " + light4.getRawLightDetected());
+
+    }
+    public void stop() {
+        imu.close();
 
     }
 
