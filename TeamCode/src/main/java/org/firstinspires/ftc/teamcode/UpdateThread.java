@@ -114,6 +114,7 @@ public abstract class UpdateThread extends OpMode {
 
 
         //SENSOR SETUP e.g. colorSensor = hardwareMap.colorsensor.get("color"), sonar1 = hardwareMap.analogInput.get("sonar1"), liftEndStop1 = hardwareMap.digitalChannel.get("liftEndStop1")
+
 		imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 1);
 		if (WITH_SONAR) {
 			sonarLeft = hardwareMap.ultrasonicSensor.get("sonarLeft");

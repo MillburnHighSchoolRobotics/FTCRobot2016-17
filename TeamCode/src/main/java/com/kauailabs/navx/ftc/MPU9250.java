@@ -1,5 +1,7 @@
 package com.kauailabs.navx.ftc;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 
 /**
@@ -30,15 +32,18 @@ public class MPU9250 extends AHRS {
     }
 
     public static MPU9250 getInstance(DeviceInterfaceModule dim, int port) {
-        MPU9250 imu = null;
-        try {
-            imu = new MPU9250(dim, instance);
-        }
-        //if (instance == null)
-        catch (NullPointerException ex){
+//        MPU9250 imu = null;
+//        try {
+//            imu = new MPU9250(dim, instance);
+//        }
+        if (instance == null) {
+//        catch (NullPointerException ex){
             instance = new MPU9250(dim, port, DeviceDataType.kProcessedData, NAVX_DEFAULT_UPDATE_RATE_HZ);
+        } else {
+            Log.d("IMUTesting", "Instance is " + instance + "MPU? " + (instance instanceof MPU9250));
         }
-        return imu;
+//        return imu;
+        return (MPU9250) instance;
     }
 
     @Override
