@@ -187,7 +187,7 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroPitch();
 		imu.zeroYaw();
 		imu.zeroRoll();
-		telemetry.addData("Is Running Version: ", Rotate.KP + " 1.0");
+		telemetry.addData("Is Running Version: ", Translate.KPt + " 1.0");
         telemetry.addData("Init Loop Time", runtime.toString());
 
 
