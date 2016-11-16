@@ -42,7 +42,7 @@ public interface AutonomousRobot {
 
     Motor getRBMotor();
 
-    Motor getReaperMotor();
+//    Motor getReaperMotor();
 
     Servo getButtonServo();
 

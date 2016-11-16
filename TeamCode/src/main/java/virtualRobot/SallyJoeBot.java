@@ -27,7 +27,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private ArrayList<String> robotProgress;
     private HashMap<String, Object> telemetry;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
-    private Motor Reaper;
+//    private Motor Reaper;
     private Servo ButtonServo, capLeftServo, capRightServo, ballLauncherServo;
     private SyncedMotors leftRotate, rightRotate;
     private static final double KP = 0.0001; //TBD
@@ -57,7 +57,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         LBMotor = new Motor();
         RFMotor = new Motor();
         RBMotor = new Motor();
-        Reaper = new Motor();
+//        Reaper = new Motor();
         LFEncoder = new Sensor();
         LBEncoder = new Sensor();
         RFEncoder = new Sensor();
@@ -136,8 +136,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     @Override
     public synchronized Motor getRBMotor() { return RBMotor; }
 
-    @Override
-    public synchronized Motor getReaperMotor() { return Reaper; }
+//    @Override
+//    public synchronized Motor getReaperMotor() { return Reaper; }
 
 
     @Override
@@ -154,9 +154,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Servo getBallLauncherServo() { return ballLauncherServo; }
 
     @Override
-    public synchronized StateSensor getLocationSensor() {
-        return locationSensor;
-    }
+    public synchronized StateSensor getLocationSensor() { return locationSensor; }
 
     @Override
     public synchronized SyncedMotors getRightRotate() {

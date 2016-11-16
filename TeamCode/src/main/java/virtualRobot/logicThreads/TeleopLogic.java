@@ -43,8 +43,10 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
     private static final double servoValOpen = 1.0, servoValClosed = 0.25;
     public static final double BUTTON_PUSHER_STATIONARY = (PushLeftButton.BUTTON_PUSHER_LEFT + PushRightButton.BUTTON_PUSHER_RIGHT) / 2;
-    public final static double CAP_MAX = .486;
-    public final static double CAP_MIN = .189;
+    public final static double CAP_LEFT_OPEN = .486;
+    public final static double CAP_LEFT_CLOSED = 0;
+    public final static double CAP_RIGHT_OPEN = .189;
+    public final static double CAP_RIGHT_CLOSED = 0;
     @Override
     public void loadCommands() {
 
@@ -139,8 +141,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 //                            robot.getRFMotor().setPower(-basePower - adjustedPower);
 //                            robot.getRBMotor().setPower(basePower - adjustedPower);
 //                        }
-                        robot.getLeftRotate().setPower(0);
-                        robot.getRightRotate().setPower(0);
+                        robot.stopMotors();
                     }
 
                     //button pusher
@@ -153,14 +154,14 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     }
 
                     //reaper forward and backward
-                    if (controller1.isDown(JoystickController.BUTTON_RB)) {
-                        robot.getReaperMotor().setPower(1);
-                    } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
-                        robot.getReaperMotor().setPower(-1);
-                    } else {
-//                        robot.getReaperMotor().setPosition(robot.getReaperEncoder(), 500);
-                        robot.getReaperMotor().setPower(0);
-                    }
+//                    if (controller1.isDown(JoystickController.BUTTON_RB)) {
+//                        robot.getReaperMotor().setPower(1);
+//                    } else if (controller1.isDown(JoystickController.BUTTON_LB)) {
+//                        robot.getReaperMotor().setPower(-1);
+//                    } else {
+////                        robot.getReaperMotor().setPosition(robot.getReaperEncoder(), 500);
+//                        robot.getReaperMotor().setPower(0);
+//                    }
 
                     if(controller1.isDpadLeft()) {
                         robot.getLFMotor().setPower(1.0);
@@ -176,15 +177,20 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     }
 
                     //lifting cap ball
-//                    if (controller2.isDpadDown()) {
-//                        if (!(robot.getCapServo().getPosition() < CAP_MIN))
-//                            robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() - 1);
-//                        //robot.getCapServo().setPositionDegrees(0);
-//                    } else if (controller2.isDpadUp()) {
-//                        if (!(robot.getCapServo().getPosition() > CAP_MAX))
-//                            robot.getCapServo().setPositionDegrees(robot.getCapServo().getPositionDegrees() + 1);
-//                        //robot.getCapServo().setPositionDegrees(180);
-//                    }
+                    if (controller2.isPressed(JoystickController.BUTTON_A)) {
+                        if(MathUtils.equals(robot.getCapLeftServo().getPosition(),CAP_LEFT_OPEN))
+                            robot.getCapLeftServo().setPosition(CAP_LEFT_CLOSED);
+                        else
+                            robot.getCapLeftServo().setPosition(CAP_LEFT_OPEN);
+                    } else if (controller2.isPressed(JoystickController.BUTTON_B)) {
+                        if(MathUtils.equals(robot.getCapRightServo().getPosition(),CAP_RIGHT_OPEN))
+                            robot.getCapRightServo().setPosition(CAP_RIGHT_CLOSED);
+                        else
+                            robot.getCapRightServo().setPosition(CAP_RIGHT_OPEN);
+                    }
+
+                    if (controller1.isDown(JoystickController.BUTTON_A) && controller1.isDown(JoystickController.BUTTON_B) && controller2.isDown(JoystickController.BUTTON_A) && controller2.isDown(JoystickController.BUTTON_B))
+                        robot.getBallLauncherServo().setPosition(0);
 
                     if (controller2.getValue(JoystickController.Y_1) > 0.05) {
                         double currLeft = robot.getSonarLeft().getValue();

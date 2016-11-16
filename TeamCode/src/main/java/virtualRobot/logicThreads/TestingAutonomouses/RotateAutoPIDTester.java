@@ -18,8 +18,8 @@ import virtualRobot.utils.MathUtils;
 
 public class RotateAutoPIDTester extends LogicThread {
     double kP;
-    AtomicBoolean isTime;
-    AtomicBoolean shouldStop;
+    private AtomicBoolean isTime;
+    private AtomicBoolean shouldStop;
 
     public RotateAutoPIDTester(double kP, AtomicBoolean ab, AtomicBoolean ab2) {
         this.kP = kP;
@@ -35,33 +35,33 @@ public class RotateAutoPIDTester extends LogicThread {
 
             @Override
             public boolean changeRobotState() throws InterruptedException {
-                boolean isInterrupted = false;
-                double lastYaw = -400;
-                double curr;
-                isTime.set(true);
-                while (!isInterrupted && !shouldStop.get()) {
-                    curr = robot.getHeadingSensor().getValue();
-                    if (MathUtils.equals(curr, lastYaw)) {
-                        isTime.set(false);
-                        shouldStop.set(true);
-                        return Thread.currentThread().isInterrupted();
-                    }
-                    lastYaw = curr;
+                new Thread() {
+                    public void run() {
+                        double lastYaw = -400;
+                        double curr;
+                        isTime.set(true);
+                        while (!shouldStop.get()) {
+                            curr = robot.getHeadingSensor().getValue();
+                            if (MathUtils.equals(curr, lastYaw)) {
+                                isTime.set(false);
+                                shouldStop.set(true);
+                                return;
+                            }
+                            lastYaw = curr;
 
-                    if (Thread.currentThread().isInterrupted()) {
-                        isInterrupted = true;
-                        break;
-                    }
+                            if (Thread.currentThread().isInterrupted()) {
+                                break;
+                            }
 
-                    try {
-                        Thread.currentThread().sleep(500);
-                    } catch (InterruptedException e) {
-                        isInterrupted = true;
-                        break;
+                            try {
+                                Thread.currentThread().sleep(500);
+                            } catch (InterruptedException e) {
+                                break;
+                            }
+                        }
                     }
-                }
-
-                return isInterrupted;
+                }.start();
+                return Thread.currentThread().isInterrupted();
             }
         });
     }
