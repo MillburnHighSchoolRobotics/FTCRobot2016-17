@@ -19,7 +19,7 @@ import virtualRobot.commands.WallTrace;
  */
 
 public class ToLineUltra extends LogicThread<AutonomousRobot>  {
-    public static final double WALL_TRACE_SONAR_THRESHOLD = 11; //How close we want to trace wall
+    public static final double WALL_TRACE_SONAR_THRESHOLD = 15; //How close we want to trace wall
     public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_LINE = 5500; //If we've gone this far, it means our line sensor is broken
     public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE = 6500;
     AtomicBoolean lineWorks;

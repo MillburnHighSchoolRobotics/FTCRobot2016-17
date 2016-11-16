@@ -19,7 +19,7 @@ public class WallTrace implements Command {
     ExitCondition exitCondition;
     Direction direction;
     private AutonomousRobot robot;
-    private double target = 10;
+    private double target = 15;
     private double maxDistance = Double.MAX_VALUE;
     public WallTrace() {
         robot = Command.AUTO_ROBOT;

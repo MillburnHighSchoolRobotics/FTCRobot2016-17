@@ -20,10 +20,22 @@ import java.util.List;
  */
 
 public class DavidClass {
+    static double startXPercent = .1;
+    static double endXPercent = .958;
+    static double startYPercent = .298;
+    static double endYPercent = .595;
+
 
     public static final long RED = Color.red(Color.RED); //note that Color.RED is negative
     //returns true if left is red (right is blue)
     //returns false if left if blue (right is red)
+    public static void setPercents(double startX, double endX, double startY, double endY) {
+        startXPercent = startX;
+        endXPercent = endX;
+        startYPercent = startY;
+        endYPercent = endY;
+
+    }
     public static boolean analyzePic2(Bitmap bmp) {
         Log.d("zzz", Long.toString(RED));
         Bitmap image= bmp;
@@ -40,10 +52,10 @@ public class DavidClass {
         int height = image.getHeight(), width = image.getWidth();
       //  image.getPixels(pixels, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight()); //gets pixels in pixel array
 
-        final int startX = (int) ((.2) * width); //.4
-        final int endX = (int) (0.94*width); //.9
-        final int startY = (int) (.433*height); //.55
-        final int endY = (int) (0.536*height); //.77
+        final int startX = (int) ((startXPercent) * width); //.4
+        final int endX = (int) (endXPercent*width); //.9
+        final int startY = (int) (startYPercent*height); //.55
+        final int endY = (int) (endYPercent*height); //.77
 
         final int midX = (startX + endX) / 2;
 

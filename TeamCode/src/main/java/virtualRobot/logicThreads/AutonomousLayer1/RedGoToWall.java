@@ -23,7 +23,7 @@ import virtualRobot.components.Servo;
 
 public class RedGoToWall extends LogicThread<AutonomousRobot>  {
     public static final boolean WITH_SONAR = UpdateThread.WITH_SONAR; //Are we using a sonar?
-    public static final double CLOSE_TO_WALL = 10; //How close we want to strafe to wall
+    public static final double CLOSE_TO_WALL = 15; //How close we want to strafe to wall
     public static final double SONAR_ERROR_MAX = CLOSE_TO_WALL+3; //the threshold at which if a sonar is >= than this when at wall, it's wrong
     public static final double SONAR_ERROR_MIN = CLOSE_TO_WALL-3; //the threshold at which if a sonar is <= than this when at wall, it's wrong
     protected static final double INT_ANGLE = -BlueGoToWall.INT_ANGLE;

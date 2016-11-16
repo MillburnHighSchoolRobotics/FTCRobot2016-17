@@ -58,6 +58,7 @@ public abstract class UpdateThread extends OpMode {
 	protected Class<? extends GodThread> godThread;
 	private Thread t;
 	private CreateVuforia cv;
+	boolean tInstantiated= false;
 
 	//here we will initiate all of our PHYSICAL components. E.g: private DcMotor leftBack...
 	//also initiate sensors. E.g. private AnalogInput sonar, private ColorSensor colorSensor, private DigitalChannel ...
@@ -222,6 +223,7 @@ public abstract class UpdateThread extends OpMode {
 		t = cv.t;
 		vuforiaEverywhere = cv.vuforiaEverywhere;
 		godThread = cv.godThread;
+		tInstantiated = true;
 		t.start();
 	}
 	
@@ -330,6 +332,7 @@ public abstract class UpdateThread extends OpMode {
 	
 	public void stop() {
 		imu.close();
+		if (tInstantiated)
 		t.interrupt();
 	}
 
