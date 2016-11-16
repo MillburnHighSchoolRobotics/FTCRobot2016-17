@@ -36,8 +36,7 @@ public class Rotate implements Command {
 
     private double time;
     private double timeLimit;
-    private AtomicBoolean ab = null;
-    private boolean testing = false;
+    private AtomicBoolean stop = new AtomicBoolean(false);
     
     private PIDController pidController;
 
@@ -83,11 +82,10 @@ public class Rotate implements Command {
     }
 
     //boolean is just to differentiate from the previous constructor
-    public Rotate (double kP, double target, double timeLimit, AtomicBoolean ab) {
+    public Rotate (double kP, double target, double timeLimit, AtomicBoolean sS) {
         this(target, 1.0, timeLimit);
         pidController.setKP(kP);
-        this.ab = ab;
-        testing = true;
+        this.stop = sS;
     }
 
     private Rotate(double angleInDegrees, double power, double timeLimit) {
@@ -151,7 +149,7 @@ public class Rotate implements Command {
         switch (runMode) {
             case WITH_ANGLE_SENSOR:
 
-                while (!exitCondition.isConditionMet() && Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
+                while (!exitCondition.isConditionMet() && Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit) && !stop.get()) {
 
                     double adjustedPower = pidController.getPIDOutput(robot.getHeadingSensor().getValue());
                     adjustedPower = MathUtils.clamp(adjustedPower, -1, 1);
@@ -169,10 +167,6 @@ public class Rotate implements Command {
                     robot.getRFMotor().setPower(-adjustedPower);
                     robot.getRBMotor().setPower(-adjustedPower);
                     Log.d("PIDOUTROTATE", "" + adjustedPower + " " + robot.getHeadingSensor().getValue());
-
-                    if (testing) {
-                        ab.set(!exitCondition.isConditionMet());
-                    }
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;
@@ -211,7 +205,7 @@ public class Rotate implements Command {
                 }
                 break;
         }
-
+        stop.set(true);
     	robot.stopMotors();
         
         return isInterrupted;
