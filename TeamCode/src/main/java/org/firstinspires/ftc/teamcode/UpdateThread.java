@@ -252,7 +252,6 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
 		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
 		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
-//		vReaperEncoder.setRawValue(reaper.getCurrentPosition());
 		vLightSensor1.setRawValue(nxtLight1.getRawLightDetected());
 		vLightSensor2.setRawValue(nxtLight2.getRawLightDetected());
 		vLightSensor3.setRawValue(nxtLight3.getRawLightDetected());
@@ -273,7 +272,6 @@ public abstract class UpdateThread extends OpMode {
 		double leftBackPower = vLeftBack.getPower();
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
-//		double reaperPower = vReaper.getPower();
 		double buttonPosition = 0;
 		double capLeftPosition = 0;
 		double capRightPosition = 0;
@@ -295,7 +293,6 @@ public abstract class UpdateThread extends OpMode {
 		leftBack.setPower(leftBackPower);
 		rightFront.setPower(rightFrontPower);
 		rightBack.setPower(rightBackPower);
-//		reaper.setPower(reaperPower);
 		if (withServos) {
 			buttonServo.setPosition(buttonPosition);
 			capLeftServo.setPosition(capLeftPosition);
@@ -327,7 +324,7 @@ public abstract class UpdateThread extends OpMode {
 			telemetry.addData("redIsLeft: ", "" + ((TakePictureTestGod)vuforiaEverywhere).getRedIsLeft().get());
 		}
 		if (godThread.equals(PIDTesterGodThread.class)) {
-			telemetry.addData("KP: ", Rotate.KP);
+			telemetry.addData("KP: ", Translate.KPt);
 		}
     }
 	
