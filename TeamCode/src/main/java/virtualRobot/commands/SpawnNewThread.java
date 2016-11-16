@@ -58,5 +58,4 @@ public class SpawnNewThread implements Command {
     public void addLogicThread(LogicThread l) {
     	logic.add(l);
     }
-
 }

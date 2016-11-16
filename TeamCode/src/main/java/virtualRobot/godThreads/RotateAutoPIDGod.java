@@ -16,7 +16,8 @@ import virtualRobot.logicThreads.TestingAutonomouses.RotateAutoPIDTester;
  */
 
 public class RotateAutoPIDGod extends GodThread {
-    AtomicBoolean currentToBig = new AtomicBoolean();
+    AtomicBoolean currentTooBig = new AtomicBoolean(true);
+    AtomicBoolean stopThreads = new AtomicBoolean(false);
     double kP = 0.02332;
     double increment = 0.01;
     boolean lastTimeTooSmall = false;
@@ -25,35 +26,36 @@ public class RotateAutoPIDGod extends GodThread {
     public void realRun() throws InterruptedException {
         boolean isInterrupted = false;
         while (!isInterrupted) {
-
-            LogicThread PIDTest = new RotateAutoPIDTester(kP,currentToBig);
+            LogicThread PIDTest = new RotateAutoPIDTester(kP,currentTooBig,stopThreads);
             Thread pid = new Thread(PIDTest);
             pid.start();
             children.add(pid);
             delegateMonitor(pid, new MonitorThread[]{});
-            while (pid.isAlive()) {}
+            while (!stopThreads.get()) {}
 
-            Log.d("PIDTestOutput", "KP: " + kP + " Increment: " + increment + " Too High: " + currentToBig.get());
-            Command.ROBOT.addToTelemetry("KP: ",kP + " Increment: " + increment + " Too High: " + currentToBig.get());
+            Log.d("PIDTestOutput", "KP: " + kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
+            Command.ROBOT.addToTelemetry("KP: ",kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
             Command.ROBOT.addToTelemetry("Iteration #", iteration);
 
-            if (lastTimeTooSmall && currentToBig.get()) {
+            if (lastTimeTooSmall && currentTooBig.get()) {
                 kP -= increment;
                 increment /= 10;
                 kP += increment;
             }
-            if (!lastTimeTooSmall && !currentToBig.get()) {
+            if (!lastTimeTooSmall && !currentTooBig.get()) {
                 increment /= 10;
                 kP += increment;
             }
-            if (!lastTimeTooSmall && currentToBig.get()) {
+            if (!lastTimeTooSmall && currentTooBig.get()) {
                 kP -= increment;
             }
-            if (lastTimeTooSmall && !currentToBig.get()) {
+            if (lastTimeTooSmall && !currentTooBig.get()) {
                 kP += increment;
             }
 
             iteration++;
+            stopThreads.set(false);
+            currentTooBig.set(true);
 
             if (Thread.currentThread().isInterrupted()) {
                 isInterrupted = true;
