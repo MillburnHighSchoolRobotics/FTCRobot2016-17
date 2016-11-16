@@ -614,6 +614,7 @@ public class Translate implements Command {
                       }
                       break;
               }*/
+              Log.d("MULTIPLIED POWERS", LFPower * multiplier[0] + " " + RFPower * multiplier[1] + LBPower * multiplier[2] + RBPower * multiplier[3]);
               robot.getLFMotor().setPower(LFPower * multiplier[0]);
               robot.getRFMotor().setPower(RFPower * multiplier[1]);
               robot.getLBMotor().setPower(LBPower * multiplier[2]);
@@ -987,12 +988,12 @@ public class Translate implements Command {
     public static final double KD = 0.03031468031;
     public static final double THRESHOLD = 1000;
 
-
-    public static final double KPt  = .001;
+    //0, .00625
+    public static final double KPt  = .0015625;
     public static final double  KIt = 0;
     public static final double KDt = 0;
     public static final double THRESHOLDt = 0;
-    public static final double TOLERANCE = 100;
+    public static final double TOLERANCE = 10;
 
     //OLD KU, TU, KP, THRESHOLD, TOLERANCE: .00131562, 83, .001086096, 964, 100
 }
