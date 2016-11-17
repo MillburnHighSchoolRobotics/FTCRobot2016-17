@@ -84,12 +84,12 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //                return Thread.currentThread().isInterrupted();
                 double tp = 0.2;
                 boolean isInterrupted = false;
-                WallTrace.Direction direction = WallTrace.Direction.FORWARD;
+                WallTrace.Direction direction = WallTrace.Direction.BACKWARD;
                 double target = 7;
                 UltrasonicSensor sonarLeft = direction == WallTrace.Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
                 UltrasonicSensor sonarRight = direction == WallTrace.Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
                 PIDController close = new PIDController(0.008,0,0,0,target);
-                PIDController allign = new PIDController(0.014,0,0,0,0);
+                PIDController allign = new PIDController(0.008,0,0,0,0);
                 double currLeft, currRight, errClose = 0, errAllign, powLeft, powRight;
                 robot.getLFEncoder().clearValue();
                 robot.getRFEncoder().clearValue();
@@ -100,7 +100,7 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
                     currRight = sonarRight.getFilteredValue();
 
                     errClose = close.getPIDOutput(currLeft);
-                    errAllign = allign.getPIDOutput(currLeft-currRight);
+                    errAllign = allign.getPIDOutput(robot.getHeadingSensor().getValue());
 
                     if (direction == WallTrace.Direction.FORWARD) {
                         powLeft = tp - errClose - errAllign;

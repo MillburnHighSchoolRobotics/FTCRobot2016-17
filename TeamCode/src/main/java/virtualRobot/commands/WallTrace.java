@@ -63,7 +63,7 @@ public class WallTrace implements Command {
         UltrasonicSensor sonarLeft = direction == Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
         UltrasonicSensor sonarRight = direction == Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
         PIDController close = new PIDController(0.008,0,0,0,target);
-        PIDController allign = new PIDController(0.012,0,0,0,0);
+        PIDController allign = new PIDController(0.008,0,0,0,0);
         double currLeft, currRight, errClose = 0, errAllign;
         robot.getLFEncoder().clearValue();
         robot.getRFEncoder().clearValue();
@@ -75,7 +75,7 @@ public class WallTrace implements Command {
             currRight = sonarRight.getFilteredValue();
 
             errClose = close.getPIDOutput(currLeft);
-            errAllign = allign.getPIDOutput(currLeft-currRight);
+            errAllign = allign.getPIDOutput(robot.getHeadingSensor().getValue());
 
             if (direction == Direction.FORWARD) {
                 robot.getLBMotor().setPower(tp - errClose - errAllign);
