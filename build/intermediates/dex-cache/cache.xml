@@ -1,3 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\Hardware-release\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="4d964a43f48520428edfadad534fa0a3279deb84">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\intermediates-exploded-aar-Hardware-release_a83be9cf3e7f2041778bfa073c347dbe38b050cc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="722df71513ff6c0925405ba84a3e8848ecc07580">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_107596a3f80d93c373d03c29ae08f6c6a265b008\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\Blocks-release\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="c5216545889f13d4560613d35d498b2ca2db1d1f">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\intermediates-exploded-aar-Blocks-release_26076fb7f202b3e2aad339331d676a6375078a49\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\RobotCore-release\jars\libs\gson-2.7.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="f8bcd8ef93636064d155d8e8ea6541ea7e4280d0">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.7_7420fa7c3b787eeb213c1dd47e422f7cc2b6658d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="c23a786b0ea858cf7f1b248fbf595883e814b5dd">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_21a05affb1caaddd00da2820abffd974eee1efa3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\Analytics-release\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="9dafed45e330aec14abcce05bdb7bbdb2a2d7092">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\intermediates-exploded-aar-Analytics-release_3e84e282f714c3a0bf3b2bc2852b1b290cb8f22b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\WirelessP2p-release\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="9403be210676ed196cdcc64c7391b9ae2361c174">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\intermediates-exploded-aar-WirelessP2p-release_db428fe6a647e6246ab72863f52e6a5c26d37fbc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\RobotCore-release\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="2a24cdb4bd53ff8f890698775608b84ab6703fe2">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\intermediates-exploded-aar-RobotCore-release_8c6e711f73a742b5174757b4dcdea4fec5b67f4f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\RobotCore-release\jars\libs\d2xx.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a6cc281519866bbb2d0ac480409212d8d9816d18">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\d2xx_0a75c73c0913f97173c908baee082122b2a1a458\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\ModernRobotics-release\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="01999c87afe3d10ffa06f3efa66f39e61e6aba0c">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\intermediates-exploded-aar-ModernRobotics-release_6b4f6f6a3eef53d0c9effcaf0363b264732bb50e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\RobotCore-release\jars\libs\Vuforia.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ca5be875a082e7b5f0277a0e85564617b181ae76">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\Vuforia_8b0b89fc252b10c948948a58071b5c2de4ebc848\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\Inspection-release\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="b1a3a00c0ec6312741914629ed283101a3301293">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\intermediates-exploded-aar-Inspection-release_d6504df89933413ed8bc6e7d5a0d52f908925ce2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\FtcCommon-release\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ec068454985de756c760317d9c63c23b3ce2055c">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\intermediates-exploded-aar-FtcCommon-release_3810c24856e4c4ba91015724e93d12f2f60399a3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\exploded-aar\RobotCore-release\jars\libs\support-annotations-23.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="15632afee8c14c7c0ba7168d25710c38badee7c8">
+        <dex dex="C:\Users\ethan_000\Documents\FTCRobot2016-17\TeamCode\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.4.0_ad29676f6b920ce5580f8890994385d32aa03920\classes.dex" />
+    </item>
+
+</items>
