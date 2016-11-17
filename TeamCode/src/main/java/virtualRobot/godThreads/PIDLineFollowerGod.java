@@ -4,6 +4,7 @@ import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
 import virtualRobot.logicThreads.NoSensorAutonomouses.RedStrafeToRamp;
+import virtualRobot.logicThreads.TestingAutonomouses.ScrewTesterMax;
 
 /**
  * Created by ethachu19 on 10/27/2016.
@@ -17,7 +18,7 @@ public class PIDLineFollowerGod extends GodThread {
         //Thread mtfb = new Thread(moveToFirstBeacon);
         //mtfb.start();
         //children.add(mtfb);
-        LogicThread rstr = new RedStrafeToRamp();
+        LogicThread rstr = new ScrewTesterMax();
         Thread threa = new Thread(rstr);
         threa.start();
         children.add(threa);

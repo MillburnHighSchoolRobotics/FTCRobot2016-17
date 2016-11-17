@@ -7,6 +7,8 @@ import virtualRobot.LogicThread;
 import virtualRobot.PIDController;
 import virtualRobot.SallyJoeBot;
 import virtualRobot.commands.Command;
+import virtualRobot.commands.WallTrace;
+import virtualRobot.components.UltrasonicSensor;
 
 /**
  * Created by ethachu19 on 10/27/2016.
@@ -77,29 +79,60 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //                    robot.getRBMotor().setPower(-basePower + adjustedPower);
 //                }
 //                robot.stopMotors();
+//                Log.d("WallTrace", "Ended Forward");
+//                robot.stopMotors();
+//                return Thread.currentThread().isInterrupted();
                 double tp = 0.2;
-                PIDController close = new PIDController(0.008,0,0,0,8);
-                PIDController allign = new PIDController(0.012,0,0,0,0);
-                double currLeft, currRight, errClose = 0, errAllign;
-                while (robot.getColorSensor().getValue() > SallyJoeBot.BWTHRESHOLD) {
-                    currLeft = robot.getSonarLeft().getValue();
-                    currRight = robot.getSonarRight().getValue();
+                boolean isInterrupted = false;
+                WallTrace.Direction direction = WallTrace.Direction.FORWARD;
+                double target = 7;
+                UltrasonicSensor sonarLeft = direction == WallTrace.Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
+                UltrasonicSensor sonarRight = direction == WallTrace.Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
+                PIDController close = new PIDController(0.008,0,0,0,target);
+                PIDController allign = new PIDController(0.014,0,0,0,0);
+                double currLeft, currRight, errClose = 0, errAllign, powLeft, powRight;
+                robot.getLFEncoder().clearValue();
+                robot.getRFEncoder().clearValue();
+                robot.getLBEncoder().clearValue();
+                robot.getRBEncoder().clearValue();
+                while (!isInterrupted) {
+                    currLeft = sonarLeft.getFilteredValue();
+                    currRight = sonarRight.getFilteredValue();
 
                     errClose = close.getPIDOutput(currLeft);
                     errAllign = allign.getPIDOutput(currLeft-currRight);
-                    robot.getLeftRotate().setPower((tp - errClose - errAllign)*1);
-                    robot.getRightRotate().setPower((tp + errClose + errAllign)*1);
-                    Log.d("WallTrace", "Forward " + currLeft + " " + currRight + "/n Errors: " + errClose + " " + errAllign);
-                    robot.addToTelemetry("WallTrace: ", currLeft + " " + currRight);
-                    robot.addToTelemetry("Errors: ", errClose + " " + errAllign);
 
-//                    robot.getLeftRotate().setPower(0.15);
-//                    robot.getRightRotate().setPower(0.15);
-                    Thread.sleep(10);
+                    if (direction == WallTrace.Direction.FORWARD) {
+                        powLeft = tp - errClose - errAllign;
+                        powRight = tp + errClose + errAllign;
+                        robot.getLBMotor().setPower(powLeft);
+                        robot.getLFMotor().setPower(powLeft);
+                        robot.getRFMotor().setPower(powRight);
+                        robot.getRBMotor().setPower(powRight);
+                    } else {
+                        powLeft = (tp - errClose - errAllign)*-1;
+                        powRight = (tp + errClose + errAllign)*-1;
+                        robot.getLBMotor().setPower((tp - errClose - errAllign)*-1);
+                        robot.getLFMotor().setPower((tp - errClose - errAllign)*-1);
+                        robot.getRFMotor().setPower((tp + errClose + errAllign)*-1);
+                        robot.getRBMotor().setPower((tp + errClose + errAllign)*-1);
+                    }
+                    Log.d("WallTrace",currLeft + " " + currRight + " " + errClose + " " + errAllign + " " + powLeft + " " + powRight);
+
+                    if(Thread.currentThread().isInterrupted()) {
+                        isInterrupted = true;
+                        break;
+                    }
+
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException ex) {
+                        isInterrupted = true;
+                        break;
+                    }
                 }
-                Log.d("WallTrace", "Ended Forward");
                 robot.stopMotors();
-                return Thread.currentThread().isInterrupted();
+                return isInterrupted;
             }
         });
     }

@@ -22,7 +22,6 @@ public class BlueStrafeToRamp extends LogicThread<AutonomousRobot> {
         commands.add(new Rotate(335)); //Rotate to face ramp
         commands.add(new Pause(500));
         commands.add(new Translate(3000, Translate.Direction.FORWARD,0)); //Get onto Ramp
-        commands.add(new MoveMotor(robot.getReaperMotor())); //Spin the balls into ramp
-        //This is awful
+//        commands.add(new MoveMotor(robot.getReaperMotor())); //Spin the balls into ramp
     }
 }
