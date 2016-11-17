@@ -69,7 +69,8 @@ public class WallTrace implements Command {
         robot.getRFEncoder().clearValue();
         robot.getLBEncoder().clearValue();
         robot.getRBEncoder().clearValue();
-        while (!exitCondition.isConditionMet() && (getAvgDistance() < maxDistance)) {
+        //&& (getAvgDistance() < maxDistance)
+        while (!exitCondition.isConditionMet()) {
             currLeft = sonarLeft.getFilteredValue();
             currRight = sonarRight.getFilteredValue();
 

@@ -36,12 +36,14 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.qualcomm.ftcrobotcontroller.R;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+@Autonomous(name ="Sensor: QUALCOMM COLOR TEST", group="Sensor")
 public class ColorSensorDriver extends LinearOpMode {
 
   public enum ColorSensorDevice {ADAFRUIT, HITECHNIC_NXT, MODERN_ROBOTICS_I2C};
@@ -66,7 +68,7 @@ public class ColorSensorDriver extends LinearOpMode {
         colorSensor = hardwareMap.colorSensor.get("lady");
         break;
       case MODERN_ROBOTICS_I2C:
-        colorSensor = hardwareMap.colorSensor.get("mr");
+        colorSensor = hardwareMap.colorSensor.get("color");
         break;
     }
     led = hardwareMap.led.get("led");

@@ -37,6 +37,7 @@ public class RedAutoGodThread extends GodThread {
     public void realRun() throws InterruptedException {
      double lineTarget = 4;
         // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD
+
         LogicThread goToWall = new RedGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
         Thread gtw = new Thread(goToWall);
         gtw.start();
@@ -110,7 +111,7 @@ public class RedAutoGodThread extends GodThread {
 //*****************************
 //THE FOLLOWING BLOCK MOVES TO SECOND BEACON, TAKES PIC AND PUSHES BUTTON (note that it's the same as above, but the Linetype is changed to second beacon)
 //*****************************
-       /* if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
+        if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
             LogicThread toFirstLine = new ToLineUltra(lineSensorWorks, Line.RED_SECOND_LINE, lineTarget, lineSensorWorks.get()); //Goes to firstLine
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
@@ -167,7 +168,7 @@ public class RedAutoGodThread extends GodThread {
             pr.start();
             children.add(pr);
             delegateMonitor(pr, new MonitorThread[]{});
-        }*/
+        }
 //*****************************
 //THE FOLLOWING BLOCK STRAFES TO RAMP
 //*****************************

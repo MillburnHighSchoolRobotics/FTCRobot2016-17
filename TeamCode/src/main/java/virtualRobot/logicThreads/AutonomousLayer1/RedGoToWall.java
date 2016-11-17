@@ -39,16 +39,17 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
 
 
 
-        Translate escapeWall = new Translate(1200, Translate.Direction.BACKWARD, 0); //
+        Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD_LEFT, 0); //
         commands.add(escapeWall); //Move Away from wall
         commands.add(new Pause(500));
-        commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
+        ///commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
+        commands.add(new Translate(7500, Translate.Direction.BACKWARD_RIGHT, 0));
         commands.add(new Pause(500));
-        commands.add(new Translate(12000, Translate.Direction.BACKWARD, 0, 1, INT_ANGLE)); //Continue Backward (relative to the angle we just rotated to)
+        commands.add(new Translate(500, Translate.Direction.BACKWARD, 0, 1, INT_ANGLE)); //Continue Backward (relative to the angle we just rotated to)
+       // commands.add(new Pause(500));
+        //commands.add(new Rotate(0, 1)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
         commands.add(new Pause(500));
-        commands.add(new Rotate(0, 1)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
-        commands.add(new Pause(500));
-        Translate strafeRight = new Translate(3200, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 3500 or when the sonar says, "hey you're too close guy"
+        Translate strafeRight = new Translate(3200, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 3200 or when the sonar says, "hey you're too close guy"
         if (WITH_SONAR) {
             strafeRight.setExitCondition(new ExitCondition() {
                 @Override

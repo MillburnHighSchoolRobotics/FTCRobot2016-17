@@ -66,7 +66,7 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
                     Log.d("LINELINELINE", " GOOD:" + robot.getLightSensor3().getRawValue());
                     return true;
                 }else if((Math.abs(robot.getLightSensor4().getRawValue() - targetLine) > 1.85)){
-                    farDisplacedment.set(true);
+                    //farDisplacedment.set(true);
                     lineWorks.set(true);
                     Log.d("LINELINELINE", " GOOD:" + robot.getLightSensor4().getRawValue());
                     return true;
@@ -86,7 +86,7 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
                     Log.d("LINELINELINE", " GOOD:" + robot.getLightSensor2().getRawValue());
                     return true;
                 }else if((Math.abs(robot.getLightSensor1().getRawValue() - targetLine) > 1.85)){
-                    farDisplacedment.set(true);
+                   ///s farDisplacedment.set(true);
                     lineWorks.set(true);
                     Log.d("LINELINELINE", " GOOD:" + robot.getLightSensor1().getRawValue());
                     return true;
@@ -119,9 +119,9 @@ public class ToLineUltra extends LogicThread<AutonomousRobot>  {
         else if (type==GodThread.Line.RED_SECOND_LINE || type==GodThread.Line.BLUE_FIRST_LINE) {
             WallTrace toWhiteLine;
             if (type == GodThread.Line.BLUE_FIRST_LINE )
-                toWhiteLine = new WallTrace(WallTrace.Direction.FORWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_LINE);
+                toWhiteLine = new WallTrace(WallTrace.Direction.BACKWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_LINE);
             else
-                toWhiteLine = new WallTrace(WallTrace.Direction.FORWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE);
+                toWhiteLine = new WallTrace(WallTrace.Direction.BACKWARD, WALL_TRACE_SONAR_THRESHOLD, MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE);
             if ((lineAlreadyWorks && lineEntered) || !lineEntered)
             toWhiteLine.setExitCondition(atwhitelineSECOND);
             commands.add(toWhiteLine);
