@@ -43,9 +43,9 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
     private static final double servoValOpen = 1.0, servoValClosed = 0.25;
     public static final double BUTTON_PUSHER_STATIONARY = (PushLeftButton.BUTTON_PUSHER_LEFT + PushRightButton.BUTTON_PUSHER_RIGHT) / 2;
-    public final static double CAP_LEFT_OPEN = .486;
+    public final static double CAP_LEFT_OPEN = 1;
     public final static double CAP_LEFT_CLOSED = 0;
-    public final static double CAP_RIGHT_OPEN = .189;
+    public final static double CAP_RIGHT_OPEN = 1;
     public final static double CAP_RIGHT_CLOSED = 0;
     @Override
     public void loadCommands() {
@@ -190,7 +190,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     }
 
                     if (controller1.isDown(JoystickController.BUTTON_A) && controller1.isDown(JoystickController.BUTTON_B) && controller2.isDown(JoystickController.BUTTON_A) && controller2.isDown(JoystickController.BUTTON_B))
-                        robot.getBallLauncherServo().setPosition(0);
+                        robot.getBallLauncherServo().setPosition(1);
 
                     if (controller2.getValue(JoystickController.Y_1) > 0.05) {
                         double currLeft = robot.getSonarLeft().getValue();
