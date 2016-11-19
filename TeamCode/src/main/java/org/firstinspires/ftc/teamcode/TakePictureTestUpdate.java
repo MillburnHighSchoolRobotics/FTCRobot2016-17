@@ -11,7 +11,7 @@ import virtualRobot.godThreads.TakePictureTestGod;
  * Created by mehme_000 on 10/15/2016.
  * Update Thread used for testing the camera
  */
-//@Autonomous(name ="Sensor: Camera", group="Sensor")
+@Autonomous(name ="Sensor: CameraOurBackend", group="Sensor")
 public class TakePictureTestUpdate extends UpdateThread {
 
     @Override

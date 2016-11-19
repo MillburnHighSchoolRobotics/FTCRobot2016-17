@@ -23,6 +23,7 @@ import virtualRobot.logicThreads.AutonomousLayer3.AllignLineUltraNoLine;
 import virtualRobot.logicThreads.CompensateForMiss;
 import virtualRobot.logicThreads.NoSensorAutonomouses.BlueStrafeToCenterGoal;
 import virtualRobot.logicThreads.NoSensorAutonomouses.BlueStrafeToRamp;
+import virtualRobot.logicThreads.NoSensorAutonomouses.Pauselogic;
 import virtualRobot.logicThreads.NoSensorAutonomouses.PushLeftButton;
 import virtualRobot.logicThreads.NoSensorAutonomouses.PushRightButton;
 import virtualRobot.logicThreads.NoSensorAutonomouses.RedStrafeToCenterGoal;
@@ -48,7 +49,6 @@ public class BlueAutoGodThread extends GodThread {
     LogicThread checkPicture = new LogicThread() {
         @Override
         public void loadCommands() {
-            commands.add(new Pause(5000));
             FTCTakePicture pic = new FTCTakePicture(FTCTakePicture.Mode.CHECKING_PICTURE,isAllRed,vuforia); //Take a picture of beacon
             commands.add(pic);
         }
@@ -150,6 +150,11 @@ public class BlueAutoGodThread extends GodThread {
 
         Command.ROBOT.addToProgress("isAllRed /" + Boolean.toString(isAllRed.get()));
         if (isAllRed.get()) {
+            LogicThread pauseLogic = new Pauselogic();
+            Thread pl = new Thread(pauseLogic);
+            pl.start();
+            delegateMonitor(pl, new MonitorThread[]{});
+
             LogicThread pushRight = new PushRightButton(weCanUseSonar);
             Thread pr = new Thread(pushRight);
             pr.start();
@@ -236,6 +241,11 @@ public class BlueAutoGodThread extends GodThread {
 
         Command.ROBOT.addToProgress("isAllRed /" + Boolean.toString(isAllRed.get()));
         if (!isAllRed.get()) {
+            LogicThread pauseLogic = new Pauselogic();
+            Thread pl = new Thread(pauseLogic);
+            pl.start();
+            delegateMonitor(pl, new MonitorThread[]{});
+
             LogicThread pushRight = new PushRightButton(weCanUseSonar);
             Thread pr = new Thread(pushRight);
             pr.start();

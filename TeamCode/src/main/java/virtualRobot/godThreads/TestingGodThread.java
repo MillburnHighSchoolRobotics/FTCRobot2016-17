@@ -15,7 +15,14 @@ import virtualRobot.commands.Rotate;
 public class TestingGodThread extends GodThread {
     @Override
     public void realRun() throws InterruptedException {
-        final AtomicBoolean redisLeft = new AtomicBoolean();
+        //final AtomicBoolean redisLeft = new AtomicBoolean();
+
+
+
+
+
+
+
         //These two threads should be running from the beginning of the program to provide accurate data
         /*MonitorThread watchingForDebris = new DebrisMonitor();
         Thread dm = new Thread(watchingForDebris);
@@ -69,7 +76,7 @@ public class TestingGodThread extends GodThread {
 
         //delegateMonitor(mtb, new MonitorThread[]{watchingForDebris, watchingForTime});*/
 
-        LogicThread<AutonomousRobot> translateTest = new LogicThread<AutonomousRobot>() {
+        /*LogicThread<AutonomousRobot> translateTest = new LogicThread<AutonomousRobot>() {
             @Override
             public void loadCommands() {
 
@@ -83,7 +90,7 @@ public class TestingGodThread extends GodThread {
         Thread t = new Thread(translateTest);
         t.start();
         children.add(t);
-        delegateMonitor(t, new MonitorThread[]{});
+        delegateMonitor(t, new MonitorThread[]{});*/
 
 
 

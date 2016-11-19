@@ -23,7 +23,7 @@ public class TakePictureTestLogic extends LogicThread<AutonomousRobot> {
 
     public void loadCommands() {
 
-        commands.add(new FTCTakePicture(redIsLeft,vuforia));
+        commands.add(new FTCTakePicture(FTCTakePicture.Mode.CHECKING_PICTURE, redIsLeft,vuforia));
 
 
     }

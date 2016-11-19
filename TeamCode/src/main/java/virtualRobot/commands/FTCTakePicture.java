@@ -36,9 +36,7 @@ public class FTCTakePicture implements Command{
     Mode mode;
     public FTCTakePicture (Mode mode, AtomicBoolean red, VuforiaLocalizerImplSubclass vuforia) {
         this.mode=mode;
-        if (mode==Mode.TAKING_PICTURE)
         this.redisLeft = red;
-        else
         this.isRed = red;
         this.vuforia = vuforia;
         exitCondition = new ExitCondition() {
@@ -55,15 +53,15 @@ public class FTCTakePicture implements Command{
         if (vuforia.rgb != null){
             Bitmap bm =  Bitmap.createBitmap(vuforia.rgb.getWidth(), vuforia.rgb.getHeight(), Bitmap.Config.RGB_565);
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-            if (mode==Mode.TAKING_PICTURE) {
+            if (mode==Mode.TAKING_PICTURE){
                 boolean analyzed = DavidClass.analyzePic2(bm);
-                Log.d("cameraReturn ", analyzed + " ");
+                Log.d("cameraReturn Analyze", analyzed + " ");
                 redisLeft.set(analyzed);
             }
             else {
                 boolean analyzed = DavidClass.checkIfAllRed(bm);
-                Log.d("cameraReturn ", analyzed + " ");
-                redisLeft.set(analyzed);
+                Log.d("cameraReturn Check", analyzed + " ");
+                isRed.set(analyzed);
             }
        }
 

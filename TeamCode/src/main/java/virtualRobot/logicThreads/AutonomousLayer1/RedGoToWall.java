@@ -35,18 +35,19 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
     }
     @Override
     public void loadCommands() {
-
+        commands.add(new MoveServo(new Servo[]{robot.getBallLauncherServo()}, new double[]{1})); //move button pusher
+        commands.add(new Pause(500));
         Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD_LEFT, 0); //
         commands.add(escapeWall); //Move Away from wall
-        commands.add(new Pause(500));
+        commands.add(new Pause(100));
         ///commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
         commands.add(new Translate(6800, Translate.Direction.BACKWARD_RIGHT, 0));
         commands.add(new Pause(500));
-        commands.add(new Translate(500, Translate.Direction.BACKWARD, 0, 1, INT_ANGLE)); //Continue Backward (relative to the angle we just rotated to)
-       // commands.add(new Pause(500));
-        //commands.add(new Rotate(0, 1)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
+        commands.add(new Translate(500, Translate.Direction.BACKWARD, 0)); //Continue Backward (relative to the angle we just rotated to)
         commands.add(new Pause(500));
-        Translate strafeRight = new Translate(3200, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 3200 or when the sonar says, "hey you're too close guy"
+        commands.add(new Rotate(0, 1, 2000)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
+        commands.add(new Pause(500));
+        Translate strafeRight = new Translate(2000, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
         if (WITH_SONAR) {
             strafeRight.setExitCondition(new ExitCondition() {
                 @Override
@@ -70,7 +71,7 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
         }
         commands.add(strafeRight);
         commands.add(new Pause(500));
-        commands.add(new Rotate(0, .5)); //Straighten out again
+        commands.add(new Rotate(0, .5, 2000)); //Straighten out again
         commands.add(new Pause(500));
         robot.addToProgress("Went To Wall");
 }}
