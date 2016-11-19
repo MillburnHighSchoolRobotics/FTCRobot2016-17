@@ -50,7 +50,6 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
     @Override
     public void loadCommands() {
 
-
         commands.add(new Command() {
             @Override
             public boolean changeRobotState() {
@@ -192,31 +191,31 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     if (controller1.isDown(JoystickController.BUTTON_A) && controller1.isDown(JoystickController.BUTTON_B) && controller2.isDown(JoystickController.BUTTON_A) && controller2.isDown(JoystickController.BUTTON_B))
                         robot.getBallLauncherServo().setPosition(1);
 
-                    if (controller2.getValue(JoystickController.Y_1) > 0.05) {
-                        double currLeft = robot.getSonarLeft().getValue();
-                        double currRight = robot.getSonarRight().getValue();
-                        double tp = 0.2;
-
-                        double errClose = (8 - currLeft)*0.008;
-                        double errAllign = (currLeft - currRight)*0.012;
-
-                        robot.getLBMotor().setPower(tp - errClose - errAllign);
-                        robot.getLFMotor().setPower(tp - errClose - errAllign);
-                        robot.getRFMotor().setPower(tp + errClose + errAllign);
-                        robot.getRBMotor().setPower(tp + errClose + errAllign);
-                    } else if (controller2.getValue(JoystickController.Y_1) < -0.05) {
-                        double currLeft = robot.getSonarRight().getValue();
-                        double currRight = robot.getSonarLeft().getValue();
-                        double tp = 0.2;
-
-                        double errClose = (8 - currLeft)*0.008;
-                        double errAllign = (currLeft - currRight)*0.012;
-
-                        robot.getLBMotor().setPower((tp - errClose - errAllign)*-1);
-                        robot.getLFMotor().setPower((tp - errClose - errAllign)*-1);
-                        robot.getRFMotor().setPower((tp + errClose + errAllign)*-1);
-                        robot.getRBMotor().setPower((tp + errClose + errAllign)*-1);
-                    }
+//                    if (controller2.getValue(JoystickController.Y_1) > 0.05) {
+//                        double currLeft = robot.getSonarLeft().getValue();
+//                        double currRight = robot.getSonarRight().getValue();
+//                        double tp = 0.2;
+//
+//                        double errClose = (8 - currLeft)*0.008;
+//                        double errAllign = (currLeft - currRight)*0.012;
+//
+//                        robot.getLBMotor().setPower(tp - errClose - errAllign);
+//                        robot.getLFMotor().setPower(tp - errClose - errAllign);
+//                        robot.getRFMotor().setPower(tp + errClose + errAllign);
+//                        robot.getRBMotor().setPower(tp + errClose + errAllign);
+//                    } else if (controller2.getValue(JoystickController.Y_1) < -0.05) {
+//                        double currLeft = robot.getSonarRight().getValue();
+//                        double currRight = robot.getSonarLeft().getValue();
+//                        double tp = 0.2;
+//
+//                        double errClose = (8 - currLeft)*0.008;
+//                        double errAllign = (currLeft - currRight)*0.012;
+//
+//                        robot.getLBMotor().setPower((tp - errClose - errAllign)*-1);
+//                        robot.getLFMotor().setPower((tp - errClose - errAllign)*-1);
+//                        robot.getRFMotor().setPower((tp + errClose + errAllign)*-1);
+//                        robot.getRBMotor().setPower((tp + errClose + errAllign)*-1);
+//                    }
 
                     try {
                         Thread.currentThread().sleep(30);
