@@ -20,7 +20,6 @@ public class WallTrace implements Command {
     Direction direction;
     private AutonomousRobot robot;
     private double target = 15;
-    private double maxDistance = Double.MAX_VALUE;
     public WallTrace() {
         robot = Command.AUTO_ROBOT;
         direction = Direction.FORWARD;
@@ -39,10 +38,6 @@ public class WallTrace implements Command {
         this(d);
         this.target = target;
     }
-    public WallTrace(Direction d, double target, double maxDistance) {
-        this(d, target);
-        this.maxDistance = maxDistance;
-    }
 
     public void setDirection (Direction d) { direction = d; }
 
@@ -58,7 +53,7 @@ public class WallTrace implements Command {
 
     @Override
     public boolean changeRobotState() throws InterruptedException {
-        double tp = 0.2;
+        double tp = 0.1;
         boolean isInterrupted = false;
         UltrasonicSensor sonarLeft = direction == Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
         UltrasonicSensor sonarRight = direction == Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
@@ -69,7 +64,6 @@ public class WallTrace implements Command {
         robot.getRFEncoder().clearValue();
         robot.getLBEncoder().clearValue();
         robot.getRBEncoder().clearValue();
-        //&& (getAvgDistance() < maxDistance)
         while (!exitCondition.isConditionMet()) {
             currLeft = sonarLeft.getFilteredValue();
             currRight = sonarRight.getFilteredValue();

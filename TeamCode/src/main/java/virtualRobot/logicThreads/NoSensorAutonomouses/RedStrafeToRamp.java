@@ -12,6 +12,7 @@ import virtualRobot.commands.Translate;
  * For Red autonomous. Legalize it (still).
  * Gets on ramp, deposits balls
  */
+@Deprecated
 public class RedStrafeToRamp extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands (){

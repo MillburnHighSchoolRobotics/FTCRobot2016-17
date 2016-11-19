@@ -2,6 +2,9 @@ package virtualRobot;
 
 import java.util.ArrayList;
 
+import static virtualRobot.GodThread.ColorType.*;
+import static virtualRobot.GodThread.LineType.*;
+
 /**
  * Created by shant on 1/5/2016.
  * This will do a couple things:
@@ -101,9 +104,29 @@ public abstract class GodThread implements Runnable {
     }
 
     public enum Line { //For use in autonomous to determine which line we're shooting for
-        BLUE_FIRST_LINE,
-        BLUE_SECOND_LINE,
-        RED_FIRST_LINE,
-        RED_SECOND_LINE
+        BLUE_FIRST_LINE(BLUE, FIRST),
+        BLUE_SECOND_LINE(BLUE, SECOND),
+        RED_FIRST_LINE(RED, FIRST),
+        RED_SECOND_LINE(RED, SECOND);
+        private  ColorType color;
+        private LineType line;
+        private Line(ColorType c, LineType l) {
+            color = c;
+            line = l;
+        }
+        public ColorType getColor() {
+            return color;
+        }
+        public LineType getLine() {
+            return line;
+        }
+    }
+    public enum ColorType {
+        RED,
+        BLUE
+    }
+     public enum LineType {
+        FIRST,
+        SECOND
     }
 }

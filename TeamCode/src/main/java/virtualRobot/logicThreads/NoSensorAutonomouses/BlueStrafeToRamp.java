@@ -11,7 +11,7 @@ import virtualRobot.commands.Translate;
  * Created by 17osullivand on 10/28/16.
  * Gets on ramp, deposits balls
  */
-
+@Deprecated
 public class BlueStrafeToRamp extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands (){

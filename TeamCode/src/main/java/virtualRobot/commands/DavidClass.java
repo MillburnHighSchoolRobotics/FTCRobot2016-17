@@ -24,6 +24,7 @@ public class DavidClass {
     static double endXPercent = .958;
     static double startYPercent = .298;
     static double endYPercent = .595;
+    private static double TOLERANCE = 20;
 
 
     public static final long RED = Color.red(Color.RED); //note that Color.RED is negative
@@ -107,6 +108,63 @@ public class DavidClass {
         }*/
 
         return (lAvg-RED > rAvg-RED);}
+    public static boolean checkIfAllRed(Bitmap bmp) {
+        Log.d("zzz", Long.toString(RED));
+        Bitmap image= bmp;
+        image= Bitmap.createScaledBitmap(bmp, image.getWidth() / 2, image.getHeight() / 2, true);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(image, image.getWidth(), image.getHeight(), true);
+        image = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+
+
+
+        // int[] pixels = new int[image.getWidth() * image.getHeight()];
+
+        int height = image.getHeight(), width = image.getWidth();
+        //  image.getPixels(pixels, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight()); //gets pixels in pixel array
+
+        final int startX = (int) ((startXPercent) * width); //.4
+        final int endX = (int) (endXPercent*width); //.9
+        final int startY = (int) (startYPercent*height); //.55
+        final int endY = (int) (endYPercent*height); //.77
+
+        final int midX = (startX + endX) / 2;
+
+        //int lNum = 0;
+        //int rNum = 0;
+        long lSum = 0;
+        long rSum = 0;
+        long lAvg, rAvg;
+        for (int i = startY; i < endY; i++) {
+            for (int j = startX; j < midX; j++) {
+                lSum += Color.red(image.getPixel(j,i));
+            }
+            for (int j = midX; j < endX; j++) {
+                rSum += Color.red(image.getPixel(j,i));
+
+            }
+        }
+        lAvg = roundUp(lSum, (midX-startX));
+        rAvg = roundUp(rSum, (endX-midX));
+
+        return (Math.abs(lAvg-RED) < TOLERANCE &&  Math.abs(rAvg-RED) < TOLERANCE);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*public static boolean analyzePic(Bitmap bmp) {
         Log.d("zzz", Long.toString(RED));
         Bitmap image= bmp;

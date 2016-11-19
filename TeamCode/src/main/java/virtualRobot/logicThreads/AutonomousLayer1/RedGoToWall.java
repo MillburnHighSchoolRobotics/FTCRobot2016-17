@@ -36,14 +36,11 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
     @Override
     public void loadCommands() {
 
-
-
-
         Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD_LEFT, 0); //
         commands.add(escapeWall); //Move Away from wall
         commands.add(new Pause(500));
         ///commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
-        commands.add(new Translate(7500, Translate.Direction.BACKWARD_RIGHT, 0));
+        commands.add(new Translate(6800, Translate.Direction.BACKWARD_RIGHT, 0));
         commands.add(new Pause(500));
         commands.add(new Translate(500, Translate.Direction.BACKWARD, 0, 1, INT_ANGLE)); //Continue Backward (relative to the angle we just rotated to)
        // commands.add(new Pause(500));

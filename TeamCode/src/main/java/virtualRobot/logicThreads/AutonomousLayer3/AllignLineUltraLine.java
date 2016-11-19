@@ -1,7 +1,5 @@
 package virtualRobot.logicThreads.AutonomousLayer3;
 
-import org.firstinspires.ftc.teamcode.TestingOpModes.TakePictureTest;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.AutonomousRobot;
@@ -13,7 +11,7 @@ import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.WallTrace;
-import virtualRobot.logicThreads.AutonomousLayer2.ToLineUltra;
+import virtualRobot.logicThreads.AutonomousLayer2.ToWhiteLine;
 
 /**
  * Created by 17osullivand on 11/3/16.
@@ -23,7 +21,7 @@ import virtualRobot.logicThreads.AutonomousLayer2.ToLineUltra;
 public class AllignLineUltraLine extends LogicThread<AutonomousRobot>  {
     GodThread.Line type;
     double currentLine;
-    public static final double WALL_TRACE_SONAR_THRESHOLD = ToLineUltra.WALL_TRACE_SONAR_THRESHOLD; //How close we want to trace wall
+    public static final double WALL_TRACE_SONAR_THRESHOLD = ToWhiteLine.WALL_TRACE_SONAR_THRESHOLD; //How close we want to trace wall
     public static final double CORRECTION_VALUE = AllignLineUltraNoLine.CORRECTION_VALUE; //since we've very much overshot the line, we need to go back;
     public static final double CORRECTION_VALUE_TWO = 1200;
     VuforiaLocalizerImplSubclass vuforia;
@@ -49,13 +47,13 @@ public class AllignLineUltraLine extends LogicThread<AutonomousRobot>  {
         robot.addToProgress("Alligning with Line, with Ultra and Line");
        if (type==GodThread.Line.RED_FIRST_LINE || type==GodThread.Line.BLUE_SECOND_LINE) {
            WallTrace toWhiteLine2;
-           if (type==GodThread.Line.RED_FIRST_LINE)
-           toWhiteLine2 =  new WallTrace(WallTrace.Direction.FORWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE);
-           else
-               toWhiteLine2 =  new WallTrace(WallTrace.Direction.FORWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE_TWO);
+           //if (type==GodThread.Line.RED_FIRST_LINE)
+           //toWhiteLine2 =  new WallTrace(WallTrace.Direction.FORWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE);
+           //else
+               //toWhiteLine2 =  new WallTrace(WallTrace.Direction.FORWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE_TWO);
 
-           toWhiteLine2.setExitCondition(atwhiteline);
-           commands.add(toWhiteLine2);
+           //toWhiteLine2.setExitCondition(atwhiteline);
+           //commands.add(toWhiteLine2);
            commands.add(new Pause(500));
            commands.add(new Rotate(0, 1));
            commands.add(new Pause(500));
@@ -66,12 +64,12 @@ public class AllignLineUltraLine extends LogicThread<AutonomousRobot>  {
        }
        else if (type==GodThread.Line.RED_SECOND_LINE || type==GodThread.Line.BLUE_FIRST_LINE) {
            WallTrace toWhiteLine2;
-               if (type==GodThread.Line.BLUE_FIRST_LINE)
-           toWhiteLine2 =  new WallTrace(WallTrace.Direction.BACKWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE);
-           else
-                   toWhiteLine2 =  new WallTrace(WallTrace.Direction.BACKWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE_TWO);
-           toWhiteLine2.setExitCondition(atwhiteline);
-           commands.add(toWhiteLine2);
+              // if (type==GodThread.Line.BLUE_FIRST_LINE)
+          // toWhiteLine2 =  new WallTrace(WallTrace.Direction.BACKWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE);
+           //else
+                   //toWhiteLine2 =  new WallTrace(WallTrace.Direction.BACKWARD,  WALL_TRACE_SONAR_THRESHOLD, CORRECTION_VALUE_TWO);
+           //toWhiteLine2.setExitCondition(atwhiteline);
+           //commands.add(toWhiteLine2);
            commands.add(new Pause(500));
            commands.add(new Rotate(0, 1));
            commands.add(new Pause(500));
