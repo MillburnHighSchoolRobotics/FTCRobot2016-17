@@ -28,7 +28,7 @@ public interface AutonomousRobot {
 
     ColorSensor getColorSensor();
 
-    StateSensor getLocationSensor();
+    StateSensor getStateSensor();
 
     UltrasonicSensor getSonarLeft();
 
@@ -60,7 +60,7 @@ public interface AutonomousRobot {
 
     Sensor getRBEncoder();
 
-    Sensor getReaperEncoder();
+//    Sensor getReaperEncoder();
 
     Sensor getLightSensor1();
 

@@ -101,10 +101,6 @@ public class Vector3f {
         return multiply(1 / scalar);
     }
 
-    public Vector3f divide(Matrix3f m) {
-        return m. inverse().multiply(this);
-    }
-
     public Vector3f multiply(double scalar) {
         return new Vector3f(x * scalar, y * scalar, z * scalar);
     }
@@ -170,6 +166,8 @@ public class Vector3f {
     public void zero(){
         this.x = this.y = this.z = 0;
     }
+
+    public double[] getArr() { return new double[]{x,y,z};}
 
     @Override
     public String toString(){
