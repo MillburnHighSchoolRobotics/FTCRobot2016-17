@@ -43,7 +43,7 @@ public class Matrix {
     public synchronized Matrix scale(double scalar) {
         Matrix result = new Matrix(this);
         for (int i = 0; i < arr.length; i++) {
-             for (int j = 0; arr[0].length) {
+             for (int j = 0; j < arr[0].length; j++) {
                  result.arr[i][j] *= scalar;
              }
         }

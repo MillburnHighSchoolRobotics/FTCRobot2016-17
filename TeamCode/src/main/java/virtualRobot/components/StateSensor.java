@@ -4,7 +4,7 @@ import com.kauailabs.navx.ftc.MPU9250;
 import com.vuforia.Matrix34F;
 
 import virtualRobot.utils.MathUtils;
-import virtualRobot.utils.Matrix3f;
+import virtualRobot.utils.Matrix;
 import virtualRobot.utils.Vector2f;
 import virtualRobot.utils.Vector3f;
 
@@ -60,11 +60,12 @@ public class StateSensor extends Sensor {
 //    }
 
     public synchronized void update(MPU9250 imu) {
+        Vector3f angleVec = new Vector3f(imu.getIntegratedRoll(),imu.getIntegratedPitch(),imu.getIntegratedYaw());
         Vector3f accel = new Vector3f(imu.getIntegratedAccelX(),imu.getIntegratedAccelY(),imu.getIntegratedAccelZ()).multiply(9.8);
         double delta = System.currentTimeMillis() - lastUpdateTime;
         location.addEquals(velocity.multiply(delta),accel.multiply(0.5 * delta*delta));
         velocity.addEquals(accel.multiply(delta));
-        angle = imu.getIntegratedYaw();
+        angle = angleVec.z;
     }
     
     private static double cos(double x) {

@@ -3,6 +3,7 @@ package virtualRobot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import virtualRobot.components.AngleSensor;
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.StateSensor;
@@ -18,12 +19,13 @@ import virtualRobot.components.UltrasonicSensor;
  */
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
-    private Sensor headingSensor, pitchSensor, rollSensor, nxtlightSensor1, nxtlightSensor2, nxtlightSensor3, nxtlightSensor4;
+    private Sensor nxtlightSensor1, nxtlightSensor2, nxtlightSensor3, nxtlightSensor4;
+    private AngleSensor headingSensor, pitchSensor, rollSensor;
     private ColorSensor colorSensor;
     private UltrasonicSensor sonarLeft, sonarRight;
     private JoystickController joystickController1, joystickController2;
-    private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder, ReaperEncoder;
-    private StateSensor locationSensor;
+    private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder;
+    private StateSensor stateSensor;
     private ArrayList<String> robotProgress;
     private HashMap<String, Object> telemetry;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
@@ -40,9 +42,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
         joystickController1 = new JoystickController();
         joystickController2 = new JoystickController();
-        headingSensor = new Sensor();
-        pitchSensor = new Sensor();
-        rollSensor = new Sensor();
+        headingSensor = new AngleSensor();
+        pitchSensor = new AngleSensor();
+        rollSensor = new AngleSensor();
         colorSensor = new ColorSensor();
         nxtlightSensor1 = new Sensor();
         nxtlightSensor2 = new Sensor();
@@ -52,7 +54,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         sonarRight = new UltrasonicSensor();
         robotProgress = new ArrayList<String>();
         telemetry = new HashMap<>();
-        locationSensor = new StateSensor();
+        stateSensor = new StateSensor();
         LFMotor = new Motor();
         LBMotor = new Motor();
         RFMotor = new Motor();
@@ -62,7 +64,6 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         LBEncoder = new Sensor();
         RFEncoder = new Sensor();
         RBEncoder = new Sensor();
-        ReaperEncoder = new Sensor();
         ButtonServo = new Servo();
         capLeftServo = new Servo();
         capRightServo = new Servo();
@@ -122,9 +123,6 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Sensor getLightSensor4() {return nxtlightSensor4;}
 
     @Override
-    public synchronized Sensor getReaperEncoder() {return ReaperEncoder;}
-
-    @Override
     public synchronized Motor getLFMotor() { return LFMotor; }
 
     @Override
@@ -154,7 +152,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Servo getBallLauncherServo() { return ballLauncherServo; }
 
     @Override
-    public synchronized StateSensor getLocationSensor() { return locationSensor; }
+    public synchronized StateSensor getStateSensor() { return stateSensor; }
 
     @Override
     public synchronized SyncedMotors getRightRotate() {
@@ -166,6 +164,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
     @Override
     public synchronized SyncedMotors getLeftRotate() { return leftRotate; }
+
+    @Override
+    public void zeroYaw() { headingSensor.clearValue(); }
 
     @Override
     public synchronized JoystickController getJoystickController1() {
