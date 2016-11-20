@@ -24,7 +24,7 @@ public class DavidClass {
     static double endXPercent = .958;
     static double startYPercent = .298;
     static double endYPercent = .595;
-    private static double TOLERANCE = 20;
+    private static double TOLERANCE = 128;
 
 
     public static final long RED = Color.red(Color.RED); //note that Color.RED is negative
@@ -85,8 +85,11 @@ public class DavidClass {
 
         //lAvg = roundUp(lSum, lNum);
         //rAvg = roundUp(rSum, rNum);
-        lAvg = roundUp(lSum, (midX-startX));
-        rAvg = roundUp(rSum, (endX-midX));
+        Log.d("qqq", Long.toString(midX-startX) + " " + Long.toString(endX-midX));
+
+        lAvg = roundUp(lSum, ((midX-startX)*(endY-startY)));
+        rAvg = roundUp(rSum, ((endX-midX)*(endY-startY)));
+        Log.d("qqqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
         /*Log.d("qqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
 
 
@@ -109,7 +112,6 @@ public class DavidClass {
 
         return (lAvg-RED > rAvg-RED);}
     public static boolean checkIfAllRed(Bitmap bmp) {
-        Log.d("zzz", Long.toString(RED));
         Bitmap image= bmp;
         image= Bitmap.createScaledBitmap(bmp, image.getWidth() / 2, image.getHeight() / 2, true);
         Matrix matrix = new Matrix();
@@ -136,6 +138,7 @@ public class DavidClass {
         long lSum = 0;
         long rSum = 0;
         long lAvg, rAvg;
+
         for (int i = startY; i < endY; i++) {
             for (int j = startX; j < midX; j++) {
                 lSum += Color.red(image.getPixel(j,i));
@@ -145,10 +148,17 @@ public class DavidClass {
 
             }
         }
-        lAvg = roundUp(lSum, (midX-startX));
-        rAvg = roundUp(rSum, (endX-midX));
 
-        return (Math.abs(lAvg-RED) < TOLERANCE &&  Math.abs(rAvg-RED) < TOLERANCE);
+        lAvg = roundUp(lSum, ((midX-startX)*(endY-startY)));
+        rAvg = roundUp(rSum, ((endX-midX)*(endY-startY)));
+
+        Log.d("qqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
+
+
+
+
+
+        return ((lAvg+rAvg)/2 >TOLERANCE);
     }
 
 

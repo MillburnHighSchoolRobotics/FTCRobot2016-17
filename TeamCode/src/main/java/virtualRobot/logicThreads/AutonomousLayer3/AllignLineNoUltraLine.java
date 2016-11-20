@@ -52,8 +52,8 @@ public class AllignLineNoUltraLine extends LogicThread<AutonomousRobot>  {
             commands.add(new Pause(500));
             commands.add(new Rotate(0, 1));
             commands.add(new Pause(500));
-            FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia); //Take a picture of beacon
-            commands.add(pic);
+            //FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia); //Take a picture of beacon
+            //commands.add(pic);
             commands.add(new Pause(500));
 
         }
@@ -64,8 +64,8 @@ public class AllignLineNoUltraLine extends LogicThread<AutonomousRobot>  {
             commands.add(new Pause(500));
             commands.add(new Rotate(0, 1));
             commands.add(new Pause(500));
-            FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia); //Take a picture of beacon
-            commands.add(pic);
+            //FTCTakePicture pic = new FTCTakePicture(redIsLeft,vuforia); //Take a picture of beacon
+            //commands.add(pic);
             commands.add(new Pause(500));
 
         }

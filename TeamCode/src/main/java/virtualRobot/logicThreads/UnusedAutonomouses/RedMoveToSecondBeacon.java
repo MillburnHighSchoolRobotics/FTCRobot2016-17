@@ -48,7 +48,7 @@ public class RedMoveToSecondBeacon extends LogicThread<AutonomousRobot> {
         commands.add(toWhiteLine2);
         robot.addToProgress("Went to Line");
         commands.add(new Pause(500));
-        FTCTakePicture pic = new FTCTakePicture(this.redIsLeft,this.vuforia); //Take another picture
-        commands.add(pic);
+        //FTCTakePicture pic = new FTCTakePicture(this.redIsLeft,this.vuforia); //Take another picture
+        //commands.add(pic);
     }
 }

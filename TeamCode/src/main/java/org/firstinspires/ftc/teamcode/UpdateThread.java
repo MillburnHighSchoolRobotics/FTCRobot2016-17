@@ -193,7 +193,7 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroYaw();
 		imu.zeroRoll();
 		imu.zeroAccel();
-		telemetry.addData("Is Running Version: ", Translate.KPt + " 1.0");
+		telemetry.addData("Is Running Version: ", Translate.KPt + " 1.2");
         telemetry.addData("Init Loop Time", runtime.toString());
 
 
@@ -249,10 +249,10 @@ public abstract class UpdateThread extends OpMode {
 		vColorSensor.setRawValue(colorSensor.argb());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
-		vLeftFrontEncoder.setRawValue(leftFront.getCurrentPosition());
-		vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
-		vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
-		vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
+		vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());
+		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
+		vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
+		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
 		vLightSensor1.setRawValue(nxtLight1.getRawLightDetected());
 		vLightSensor2.setRawValue(nxtLight2.getRawLightDetected());
 		vLightSensor3.setRawValue(nxtLight3.getRawLightDetected());

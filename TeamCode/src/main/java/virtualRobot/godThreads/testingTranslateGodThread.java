@@ -15,11 +15,11 @@ import virtualRobot.logicThreads.TestingAutonomouses.testingTranslateLogicThread
 public class testingTranslateGodThread extends GodThread {
     @Override
     public void realRun() throws InterruptedException {
-        LogicThread translate = new RedGoToWall(new AtomicBoolean());
+       /* LogicThread translate = new RedGoToWall(new AtomicBoolean());
         Thread teleopThread = new Thread(translate);
         teleopThread.start();
         children.add(teleopThread);
-        delegateMonitor(teleopThread, new MonitorThread[]{});
+        delegateMonitor(teleopThread, new MonitorThread[]{});*/
 
         LogicThread translate2 = new testingTranslateLogicThread();
         Thread t2 = new Thread(translate2);

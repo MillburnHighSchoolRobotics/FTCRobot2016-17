@@ -53,7 +53,7 @@ public class WallTrace implements Command {
 
     @Override
     public boolean changeRobotState() throws InterruptedException {
-        double tp = 0.1;
+        double tp = 0.2;
         boolean isInterrupted = false;
         UltrasonicSensor sonarLeft = direction == Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
         UltrasonicSensor sonarRight = direction == Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();

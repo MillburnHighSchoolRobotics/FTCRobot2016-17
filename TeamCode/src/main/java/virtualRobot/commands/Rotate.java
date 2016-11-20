@@ -88,7 +88,7 @@ public class Rotate implements Command {
         this.stop = sS;
     }
 
-    private Rotate(double angleInDegrees, double power, double timeLimit) {
+    public Rotate(double angleInDegrees, double power, double timeLimit) {
         this(angleInDegrees, power);
         this.timeLimit = timeLimit;
     }
