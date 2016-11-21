@@ -14,6 +14,7 @@ import virtualRobot.commands.MoveServo;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
+import virtualRobot.commands.ZeroYaw;
 import virtualRobot.components.Servo;
 
 /**
@@ -42,6 +43,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
         commands.add(escapeWall); //Move Away from wall
         commands.add(new Pause(100));
         commands.add(new Rotate(180, 2000));
+        commands.add(new ZeroYaw());
 
         commands.add(new Pause(500));
         ///commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball

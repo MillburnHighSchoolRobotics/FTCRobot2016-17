@@ -11,6 +11,7 @@ import virtualRobot.MonitorThread;
 import virtualRobot.commands.Command;
 import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
+import virtualRobot.commands.Rotate;
 import virtualRobot.logicThreads.AutonomousLayer1.RedGoToWall;
 import virtualRobot.logicThreads.AutonomousLayer2.ToLineNoUltra;
 import virtualRobot.logicThreads.AutonomousLayer2.ToWhiteLine;
@@ -33,6 +34,7 @@ public class RedAutoGodThread extends GodThread {
     LogicThread takePicture = new LogicThread() {
         @Override
         public void loadCommands() {
+            commands.add(new Rotate(0));
             FTCTakePicture pic = new FTCTakePicture(FTCTakePicture.Mode.TAKING_PICTURE, redIsLeft,vuforia); //Take a picture of beacon
             commands.add(pic);
         }
@@ -40,6 +42,7 @@ public class RedAutoGodThread extends GodThread {
     LogicThread checkPicture = new LogicThread() {
         @Override
         public void loadCommands() {
+            commands.add(new Rotate(0));
             FTCTakePicture pic = new FTCTakePicture(FTCTakePicture.Mode.CHECKING_PICTURE,isAllRed,vuforia); //Take a picture of beacon
             commands.add(pic);
         }

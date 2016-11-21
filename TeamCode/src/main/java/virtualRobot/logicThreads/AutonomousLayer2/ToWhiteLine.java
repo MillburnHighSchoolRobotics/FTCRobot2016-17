@@ -102,6 +102,8 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
 
     public void withUltra(){
         robot.addToProgress("Going To Line with Ultra");
+        commands.add(new Pause(200));
+        commands.add(new Rotate(0));
         commands.add(new Pause(500));
         if (type.getColor()==GodThread.ColorType.RED) {
             if (type.getLine()==GodThread.LineType.SECOND)

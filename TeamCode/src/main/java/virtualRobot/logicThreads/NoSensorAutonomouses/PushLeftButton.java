@@ -4,6 +4,7 @@ import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.MoveServo;
 import virtualRobot.commands.Pause;
+import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
 import virtualRobot.components.Servo;
 import virtualRobot.logicThreads.TeleopLogic;
@@ -27,6 +28,7 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
     }
     @Override
     public void loadCommands() {
+        commands.add(new Rotate(0));
         if (status == sonarStatus.SONAR_WORKS) {
             robot.addToProgress("Pushed Left Button");
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{BUTTON_PUSHER_LEFT})); //Move buttonpusher
