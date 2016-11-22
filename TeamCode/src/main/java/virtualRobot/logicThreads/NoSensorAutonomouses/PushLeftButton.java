@@ -28,7 +28,7 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
     }
     @Override
     public void loadCommands() {
-        commands.add(new Rotate(0));
+        commands.add(new Rotate(0,0.5,200));
         if (status == sonarStatus.SONAR_WORKS) {
             robot.addToProgress("Pushed Left Button");
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{BUTTON_PUSHER_LEFT})); //Move buttonpusher

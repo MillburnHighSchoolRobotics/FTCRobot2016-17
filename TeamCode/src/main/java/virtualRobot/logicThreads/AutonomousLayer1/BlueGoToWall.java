@@ -42,7 +42,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
         Translate escapeWall = new Translate(500, Translate.Direction.FORWARD_LEFT, 0); //
         commands.add(escapeWall); //Move Away from wall
         commands.add(new Pause(100));
-        commands.add(new Rotate(180, 2000));
+        commands.add(new Rotate(180,0.5,2000));
         commands.add(new ZeroYaw());
         commands.add(new Pause(500));
         ///commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball

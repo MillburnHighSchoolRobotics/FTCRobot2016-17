@@ -27,7 +27,7 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
             this.status = sonarStatus.SONAR_BROKEN;
     }
     public void loadCommands () {
-        commands.add(new Rotate(0));
+        commands.add(new Rotate(0,0.5,2000));
         if (status == sonarStatus.SONAR_BROKEN) {
             robot.addToProgress("Pushed Right Button");
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{BUTTON_PUSHER_RIGHT})); //move button pusher
