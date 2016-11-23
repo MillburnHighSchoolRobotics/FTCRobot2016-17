@@ -2,7 +2,6 @@ package virtualRobot.logicThreads.AutonomousLayer1;
 
 import android.util.Log;
 
-import org.firstinspires.ftc.teamcode.BlueAutoUpdate;
 import org.firstinspires.ftc.teamcode.UpdateThread;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -14,7 +13,7 @@ import virtualRobot.commands.MoveServo;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
-import virtualRobot.commands.ZeroYaw;
+import virtualRobot.commands.WallTrace;
 import virtualRobot.components.Servo;
 
 /**
@@ -36,23 +35,25 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
     }
     @Override
     public void loadCommands() {
+        WallTrace.setOnBlueSide(true); //makes walltrace use 180 degrees
+        Rotate.setOnBlueSide(true); //makes Rotate add 180 to whatever it's target is
         commands.add(new MoveServo(new Servo[]{robot.getBallLauncherServo()}, new double[]{1})); //move button pusher
         commands.add(new Pause(500));
+        Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD_LEFT, 0); //
+        commands.add(escapeWall);
+        commands.add(new Pause(200));
+        commands.add(new Rotate(0, .5, 5000));
+        commands.add(new Pause(200));
 
-        Translate escapeWall = new Translate(500, Translate.Direction.FORWARD_LEFT, 0); //
-        commands.add(escapeWall); //Move Away from wall
-        commands.add(new Pause(100));
-        commands.add(new Rotate(180,0.5,2000));
-        commands.add(new ZeroYaw());
-        commands.add(new Pause(500));
-        ///commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
+        Translate.setOnBlueSide(true); //makes heading Controllers correct to 180
+
         commands.add(new Translate(6800, Translate.Direction.FORWARD_RIGHT, 0));
         commands.add(new Pause(500));
         commands.add(new Translate(500, Translate.Direction.FORWARD, 0)); //Continue Backward (relative to the angle we just rotated to)
-         commands.add(new Pause(500));
-        commands.add(new Rotate(0, 1, 2000)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
         commands.add(new Pause(500));
-        Translate strafeRight = new Translate(2000, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 3200 or when the sonar says, "hey you're too close guy"
+        commands.add(new Rotate(0, .5, 2000)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
+        commands.add(new Pause(200));
+        Translate strafeRight = new Translate(1950, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
         if (WITH_SONAR) {
             strafeRight.setExitCondition(new ExitCondition() {
                 @Override
@@ -75,9 +76,9 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
             });
         }
         commands.add(strafeRight);
-        commands.add(new Pause(500));
+        commands.add(new Pause(200));
         commands.add(new Rotate(0, .5, 2000)); //Straighten out again
-        commands.add(new Pause(500));
+        commands.add(new Pause(200));
         robot.addToProgress("Went To Wall");
 
     }

@@ -32,6 +32,7 @@ public class Rotate implements Command {
     private double initAngle;
     private RunMode runMode;
     private static double globalMaxPower = 1;
+    public static boolean onBlue = false;
     private String name;
 
     private double time;
@@ -45,6 +46,7 @@ public class Rotate implements Command {
     public static void setGlobalMaxPower(double p) {
         globalMaxPower = p;
     }
+    public static void setOnBlueSide(boolean b) {onBlue = b;}
 
     public Rotate() {
     	
@@ -66,9 +68,9 @@ public class Rotate implements Command {
 
     public Rotate (double target) {
         this();
-        this.angleInDegrees = target;
+        this.angleInDegrees = !onBlue ? target : target+180;
         
-        pidController.setTarget(target);
+        pidController.setTarget(!onBlue ? target : target+180);
     }
 
     public Rotate (double angleInDegrees, double power) {

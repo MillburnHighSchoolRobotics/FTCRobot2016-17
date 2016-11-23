@@ -74,8 +74,6 @@ public interface AutonomousRobot {
 
     SyncedMotors getLeftRotate();
 
-    void zeroYaw();
-
     void addToProgress(String s);
 
     void stopMotors();

@@ -20,6 +20,9 @@ public class WallTrace implements Command {
     Direction direction;
     private AutonomousRobot robot;
     private double target = 15;
+    private static boolean onBlue = false;
+
+
     public WallTrace() {
         robot = Command.AUTO_ROBOT;
         direction = Direction.FORWARD;
@@ -58,7 +61,7 @@ public class WallTrace implements Command {
         UltrasonicSensor sonarLeft = direction == Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
         UltrasonicSensor sonarRight = direction == Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
         PIDController close = new PIDController(0.008,0,0,0,target);
-        PIDController allign = new PIDController(0.008,0,0,0,0);
+        PIDController allign = new PIDController(0.008,0,0,0,!onBlue ? 0 : 180);
         double currLeft, currRight, errClose = 0, errAllign;
         robot.getLFEncoder().clearValue();
         robot.getRFEncoder().clearValue();
@@ -110,4 +113,6 @@ public class WallTrace implements Command {
         FORWARD,
         BACKWARD
     }
+    public static void setOnBlueSide(boolean b) {onBlue = b;}
+
 }

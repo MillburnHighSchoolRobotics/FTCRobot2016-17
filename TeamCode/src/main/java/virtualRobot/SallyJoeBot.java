@@ -3,7 +3,6 @@ package virtualRobot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import virtualRobot.components.AngleSensor;
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.StateSensor;
@@ -20,7 +19,7 @@ import virtualRobot.components.UltrasonicSensor;
 public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
     private Sensor nxtlightSensor1, nxtlightSensor2, nxtlightSensor3, nxtlightSensor4;
-    private AngleSensor headingSensor, pitchSensor, rollSensor;
+    private Sensor headingSensor, pitchSensor, rollSensor;
     private ColorSensor colorSensor;
     private UltrasonicSensor sonarLeft, sonarRight;
     private JoystickController joystickController1, joystickController2;
@@ -42,9 +41,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
         joystickController1 = new JoystickController();
         joystickController2 = new JoystickController();
-        headingSensor = new AngleSensor();
-        pitchSensor = new AngleSensor();
-        rollSensor = new AngleSensor();
+        headingSensor = new Sensor();
+        pitchSensor = new Sensor();
+        rollSensor = new Sensor();
         colorSensor = new ColorSensor();
         nxtlightSensor1 = new Sensor();
         nxtlightSensor2 = new Sensor();
@@ -164,9 +163,6 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
     @Override
     public synchronized SyncedMotors getLeftRotate() { return leftRotate; }
-
-    @Override
-    public void zeroYaw() { headingSensor.clearValue(); }
 
     @Override
     public synchronized JoystickController getJoystickController1() {

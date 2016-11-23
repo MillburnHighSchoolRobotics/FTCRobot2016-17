@@ -17,6 +17,7 @@ import virtualRobot.utils.MathUtils;
 public class Translate implements Command {
     private ExitCondition exitCondition;
     private static double globalMaxPower = 1;
+    private static boolean blueSide = false;
     private RunMode runMode;
     private Direction direction;
     private String name;
@@ -29,6 +30,7 @@ public class Translate implements Command {
     private double maxPower;
     private double currentValue;
     private int multiplier[] = {1,1,1,1};  //LF, RF, LB, RB
+
 
     private double time;
     private double timeLimit;
@@ -52,6 +54,7 @@ public class Translate implements Command {
     public static void setGlobalMaxPower(double p) {
         globalMaxPower = p;
     }
+    public static void setOnBlueSide(boolean onBlue) {blueSide= onBlue;}
 
     public Translate() {
         exitCondition = new ExitCondition() {
@@ -69,6 +72,10 @@ public class Translate implements Command {
         RBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         headingController = new PIDController(0.05, 0, 0, 0);
         headingOnlyController = new PIDController(.025, 0, 0, 0);
+        if (blueSide) {
+            headingController.setTarget(180);
+            headingOnlyController.setTarget(180);
+        }
         translateController = new PIDController(KPt, KIt, KDt, THRESHOLDt);
         maxPower = globalMaxPower;
         currentValue = 0;

@@ -310,7 +310,7 @@ public abstract class UpdateThread extends OpMode {
 		for (int i = 0; i < robot.getProgress().size(); i++) {
 			telemetry.addData("robot progress " + i, robot.getProgress().get(i));
 		}
-
+		telemetry.addData("RotateIsBlue", Rotate.onBlue);
 		telemetry.addData("buttonServo Position", buttonPosition);
 		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("Light Sensor Arrays: ", robot.getLightSensor1().getValue() + " " + robot.getLightSensor2().getValue() + " " + robot.getLightSensor3().getValue() + " " + robot.getLightSensor4().getValue());

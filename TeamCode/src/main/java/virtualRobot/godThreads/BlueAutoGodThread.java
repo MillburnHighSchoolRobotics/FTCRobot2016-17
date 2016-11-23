@@ -127,7 +127,7 @@ public class BlueAutoGodThread extends GodThread {
         delegateMonitor(takepicturenow, new MonitorThread[]{});
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
-        if (redIsLeft.get()) {
+        if (!redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
             Thread pl = new Thread(pushLeft);
             pl.start();
@@ -218,7 +218,7 @@ public class BlueAutoGodThread extends GodThread {
         delegateMonitor(takepicturenow2, new MonitorThread[]{});
 
         Command.ROBOT.addToProgress("second red is left /" + Boolean.toString(redIsLeft.get()));
-        if (redIsLeft.get()) {
+        if (!redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
             Thread pl = new Thread(pushLeft);
             pl.start();
@@ -240,7 +240,7 @@ public class BlueAutoGodThread extends GodThread {
         delegateMonitor(checkpicturenow2, new MonitorThread[]{});
 
         Command.ROBOT.addToProgress("isAllRed /" + Boolean.toString(isAllRed.get()));
-        if (!isAllRed.get()) {
+        if (isAllRed.get()) {
             LogicThread pauseLogic = new Pauselogic();
             Thread pl = new Thread(pauseLogic);
             pl.start();

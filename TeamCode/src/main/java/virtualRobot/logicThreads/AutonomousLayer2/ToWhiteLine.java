@@ -31,7 +31,7 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
     GodThread.Line type;
 
 
-    private static final int whiteTape = 20;
+    private static final int whiteTape = 13;
     private final ExitCondition atwhitelineRed= new ExitCondition() {
         @Override
         public boolean isConditionMet() {//checks if tape or light sensors close to tape are triggered, then checks far one
@@ -130,9 +130,8 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
             WallTrace toWhiteLine;
             commands.add(new Pause(500));
             if (type.getLine()==GodThread.LineType.SECOND)
-                commands.add(new Translate(500, Translate.Direction.FORWARD, 0));
+                commands.add(new Translate(700, Translate.Direction.FORWARD, 0));
             commands.add(new Pause(500));
-
                 toWhiteLine = new WallTrace(WallTrace.Direction.FORWARD, WALL_TRACE_SONAR_THRESHOLD);
                 toWhiteLine.setExitCondition(atwhitelineBlue);
             commands.add(toWhiteLine);
@@ -145,7 +144,6 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
 
     public void withoutUltra(){
         robot.addToProgress("Going To Line with NO Ultra");
-
         commands.add(new Pause(200));
         commands.add(new Rotate(0,0.5,2000));
         commands.add(new Pause(200));
@@ -168,11 +166,9 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
         }
         else  {
             if (type.getLine()==GodThread.LineType.SECOND)
-                commands.add(new Translate(500, Translate.Direction.FORWARD, 0));
+                commands.add(new Translate(700, Translate.Direction.FORWARD, 0));
             commands.add(new Pause(200));
             Translate toWhiteLine;
-            commands.add(new Translate(2000,Translate.Direction.BACKWARD,0 ));
-            commands.add(new Pause(200));
             toWhiteLine = new Translate(Translate.RunMode.HEADING_ONLY, Translate.Direction.FORWARD, 0, .2);
             toWhiteLine.setExitCondition(atwhitelineBlue);
             commands.add(toWhiteLine);
