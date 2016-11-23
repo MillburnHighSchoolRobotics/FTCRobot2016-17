@@ -8,6 +8,7 @@ import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
+import virtualRobot.commands.Pause;
 import virtualRobot.commands.Translate;
 import virtualRobot.commands.WallTrace;
 
@@ -19,7 +20,7 @@ import static virtualRobot.GodThread.ColorType.*;
 
 public class CompensateForMiss extends LogicThread<AutonomousRobot> {
 
-    final int maxdistance = 1500;
+    final int maxdistance = 1750;
 
     AtomicBoolean lightTriggered; //hits sensor successfully
     AtomicBoolean exceedMaxDistance; //exceeds max distance
@@ -104,13 +105,16 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                     commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.FORWARD,0));
                 else
                     commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.BACKWARD,0));
+                commands.add(new Pause(500));
                 break;
             case LASTLIGHTTRIGGERED:
                 if (line.getColor() == RED)
                     commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.BACKWARD,0));
                 else
                     commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.FORWARD,0));
+                commands.add(new Pause(500));
                 break;
+
             case FIRSTLIGHTFAILS:
                 WallTrace moveLeft;
                 if (line.getColor() == RED) {
@@ -123,6 +127,7 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                     moveLeft.setExitCondition(hitsLineBlue);
                     commands.add(moveLeft);
                 }
+                commands.add(new Pause(500));
                 break;
 
             case LASTLIGHTFAILS:
@@ -130,6 +135,7 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                     commands.add(new Translate(BLIND_ADJUSTMENT,Translate.Direction.BACKWARD,0));
                 else
                     commands.add(new Translate(BLIND_ADJUSTMENT,Translate.Direction.FORWARD,0));
+                commands.add(new Pause(500));
                 break;
 
         }
