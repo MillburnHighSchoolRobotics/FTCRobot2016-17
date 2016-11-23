@@ -57,6 +57,8 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                 JoystickController controller1 = robot.getJoystickController1();
                 JoystickController controller2 = robot.getJoystickController2();
                 while (!isInterrupted) {
+                    double BallLauncherOpen = 1;
+                    double BallLauncherClosed = 0;
                     controller1.logicalRefresh();
                     controller2.logicalRefresh();
 
@@ -148,6 +150,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
                     } else if (controller2.isDown(JoystickController.BUTTON_RT)) {
                         robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
+
                     } else {
                         robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
                     }
@@ -176,7 +179,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     }
 
                     //lifting cap ball
-                    if (controller2.isPressed(JoystickController.BUTTON_A)) {
+                    /*if (controller2.isPressed(JoystickController.BUTTON_A)) {
                         if(MathUtils.equals(robot.getCapLeftServo().getPosition(),CAP_LEFT_OPEN))
                             robot.getCapLeftServo().setPosition(CAP_LEFT_CLOSED);
                         else
@@ -186,11 +189,18 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                             robot.getCapRightServo().setPosition(CAP_RIGHT_CLOSED);
                         else
                             robot.getCapRightServo().setPosition(CAP_RIGHT_OPEN);
+                    }*/
+                    if (controller2.isDown(JoystickController.BUTTON_A))
+                        BallLauncherOpen = MathUtils.clamp(BallLauncherOpen-.1, 0, 1);
+                    if (controller2.isDown(JoystickController.BUTTON_B))
+                        BallLauncherClosed = MathUtils.clamp(BallLauncherOpen+.1, 0, 1);
+                    if (controller1.isDown(JoystickController.BUTTON_A)) {
+                        //&& controller1.isDown(JoystickController.BUTTON_B) && controller2.isDown(JoystickController.BUTTON_A) && controller2.isDown(JoystickController.BUTTON_B))
+                        robot.getBallLauncherServo().setPosition(BallLauncherOpen);
                     }
-
-                    if (controller1.isDown(JoystickController.BUTTON_A) && controller1.isDown(JoystickController.BUTTON_B) && controller2.isDown(JoystickController.BUTTON_A) && controller2.isDown(JoystickController.BUTTON_B))
-                        robot.getBallLauncherServo().setPosition(1);
-
+                    if (controller1.isDown(JoystickController.BUTTON_B)) {
+                        robot.getBallLauncherServo().setPosition(BallLauncherClosed);
+                    }
 //                    if (controller2.getValue(JoystickController.Y_1) > 0.05) {
 //                        double currLeft = robot.getSonarLeft().getValue();
 //                        double currRight = robot.getSonarRight().getValue();

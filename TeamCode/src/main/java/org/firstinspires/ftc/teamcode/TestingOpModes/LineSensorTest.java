@@ -45,13 +45,12 @@ public class LineSensorTest extends OpMode {
         int blue = (argb & 0x000000FF);
         int alpha =(argb & 0xFF000000) >> 24;
 
-        telemetry.addData("LineSense: ", "RED: " + red + "GREEN: " + green + "BLUE: " + blue + "ALPHA: " + alpha + " argb:" + linetest.argb());
+        telemetry.addData("Color: ", "RED: " + red + " GREEN: " + green + " BLUE: " + blue + " ALPHA: " + alpha + " argb:" + linetest.argb());
      double headingAngle = imu.getIntegratedYaw();
      double Pitch = imu.getIntegratedPitch();
       double Roll = imu.getIntegratedRoll();
-    telemetry.addData("Angle, Pitch, Roll: ", headingAngle + ", " + Pitch + " ," + Roll);
-        telemetry.addData("UltraSound: ", sonar1.getUltrasonicLevel());
-        telemetry.addData(" ", sonar2.getUltrasonicLevel());
+    telemetry.addData("Angle, Pitch, Roll: ", headingAngle + " " + Pitch + " " + Roll);
+        telemetry.addData("UltraSound: ", sonar1.getUltrasonicLevel() + " " + sonar2.getUltrasonicLevel());
         telemetry.addData(" LIGHT", light1.getRawLightDetected() + " " + light2.getRawLightDetected() + " " + light3.getRawLightDetected() + " " + light4.getRawLightDetected());
 
     }

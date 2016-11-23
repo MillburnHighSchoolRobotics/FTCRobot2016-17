@@ -68,7 +68,7 @@ public class Translate implements Command {
         LBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         headingController = new PIDController(0.05, 0, 0, 0);
-        //headingOnlyController = new PIDController(0.02263128,  0.000427005283, .29986446, 12.13, 0);
+        headingOnlyController = new PIDController(.025, 0, 0, 0);
         translateController = new PIDController(KPt, KIt, KDt, THRESHOLDt);
         maxPower = globalMaxPower;
         currentValue = 0;
@@ -87,6 +87,8 @@ public class Translate implements Command {
         this.maxPower = maxPower;
         this.direction = direction;
         movementAngle = this.direction.getAngle()-angleModifier;
+        multiplier = POWER_MATRIX[direction.getCode()];
+
     }
     public Translate(double target, Direction direction, double angleModifier) {
         this();
@@ -245,39 +247,45 @@ public class Translate implements Command {
         double scale = 0;
         switch (runMode) {
             case CUSTOM:
+                double LF; double RF; double LB; double RB;
+                LF= 0;
+                RF=0;
+                LB=0;
+                RB=0;
+                double power = maxPower;
                 if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
-
-                    scale = sinDegrees(movementAngle -45) / cosDegrees(movementAngle - 45);
-
-                    robot.getLFMotor().setPower(maxPower * POWER_MATRIX[0][0]);
-                    robot.getRFMotor().setPower(maxPower * POWER_MATRIX[0][1] * scale);
-                    robot.getLBMotor().setPower(maxPower * POWER_MATRIX[0][2] * scale);
-                    robot.getRBMotor().setPower(maxPower * POWER_MATRIX[0][3]);
-                } else if (movementAngle > -270 && movementAngle <= -180) { //quadrant 2
-                    scale = sinDegrees(movementAngle - 135) / cosDegrees(movementAngle - 135);
-                    robot.getLFMotor().setPower(-maxPower * POWER_MATRIX[2][0] * scale);
-                    robot.getRFMotor().setPower(-maxPower * POWER_MATRIX[2][1]);
-                    robot.getLBMotor().setPower(-maxPower * POWER_MATRIX[2][2]);
-                    robot.getRBMotor().setPower(-maxPower * POWER_MATRIX[2][3] * scale );
-                } else if (movementAngle > -180 && movementAngle <= -90) { //quadrant 3
-                    scale = sinDegrees(movementAngle - 225) / cosDegrees(movementAngle - 225);
-                    Log.d("aaa",  "Quadrant 3: " + scale);
-
-                    robot.getLFMotor().setPower(maxPower * POWER_MATRIX[4][0]);
-                    robot.getRFMotor().setPower(maxPower * POWER_MATRIX[4][1] * scale );
-                    robot.getLBMotor().setPower(maxPower * POWER_MATRIX[4][2] * scale );
-                    robot.getRBMotor().setPower(maxPower * POWER_MATRIX[4][3]);
+                    scale = MathUtils.sinDegrees(movementAngle-45) / MathUtils.cosDegrees(movementAngle-45);
+                    LF = power * POWER_MATRIX[0][0];
+                    RF = power * POWER_MATRIX[0][1] * scale;
+                    LB = power * POWER_MATRIX[0][2] * scale;
+                    RB = power * POWER_MATRIX[0][3];
+                } else if (movementAngle  > 90 && movementAngle <= 180 ) { //quadrant 2
+                    power *= -1;
+                    scale = MathUtils.sinDegrees(movementAngle - 135) / MathUtils.cosDegrees(movementAngle - 135);
+                    LF = (power * POWER_MATRIX[2][0] * scale);
+                    RF = (power * POWER_MATRIX[2][1]);
+                    LB = (power * POWER_MATRIX[2][2]);
+                    RB = (power * POWER_MATRIX[2][3] * scale );
+                } else if (movementAngle > 180 && movementAngle <= 270) { //quadrant 3
+                    scale = MathUtils.sinDegrees(movementAngle-225) / MathUtils.cosDegrees(movementAngle-225);
+                    LF = (power * POWER_MATRIX[4][0]);
+                    RF = (power * POWER_MATRIX[4][1] * scale );
+                    LB = (power * POWER_MATRIX[4][2] * scale );
+                    RB = (power * POWER_MATRIX[4][3]);
                     Log.d("aaa", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
-                } else if (movementAngle > -90 && movementAngle <= 0) { //quadrant 4
-
-                    scale = sinDegrees(movementAngle - 315) / cosDegrees(movementAngle - 315);
-
-                    robot.getLFMotor().setPower(-maxPower * POWER_MATRIX[6][0] * scale);
-                    robot.getRFMotor().setPower(-maxPower * POWER_MATRIX[6][1]);
-                    robot.getLBMotor().setPower(-maxPower * POWER_MATRIX[6][2]);
-                    robot.getRBMotor().setPower(-maxPower * POWER_MATRIX[6][3] * scale);
+                } else if (movementAngle > 270 && movementAngle < 360) { //quadrant 4
+                    power *= -1;
+                    scale = MathUtils.sinDegrees(movementAngle - 315) / MathUtils.cosDegrees(movementAngle-315);
+                    LF = (power * POWER_MATRIX[6][0] * scale);
+                    RF = (power * POWER_MATRIX[6][1]);
+                    LB = (power * POWER_MATRIX[6][2]);
+                    RB = (power * POWER_MATRIX[6][3] * scale);
                 }
 
+                robot.getLFMotor().setPower(LF);
+                robot.getLBMotor().setPower(LB);
+                robot.getRBMotor().setPower(RB);
+                robot.getRFMotor().setPower(RF);
 
 
         while (!exitCondition.isConditionMet() && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
@@ -532,7 +540,7 @@ public class Translate implements Command {
                           LFPower -= absHead;
                       }
                       break;
-                  case RIGHT:
+                  /*case RIGHT:
                       if (headingOutput > 0) {
                           RFPower += absHead;
                           RBPower -= absHead;
@@ -545,7 +553,7 @@ public class Translate implements Command {
                           LBPower += absHead;
                           LFPower -= absHead;
                       }
-                      break;
+                      break;*/
                   case BACKWARD_RIGHT:
                       if (headingOutput > 0) {
                           RFPower += absHead;
@@ -578,7 +586,7 @@ public class Translate implements Command {
                           LBPower += absHead;
                       }
                       break;
-                  case LEFT:
+                  /*case LEFT:
                       if (headingOutput > 0) {
                           RFPower -= absHead;
                           RBPower += absHead;
@@ -591,7 +599,7 @@ public class Translate implements Command {
                           LBPower -= absHead;
                           LFPower += absHead;
                       }
-                      break;
+                      break;*/
                   case FORWARD_LEFT:
                       if (headingOutput > 0) {
                           RFPower -= absHead;
@@ -625,203 +633,141 @@ public class Translate implements Command {
         break;
         //TODO: heading
         case HEADING_ONLY:
-            double LFPower, RFPower, LBPower, RBPower;
-            LFPower = RFPower= LBPower = RBPower = 0;
-            if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
-
-                scale = sinDegrees(movementAngle -45) / cosDegrees(movementAngle - 45);
-
-                robot.getLFMotor().setPower(maxPower * POWER_MATRIX[0][0]);
-                robot.getRFMotor().setPower(maxPower * POWER_MATRIX[0][1] * scale);
-                robot.getLBMotor().setPower(maxPower * POWER_MATRIX[0][2] * scale);
-                robot.getRBMotor().setPower(maxPower * POWER_MATRIX[0][3]);
-            } else if (movementAngle > -270 && movementAngle <= -180) { //quadrant 2
-                scale = sinDegrees(movementAngle - 135) / cosDegrees(movementAngle - 135);
-                robot.getLFMotor().setPower(-maxPower * POWER_MATRIX[2][0] * scale);
-                robot.getRFMotor().setPower(-maxPower * POWER_MATRIX[2][1]);
-                robot.getLBMotor().setPower(-maxPower * POWER_MATRIX[2][2]);
-                robot.getRBMotor().setPower(-maxPower * POWER_MATRIX[2][3] * scale );
-            } else if (movementAngle > -180 && movementAngle <= -90) { //quadrant 3
-                scale = sinDegrees(movementAngle - 225) / cosDegrees(movementAngle - 225);
-                Log.d("aaa",  "Quadrant 3: " + scale);
-
-                robot.getLFMotor().setPower(maxPower * POWER_MATRIX[4][0]);
-                robot.getRFMotor().setPower(maxPower * POWER_MATRIX[4][1] * scale );
-                robot.getLBMotor().setPower(maxPower * POWER_MATRIX[4][2] * scale );
-                robot.getRBMotor().setPower(maxPower * POWER_MATRIX[4][3]);
-                Log.d("aaa", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
-            } else if (movementAngle > -90 && movementAngle <= 0) { //quadrant 4
-
-                scale = sinDegrees(movementAngle - 315) / cosDegrees(movementAngle - 315);
-
-                robot.getLFMotor().setPower(-maxPower * POWER_MATRIX[6][0] * scale);
-                robot.getRFMotor().setPower(-maxPower * POWER_MATRIX[6][1]);
-                robot.getLBMotor().setPower(-maxPower * POWER_MATRIX[6][2]);
-                robot.getRBMotor().setPower(-maxPower * POWER_MATRIX[6][3] * scale);
-            }
-
-            while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
-
-            double headingOutput = headingController.getPIDOutput(robot.getHeadingSensor().getValue());
-            headingOutput = MathUtils.clamp(headingOutput, -1, 1);
+            if (angleModifier == 0) {
+                while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
+                        && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
 
+                    double headingOutput = headingOnlyController.getPIDOutput(robot.getHeadingSensor().getValue());
+                    headingOutput = MathUtils.clamp(headingOutput, -1, 1);
 
-            // headingOutput <0 = too far to the left, >0 = too far to the right
-            if (angleModifier != 0) {
-                if ((direction.getCode() == 0 || direction.getCode() == 5)) {
-                    if (headingOutput > 0){
-                        RFPower+= headingOutput;
-                        LBPower+= headingOutput;
+
+                    double LFPower = maxPower;
+                    double LBPower = maxPower;
+                    double RFPower = maxPower;
+                    double RBPower = maxPower;
+
+
+                    double absHead = Math.abs(headingOutput);
+
+
+                    //Multiplier: LF, RF, LB, RB
+                    switch (direction) {
+                        case FORWARD:
+                            if (headingOutput > 0) { //Right skew
+                                RFPower -= absHead;
+                                RBPower -= absHead;
+                                LBPower += absHead;
+                                LFPower += absHead;
+                            } else if (headingOutput < 0) { //Left skew
+                                RFPower += absHead;
+                                RBPower += absHead;
+                                LBPower -= absHead;
+                                LFPower -= absHead;
+                            }
+                            break;
+                        case FORWARD_RIGHT:
+                            if (headingOutput > 0) {
+                                RBPower -= absHead;
+                                LFPower += absHead;
+                            } else if (headingOutput < 0) {
+                                RBPower += absHead;
+                                LFPower -= absHead;
+                            }
+                            break;
+                        /*case RIGHT:
+                            if (headingOutput > 0) {
+                                RFPower += absHead;
+                                RBPower -= absHead;
+                                LBPower -= absHead;
+                                LFPower += absHead;
+
+                            } else if (headingOutput < 0) {
+                                RFPower -= absHead;
+                                RBPower += absHead;
+                                LBPower += absHead;
+                                LFPower -= absHead;
+                            }
+                            break;*/
+                        case BACKWARD_RIGHT:
+                            if (headingOutput > 0) {
+                                RFPower += absHead;
+                                LBPower -= absHead;
+                            } else if (headingOutput < 0) {
+                                RFPower -= absHead;
+                                LBPower += absHead;
+                            }
+                            break;
+                        case BACKWARD:
+                            if (headingOutput > 0) {
+                                RFPower += absHead;
+                                RBPower += absHead;
+                                LBPower -= absHead;
+                                LFPower -= absHead;
+                            } else if (headingOutput < 0) {
+                                RFPower -= absHead;
+                                RBPower -= absHead;
+                                LBPower += absHead;
+                                LFPower += absHead;
+                            }
+                            break;
+                        case BACKWARD_LEFT:
+
+                            if (headingOutput > 0) {
+                                RBPower += absHead;
+                                LFPower -= absHead;
+                            } else if (headingOutput < 0) {
+                                RFPower -= absHead;
+                                LBPower += absHead;
+                            }
+                            break;
+                        /*case LEFT:
+                            if (headingOutput > 0) {
+                                RFPower -= absHead;
+                                RBPower += absHead;
+                                LBPower += absHead;
+                                LFPower -= absHead;
+
+                            } else if (headingOutput < 0) {
+                                RFPower += absHead;
+                                RBPower -= absHead;
+                                LBPower -= absHead;
+                                LFPower += absHead;
+                            }
+                            break;*/
+                        case FORWARD_LEFT:
+                            if (headingOutput > 0) {
+                                RFPower -= absHead;
+                                LBPower += absHead;
+                            } else if (headingOutput < 0) {
+                                RFPower += absHead;
+                                LBPower -= absHead;
+                            }
+                            break;
                     }
-                    else if (headingOutput < 0) {
-                        RFPower-= Math.abs(headingOutput);
-                        LBPower-= Math.abs(headingOutput);
-                    }
-                }
 
-                if ((direction.getCode() == 1 || direction.getCode() == 2)) {
-                    if (headingOutput > 0) {
-                        RFPower-= headingOutput;
-                        LBPower-= headingOutput;
-                    }
-                    else if (headingOutput < 0) {
-                        RFPower+= Math.abs(headingOutput);
-                        LBPower+= Math.abs(headingOutput);
-                    }
-                }
+                    Log.d("MULTIPLIED POWERS", LFPower * multiplier[0] + " " + RFPower * multiplier[1] + LBPower * multiplier[2] + RBPower * multiplier[3]);
+                    robot.getLFMotor().setPower(LFPower * multiplier[0]);
+                    robot.getRFMotor().setPower(RFPower * multiplier[1]);
+                    robot.getLBMotor().setPower(LBPower * multiplier[2]);
+                    robot.getRBMotor().setPower(RBPower * multiplier[3]);
 
-                if ((direction.getCode() == 3 || direction.getCode() == 4 || direction.getCode() == 6 || direction.getCode() == 7)) {
-                    if (headingOutput > 0) {
-                        LFPower+= headingOutput;
-                        RBPower+= headingOutput;
+                    if (Thread.currentThread().isInterrupted()) {
+                        isInterrupted = true;
+                        break;
                     }
-                    else if (headingOutput < 0) {
-                        LFPower-= Math.abs(headingOutput);
-                        RBPower-= Math.abs(headingOutput);
+
+                    try {
+                        Thread.currentThread().sleep(10);
+                    } catch (InterruptedException e) {
+                        isInterrupted = true;
+                        break;
                     }
                 }
             }
             else {
-
-                double absHead = Math.abs(headingOutput);
-
-
-                //Multiplier: LF, RF, LB, RB
-                switch (direction) {
-                    case FORWARD:
-                        if (headingOutput > 0) { //Right skew
-                            RFPower -= absHead;
-                            RBPower -= absHead;
-                            LBPower += absHead;
-                            LFPower += absHead;
-                        } else if (headingOutput < 0) { //Left skew
-                            RFPower += absHead;
-                            RBPower += absHead;
-                            LBPower -= absHead;
-                            LFPower -= absHead;
-                        }
-                        break;
-                    case FORWARD_RIGHT:
-                        if (headingOutput > 0) {
-                            RBPower -= absHead;
-                            LFPower += absHead;
-                        } else if (headingOutput < 0) {
-                            RBPower += absHead;
-                            LFPower -= absHead;
-                        }
-                        break;
-                    case RIGHT:
-                        if (headingOutput > 0) {
-                            RFPower += absHead;
-                            RBPower -= absHead;
-                            LBPower -= absHead;
-                            LFPower += absHead;
-
-                        } else if (headingOutput < 0) {
-                            RFPower -= absHead;
-                            RBPower += absHead;
-                            LBPower += absHead;
-                            LFPower -= absHead;
-                        }
-                        break;
-                    case BACKWARD_RIGHT:
-                        if (headingOutput > 0) {
-                            RFPower += absHead;
-                            LBPower -= absHead;
-                        } else if (headingOutput < 0) {
-                            RFPower -= absHead;
-                            LBPower += absHead;
-                        }
-                        break;
-                    case BACKWARD:
-                        if (headingOutput > 0) {
-                            RFPower += absHead;
-                            RBPower += absHead;
-                            LBPower -= absHead;
-                            LFPower -= absHead;
-                        } else if (headingOutput < 0) {
-                            RFPower -= absHead;
-                            RBPower -= absHead;
-                            LBPower += absHead;
-                            LFPower += absHead;
-                        }
-                        break;
-                    case BACKWARD_LEFT:
-
-                        if (headingOutput > 0) {
-                            RBPower += absHead;
-                            LFPower -= absHead;
-                        } else if (headingOutput < 0) {
-                            RFPower -= absHead;
-                            LBPower += absHead;
-                        }
-                        break;
-                    case LEFT:
-                        if (headingOutput > 0) {
-                            RFPower -= absHead;
-                            RBPower += absHead;
-                            LBPower += absHead;
-                            LFPower -= absHead;
-
-                        } else if (headingOutput < 0) {
-                            RFPower += absHead;
-                            RBPower -= absHead;
-                            LBPower -= absHead;
-                            LFPower += absHead;
-                        }
-                        break;
-                    case FORWARD_LEFT:
-                        if (headingOutput > 0) {
-                            RFPower -= absHead;
-                            LBPower += absHead;
-                        } else if (headingOutput < 0) {
-                            RFPower += absHead;
-                            LBPower -= absHead;
-                        }
-                        break;
-                }
+                //TODO: Heading_Only when angle modifier != 0
             }
-
-            robot.getLFMotor().setPower(LFPower);
-            robot.getRFMotor().setPower(RFPower);
-            robot.getLBMotor().setPower(LBPower);
-            robot.getRBMotor().setPower(RBPower);
-
-            if (Thread.currentThread().isInterrupted()) {
-                isInterrupted = true;
-                break;
-            }
-
-            try {
-                Thread.currentThread().sleep(10);
-            } catch (InterruptedException e) {
-                isInterrupted = true;
-                break;
-            }
-        }
-
         break;
 
         default:
@@ -869,11 +815,11 @@ public class Translate implements Command {
         FORWARD(0, 90), //90 degrees
         FORWARD_RIGHT(1, 45), //45 degrees
         RIGHT(2, 0), //0 degrees
-        BACKWARD_RIGHT(3, -45), //-45 degrees
-        BACKWARD(4, -90), //-90 degrees
-        BACKWARD_LEFT(5, -135), //-135 degrees
-        LEFT(6, -180), //-180 degrees
-        FORWARD_LEFT(7, -225); //-225 degrees
+        BACKWARD_RIGHT(3, 315), //-45 degrees
+        BACKWARD(4, 270), //-90 degrees
+        BACKWARD_LEFT(5, 225), //-135 degrees
+        LEFT(6, 180), //-180 degrees
+        FORWARD_LEFT(7, 135); //-225 degrees
 
         private static Direction[] vals = values();
         private final int code;

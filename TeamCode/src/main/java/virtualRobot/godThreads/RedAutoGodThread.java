@@ -34,7 +34,6 @@ public class RedAutoGodThread extends GodThread {
     LogicThread takePicture = new LogicThread() {
         @Override
         public void loadCommands() {
-            commands.add(new Rotate(0));
             FTCTakePicture pic = new FTCTakePicture(FTCTakePicture.Mode.TAKING_PICTURE, redIsLeft,vuforia); //Take a picture of beacon
             commands.add(pic);
         }
@@ -42,7 +41,6 @@ public class RedAutoGodThread extends GodThread {
     LogicThread checkPicture = new LogicThread() {
         @Override
         public void loadCommands() {
-            commands.add(new Rotate(0));
             FTCTakePicture pic = new FTCTakePicture(FTCTakePicture.Mode.CHECKING_PICTURE,isAllRed,vuforia); //Take a picture of beacon
             commands.add(pic);
         }
@@ -128,7 +126,6 @@ public class RedAutoGodThread extends GodThread {
             children.add(pl);
             delegateMonitor(pl, new MonitorThread[]{});
         }
-
         else {
             LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR);
             Thread pr = new Thread(pushRight);

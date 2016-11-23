@@ -11,8 +11,18 @@ import virtualRobot.commands.Pause;
  */
 
 public class Pauselogic extends LogicThread<AutonomousRobot> {
+    private int wait;
+
+    public Pauselogic() {
+        wait = 5000;
+    }
+
+    public Pauselogic(int wait) {
+        this.wait = wait;
+    }
+
     @Override
     public void loadCommands() {
-        commands.add(new Pause(5000));
+        commands.add(new Pause(wait));
     }
 }

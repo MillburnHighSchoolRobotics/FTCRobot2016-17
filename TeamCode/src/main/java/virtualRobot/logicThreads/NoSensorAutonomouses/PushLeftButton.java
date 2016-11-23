@@ -15,7 +15,7 @@ import virtualRobot.logicThreads.TeleopLogic;
  */
 public class PushLeftButton extends LogicThread<AutonomousRobot> {
     public final static double BUTTON_PUSHER_LEFT = 0.25;
-    public final static double BEACON_RAM_TRANSLATE = 750; //translate to get the robot to hit button
+    public final static double BEACON_RAM_TRANSLATE = PushRightButton.BEACON_RAM_TRANSLATE; //translate to get the robot to hit button
     sonarStatus status;
     public PushLeftButton(sonarStatus status) {
         this.status = status;
@@ -28,29 +28,29 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
     }
     @Override
     public void loadCommands() {
-        commands.add(new Rotate(0,0.5,200));
+        commands.add(new Rotate(0,0.5,1000));
         if (status == sonarStatus.SONAR_WORKS) {
             robot.addToProgress("Pushed Left Button");
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{BUTTON_PUSHER_LEFT})); //Move buttonpusher
-            commands.add(new Pause(500));
+            commands.add(new Pause(250));
             commands.add(new Translate(BEACON_RAM_TRANSLATE+500, Translate.Direction.RIGHT, 0, .5)); //ram beacon to ensure pushed button
             commands.add(new Pause(500));
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{TeleopLogic.BUTTON_PUSHER_STATIONARY})); //set button back to stationary
-            commands.add(new Pause(500));
+//            commands.add(new Pause(500));
             commands.add(new Translate(BEACON_RAM_TRANSLATE+300, Translate.Direction.LEFT, 0)); //ram beacon to ensure push
-            commands.add(new Pause(500));
+//            commands.add(new Pause(500));
 
         }
         else {
             robot.addToProgress("Pushed Left Button");
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{BUTTON_PUSHER_LEFT})); //Move buttonpusher
-            commands.add(new Pause(500));
-            commands.add(new Translate(BEACON_RAM_TRANSLATE, Translate.Direction.RIGHT, 0, .5)); //ram beacon to ensure pushed button
+            commands.add(new Pause(250));
+            commands.add(new Translate(BEACON_RAM_TRANSLATE+500, Translate.Direction.RIGHT, 0, .5)); //ram beacon to ensure pushed button
             commands.add(new Pause(500));
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{TeleopLogic.BUTTON_PUSHER_STATIONARY})); //set button back to stationary
-            commands.add(new Pause(500));
+//            commands.add(new Pause(500));
             commands.add(new Translate(BEACON_RAM_TRANSLATE-200, Translate.Direction.LEFT, 0)); //ram beacon to ensure pushed button
-            commands.add(new Pause(500));
+//            commands.add(new Pause(500));
         }
 
     }

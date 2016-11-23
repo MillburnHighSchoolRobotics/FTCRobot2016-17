@@ -19,7 +19,7 @@ import static virtualRobot.GodThread.ColorType.*;
 
 public class CompensateForMiss extends LogicThread<AutonomousRobot> {
 
-    final int maxdistance = 700;
+    final int maxdistance = 1500;
 
     AtomicBoolean lightTriggered; //hits sensor successfully
     AtomicBoolean exceedMaxDistance; //exceeds max distance

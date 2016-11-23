@@ -45,9 +45,9 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
         commands.add(new Pause(500));
         commands.add(new Translate(500, Translate.Direction.BACKWARD, 0)); //Continue Backward (relative to the angle we just rotated to)
         commands.add(new Pause(500));
-        commands.add(new Rotate(0, 1, 2000)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
-        commands.add(new Pause(500));
-        Translate strafeRight = new Translate(2000, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
+        commands.add(new Rotate(0, .5, 2000)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
+        commands.add(new Pause(200));
+        Translate strafeRight = new Translate(1950, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
         if (WITH_SONAR) {
             strafeRight.setExitCondition(new ExitCondition() {
                 @Override
@@ -70,8 +70,8 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
             });
         }
         commands.add(strafeRight);
-        commands.add(new Pause(500));
+        commands.add(new Pause(200));
         commands.add(new Rotate(0, .5, 2000)); //Straighten out again
-        commands.add(new Pause(500));
+        commands.add(new Pause(200));
         robot.addToProgress("Went To Wall");
 }}

@@ -15,7 +15,7 @@ public class BlueStrafeToCenterGoal extends LogicThread<AutonomousRobot>{
     public void loadCommands (){
         commands.add(new Translate(5500, Translate.Direction.BACKWARD_LEFT,0)); //move away from beacon towards corner of field in front of ramp
         commands.add(new Pause(500));
-        commands.add(new Rotate(90));
+        commands.add(new Rotate(90,0.5,2000));
         commands.add(new Pause(500));
         commands.add(new Translate(1500, Translate.Direction.FORWARD,0,1,90));
     }
