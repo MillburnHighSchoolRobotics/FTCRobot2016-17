@@ -36,9 +36,10 @@ import virtualRobot.logicThreads.NoSensorAutonomouses.RedStrafeToCenterGoal;
  * THIS IS EXACTLY SAME AS REDAUTOGODTHREAD EXCEPT THE LINETYPE ENUM IS CHANGED FROM RED TO BLUE AND THE GO TO WALL CHANGED TO BLUE (Go Hillary)
  */
 public class BlueAutoGodThread extends GodThread {
-    private final static boolean WITH_SONAR = UpdateThread.WITH_SONAR;
+    private final static boolean WITH_SONAR = false;
     private AtomicBoolean redIsLeft = new AtomicBoolean();
     private AtomicBoolean isAllRed = new AtomicBoolean();
+    private AtomicBoolean isAllRedAndRedIsLeft = new AtomicBoolean();
     LogicThread takePicture = new LogicThread() {
         @Override
         public void loadCommands() {
@@ -49,13 +50,14 @@ public class BlueAutoGodThread extends GodThread {
     LogicThread checkPicture = new LogicThread() {
         @Override
         public void loadCommands() {
-            FTCTakePicture pic = new FTCTakePicture(FTCTakePicture.Mode.CHECKING_PICTURE,isAllRed,vuforia); //Take a picture of beacon
+            FTCTakePicture pic = new FTCTakePicture(FTCTakePicture.Mode.CHECKING_PICTURE,isAllRed, isAllRedAndRedIsLeft, vuforia); //Take a picture of beacon
             commands.add(pic);
         }
     };
     private AtomicBoolean sonarWorks = new AtomicBoolean();
     private AtomicBoolean failedFirstSensorSecondTriggered = new AtomicBoolean(false);
     private AtomicBoolean exceededMaxDistance = new AtomicBoolean(false);
+    private AtomicBoolean smallCorrection = new AtomicBoolean(false);
 
     @Override
     public void realRun() throws InterruptedException {
@@ -77,15 +79,22 @@ public class BlueAutoGodThread extends GodThread {
         LogicThread toFirstLine;
         if (weCanUseSonar) { //If our sonar works, and we're using one
             toFirstLine = new ToWhiteLine(true, Line.BLUE_FIRST_LINE, failedFirstSensorSecondTriggered
-                    , exceededMaxDistance); //Goes to firstLine
+                    , exceededMaxDistance, smallCorrection); //Goes to firstLine
         }else {
             toFirstLine = new ToWhiteLine(false, Line.BLUE_FIRST_LINE, failedFirstSensorSecondTriggered
-                    , exceededMaxDistance);
+                    , exceededMaxDistance, smallCorrection);
         }
         Thread tfl = new Thread(toFirstLine);
         tfl.start();
         children.add(tfl);
         delegateMonitor(tfl, new MonitorThread[]{});
+        if (smallCorrection.get()) {
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.SMALLCORRECTION, Line.BLUE_FIRST_LINE, weCanUseSonar);
+            Thread adjust = new Thread(reAdjust);
+            adjust.start();
+            children.add(adjust);
+            delegateMonitor(adjust, new MonitorThread[]{});
+        }
         if(failedFirstSensorSecondTriggered.get()){
             LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, Line.BLUE_FIRST_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
@@ -150,34 +159,50 @@ public class BlueAutoGodThread extends GodThread {
 
         Command.ROBOT.addToProgress("isAllRed /" + Boolean.toString(isAllRed.get()));
         if (isAllRed.get()) {
-            LogicThread pauseLogic = new Pauselogic();
-            Thread pl = new Thread(pauseLogic);
-            pl.start();
-            delegateMonitor(pl, new MonitorThread[]{});
-
-            LogicThread pushRight = new PushRightButton(weCanUseSonar);
-            Thread pr = new Thread(pushRight);
-            pr.start();
-            children.add(pr);
-            delegateMonitor(pr, new MonitorThread[]{});
+                LogicThread pauseLogic = new Pauselogic();
+                Thread pl = new Thread(pauseLogic);
+                pl.start();
+                delegateMonitor(pl, new MonitorThread[]{});
+             if (isAllRedAndRedIsLeft.get()) {
+                LogicThread pushRight = new PushRightButton(weCanUseSonar);
+                Thread pr = new Thread(pushRight);
+                pr.start();
+                children.add(pr);
+                delegateMonitor(pr, new MonitorThread[]{});
+            }
+                else {
+                LogicThread pushLeft = new PushLeftButton(weCanUseSonar);
+                Thread pr = new Thread(pushLeft);
+                pr.start();
+                children.add(pr);
+                delegateMonitor(pr, new MonitorThread[]{});
+            }
         }
 //*****************************
 //THE FOLLOWING BLOCK MOVES TO SECOND BEACON, TAKES PIC AND PUSHES BUTTON (note that it's the same as above, but the Linetype is changed to second beacon)
 //*****************************
         exceededMaxDistance.set(false);
         failedFirstSensorSecondTriggered.set(false);
+        smallCorrection.set(false);
         LogicThread toSecondLine;
         if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
             toSecondLine = new ToWhiteLine(true, Line.BLUE_SECOND_LINE, failedFirstSensorSecondTriggered
-                    , exceededMaxDistance);
+                    , exceededMaxDistance, smallCorrection);
         }else {
             toSecondLine = new ToWhiteLine(false, Line.BLUE_SECOND_LINE, failedFirstSensorSecondTriggered
-                    , exceededMaxDistance);
+                    , exceededMaxDistance, smallCorrection);
         }
         Thread tsl = new Thread(toSecondLine);
         tsl.start();
         children.add(tsl);
         delegateMonitor(tsl, new MonitorThread[]{});
+        if (smallCorrection.get()) {
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.SMALLCORRECTION, Line.BLUE_SECOND_LINE, weCanUseSonar);
+            Thread adjust = new Thread(reAdjust);
+            adjust.start();
+            children.add(adjust);
+            delegateMonitor(adjust, new MonitorThread[]{});
+        }
         if(failedFirstSensorSecondTriggered.get()){
             LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, Line.BLUE_SECOND_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);

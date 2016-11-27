@@ -31,6 +31,7 @@ public class RedAutoGodThread extends GodThread {
     private final static boolean WITH_SONAR = UpdateThread.WITH_SONAR;
     private AtomicBoolean redIsLeft = new AtomicBoolean();
     private AtomicBoolean isAllRed = new AtomicBoolean();
+    private AtomicBoolean isAllRedAndRedIsLeft = new AtomicBoolean();
     LogicThread takePicture = new LogicThread() {
         @Override
         public void loadCommands() {
@@ -41,13 +42,14 @@ public class RedAutoGodThread extends GodThread {
     LogicThread checkPicture = new LogicThread() {
         @Override
         public void loadCommands() {
-            FTCTakePicture pic = new FTCTakePicture(FTCTakePicture.Mode.CHECKING_PICTURE,isAllRed,vuforia); //Take a picture of beacon
+            FTCTakePicture pic = new FTCTakePicture(FTCTakePicture.Mode.CHECKING_PICTURE,isAllRed, isAllRedAndRedIsLeft, vuforia); //Take a picture of beacon
             commands.add(pic);
         }
     };
     private AtomicBoolean sonarWorks = new AtomicBoolean();
     private AtomicBoolean failedFirstSensorSecondTriggered = new AtomicBoolean(false);
     private AtomicBoolean exceededMaxDistance = new AtomicBoolean(false);
+    private AtomicBoolean smallCorrection= new AtomicBoolean(false);
 
     @Override
     public void realRun() throws InterruptedException {
@@ -69,10 +71,10 @@ public class RedAutoGodThread extends GodThread {
         LogicThread toFirstLine;
         if (weCanUseSonar) { //If our sonar works, and we're using one
             toFirstLine = new ToWhiteLine(true, Line.RED_FIRST_LINE, failedFirstSensorSecondTriggered
-                    , exceededMaxDistance); //Goes to firstLine
+                    , exceededMaxDistance, smallCorrection); //Goes to firstLine
         }else {
             toFirstLine = new ToWhiteLine(false, Line.RED_FIRST_LINE, failedFirstSensorSecondTriggered
-                    , exceededMaxDistance);
+                    , exceededMaxDistance, smallCorrection);
         }
             Thread tfl = new Thread(toFirstLine);
             tfl.start();
@@ -145,12 +147,20 @@ public class RedAutoGodThread extends GodThread {
             Thread pl = new Thread(pauseLogic);
             pl.start();
             delegateMonitor(pl, new MonitorThread[]{});
-
-            LogicThread pushRight = new PushRightButton(weCanUseSonar);
-            Thread pr = new Thread(pushRight);
-            pr.start();
-            children.add(pr);
-            delegateMonitor(pr, new MonitorThread[]{});
+            if (isAllRedAndRedIsLeft.get()) {
+                LogicThread pushLeft = new PushLeftButton(weCanUseSonar);
+                Thread pr = new Thread(pushLeft);
+                pr.start();
+                children.add(pr);
+                delegateMonitor(pr, new MonitorThread[]{});
+            }
+            else {
+                LogicThread pushRight = new PushRightButton(weCanUseSonar);
+                Thread pr = new Thread(pushRight);
+                pr.start();
+                children.add(pr);
+                delegateMonitor(pr, new MonitorThread[]{});
+            }
         }
 
 //*****************************
@@ -158,13 +168,14 @@ public class RedAutoGodThread extends GodThread {
 //*****************************
         exceededMaxDistance.set(false);
         failedFirstSensorSecondTriggered.set(false);
+        smallCorrection.set(false);
         LogicThread toSecondLine;
         if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
             toSecondLine = new ToWhiteLine(true, Line.RED_SECOND_LINE, failedFirstSensorSecondTriggered
-                    , exceededMaxDistance);
+                    , exceededMaxDistance, smallCorrection);
         }else {
             toSecondLine = new ToWhiteLine(false, Line.RED_SECOND_LINE, failedFirstSensorSecondTriggered
-                    , exceededMaxDistance);
+                    , exceededMaxDistance, smallCorrection);
         }
             Thread tsl = new Thread(toSecondLine);
             tsl.start();

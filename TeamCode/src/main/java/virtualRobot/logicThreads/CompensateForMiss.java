@@ -29,7 +29,7 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
     boolean withUltra;
     private static double BLIND_ADJUSTMENT = 500; //if all of our line sensors fail
     private static double LIGHT_ADJUSTMENT = 200; //if we get to a "far displacement"
-
+    private static double SMALL_ADJUSTMENT = 135;
     final ExitCondition hitsLineRed = new ExitCondition() {
         @Override
         public boolean isConditionMet() {
@@ -137,6 +137,13 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                     commands.add(new Translate(BLIND_ADJUSTMENT,Translate.Direction.FORWARD,0));
                 commands.add(new Pause(500));
                 break;
+            case SMALLCORRECTION:
+                if (line.getColor() == BLUE) {
+                    commands.add(new Pause(500));
+                    robot.addToProgress("Small Correction");
+                    commands.add(new Translate(SMALL_ADJUSTMENT, Translate.Direction.BACKWARD, 0));
+                }
+                break;
 
         }
     }
@@ -179,10 +186,19 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                 else
                     commands.add(new Translate(BLIND_ADJUSTMENT,Translate.Direction.FORWARD,0));
                 break;
+            case SMALLCORRECTION:
+                if (line.getColor() == BLUE) {
+                    commands.add(new Pause(500));
+                    robot.addToProgress("Small Correction");
+                    commands.add(new Translate(SMALL_ADJUSTMENT, Translate.Direction.BACKWARD, 0));
+                }
+                break;
+
+
         }
     }
     public enum TriggerLevel{
-        FIRSTLIGHTTRIGGERED,LASTLIGHTTRIGGERED,FIRSTLIGHTFAILS,LASTLIGHTFAILS
+        FIRSTLIGHTTRIGGERED,LASTLIGHTTRIGGERED,FIRSTLIGHTFAILS,LASTLIGHTFAILS, SMALLCORRECTION
     };
 
     //Make this a global bot function perhaps.

@@ -27,6 +27,7 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
     public static final double ESCAPE_WALL = 200;
    private boolean ultraWorks; //Does ultra work
     AtomicBoolean farDisplacedment = new AtomicBoolean(); //has other Line Sensor triggered
+    AtomicBoolean addSmallCorrection = new AtomicBoolean();
     AtomicBoolean exceededMax = new AtomicBoolean();
     GodThread.Line type;
 
@@ -35,13 +36,23 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
     private final ExitCondition atwhitelineRed= new ExitCondition() {
         @Override
         public boolean isConditionMet() {//checks if tape or light sensors close to tape are triggered, then checks far one
-            if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape && robot.getColorSensor().getBlue() < 255) ||
-                    (robot.getLightSensor3().getRawValue()> .65)||
-                    (robot.getLightSensor2().getRawValue()> .65)){
-                robot.addToProgress("MiddleSensorsTriggered");
+            if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape && robot.getColorSensor().getBlue() < 255)){
+                robot.addToProgress("ColorSensorTriggered");
                 farDisplacedment.set(false);
                 return true;
-            }else if((robot.getLightSensor1().getRawValue()> .65)){
+            }
+            else if(robot.getLightSensor3().getRawValue()> .65) {
+                robot.addToProgress("LightSensor3Triggered");
+                farDisplacedment.set(false);
+                return true;
+            }
+
+            else if(robot.getLightSensor2().getRawValue()> .65) {
+                robot.addToProgress("LightSensor2Triggered");
+                farDisplacedment.set(false);
+                return true;
+            }
+            else if((robot.getLightSensor1().getRawValue()> .65)){
                 robot.addToProgress("FarSensorTriggered");
 
                 farDisplacedment.set(true);
@@ -64,12 +75,25 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
     private final ExitCondition atwhitelineBlue= new ExitCondition() {
         @Override
         public boolean isConditionMet() {//checks if tape or light sensors close to tape are triggered, then checks far one
-            if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape) ||
-                    (robot.getLightSensor3().getRawValue()> .65)||
-                    (robot.getLightSensor2().getRawValue()> .65)){
+            if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape && robot.getColorSensor().getBlue() < 255)){
+                robot.addToProgress("ColorSensorTriggered");
                 farDisplacedment.set(false);
+                addSmallCorrection.set(true);
+                return true;
+            }
+            else if(robot.getLightSensor3().getRawValue()> .65) {
+                robot.addToProgress("LightSensor3Triggered");
+                farDisplacedment.set(false);
+                addSmallCorrection.set(true);
+                return true;
+            }
+            else if(robot.getLightSensor2().getRawValue()> .65) {
+                robot.addToProgress("LightSensor2Triggered");
+                farDisplacedment.set(false);
+                addSmallCorrection.set(true);
                 return true;
             }else if((robot.getLightSensor4().getRawValue()> .65)){
+                robot.addToProgress("FarSensorTriggered");
                 farDisplacedment.set(true);
                 return true;
             }else if((getAvgDistance()> MAX_ALLOWABLE_DISPLACEMENT_TO_LINE) && type.getLine()== GodThread.LineType.FIRST){
@@ -84,12 +108,13 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
         }
     };
 
-    public ToWhiteLine(boolean ultraworks, GodThread.Line type, AtomicBoolean farDisplacedment,AtomicBoolean mope) {
+    public ToWhiteLine(boolean ultraworks, GodThread.Line type, AtomicBoolean farDisplacedment,AtomicBoolean mope, AtomicBoolean smallCorrection) {
         super();
         this.type = type;
         this.ultraWorks = ultraworks;
         this.farDisplacedment = farDisplacedment;
         this.exceededMax = mope;
+        this.addSmallCorrection = smallCorrection;
     }
 
 
@@ -121,7 +146,7 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
             commands.add(new Pause(500));
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
-            commands.add(new Rotate(0, 1, 2000));
+            commands.add(new Rotate(0, 1, 1000));
             commands.add(new Pause(500));
 
 
@@ -136,7 +161,7 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
                 toWhiteLine.setExitCondition(atwhitelineBlue);
             commands.add(toWhiteLine);
             commands.add(new Pause(500));
-            commands.add(new Rotate(0,1, 2000));
+            commands.add(new Rotate(0,1, 1000));
 
             commands.add(new Pause(500));
         }
@@ -160,7 +185,7 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
             toWhiteLine.setExitCondition(atwhitelineRed);
             commands.add(toWhiteLine);
             commands.add(new Pause(200));
-            commands.add(new Rotate(0,1, 2000));
+            commands.add(new Rotate(0,1, 1000));
             commands.add(new Pause(200));
 
         }
@@ -173,7 +198,7 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
             toWhiteLine.setExitCondition(atwhitelineBlue);
             commands.add(toWhiteLine);
             commands.add(new Pause(200));
-            commands.add(new Rotate(0,1, 2000));
+            commands.add(new Rotate(0,1, 1000));
             commands.add(new Pause(200));
         }
     }

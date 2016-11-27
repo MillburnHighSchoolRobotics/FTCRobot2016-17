@@ -24,7 +24,7 @@ public class DavidClass {
     static double endXPercent = .958;
     static double startYPercent = .298;
     static double endYPercent = .595;
-    private static double TOLERANCE = 128;
+    private static double TOLERANCE = 135;
 
 
     public static final long RED = Color.red(Color.RED); //note that Color.RED is negative
@@ -111,7 +111,7 @@ public class DavidClass {
         }*/
 
         return (lAvg-RED > rAvg-RED);}
-    public static boolean checkIfAllRed(Bitmap bmp) {
+    public static boolean[] checkIfAllRed(Bitmap bmp) {
         Bitmap image= bmp;
         image= Bitmap.createScaledBitmap(bmp, image.getWidth() / 2, image.getHeight() / 2, true);
         Matrix matrix = new Matrix();
@@ -154,11 +154,11 @@ public class DavidClass {
 
         Log.d("qqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
 
+        Command.AUTO_ROBOT.addToProgress("LAVG, RAVG, LAVG+RAVG/2: " + Long.toString(lAvg) + " " + Long.toString(rAvg) + " " + Long.toString((rAvg+lAvg)/2));
 
 
-
-
-        return ((lAvg+rAvg)/2 >TOLERANCE);
+        boolean[] info = {(lAvg+rAvg)/2 >TOLERANCE, lAvg>rAvg};
+        return (info);
     }
 
 

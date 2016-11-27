@@ -32,6 +32,7 @@ public class FTCTakePicture implements Command{
     private ExitCondition exitCondition;
     AtomicBoolean redisLeft;
     AtomicBoolean isRed;
+    AtomicBoolean isRedAndRedIsLeft;
     VuforiaLocalizerImplSubclass vuforia;
     Mode mode;
     public FTCTakePicture (Mode mode, AtomicBoolean red, VuforiaLocalizerImplSubclass vuforia) {
@@ -46,7 +47,19 @@ public class FTCTakePicture implements Command{
             }
         };
     }
-
+    public FTCTakePicture (Mode mode, AtomicBoolean red, AtomicBoolean isRedAndRedIsLeft, VuforiaLocalizerImplSubclass vuforia) {
+        this.mode=mode;
+        this.redisLeft = red;
+        this.isRed = red;
+        this.isRedAndRedIsLeft = isRedAndRedIsLeft;
+        this.vuforia = vuforia;
+        exitCondition = new ExitCondition() {
+            @Override
+            public boolean isConditionMet() {
+                return false;
+            }
+        };
+    }
     public boolean changeRobotState() throws InterruptedException {
 
         //Converts VuforiaLocalizerImplSubclass' picture to a bitmap for analysis by DavidClass
@@ -59,9 +72,10 @@ public class FTCTakePicture implements Command{
                 redisLeft.set(analyzed);
             }
             else {
-                boolean analyzed = DavidClass.checkIfAllRed(bm);
-                Log.d("cameraReturn Check", analyzed + " ");
-                isRed.set(analyzed);
+                boolean[] analyzed = DavidClass.checkIfAllRed(bm);
+                Log.d("cameraReturn Check", analyzed[0] + " isAllRedAndRedIsLeft " + analyzed[1]);
+                isRed.set(analyzed[0]);
+                isRedAndRedIsLeft.set(analyzed[1]);
             }
        }
 
