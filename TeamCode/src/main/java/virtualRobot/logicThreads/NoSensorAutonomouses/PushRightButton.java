@@ -47,6 +47,7 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{TeleopLogic.BUTTON_PUSHER_STATIONARY})); //move pusher back to stationary
             commands.add(new Translate(BEACON_RAM_TRANSLATE-200, Translate.Direction.LEFT, 0)); //ram beacon to ensure push
         }
+        commands.add(new Rotate(0,0.5,1000));
     }
     public enum sonarStatus {
         SONAR_WORKS,

@@ -36,22 +36,13 @@ public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
     private final ExitCondition atwhitelineRed= new ExitCondition() {
         @Override
         public boolean isConditionMet() {//checks if tape or light sensors close to tape are triggered, then checks far one
-            if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape && robot.getColorSensor().getBlue() < 255)){
-                robot.addToProgress("ColorSensorTriggered");
-                farDisplacedment.set(false);
-                return true;
-            }
-            else if(robot.getLightSensor3().getRawValue()> .65) {
-                robot.addToProgress("LightSensor3Triggered");
+            if(((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape && robot.getColorSensor().getBlue() < 255) || robot.getLightSensor3().getRawValue()> .65 || robot.getLightSensor2().getRawValue()> .65)){
+                robot.addToProgress("MiddleSensorTriggered");
+                addSmallCorrection.set(true);
                 farDisplacedment.set(false);
                 return true;
             }
 
-            else if(robot.getLightSensor2().getRawValue()> .65) {
-                robot.addToProgress("LightSensor2Triggered");
-                farDisplacedment.set(false);
-                return true;
-            }
             else if((robot.getLightSensor1().getRawValue()> .65)){
                 robot.addToProgress("FarSensorTriggered");
 

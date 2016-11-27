@@ -40,6 +40,8 @@ public class BlueAutoGodThread extends GodThread {
     private AtomicBoolean redIsLeft = new AtomicBoolean();
     private AtomicBoolean isAllRed = new AtomicBoolean();
     private AtomicBoolean isAllRedAndRedIsLeft = new AtomicBoolean();
+    private boolean firstSmallCorrection = true;
+    private boolean secondSmallCorrection = true;
     LogicThread takePicture = new LogicThread() {
         @Override
         public void loadCommands() {
@@ -88,7 +90,7 @@ public class BlueAutoGodThread extends GodThread {
         tfl.start();
         children.add(tfl);
         delegateMonitor(tfl, new MonitorThread[]{});
-        if (smallCorrection.get()) {
+        if (smallCorrection.get() && firstSmallCorrection) {
             LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.SMALLCORRECTION, Line.BLUE_FIRST_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
@@ -196,7 +198,7 @@ public class BlueAutoGodThread extends GodThread {
         tsl.start();
         children.add(tsl);
         delegateMonitor(tsl, new MonitorThread[]{});
-        if (smallCorrection.get()) {
+        if (smallCorrection.get() && secondSmallCorrection) {
             LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.SMALLCORRECTION, Line.BLUE_SECOND_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
