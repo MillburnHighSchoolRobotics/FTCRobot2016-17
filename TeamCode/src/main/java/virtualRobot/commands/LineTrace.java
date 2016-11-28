@@ -11,7 +11,12 @@ import virtualRobot.components.Sensor;
  * Precondition: White line must be between sensors 2 and 3
  */
 public class LineTrace implements Command {
-    ExitCondition exitCondition;
+    ExitCondition exitCondition = new ExitCondition() {
+        @Override
+        public boolean isConditionMet() {
+            return false;
+        }
+    };
     private AutonomousRobot robot;
     public LineTrace() {
         robot = Command.AUTO_ROBOT;
@@ -27,15 +32,17 @@ public class LineTrace implements Command {
 
     @Override
     public boolean changeRobotState() throws InterruptedException {
-        double basePower = 0.2, adjustedPower;
+        double basePower = 0.3, adjustedPower;
         boolean isInterrupted = false;
-        PIDController allign = new PIDController(0.5,0,0,0,0);
+        PIDController allign = new PIDController(2,1,0,0.15,0,true);
+        double curr = 0;
         while (!exitCondition.isConditionMet()) {
-            adjustedPower = allign.getPIDOutput(robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue());
-            robot.getLFMotor().setPower(-basePower - adjustedPower);
-            robot.getLBMotor().setPower(basePower - adjustedPower);
-            robot.getRFMotor().setPower(basePower + adjustedPower);
-            robot.getRBMotor().setPower(-basePower + adjustedPower);
+            curr = robot.getLightSensor1().getValue() - robot.getLightSensor3().getValue();//*1.5 - robot.getLightSensor4().getValue()*4;
+            adjustedPower = allign.getPIDOutput(curr);
+            robot.getLFMotor().setPower(basePower + adjustedPower);
+            robot.getLBMotor().setPower(-basePower + adjustedPower);
+            robot.getRFMotor().setPower(-basePower - adjustedPower);
+            robot.getRBMotor().setPower(basePower - adjustedPower);
 
             if(Thread.currentThread().isInterrupted()) {
                 isInterrupted = true;

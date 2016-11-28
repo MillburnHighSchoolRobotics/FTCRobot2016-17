@@ -76,13 +76,13 @@ public abstract class UpdateThread extends OpMode {
 
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
-	private Sensor vHeadingSensor, vPitchSensor, vRollSensor,vReaperEncoder;
+	private Sensor vHeadingSensor, vPitchSensor, vRollSensor;
 	private StateSensor vStateSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
-	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vReaper;
+	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
 	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
-	private virtualRobot.components.Servo vButtonServo, vCapLeftServo, vCapRightServo, vBallLauncherServo;
+	private virtualRobot.components.Servo vButtonServo, vBallLauncherServo;
 	private Sensor vLightSensor1, vLightSensor2, vLightSensor3, vLightSensor4;
 	private virtualRobot.components.ColorSensor vColorSensor;
 
@@ -266,13 +266,9 @@ public abstract class UpdateThread extends OpMode {
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
 		double buttonPosition = 0;
-		double capLeftPosition = 0;
-		double capRightPosition = 0;
 		double ballLauncherPosition = 0;
 		if (withServos) {
 			buttonPosition = vButtonServo.getPosition();
-			capLeftPosition = vCapLeftServo.getPosition();
-			capRightPosition = vCapRightServo.getPosition();
 			ballLauncherPosition = vBallLauncherServo.getPosition();
 		}
 

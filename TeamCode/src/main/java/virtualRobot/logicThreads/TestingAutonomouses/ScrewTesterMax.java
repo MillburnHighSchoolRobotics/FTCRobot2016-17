@@ -9,6 +9,7 @@ import virtualRobot.PIDController;
 import virtualRobot.SallyJoeBot;
 import virtualRobot.commands.Command;
 import virtualRobot.commands.CompensateColor;
+import virtualRobot.commands.LineTrace;
 import virtualRobot.commands.WallTrace;
 import virtualRobot.components.UltrasonicSensor;
 import virtualRobot.utils.MathUtils;
@@ -138,13 +139,13 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //                return isInterrupted;
 //            }
 //        });
-        CompensateColor color = new CompensateColor(CompensateColor.Direction.FORWARD);
-        color.setExitCondition(new ExitCondition() {
+        LineTrace lt = new LineTrace();
+        lt.setExitCondition(new ExitCondition() {
             @Override
             public boolean isConditionMet() {
-                return MathUtils.equals(robot.getColorSensor().getRed(),20,2);
+                return false;
             }
         });
-        commands.add(color);
+        commands.add(lt);
     }
 }

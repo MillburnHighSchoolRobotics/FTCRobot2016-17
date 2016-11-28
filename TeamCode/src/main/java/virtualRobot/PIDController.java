@@ -9,6 +9,7 @@ public class PIDController {
     private double kI;
     private double kD;
     private double threshold;
+    private boolean switchSign = false;
 
     private double P;
     private double I;
@@ -50,14 +51,27 @@ public class PIDController {
         this.target = target;
     }
 
+    public PIDController(double kP, double kI, double kD, double threshold, double target, boolean switchSign) {
+        this(kP,kI,kD,threshold,target);
+        this.switchSign = switchSign;
+    }
+
     public double getPIDOutput(double currentValue) {
         D = (target-currentValue) - P;
         P = target - currentValue;
 
-        if (Math.abs(currentValue - target) < threshold) {
-            I = P + I;
+        if (!switchSign) {
+            if (Math.abs(currentValue - target) < threshold) {
+                I = P + I;
+            } else {
+                I = 0;
+            }
         } else {
-            I = 0;
+            if (Math.abs(currentValue - target) > threshold) {
+                I = P + I;
+            } else {
+                I = 0;
+            }
         }
 
         return kP * P + kI * I + kD * D;
