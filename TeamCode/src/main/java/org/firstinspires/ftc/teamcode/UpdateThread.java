@@ -69,7 +69,7 @@ public abstract class UpdateThread extends OpMode {
 	private UltrasonicSensor sonarLeft, sonarRight;
 	private LightSensor nxtLight1, nxtLight2, nxtLight3, nxtLight4;
 	private ColorSensor colorSensor;
-	private Servo buttonServo, capLeftServo, capRightServo, ballLauncherServo;
+	private Servo buttonServo, ballLauncherServo;
 
 	private GodThread vuforiaEverywhere;
 
@@ -101,8 +101,6 @@ public abstract class UpdateThread extends OpMode {
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		if (withServos) {
-			capLeftServo = hardwareMap.servo.get("capLeft");
-			capRightServo = hardwareMap.servo.get("capRight");
 			ballLauncherServo = hardwareMap.servo.get("ballLauncher");
 			buttonServo = hardwareMap.servo.get("buttonPusher");
 		}
@@ -154,8 +152,6 @@ public abstract class UpdateThread extends OpMode {
 //		vReaper = robot.getReaperMotor();
 		if (withServos) {
 			vButtonServo = robot.getButtonServo();
-			vCapLeftServo = robot.getCapLeftServo();
-			vCapRightServo = robot.getCapRightServo();
 			vBallLauncherServo = robot.getBallLauncherServo();
 		}
 		vLeftFrontEncoder = robot.getLFEncoder();
@@ -168,9 +164,7 @@ public abstract class UpdateThread extends OpMode {
 
 		robotProgress = new ArrayList<String>();
 		//Setup Physical Components
-		capLeftServo.setPosition(0);
 		buttonServo.setPosition(0.5);
-		capRightServo.setPosition(0);
 		ballLauncherServo.setPosition(0);
 
 
@@ -210,8 +204,6 @@ public abstract class UpdateThread extends OpMode {
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
 				vButtonServo.setPosition(buttonServo.getPosition());
-				vCapLeftServo.setPosition(capLeftServo.getPosition());
-				vCapRightServo.setPosition(capRightServo.getPosition());
 				vBallLauncherServo.setPosition(ballLauncherServo.getPosition());
 			}
 		if (WITH_SONAR) {
@@ -236,7 +228,7 @@ public abstract class UpdateThread extends OpMode {
 		double newEncoderValue = 1;
 		double headingAngle = imu.getIntegratedYaw();
 
-		vStateSensor.update(imu);
+//		vStateSensor.update(imu);
 
 		// Update Sensor Values E.g. vPitchSensor.setRawValue(imu.getIntegratedPitch()); vHeadingSensor, vRollSensor, vColorSensor...
 		vPitchSensor.setRawValue(imu.getIntegratedPitch());
@@ -296,8 +288,6 @@ public abstract class UpdateThread extends OpMode {
 		rightBack.setPower(rightBackPower);
 		if (withServos) {
 			buttonServo.setPosition(buttonPosition);
-			capLeftServo.setPosition(capLeftPosition);
-			capRightServo.setPosition(capRightPosition);
 			ballLauncherServo.setPosition(ballLauncherPosition);
 
 

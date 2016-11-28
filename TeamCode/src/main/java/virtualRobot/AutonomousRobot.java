@@ -46,10 +46,6 @@ public interface AutonomousRobot {
 
     Servo getButtonServo();
 
-    Servo getCapLeftServo();
-
-    Servo getCapRightServo();
-
     Servo getBallLauncherServo();
 
     Sensor getLFEncoder();
