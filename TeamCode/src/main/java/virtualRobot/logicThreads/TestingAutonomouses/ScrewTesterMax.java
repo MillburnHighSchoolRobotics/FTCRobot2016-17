@@ -139,7 +139,8 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //                return isInterrupted;
 //            }
 //        });
-        LineTrace lt = new LineTrace();
+//        LineTrace lt = new LineTrace();
+        CompensateColor lt = new CompensateColor();
         lt.setExitCondition(new ExitCondition() {
             @Override
             public boolean isConditionMet() {

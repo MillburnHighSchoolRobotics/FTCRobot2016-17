@@ -44,18 +44,18 @@ public class CompensateColor implements Command {
     @Override
     public boolean changeRobotState() throws InterruptedException {
         boolean isInterrupted = false;
-        PIDController pidController = new PIDController(0.006,0,0,0,20);
-        PIDController pidController1 = new PIDController(0.008,0,0,0,0);
-        double adjustedPower;
+        PIDController lateral = new PIDController(0.8,0,0,0,0);
+        PIDController rotation = new PIDController(0.6,0,0,0,0);
+        double lateralPower, rotationPower;
+        double curr;
         while (!isInterrupted && !exitCondition.isConditionMet()) {
-            adjustedPower = pidController.getPIDOutput(robot.getColorSensor().getRed());// - pidController1.getPIDOutput(robot.getHeadingSensor().getValue());
-//            if (adjustedPower > 0.1) {
-//                adjustedPower -= pidController1.getPIDOutput(robot.getHeadingSensor().getValue());
-//            }
-            robot.getLFMotor().setPower(adjustedPower * direction.getNum());
-            robot.getLBMotor().setPower(adjustedPower * direction.getNum());
-            robot.getRFMotor().setPower(adjustedPower * direction.getNum());
-            robot.getRBMotor().setPower(adjustedPower * direction.getNum());
+            curr = robot.getLightSensor1().getValue()*3 + robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue() - robot.getLightSensor4().getValue()*3;
+            lateralPower = lateral.getPIDOutput(curr);// - pidController1.getPIDOutput(robot.getHeadingSensor().getValue());
+            rotationPower = rotation.getPIDOutput(curr);
+            robot.getLFMotor().setPower(lateralPower + rotationPower);
+            robot.getLBMotor().setPower(lateralPower + rotationPower);
+            robot.getRFMotor().setPower(lateralPower - rotationPower);
+            robot.getRBMotor().setPower(lateralPower - rotationPower);
 
             if (Thread.currentThread().isInterrupted()) {
                 isInterrupted = true;
