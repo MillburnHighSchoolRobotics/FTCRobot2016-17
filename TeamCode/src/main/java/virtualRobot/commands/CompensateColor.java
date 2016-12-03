@@ -43,14 +43,14 @@ public class CompensateColor implements Command {
     public boolean changeRobotState() throws InterruptedException {
         boolean isInterrupted = false;
         PIDController lateral = new PIDController(1,0.1,0,0,0.1);
-        PIDController rotation = new PIDController(0.08,0,0,0,referenceAngle);
+        PIDController rotation = new PIDController(0.008,0,0,0,referenceAngle);
         double lateralPower, rotationPower = 0;
         double curr;
         double startTime = System.currentTimeMillis();
         while (!isInterrupted && !exitCondition.isConditionMet() && System.currentTimeMillis() - startTime < timeLimit*1000) {
-            curr = robot.getLightSensor1().getValue()*3 + robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue() - robot.getLightSensor4().getValue()*3;
+            curr = robot.getLightSensor1().getValue()*3 + robot.getLightSensor2().getValue() - robot.getLightSensor4().getValue() - robot.getLightSensor4().getValue()*3;
             lateralPower = lateral.getPIDOutput(curr)*-1;// - pidController1.getPIDOutput(robot.getHeadingSensor().getValue());
-            rotationPower = rotation.getPIDOutput(robot.getHeadingSensor().getValue());
+//            rotationPower = rotation.getPIDOutput(robot.getHeadingSensor().getValue());
             robot.getLFMotor().setPower(lateralPower + rotationPower);
             robot.getLBMotor().setPower(lateralPower + rotationPower);
             robot.getRFMotor().setPower(lateralPower - rotationPower);
