@@ -30,7 +30,7 @@ public class CreateVuforia implements Runnable {
     @Override
     public void run() {
         try {
-            if (!godThread.equals(TeleopGodThread.class) && !godThread.equals(PIDTesterGodThread.class) && !godThread.equals(PIDLineFollowerGod.class)) {
+            if (!godThread.equals(TeleopGodThread.class) ){//&& !godThread.equals(PIDTesterGodThread.class) && !godThread.equals(PIDLineFollowerGod.class)) {
                 VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
                 params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
                 params.vuforiaLicenseKey = "AcXbD9X/////AAAAGVpq1gdfDkIPp+j5hv1iV5RZXLWAWV4F7je9gks+8lHhZb6mwCj7xy9mapHP6sKO9OrPv5kVQDXhB+T+Rn7V7GUm4Ub4rmCanqv4frx8gT732qJUnTEj9POMufR9skjlXSEODbpThxrLCPqobHeAeSA5dUmUik3Rck0lcwhElw5yOBN45iklYnvC9GpPRv128ALcgt9Zpw/shit0erKmuyrT62NRUKgoHNMm5xV/Xqj8Vgwke8ESap+nK7v+6lx35vDZ6ISNDVMMM8h0VqeL0745MNPJoI1vgiNRo30R7WwtPYME44koOrWMUIxMXghtqxq7AfFxb6sbin0i5KSUJWtLsqmZOrAXxjxdUwY8f8tw";

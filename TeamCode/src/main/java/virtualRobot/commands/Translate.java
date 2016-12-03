@@ -17,6 +17,7 @@ import virtualRobot.utils.MathUtils;
 public class Translate implements Command {
     private ExitCondition exitCondition;
     private static double globalMaxPower = 1;
+    private double TOLERANCE = 100;
     private static boolean blueSide = false;
     private RunMode runMode;
     private Direction direction;
@@ -71,7 +72,7 @@ public class Translate implements Command {
         LBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         headingController = new PIDController(0.05, 0, 0, 0);
-        headingOnlyController = new PIDController(.025, 0, 0, 0);
+        headingOnlyController = new PIDController(.05, 0, 0, 0);
         if (blueSide) {
             headingController.setTarget(180);
             headingOnlyController.setTarget(180);
@@ -540,11 +541,11 @@ public class Translate implements Command {
                       break;
                   case FORWARD_RIGHT:
                       if (headingOutput > 0) {
-                          RBPower -= absHead;
-                          LFPower += absHead;
+                          RBPower -= (absHead*2);
+                          LFPower += (absHead*2);
                       } else if (headingOutput < 0) {
-                          RBPower += absHead;
-                          LFPower -= absHead;
+                          RBPower += (absHead*2);
+                          LFPower -= (absHead*2);
                       }
                       break;
                   /*case RIGHT:
@@ -563,11 +564,11 @@ public class Translate implements Command {
                       break;*/
                   case BACKWARD_RIGHT:
                       if (headingOutput > 0) {
-                          RFPower += absHead;
-                          LBPower -= absHead;
+                          RFPower += (absHead*2);
+                          LBPower -= (absHead*2);
                       } else if (headingOutput < 0) {
-                          RFPower -= absHead;
-                          LBPower += absHead;
+                          RFPower -= (absHead*2);
+                          LBPower += (absHead*2);
                       }
                       break;
                   case BACKWARD:
@@ -586,11 +587,11 @@ public class Translate implements Command {
                   case BACKWARD_LEFT:
 
                       if (headingOutput > 0) {
-                          RBPower += absHead;
-                          LFPower -= absHead;
+                          RBPower += (absHead*2);
+                          LFPower -= (absHead*2);
                       } else if (headingOutput < 0) {
-                          RFPower -= absHead;
-                          LBPower += absHead;
+                          RFPower -= (absHead*2);
+                          LBPower += (absHead*2);
                       }
                       break;
                   /*case LEFT:
@@ -609,11 +610,11 @@ public class Translate implements Command {
                       break;*/
                   case FORWARD_LEFT:
                       if (headingOutput > 0) {
-                          RFPower -= absHead;
-                          LBPower += absHead;
+                          RFPower -= (absHead*2);
+                          LBPower += (absHead*2);
                       } else if (headingOutput < 0) {
-                          RFPower += absHead;
-                          LBPower -= absHead;
+                          RFPower += (absHead*2);
+                          LBPower -= (absHead*2);
                       }
                       break;
               }
@@ -789,6 +790,7 @@ public class Translate implements Command {
     return isInterrupted;
 
     }
+    public Translate setTolerance(double tolerance) { TOLERANCE = tolerance; return this; }
 
     public void setRunMode(RunMode runMode) {
         this.runMode = runMode;
@@ -874,7 +876,6 @@ public class Translate implements Command {
     public static final double  KIt = .0000694444;
     public static final double KDt = .012656;
     public static final double THRESHOLDt = 484; //TBD
-    public static final double TOLERANCE = 100;
 
     //OLD KU, TU, KP, THRESHOLD, TOLERANCE: .00131562, 83, .001086096, 964, 100
 }

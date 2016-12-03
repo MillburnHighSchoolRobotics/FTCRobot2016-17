@@ -29,8 +29,10 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
     boolean withUltra;
     private static double BLIND_ADJUSTMENT = 500; //if all of our line sensors fail
     private static double LIGHT_ADJUSTMENT = 200; //if we get to a "far displacement"
-    private static double SMALL_ADJUSTMENT = 135;
-    private static double SMALL_ADJUSTMENT_RED = 150;
+    private static double SMALL_ADJUSTMENT_RED_1 = 150;
+    private static double SMALL_ADJUSTMENT_RED_2 = 135;
+    private static double SMALL_ADJUSTMENT_BLUE_1 = 200;
+    private static double SMALL_ADJUSTMENT_BLUE_2 = 200;
     final ExitCondition hitsLineRed = new ExitCondition() {
         @Override
         public boolean isConditionMet() {
@@ -139,20 +141,25 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                 commands.add(new Pause(500));
                 break;
             case SMALLCORRECTION:
-                if (line.getColor() == BLUE) {
-                    commands.add(new Pause(300));
+                if (line== GodThread.Line.BLUE_FIRST_LINE) {
+                    commands.add(new Pause(200));
                     robot.addToProgress("Small Correction");
-                    commands.add(new Translate(SMALL_ADJUSTMENT, Translate.Direction.BACKWARD, 0));
+                    commands.add(new Translate(SMALL_ADJUSTMENT_BLUE_1, Translate.Direction.BACKWARD, 0));
                 }
-                else if (line == GodThread.Line.RED_SECOND_LINE) {
-                    commands.add(new Pause(300));
+                else if (line== GodThread.Line.BLUE_SECOND_LINE) {
+                    commands.add(new Pause(200));
                     robot.addToProgress("Small Correction");
-                    commands.add(new Translate(SMALL_ADJUSTMENT_RED, Translate.Direction.FORWARD, 0));
+                    commands.add(new Translate(SMALL_ADJUSTMENT_BLUE_2, Translate.Direction.BACKWARD, 0));
                 }
                 else if(line == GodThread.Line.RED_FIRST_LINE) {
-                    commands.add(new Pause(300));
+                    commands.add(new Pause(200));
                     robot.addToProgress("Small Correction");
-                    commands.add(new Translate(SMALL_ADJUSTMENT, Translate.Direction.FORWARD, 0));
+                    commands.add(new Translate(SMALL_ADJUSTMENT_RED_1, Translate.Direction.FORWARD, 0));
+                }
+                else if (line == GodThread.Line.RED_SECOND_LINE) {
+                    commands.add(new Pause(200));
+                    robot.addToProgress("Small Correction");
+                    commands.add(new Translate(SMALL_ADJUSTMENT_RED_2, Translate.Direction.FORWARD, 0));
                 }
                 break;
 
@@ -198,21 +205,27 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                     commands.add(new Translate(BLIND_ADJUSTMENT,Translate.Direction.FORWARD,0));
                 break;
             case SMALLCORRECTION:
-                if (line.getColor() == BLUE) {
-                    commands.add(new Pause(300));
+                if (line== GodThread.Line.BLUE_FIRST_LINE) {
+                    commands.add(new Pause(200));
                     robot.addToProgress("Small Correction");
-                    commands.add(new Translate(SMALL_ADJUSTMENT, Translate.Direction.BACKWARD, 0));
+                    commands.add(new Translate(SMALL_ADJUSTMENT_BLUE_1, Translate.Direction.BACKWARD, 0));
                 }
-                else if (line == GodThread.Line.RED_SECOND_LINE) {
-                    commands.add(new Pause(300));
+                else if (line== GodThread.Line.BLUE_SECOND_LINE) {
+                    commands.add(new Pause(200));
                     robot.addToProgress("Small Correction");
-                    commands.add(new Translate(SMALL_ADJUSTMENT_RED, Translate.Direction.FORWARD, 0));
+                    commands.add(new Translate(SMALL_ADJUSTMENT_BLUE_2, Translate.Direction.BACKWARD, 0));
                 }
                 else if(line == GodThread.Line.RED_FIRST_LINE) {
-                    commands.add(new Pause(300));
+                    commands.add(new Pause(200));
                     robot.addToProgress("Small Correction");
-                    commands.add(new Translate(SMALL_ADJUSTMENT, Translate.Direction.FORWARD, 0));
+                    commands.add(new Translate(SMALL_ADJUSTMENT_RED_1, Translate.Direction.FORWARD, 0));
                 }
+                else if (line == GodThread.Line.RED_SECOND_LINE) {
+                    commands.add(new Pause(200));
+                    robot.addToProgress("Small Correction");
+                    commands.add(new Translate(SMALL_ADJUSTMENT_RED_2, Translate.Direction.FORWARD, 0));
+                }
+
                 break;
 
 

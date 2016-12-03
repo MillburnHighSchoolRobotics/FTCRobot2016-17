@@ -18,18 +18,21 @@ public class CompensateColor implements Command {
     double referenceAngle;
     double timeLimit;
 
-    ExitCondition exitCondition = new ExitCondition() {
-        @Override
-        public boolean isConditionMet() {
-            return false;
-        }
-    };
+    ExitCondition exitCondition;
 
-    public CompensateColor() { referenceAngle = 0; timeLimit = 10; }
+    public CompensateColor() {
+        referenceAngle = 0; timeLimit = 10000;
+         exitCondition = new ExitCondition() {
+            @Override
+            public boolean isConditionMet() {
+                return false;
+            }
+        };
+    }
 
-    public CompensateColor(double referenceAngle) { this(); this.referenceAngle = referenceAngle; }
+    public CompensateColor(double timeLimit) { this(); this.timeLimit = timeLimit; }
 
-    public CompensateColor(double referenceAngle, double timeLimit) { this.timeLimit = timeLimit; this.referenceAngle = referenceAngle; }
+    public CompensateColor(double timeLimit, double referenceAngle) {this(timeLimit); this.referenceAngle = referenceAngle; }
 
     public ExitCondition getExitCondition() {
         return exitCondition;
@@ -42,15 +45,16 @@ public class CompensateColor implements Command {
     @Override
     public boolean changeRobotState() throws InterruptedException {
         boolean isInterrupted = false;
-        PIDController lateral = new PIDController(1,0.1,0,0,0.1);
-        PIDController rotation = new PIDController(0.08,0,0,0,referenceAngle);
+        PIDController lateral = new PIDController(1,-0.05,0,0,0.1);
+        //PIDController rotation = new PIDController(0.008,0,0,0,referenceAngle);
         double lateralPower, rotationPower = 0;
         double curr;
         double startTime = System.currentTimeMillis();
-        while (!isInterrupted && !exitCondition.isConditionMet() && System.currentTimeMillis() - startTime < timeLimit*1000) {
-            curr = robot.getLightSensor1().getValue()*3 + robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue() - robot.getLightSensor4().getValue()*3;
+        while (!isInterrupted && !exitCondition.isConditionMet() && System.currentTimeMillis() - startTime < timeLimit) {
+            curr = robot.getLightSensor1().getValue()*2 + robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue() - robot.getLightSensor4().getValue()*2;
             lateralPower = lateral.getPIDOutput(curr)*-1;// - pidController1.getPIDOutput(robot.getHeadingSensor().getValue());
-            rotationPower = rotation.getPIDOutput(robot.getHeadingSensor().getValue());
+            //rotationPower = rotation.getPIDOutput(robot.getHeadingSensor().getValue());
+            rotationPower =0 ;
             robot.getLFMotor().setPower(lateralPower + rotationPower);
             robot.getLBMotor().setPower(lateralPower + rotationPower);
             robot.getRFMotor().setPower(lateralPower - rotationPower);
@@ -68,6 +72,7 @@ public class CompensateColor implements Command {
                 break;
             }
         }
+        robot.stopMotors();
         return isInterrupted;
     }
 

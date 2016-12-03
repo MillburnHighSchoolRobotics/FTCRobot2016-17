@@ -18,7 +18,7 @@ import virtualRobot.commands.WallTrace;
  * Created by 17osullivand on 11/3/16.
  * goes to whiteLine
  */
-
+@Deprecated
 public class ToWhiteLine extends LogicThread<AutonomousRobot>  {
     //Note that displacement is handled in exitCondition
     public static final double WALL_TRACE_SONAR_THRESHOLD = 15; //How close we want to trace wall
