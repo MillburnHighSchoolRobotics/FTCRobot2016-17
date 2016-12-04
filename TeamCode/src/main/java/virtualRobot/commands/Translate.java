@@ -71,11 +71,11 @@ public class Translate implements Command {
         RFtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         LBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
-        headingController = new PIDController(0.05, 0, 0, 0);
-        headingOnlyController = new PIDController(.05, 0, 0, 0);
+        headingController = new PIDController(0.04, 0, 0, 0);
+        headingOnlyController = new PIDController(0.04, 0, 0, 0);
         if (blueSide) {
-            headingController.setTarget(180);
-            headingOnlyController.setTarget(180);
+            headingController.setTarget(-180);
+            headingOnlyController.setTarget(-180);
         }
         translateController = new PIDController(KPt, KIt, KDt, THRESHOLDt);
         maxPower = globalMaxPower;
@@ -211,7 +211,9 @@ public class Translate implements Command {
         this (target, direction, angleModifier, maxPower);
 
         this.referenceAngle = referenceAngle;
-        headingController.setTarget(this.referenceAngle);
+        headingController.setTarget(this.referenceAngle  + (blueSide ? -180 : 0));
+        headingOnlyController.setTarget(this.referenceAngle+(blueSide ? -180 : 0));
+
     }
 
     public Translate(double target, Direction direction, double angleModifier, double maxPower, double referenceAngle, String name) {
@@ -527,12 +529,12 @@ public class Translate implements Command {
               //Multiplier: LF, RF, LB, RB
               switch (direction) {
                   case FORWARD:
-                      if (headingOutput > 0) { //Right skew
+                      if (headingOutput > 0) { //Left skew
                           RFPower -= absHead;
                           RBPower -= absHead;
                           LBPower += absHead;
                           LFPower += absHead;
-                      } else if (headingOutput < 0) { //Left skew
+                      } else if (headingOutput < 0) { //Right skew
                           RFPower += absHead;
                           RBPower += absHead;
                           LBPower -= absHead;
@@ -548,20 +550,23 @@ public class Translate implements Command {
                           LFPower -= (absHead*2);
                       }
                       break;
-                  /*case RIGHT:
+                  /*
+                  case RIGHT:
                       if (headingOutput > 0) {
-                          RFPower += absHead;
-                          RBPower -= absHead;
+                          RFPower -= absHead;
+                          RBPower += absHead;
                           LBPower -= absHead;
                           LFPower += absHead;
 
                       } else if (headingOutput < 0) {
-                          RFPower -= absHead;
-                          RBPower += absHead;
+                          RFPower += absHead;
+                          RBPower -= absHead;
                           LBPower += absHead;
                           LFPower -= absHead;
+
                       }
-                      break;*/
+                      break;
+                      */
                   case BACKWARD_RIGHT:
                       if (headingOutput > 0) {
                           RFPower += (absHead*2);
@@ -594,20 +599,23 @@ public class Translate implements Command {
                           LBPower += (absHead*2);
                       }
                       break;
-                  /*case LEFT:
+                  /*
+                  case LEFT:
                       if (headingOutput > 0) {
-                          RFPower -= absHead;
-                          RBPower += absHead;
+                          RFPower += absHead;
+                          RBPower -= absHead;
                           LBPower += absHead;
                           LFPower -= absHead;
 
                       } else if (headingOutput < 0) {
-                          RFPower += absHead;
-                          RBPower -= absHead;
+                          RFPower -= absHead;
+                          RBPower += absHead;
                           LBPower -= absHead;
                           LFPower += absHead;
+
                       }
-                      break;*/
+                      break;
+                      */
                   case FORWARD_LEFT:
                       if (headingOutput > 0) {
                           RFPower -= (absHead*2);
@@ -725,8 +733,8 @@ public class Translate implements Command {
                                 RBPower += absHead;
                                 LFPower -= absHead;
                             } else if (headingOutput < 0) {
-                                RFPower -= absHead;
-                                LBPower += absHead;
+                                RBPower -= absHead;
+                                LFPower += absHead;
                             }
                             break;
                         /*case LEFT:
@@ -791,6 +799,8 @@ public class Translate implements Command {
 
     }
     public Translate setTolerance(double tolerance) { TOLERANCE = tolerance; return this; }
+
+    public Translate setKPRotate(double Kp) {headingController.setKP(Kp); headingOnlyController.setKP(Kp); return this;}
 
     public void setRunMode(RunMode runMode) {
         this.runMode = runMode;

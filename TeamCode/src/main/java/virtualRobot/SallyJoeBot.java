@@ -155,6 +155,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized SyncedMotors getLeftRotate() { return leftRotate; }
 
     @Override
+    public synchronized ColorSensor getColorSensor(){return colorSensor;}
+
+    @Override
     public synchronized JoystickController getJoystickController1() {
         return joystickController1;
     }
@@ -180,6 +183,5 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     @Override
     public synchronized HashMap<String, Object> getTelemetry () { return telemetry; }
 
-    @Override
-    public synchronized ColorSensor getColorSensor(){return colorSensor;}
+
 }

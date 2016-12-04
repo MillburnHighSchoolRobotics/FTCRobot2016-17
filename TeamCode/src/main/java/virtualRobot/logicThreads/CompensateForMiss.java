@@ -27,8 +27,9 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
     GodThread.Line line;
     TriggerLevel howtriggered;
     boolean withUltra;
-    private static double BLIND_ADJUSTMENT = 500; //if all of our line sensors fail
-    private static double LIGHT_ADJUSTMENT = 200; //if we get to a "far displacement"
+    private static double BLIND_ADJUSTMENT_FIRST = 850;
+    private static double BLIND_ADJUSTMENT_SECOND = 900; //if all of our line sensors fail
+    private static double LIGHT_ADJUSTMENT = 75; //if we get to a "far displacement"
     private static double SMALL_ADJUSTMENT_RED_1 = 150;
     private static double SMALL_ADJUSTMENT_RED_2 = 135;
     private static double SMALL_ADJUSTMENT_BLUE_1 = 200;
@@ -104,17 +105,19 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
 
         switch(howtriggered){
             case FIRSTLIGHTTRIGGERED:
-                if (line.getColor() == RED)
-                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.FORWARD,0));
+                robot.addToProgress("Doing Adjustment");
+                if (line.getColor() == BLUE)
+                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.BACKWARD,0).setTolerance(25));
                 else
-                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.BACKWARD,0));
+                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.FORWARD,0).setTolerance(25));
                 commands.add(new Pause(500));
                 break;
             case LASTLIGHTTRIGGERED:
+                robot.addToProgress("Doing Adjustment");
                 if (line.getColor() == RED)
-                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.BACKWARD,0));
+                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.BACKWARD,0).setTolerance(25));
                 else
-                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.FORWARD,0));
+                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.FORWARD,0).setTolerance(25));
                 commands.add(new Pause(500));
                 break;
 
@@ -134,10 +137,13 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                 break;
 
             case LASTLIGHTFAILS:
-                if (line.getColor() == RED)
-                    commands.add(new Translate(BLIND_ADJUSTMENT,Translate.Direction.BACKWARD,0));
-                else
-                    commands.add(new Translate(BLIND_ADJUSTMENT,Translate.Direction.FORWARD,0));
+                robot.addToProgress("LastLightFailed");
+                if (line.getColor() == BLUE) {
+                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), Translate.Direction.BACKWARD, 0).setTolerance(25));
+                }
+                else {
+                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), Translate.Direction.FORWARD, 0).setTolerance(25));
+                }
                 commands.add(new Pause(500));
                 break;
             case SMALLCORRECTION:
@@ -173,16 +179,20 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
         robot.getRBEncoder().clearValue();
         switch(howtriggered){
             case FIRSTLIGHTTRIGGERED:
-                if (line.getColor() == RED)
-                    commands.add(new Translate(200,Translate.Direction.FORWARD,0));
+                robot.addToProgress("Doing Adjustment");
+                if (line.getColor() == BLUE)
+                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.BACKWARD,0).setTolerance(25));
                 else
-                    commands.add(new Translate(200,Translate.Direction.BACKWARD,0));
+                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.FORWARD,0).setTolerance(25));
+                commands.add(new Pause(500));
                 break;
             case LASTLIGHTTRIGGERED:
+                robot.addToProgress("Doing Adjustment");
                 if (line.getColor() == RED)
-                    commands.add(new Translate(200,Translate.Direction.BACKWARD,0));
+                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.BACKWARD,0).setTolerance(25));
                 else
-                    commands.add(new Translate(200,Translate.Direction.FORWARD,0));
+                    commands.add(new Translate(LIGHT_ADJUSTMENT,Translate.Direction.FORWARD,0).setTolerance(25));
+                commands.add(new Pause(500));
                 break;
             case FIRSTLIGHTFAILS:
               Translate moveLeft;
@@ -199,10 +209,14 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                 break;
 
             case LASTLIGHTFAILS:
-                if (line.getColor() == RED)
-                    commands.add(new Translate(BLIND_ADJUSTMENT,Translate.Direction.BACKWARD,0));
-                else
-                    commands.add(new Translate(BLIND_ADJUSTMENT,Translate.Direction.FORWARD,0));
+                robot.addToProgress("LastLightFailed");
+                if (line.getColor() == BLUE) {
+                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), Translate.Direction.BACKWARD, 0).setTolerance(25));
+                }
+                else {
+                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), Translate.Direction.FORWARD, 0).setTolerance(25));
+                }
+                commands.add(new Pause(500));
                 break;
             case SMALLCORRECTION:
                 if (line== GodThread.Line.BLUE_FIRST_LINE) {

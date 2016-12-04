@@ -68,9 +68,9 @@ public class Rotate implements Command {
 
     public Rotate (double target) {
         this();
-        this.angleInDegrees = !onBlue ? target : target+180;
+        this.angleInDegrees = !onBlue ? target : target-180;
         
-        pidController.setTarget(!onBlue ? target : target+180);
+        pidController.setTarget(!onBlue ? target : target-180);
     }
 
     public Rotate (double angleInDegrees, double power) {

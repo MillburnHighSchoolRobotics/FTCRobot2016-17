@@ -17,11 +17,13 @@ public class CompensateColor implements Command {
 //    Direction direction = Direction.FORWARD;
     double referenceAngle;
     double timeLimit;
+    double multiplier;
+
 
     ExitCondition exitCondition;
 
     public CompensateColor() {
-        referenceAngle = 0; timeLimit = 10000;
+        referenceAngle = 0; timeLimit = 10000; multiplier=2;
          exitCondition = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
@@ -29,10 +31,20 @@ public class CompensateColor implements Command {
             }
         };
     }
+    public CompensateColor(double timeLimit) {
+        this();
+        this.timeLimit = timeLimit;
+    }
 
-    public CompensateColor(double timeLimit) { this(); this.timeLimit = timeLimit; }
+    public CompensateColor(double timeLimit, double multiplier) {
+        this(timeLimit);
+        this.multiplier = multiplier;
+    }
 
-    public CompensateColor(double timeLimit, double referenceAngle) {this(timeLimit); this.referenceAngle = referenceAngle; }
+    public CompensateColor(double timeLimit, double multiplier, double referenceAngle) {
+        this(timeLimit, multiplier);
+        this.referenceAngle = referenceAngle;
+    }
 
     public ExitCondition getExitCondition() {
         return exitCondition;
@@ -51,7 +63,7 @@ public class CompensateColor implements Command {
         double curr;
         double startTime = System.currentTimeMillis();
         while (!isInterrupted && !exitCondition.isConditionMet() && System.currentTimeMillis() - startTime < timeLimit) {
-            curr = robot.getLightSensor1().getValue()*2 + robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue() - robot.getLightSensor4().getValue()*2;
+            curr = robot.getLightSensor1().getValue()*multiplier + robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue() - robot.getLightSensor4().getValue()*multiplier;
             lateralPower = lateral.getPIDOutput(curr)*-1;// - pidController1.getPIDOutput(robot.getHeadingSensor().getValue());
             //rotationPower = rotation.getPIDOutput(robot.getHeadingSensor().getValue());
             rotationPower =0 ;

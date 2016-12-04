@@ -37,8 +37,7 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
             commands.add(new Pause(500));
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{TeleopLogic.BUTTON_PUSHER_STATIONARY})); //set button back to stationary
 //            commands.add(new Pause(500));
-            commands.add(new Translate(BEACON_RAM_TRANSLATE+300, Translate.Direction.LEFT, 0)); //ram beacon to ensure push
-//            commands.add(new Pause(500));
+            commands.add(new Translate(BEACON_RAM_TRANSLATE, Translate.Direction.LEFT, 0)); //ram beacon to ensure push
 
         }
         else {
@@ -49,10 +48,10 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
             commands.add(new Pause(500));
             commands.add(new MoveServo(new Servo[]{robot.getButtonServo()}, new double[]{TeleopLogic.BUTTON_PUSHER_STATIONARY})); //set button back to stationary
 //            commands.add(new Pause(500));
-            commands.add(new Translate(BEACON_RAM_TRANSLATE-200, Translate.Direction.LEFT, 0)); //ram beacon to ensure pushed button
-//            commands.add(new Pause(500));
+            commands.add(new Translate(BEACON_RAM_TRANSLATE, Translate.Direction.LEFT, 0)); //ram beacon to ensure pushed button
         }
         commands.add(new Rotate(0,0.5,1000));
+        commands.add(new Pause(200));
     }
     public enum sonarStatus {
         SONAR_WORKS,

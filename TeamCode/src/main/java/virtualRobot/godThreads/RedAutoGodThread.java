@@ -42,8 +42,10 @@ public class RedAutoGodThread extends GodThread {
         }
     };
 
-    private AtomicBoolean sonarWorks = new AtomicBoolean(); //our sonar works
-    private AtomicBoolean allSensorsFailed = new AtomicBoolean(false); //our light sensors failed
+    private AtomicBoolean sonarWorks = new AtomicBoolean();
+    private AtomicBoolean allSensorsFailed = new AtomicBoolean(false);
+    private AtomicBoolean lastSensorTriggered = new AtomicBoolean(false);
+    private AtomicBoolean firstSensorTriggered = new AtomicBoolean(false);
 
     @Override
     public void realRun() throws InterruptedException {
@@ -56,24 +58,43 @@ public class RedAutoGodThread extends GodThread {
 
         //keep the program alive as long as the two monitor threads are still going - should proceed every logicThread addition
         delegateMonitor(gtw, new MonitorThread[]{});
-//*****************************
+
 //THE FOLLOWING BLOCK MOVES TO FIRST BEACON, TAKES PIC AND PUSHES BUTTON
 //*****************************
 
 
         boolean weCanUseSonar = sonarWorks.get() && WITH_SONAR;
-        LogicThread toFirstLine = new ToWhiteLineCompensateColor(GodThread.Line.RED_FIRST_LINE, allSensorsFailed );
+        LogicThread toFirstLine = new ToWhiteLineCompensateColor(GodThread.Line.RED_FIRST_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks);
         Thread tfl = new Thread(toFirstLine);
         tfl.start();
         children.add(tfl);
         delegateMonitor(tfl, new MonitorThread[]{});
+        if (lastSensorTriggered.get()) {
+            Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
+            Thread adjust = new Thread(reAdjust);
+            adjust.start();
+            children.add(adjust);
+            delegateMonitor(adjust, new MonitorThread[]{});
+        }
+        if (firstSensorTriggered.get()) {
+            Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
+            Thread adjust = new Thread(reAdjust);
+            adjust.start();
+            children.add(adjust);
+            delegateMonitor(adjust, new MonitorThread[]{});
+        }
         if (allSensorsFailed.get()) {
+            Command.AUTO_ROBOT.addToProgress("RunningAllSensorsFailed");
+
             LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTFAILS, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
             children.add(adjust);
             delegateMonitor(adjust, new MonitorThread[]{});
         } else{
+            Command.AUTO_ROBOT.addToProgress("CompensatingColor");
             LogicThread allignToLine = new ColorCompensator(Line.RED_FIRST_LINE);
             Thread atl = new Thread(allignToLine);
             atl.start();
@@ -107,18 +128,40 @@ public class RedAutoGodThread extends GodThread {
 //THE FOLLOWING BLOCK MOVES TO SECOND BEACON, TAKES PIC AND PUSHES BUTTON (note that it's the same as above, but the Linetype is changed to second beacon)
 //*****************************
         redIsLeft.set(false);
-        LogicThread toSecondLine = new ToWhiteLineCompensateColor(GodThread.Line.RED_SECOND_LINE, allSensorsFailed );
+        lastSensorTriggered.set(false);
+        allSensorsFailed.set(false);
+        LogicThread toSecondLine = new ToWhiteLineCompensateColor(GodThread.Line.RED_SECOND_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks );
         Thread tsl = new Thread(toSecondLine);
         tsl.start();
         children.add(tsl);
         delegateMonitor(tsl, new MonitorThread[]{});
+        if (lastSensorTriggered.get()) {
+            Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
+            Thread adjust = new Thread(reAdjust);
+            adjust.start();
+            children.add(adjust);
+            delegateMonitor(adjust, new MonitorThread[]{});
+        }
+        if (firstSensorTriggered.get()) {
+            Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
+            Thread adjust = new Thread(reAdjust);
+            adjust.start();
+            children.add(adjust);
+            delegateMonitor(adjust, new MonitorThread[]{});
+        }
         if (allSensorsFailed.get()) {
+            Command.AUTO_ROBOT.addToProgress("RunningAllSensorsFailed");
+
             LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTFAILS, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
             children.add(adjust);
             delegateMonitor(adjust, new MonitorThread[]{});
         } else{
+            Command.AUTO_ROBOT.addToProgress("Compensating color");
+
             LogicThread allignToLine = new ColorCompensator(Line.RED_SECOND_LINE);
             Thread atl = new Thread(allignToLine);
             atl.start();
