@@ -3,6 +3,7 @@ package virtualRobot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import virtualRobot.components.AxisSensor;
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.StateSensor;
@@ -25,6 +26,10 @@ public interface AutonomousRobot {
     Sensor getPitchSensor();
 
     Sensor getRollSensor();
+
+    AxisSensor getWorldAccel();
+
+    AxisSensor getRawAccel();
 
     ColorSensor getColorSensor();
 

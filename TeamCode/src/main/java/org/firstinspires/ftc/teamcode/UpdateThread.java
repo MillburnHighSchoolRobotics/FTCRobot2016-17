@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImpl;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
@@ -36,6 +37,7 @@ import virtualRobot.commands.Command;
 import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
+import virtualRobot.components.AxisSensor;
 import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.StateSensor;
 import virtualRobot.components.Motor;
@@ -47,6 +49,8 @@ import virtualRobot.godThreads.TeleopGodThread;
 import virtualRobot.logicThreads.TeleopLogic;
 import virtualRobot.utils.MathUtils;
 import virtualRobot.godThreads.TakePictureTestGod;
+import virtualRobot.utils.Vector3f;
+
 /*
 Updates Virtual sensors etc to corresponds to their real components.
 Updates Real components (e.g. motors) to correspond to the values of their virtual componennts
@@ -77,6 +81,7 @@ public abstract class UpdateThread extends OpMode {
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
 	private Sensor vHeadingSensor, vPitchSensor, vRollSensor;
+	private AxisSensor vRawAccel, vWorldAccel;
 	private StateSensor vStateSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
@@ -141,6 +146,8 @@ public abstract class UpdateThread extends OpMode {
 		vLightSensor3 = robot.getLightSensor3();
 		vLightSensor4 = robot.getLightSensor4();
 		vColorSensor = robot.getColorSensor();
+		vRawAccel = robot.getRawAccel();
+		vWorldAccel = robot.getWorldAccel();
 		if (WITH_SONAR) {
 			vSonarLeft = robot.getSonarLeft();
 			vSonarRight = robot.getSonarRight();
@@ -189,7 +196,8 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroAccel();
 		telemetry.addData("Is Running Version: ", Translate.KPt + " 1.6");
         telemetry.addData("Init Loop Time", runtime.toString());
-
+		telemetry.addData("Battery Voltage: ", getBatteryVoltage());
+		telemetry.addData("Is Good for Testing: ", getBatteryVoltage() < 13.5 ? "NO, BATTERY IS TOO LOW" : "YES");
 
 	}
 
@@ -249,9 +257,8 @@ public abstract class UpdateThread extends OpMode {
 		vLightSensor2.setRawValue(nxtLight2.getRawLightDetected());
 		vLightSensor3.setRawValue(nxtLight3.getRawLightDetected());
 		vLightSensor4.setRawValue(nxtLight4.getRawLightDetected());
-
-
-
+		vRawAccel.setRawValue(new Vector3f(imu.getIntegratedAccelX(),imu.getIntegratedAccelY(),imu.getIntegratedAccelZ()));
+		vWorldAccel.setRawValue(new Vector3f(imu.getWorldLinearAccelX(),imu.getWorldLinearAccelY(),imu.getWorldLinearAccelZ()));
 		try {
             vJoystickController1.copyStates(gamepad1);
             vJoystickController2.copyStates(gamepad2);
@@ -325,6 +332,15 @@ public abstract class UpdateThread extends OpMode {
 
     public void addPresets(){}
 
-
+	double getBatteryVoltage() {
+		double result = Double.POSITIVE_INFINITY;
+		for (VoltageSensor sensor : hardwareMap.voltageSensor) {
+			double voltage = sensor.getVoltage();
+			if (voltage > 0) {
+				result = Math.min(result, voltage);
+			}
+		}
+		return result;
+	}
 }
 

@@ -3,6 +3,7 @@ package virtualRobot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import virtualRobot.components.AxisSensor;
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.StateSensor;
@@ -20,6 +21,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
     private Sensor nxtlightSensor1, nxtlightSensor2, nxtlightSensor3, nxtlightSensor4;
     private Sensor headingSensor, pitchSensor, rollSensor;
+    private AxisSensor rawAccel, worldAccel;
     private ColorSensor colorSensor;
     private UltrasonicSensor sonarLeft, sonarRight;
     private JoystickController joystickController1, joystickController2;
@@ -38,7 +40,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {
-
+        rawAccel = new AxisSensor();
+        worldAccel = new AxisSensor();
         joystickController1 = new JoystickController();
         joystickController2 = new JoystickController();
         headingSensor = new Sensor();
@@ -88,6 +91,12 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Sensor getRollSensor() {
         return rollSensor;
     }
+
+    @Override
+    public AxisSensor getWorldAccel() { return worldAccel; }
+
+    @Override
+    public AxisSensor getRawAccel() { return rawAccel; }
 
     @Override
     public synchronized UltrasonicSensor getSonarLeft(){return sonarLeft;}
