@@ -49,26 +49,18 @@ public class AxisSensor {
     }
 
     public synchronized double getRawValueX() {
-        double retVal = 0;
-        synchronized (this) {
-            retVal = values.x;
-        }
-        return retVal;
+        return getValueVector().x;
     }
 
     public synchronized double getRawValueY() {
-        double retVal = 0;
-        synchronized (this) {
-            retVal = values.y;
-        }
-        return retVal;
+        return getValueVector().y;
     }
 
     public synchronized double getRawValueZ() {
-        double retVal = 0;
-        synchronized (this) {
-            retVal = values.z;
-        }
-        return retVal;
+        return getValueVector().z;
+    }
+
+    public synchronized Vector3f getValueVector() {
+        return new Vector3f(values).subtract(offset);
     }
 }

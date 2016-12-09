@@ -26,8 +26,8 @@ public class CollisionMonitor extends MonitorThread {
 
         if ( ( Math.abs(currentJerkX) > COLLISION_THRESHOLD_DELTA_G ) ||
                 ( Math.abs(currentJerkY) > COLLISION_THRESHOLD_DELTA_G) ) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

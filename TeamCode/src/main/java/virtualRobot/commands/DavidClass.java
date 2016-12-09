@@ -14,16 +14,27 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import virtualRobot.utils.Vector2i;
+
 /**
  * Created by DOSullivan on 11/4/15.
  * ANalyzes the picture and determines whether or not red is left
  */
 
 public class DavidClass {
-    static double startXPercent = .1;
-    static double endXPercent = .958;
-    static double startYPercent = .298;
-    static double endYPercent = .595;
+    final static Mode currentMode = Mode.MIDSPLIT;
+    volatile static double startXPercent = .1;
+    volatile static double endXPercent = .958;
+    volatile static double startYPercent = .298;
+    volatile static double endYPercent = .595;
+    volatile static double start1XPercent = -1;
+    volatile static double end1XPercent = -1;
+    volatile static double start1YPercent = -1;
+    volatile static double end1YPercent = -1;
+    volatile static double start2XPercent = -1;
+    volatile static double end2XPercent = -1;
+    volatile static double start2YPercent = -1;
+    volatile static double end2YPercent = -1;
     private static double TOLERANCE = 135;
 
 
@@ -38,58 +49,98 @@ public class DavidClass {
 
     }
     public static boolean analyzePic2(Bitmap bmp) {
-        Log.d("zzz", Long.toString(RED));
-        Bitmap image= bmp;
-        image= Bitmap.createScaledBitmap(bmp, image.getWidth() / 2, image.getHeight() / 2, true);
+        Log.d("DavidClass", "Color.RED: " + Long.toString(RED));
+        Bitmap image= Bitmap.createScaledBitmap(bmp, bmp.getWidth() / 2, bmp.getHeight() / 2, true);
+//        image= Bitmap.createScaledBitmap(bmp, image.getWidth() / 2, image.getHeight() / 2, true);
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(image, image.getWidth(), image.getHeight(), true);
-        image = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+//        Bitmap scaledBitmap = Bitmap.createScaledBitmap(image, image.getWidth(), image.getHeight(), true);
+        image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
 
 
 
        // int[] pixels = new int[image.getWidth() * image.getHeight()];
 
         int height = image.getHeight(), width = image.getWidth();
+        boolean result;
       //  image.getPixels(pixels, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight()); //gets pixels in pixel array
+        if (currentMode == Mode.MIDSPLIT) {
+            final int startX = (int) ((startXPercent) * width); //.4
+            final int endX = (int) (endXPercent * width); //.9
+            final int startY = (int) (startYPercent * height); //.55
+            final int endY = (int) (endYPercent * height); //.77
 
-        final int startX = (int) ((startXPercent) * width); //.4
-        final int endX = (int) (endXPercent*width); //.9
-        final int startY = (int) (startYPercent*height); //.55
-        final int endY = (int) (endYPercent*height); //.77
+            final int midX = (startX + endX) / 2;
 
-        final int midX = (startX + endX) / 2;
+            //int lNum = 0;
+            //int rNum = 0;
+            long lSum = 0;
+            long rSum = 0;
+            long lAvg, rAvg;
+            for (int i = startY; i < endY; i++) {
+                for (int j = startX; j < midX; j++) {
+                    lSum += Color.red(image.getPixel(j, i));
+                    //lSum += Color.red(pixels[width*i + j]);
+                    // lNum++;
 
-        //int lNum = 0;
-        //int rNum = 0;
-        long lSum = 0;
-        long rSum = 0;
-        long lAvg, rAvg;
-        for (int i = startY; i < endY; i++) {
-           for (int j = startX; j < midX; j++) {
-                lSum += Color.red(image.getPixel(j,i));
-                //lSum += Color.red(pixels[width*i + j]);
-               // lNum++;
+                }
 
-           }
-
-           for (int j = midX; j < endX; j++) {
-               rSum += Color.red(image.getPixel(j,i));
-                //rSum+= Color.red(pixels[width*i + j]);
-                //rNum++;
+                for (int j = midX; j < endX; j++) {
+                    rSum += Color.red(image.getPixel(j, i));
+                    //rSum+= Color.red(pixels[width*i + j]);
+                    //rNum++;
 
 
-           }
+                }
 
+            }
+
+            //lAvg = roundUp(lSum, lNum);
+            //rAvg = roundUp(rSum, rNum);
+            Log.d("DavidClass", "Pic Size: " + Long.toString(midX - startX) + " by " + Long.toString(endX - midX));
+
+            lAvg = roundUp(lSum, ((midX - startX) * (endY - startY)));
+            rAvg = roundUp(rSum, ((endX - midX) * (endY - startY)));
+            Log.d("DavidClass", "Left: " + Long.toString(lAvg) + " Right: " + Long.toString(rAvg));
+            result = (lAvg-RED > rAvg-RED);
+        } else {
+            Vector2i start1 = new Vector2i((int) DavidClass.start1XPercent*width, (int) DavidClass.startYPercent*height);
+            Vector2i end1 = new Vector2i((int) DavidClass.startXPercent*width,(int) DavidClass.startYPercent*height);
+            Vector2i start2 = new Vector2i((int) DavidClass.start2XPercent*width, (int) DavidClass.start2YPercent*height);
+            Vector2i end2  = new Vector2i((int) DavidClass.end2XPercent*width, (int) DavidClass.end2YPercent*height);
+
+            //int lNum = 0;
+            //int rNum = 0;
+            long lSum = 0;
+            long rSum = 0;
+            long lAvg, rAvg;
+            for (int i = start1.y; i < end1.y; i++) {
+                for (int j = start1.x; j < end1.x; j++) {
+                    lSum += Color.red(image.getPixel(j, i));
+                    //lSum += Color.red(pixels[width*i + j]);
+                    // lNum++;
+
+                }
+            }
+            for (int i = start2.y; i < end2.y; i++) {
+                for (int j = start2.x; j < end2.x; j++) {
+                    rSum += Color.red(image.getPixel(j, i));
+                    //lSum += Color.red(pixels[width*i + j]);
+                    // lNum++;
+
+                }
+            }
+
+            //lAvg = roundUp(lSum, lNum);
+            //rAvg = roundUp(rSum, rNum);
+            Log.d("DavidClass", "Pic1 Size: " + Long.toString(end1.x-start1.x) + " by " + Long.toString(end1.y - start1.y));
+            Log.d("DavidClass", "Pic2 Size: " + Long.toString(end2.x-start2.x) + " by " + Long.toString(end2.y - start2.y));
+
+            lAvg = roundUp(lSum, ((end1.x-start1.x) * (end1.y - start1.y)));
+            rAvg = roundUp(rSum, ((end2.x - start2.x) * (end2.y - start2.y)));
+            Log.d("DavidClass", "Left: " + Long.toString(lAvg) + " Right: " + Long.toString(rAvg));
+            result = (lAvg-RED > rAvg-RED);
         }
-
-        //lAvg = roundUp(lSum, lNum);
-        //rAvg = roundUp(rSum, rNum);
-        Log.d("qqq", Long.toString(midX-startX) + " " + Long.toString(endX-midX));
-
-        lAvg = roundUp(lSum, ((midX-startX)*(endY-startY)));
-        rAvg = roundUp(rSum, ((endX-midX)*(endY-startY)));
-        Log.d("qqqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
         /*Log.d("qqq", Long.toString(lAvg) + " " + Long.toString(rAvg));
 
 
@@ -110,14 +161,14 @@ public class DavidClass {
             }
         }*/
 
-        return (lAvg-RED > rAvg-RED);}
+        return result;
+        }
     public static boolean[] checkIfAllRed(Bitmap bmp) {
-        Bitmap image= bmp;
-        image= Bitmap.createScaledBitmap(bmp, image.getWidth() / 2, image.getHeight() / 2, true);
+        Bitmap image= Bitmap.createScaledBitmap(bmp, bmp.getWidth() / 2, bmp.getHeight() / 2, true);
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(image, image.getWidth(), image.getHeight(), true);
-        image = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+//        Bitmap scaledBitmap = Bitmap.createScaledBitmap(image, image.getWidth(), image.getHeight(), true);
+        image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
 
 
 
@@ -246,7 +297,9 @@ public class DavidClass {
         return (num + divisor - 1) / divisor;
     }
 
-
+    public enum Mode{
+        MIDSPLIT, TWORECTANGLES
+    }
 }
 /* NON-ANDROID VERSION: (USES IMAGEIO)
 public class DavidClass {
