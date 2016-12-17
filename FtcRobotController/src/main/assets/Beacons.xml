@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
-    <ImageTarget name="BeaconBlueIsLeft" size="0.212725 0.155593" />
-    <ImageTarget name="BeaconRedIsLeft" size="0.212725 0.149475" />
+    <ImageTarget name="RedIsLeft" size="202.412598 125.954979" />
+    <ImageTarget name="BlueIsLeft" size="202.412598 125.954979" />
   </Tracking>
 </QCARConfig>
