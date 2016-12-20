@@ -178,6 +178,17 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getRBMotor().setPower(1.0);
                     }
 
+                    if(controller2.isDpadUp()) {
+                        robot.getLiftLeftMotor().setPower(1.0);
+                        robot.getLiftRightMotor().setPower(1.0);
+                    } else if (controller2.isDpadDown()) {
+                        robot.getLiftLeftMotor().setPower(-1.0);
+                        robot.getLiftRightMotor().setPower(-1.0);
+                    } else {
+                        robot.getLiftLeftMotor().setPower(0);
+                        robot.getLiftRightMotor().setPower(0);
+                    }
+
                     //lifting cap ball
                     /*if (controller2.isPressed(JoystickController.BUTTON_A)) {
                         if(MathUtils.equals(robot.getCapLeftServo().getPosition(),CAP_LEFT_OPEN))

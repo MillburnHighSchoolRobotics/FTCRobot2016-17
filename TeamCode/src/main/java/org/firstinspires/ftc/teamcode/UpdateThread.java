@@ -69,7 +69,7 @@ public abstract class UpdateThread extends OpMode {
 
 
 	private MPU9250 imu;
-	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper;
+	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper, capLiftLeft, capLiftRight;
 	private UltrasonicSensor sonarLeft, sonarRight;
 	private LightSensor nxtLight1, nxtLight2, nxtLight3, nxtLight4;
 	private ColorSensor colorSensor;
@@ -84,8 +84,8 @@ public abstract class UpdateThread extends OpMode {
 	private AxisSensor vRawAccel, vWorldAccel;
 	private StateSensor vStateSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
-	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack;
-	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder;
+	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vLiftLeft, vLiftRight;
+	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder, vLiftLeftEncoder, vLiftRightEncoder;
 	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
 	private virtualRobot.components.Servo vButtonServo, vBallLauncherServo;
 	private Sensor vLightSensor1, vLightSensor2, vLightSensor3, vLightSensor4;
@@ -103,6 +103,8 @@ public abstract class UpdateThread extends OpMode {
 		rightFront = hardwareMap.dcMotor.get("rightFront");
 		rightBack = hardwareMap.dcMotor.get("rightBack");
 //		reaper = hardwareMap.dcMotor.get("reaper");
+		capLiftLeft = hardwareMap.dcMotor.get("liftLeft");
+		capLiftRight = hardwareMap.dcMotor.get("liftRight");
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		if (withServos) {
@@ -113,7 +115,7 @@ public abstract class UpdateThread extends OpMode {
         //REVERSE ONE SIDE (If needed, e.g. rightFront.setDirection(DcMotor.Direction.REVERSE)
 		rightFront.setDirection(DcMotor.Direction.REVERSE);
 		rightBack.setDirection(DcMotor.Direction.REVERSE);
-
+		capLiftRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
 
@@ -156,6 +158,8 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBack = robot.getLBMotor();
 		vRightFront = robot.getRFMotor();
 		vRightBack = robot.getRBMotor();
+		vLiftLeft = robot.getLiftLeftMotor();
+		vLiftRight = robot.getLiftRightMotor();
 //		vReaper = robot.getReaperMotor();
 		if (withServos) {
 			vButtonServo = robot.getButtonServo();
@@ -165,6 +169,8 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBackEncoder = robot.getLBEncoder();
 		vRightFrontEncoder = robot.getRFEncoder();
 		vRightBackEncoder = robot.getRBEncoder();
+		vLiftLeftEncoder = robot.getLiftLeftEncoder();
+		vLiftRightEncoder = robot.getLiftRightEncoder();
 //		vReaperEncoder = robot.getReaperEncoder();
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
@@ -175,7 +181,7 @@ public abstract class UpdateThread extends OpMode {
 		ballLauncherServo.setPosition(0);
 
 
-			//UpdateUtil.setPosition(capLeft,0.3);
+		//UpdateUtil.setPosition(capLeft,0.3);
 		//UpdateUtil.setPosition(capRight,0.3);
 		if (withServos) {
 			buttonServo.setPosition(TeleopLogic.BUTTON_PUSHER_STATIONARY);
@@ -207,6 +213,8 @@ public abstract class UpdateThread extends OpMode {
 			vLeftBackEncoder.setRawValue(leftBack.getCurrentPosition());
 			vRightFrontEncoder.setRawValue(rightFront.getCurrentPosition());
 			vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
+			vLiftLeftEncoder.setRawValue(capLiftLeft.getCurrentPosition());
+			vLiftRightEncoder.setRawValue(capLiftRight.getCurrentPosition());
 //			vReaperEncoder.setRawValue(reaper.getCurrentPosition());
 
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
@@ -236,8 +244,6 @@ public abstract class UpdateThread extends OpMode {
 		double newEncoderValue = 1;
 		double headingAngle = imu.getIntegratedYaw();
 
-//		vStateSensor.update(imu);
-
 		// Update Sensor Values E.g. vPitchSensor.setRawValue(imu.getIntegratedPitch()); vHeadingSensor, vRollSensor, vColorSensor...
 		vPitchSensor.setRawValue(imu.getIntegratedPitch());
 		vHeadingSensor.setRawValue(headingAngle);
@@ -253,12 +259,15 @@ public abstract class UpdateThread extends OpMode {
 		vLeftBackEncoder.setRawValue(-leftBack.getCurrentPosition());
 		vRightFrontEncoder.setRawValue(-rightFront.getCurrentPosition());
 		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
+		vLiftLeftEncoder.setRawValue(capLiftLeft.getCurrentPosition());
+		vLiftRightEncoder.setRawValue(capLiftRight.getCurrentPosition());
 		vLightSensor1.setRawValue(nxtLight1.getRawLightDetected());
 		vLightSensor2.setRawValue(nxtLight2.getRawLightDetected());
 		vLightSensor3.setRawValue(nxtLight3.getRawLightDetected());
 		vLightSensor4.setRawValue(nxtLight4.getRawLightDetected());
 		vRawAccel.setRawValue(new Vector3f(imu.getIntegratedAccelX(),imu.getIntegratedAccelY(),imu.getIntegratedAccelZ()));
 		vWorldAccel.setRawValue(new Vector3f(imu.getWorldLinearAccelX(),imu.getWorldLinearAccelY(),imu.getWorldLinearAccelZ()));
+		vStateSensor.update();
 		try {
             vJoystickController1.copyStates(gamepad1);
             vJoystickController2.copyStates(gamepad2);
@@ -272,6 +281,8 @@ public abstract class UpdateThread extends OpMode {
 		double leftBackPower = vLeftBack.getPower();
 		double rightFrontPower = vRightFront.getPower();
 		double rightBackPower = vRightBack.getPower();
+		double liftLeftPower = vLiftLeft.getPower();
+		double liftRightPower = vLiftRight.getPower();
 		double buttonPosition = 0;
 		double ballLauncherPosition = 0;
 		if (withServos) {
@@ -289,6 +300,8 @@ public abstract class UpdateThread extends OpMode {
 		leftBack.setPower(leftBackPower);
 		rightFront.setPower(rightFrontPower);
 		rightBack.setPower(rightBackPower);
+		capLiftLeft.setPower(liftLeftPower);
+		capLiftRight.setPower(liftRightPower);
 		if (withServos) {
 			buttonServo.setPosition(buttonPosition);
 			ballLauncherServo.setPosition(ballLauncherPosition);
@@ -332,7 +345,7 @@ public abstract class UpdateThread extends OpMode {
 
     public void addPresets(){}
 
-	double getBatteryVoltage() {
+	public synchronized double getBatteryVoltage() {
 		double result = Double.POSITIVE_INFINITY;
 		for (VoltageSensor sensor : hardwareMap.voltageSensor) {
 			double voltage = sensor.getVoltage();

@@ -47,6 +47,10 @@ public interface AutonomousRobot {
 
     Motor getRBMotor();
 
+    Motor getLiftLeftMotor();
+
+    Motor getLiftRightMotor();
+
 //    Motor getReaperMotor();
 
     Servo getButtonServo();
@@ -60,6 +64,10 @@ public interface AutonomousRobot {
     Sensor getRFEncoder();
 
     Sensor getRBEncoder();
+
+    Sensor getLiftLeftEncoder();
+
+    Sensor getLiftRightEncoder();
 
 //    Sensor getReaperEncoder();
 
