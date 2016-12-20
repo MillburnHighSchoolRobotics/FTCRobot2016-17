@@ -10,6 +10,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import java.util.ArrayList;
+
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.SallyJoeBot;
@@ -19,9 +21,8 @@ import virtualRobot.SallyJoeBot;
  */
 
 public class NavigateToBeacon implements Command {
-    VuforiaTrackable redTarget;
-    VuforiaTrackable blueTarget;
     VuforiaTrackables allTrackables;
+    ArrayList<OpenGLMatrix> matrices = new ArrayList<>();
     OpenGLMatrix lastLocation = null;
     VuforiaLocalizer vuforia;
     AutonomousRobot robot = Command.AUTO_ROBOT;
@@ -35,10 +36,10 @@ public class NavigateToBeacon implements Command {
     public NavigateToBeacon(VuforiaLocalizer vuforia, String asset) {
         this.vuforia = vuforia;
         VuforiaTrackables trackables = this.vuforia.loadTrackablesFromAsset(asset);
-        blueTarget = trackables.get(0);
-        blueTarget.setName("Blue Target");
-        redTarget = trackables.get(1);
-        redTarget.setName("Red Target");
+        allTrackables = trackables;
+        for (int i = 0; i < allTrackables.size(); i++) {
+            allTrackables.get(i).setName("Asset " + i);
+        }
     }
 
     public NavigateToBeacon(VuforiaLocalizer vuforia) {
@@ -49,21 +50,7 @@ public class NavigateToBeacon implements Command {
 
     @Override
     public boolean changeRobotState(){
-        OpenGLMatrix redTargetLocationOnField = OpenGLMatrix
-                .translation(-SallyJoeBot.mmFTCFieldWidth / 2, 0, 0)
-                .multiplied(Orientation.getRotationMatrix(
-                        AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 90, 90, 0));
-        redTarget.setLocation(redTargetLocationOnField);
-        robot.addToProgress("Red Target: " + redTargetLocationOnField.formatAsTransform());
-
-        OpenGLMatrix blueTargetLocationOnField = OpenGLMatrix
-                .translation(0, SallyJoeBot.mmFTCFieldWidth / 2, 0)
-                .multiplied(Orientation.getRotationMatrix(
-                        AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 90, 0, 0));
-        blueTarget.setLocation(blueTargetLocationOnField);
-        robot.addToProgress("Blue Target: " + blueTargetLocationOnField.formatAsTransform());
+        OpenGLMatrix targetMatrix;
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
                 .translation(SallyJoeBot.mmBotWidth / 2, 0, 0)
@@ -72,20 +59,35 @@ public class NavigateToBeacon implements Command {
                         AngleUnit.DEGREES, -90, 0, 0));
         robot.addToProgress("Phone Location: " + phoneLocationOnRobot.formatAsTransform());
 
-        ((VuforiaTrackableDefaultListener) redTarget.getListener()).setPhoneInformation(phoneLocationOnRobot, VuforiaLocalizer.CameraDirection.BACK);
-        ((VuforiaTrackableDefaultListener) blueTarget.getListener()).setPhoneInformation(phoneLocationOnRobot, VuforiaLocalizer.CameraDirection.BACK);
+        for (VuforiaTrackable trackable: allTrackables) {
+            targetMatrix = OpenGLMatrix
+                    .translation(-SallyJoeBot.mmFTCFieldWidth / 2, 0, 0)
+                    .multiplied(Orientation.getRotationMatrix(
+                            AxesReference.EXTRINSIC, AxesOrder.XZX,
+                            AngleUnit.DEGREES, 90, 90, 0));
+            matrices.add(targetMatrix);
+            trackable.setLocation(targetMatrix);
+            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(phoneLocationOnRobot, VuforiaLocalizer.CameraDirection.BACK);
+            robot.addToProgress(trackable.getName()+": " + targetMatrix.formatAsTransform());
+        }
 
         /** Start tracking the data sets we care about. */
         allTrackables.activate();
 
         boolean isInterrupted = false;
 
+        ArrayList<VuforiaTrackable> remove = new ArrayList<>();
         while (!exitCondition.isConditionMet() && !isInterrupted) {
             for (VuforiaTrackable trackable : allTrackables) {
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
+                } else {
+                    remove.add(trackable);
                 }
+            }
+            for (VuforiaTrackable trackable : remove) {
+                allTrackables.remove(trackable);
             }
             if (lastLocation != null)
                 robot.addToTelemetry("Current Location: ", lastLocation.formatAsTransform());

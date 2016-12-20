@@ -1,7 +1,6 @@
 package virtualRobot.components;
 
 import com.kauailabs.navx.ftc.MPU9250;
-import com.vuforia.Matrix34F;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.commands.Command;
@@ -63,7 +62,7 @@ public class StateSensor extends Sensor {
         Vector3f accel = robot.getRawAccel().getValueVector();
         Matrix rotation = new Matrix(3,3);
         Matrix identity = Matrix.identity(6);
-        Matrix variance = Matrix.identity(6,0.5);
+        Matrix variance = Matrix.diagonalFill(6,0.5);
         rotation.arr[0][0] = cos(angleVec.y)*cos(angleVec.z);
         rotation.arr[0][1] = sin(angleVec.x)*sin(angleVec.y)*cos(angleVec.z) - cos(angleVec.x)*sin(angleVec.z);
         rotation.arr[0][2] = cos(angleVec.x)*sin(angleVec.y)*cos(angleVec.z) - sin(angleVec.x)*sin(angleVec.z);

@@ -115,7 +115,7 @@ public class Matrix {
         return new Vector2f(arr[0+offset][0],arr[1+offset][0]);
     }
 
-    public static Matrix identity(int size, double fill) {
+    public static Matrix diagonalFill(int size, double fill) {
         Matrix res = new Matrix(size,size);
         for (int i = 0; i < size; i++) {
             res.arr[i][i] = fill;
@@ -123,5 +123,5 @@ public class Matrix {
         return res;
     }
 
-    public static Matrix identity(int size) { return identity(size, 1); }
+    public static Matrix identity(int size) { return diagonalFill(size, 1); }
 }
