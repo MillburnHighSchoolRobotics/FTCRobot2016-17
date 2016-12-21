@@ -12,7 +12,7 @@ public class LiftTestLeft extends OpMode {
     double motorEncoder = 0;
     @Override
     public void init() {
-        motor1 = hardwareMap.dcMotor.get("butts");
+        motor1 = hardwareMap.dcMotor.get("capLiftLeft");
         initMotorEncoder = motor1.getCurrentPosition();
     }
 

@@ -150,7 +150,6 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
                     } else if (controller2.isDown(JoystickController.BUTTON_RT)) {
                         robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
-
                     } else {
                         robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
                     }

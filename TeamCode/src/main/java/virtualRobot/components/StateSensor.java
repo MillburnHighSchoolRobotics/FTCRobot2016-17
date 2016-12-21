@@ -10,8 +10,8 @@ import virtualRobot.utils.Vector2f;
 import virtualRobot.utils.Vector3f;
 
 /**
- * Created by shant on 2/8/2016.
- * Location Sensor. Keeps track of bot's position on field
+ * Created by ethachu19 on 12/1/16
+ * StateSensor detects robots velocity and position
  */
 public class StateSensor extends Sensor {
     private AutonomousRobot robot = Command.AUTO_ROBOT;
