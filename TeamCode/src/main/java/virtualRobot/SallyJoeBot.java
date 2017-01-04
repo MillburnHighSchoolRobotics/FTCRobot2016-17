@@ -21,6 +21,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
     private Sensor nxtlightSensor1, nxtlightSensor2, nxtlightSensor3, nxtlightSensor4;
     private Sensor headingSensor, pitchSensor, rollSensor;
+    private Sensor voltageSensor;
     private AxisSensor rawAccel, worldAccel;
     private ColorSensor colorSensor;
     private UltrasonicSensor sonarLeft, sonarRight;
@@ -52,6 +53,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         headingSensor = new Sensor();
         pitchSensor = new Sensor();
         rollSensor = new Sensor();
+        voltageSensor = new Sensor();
         colorSensor = new ColorSensor();
         nxtlightSensor1 = new Sensor();
         nxtlightSensor2 = new Sensor();
@@ -100,6 +102,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Sensor getRollSensor() {
         return rollSensor;
     }
+
+    @Override
+    public Sensor getVoltageSensor() { return voltageSensor; }
 
     @Override
     public AxisSensor getWorldAccel() { return worldAccel; }

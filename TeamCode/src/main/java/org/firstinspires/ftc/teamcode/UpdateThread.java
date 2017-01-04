@@ -81,6 +81,7 @@ public abstract class UpdateThread extends OpMode {
 //Now initiate the VIRTUAL componenents (from VirtualRobot!!), e.g. private Motor vDriveRightMotor, private virtualRobot.components.Servo ..., private Sensor vDriveRightMotorEncoder, private LocationSensor vLocationSensor
 
 	private Sensor vHeadingSensor, vPitchSensor, vRollSensor;
+	private Sensor vVoltageSensor;
 	private AxisSensor vRawAccel, vWorldAccel;
 	private StateSensor vStateSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
@@ -143,6 +144,7 @@ public abstract class UpdateThread extends OpMode {
 		vPitchSensor = robot.getPitchSensor();
 		vRollSensor = robot.getRollSensor();
 		vStateSensor = robot.getStateSensor();
+		vVoltageSensor = robot.getVoltageSensor();
 		vLightSensor1 = robot.getLightSensor1();
 		vLightSensor2 = robot.getLightSensor2();
 		vLightSensor3 = robot.getLightSensor3();
@@ -215,6 +217,7 @@ public abstract class UpdateThread extends OpMode {
 			vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 			vLiftLeftEncoder.setRawValue(capLiftLeft.getCurrentPosition());
 			vLiftRightEncoder.setRawValue(capLiftRight.getCurrentPosition());
+			vVoltageSensor.setRawValue(getBatteryVoltage());
 //			vReaperEncoder.setRawValue(reaper.getCurrentPosition());
 
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
@@ -253,6 +256,7 @@ public abstract class UpdateThread extends OpMode {
 			vSonarRight.setRawValue(sonarRight.getUltrasonicLevel());
 		}
 		vColorSensor.setRawValue(colorSensor.argb());
+		vVoltageSensor.setRawValue(getBatteryVoltage());
 
 		//Set more values, such as: vDriveRightMotorEncoder.setRawValue((-rightFront.getCurrentPosition());
 		vLeftFrontEncoder.setRawValue(-leftFront.getCurrentPosition());

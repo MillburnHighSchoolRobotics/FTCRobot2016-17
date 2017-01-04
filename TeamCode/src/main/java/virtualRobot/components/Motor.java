@@ -5,6 +5,9 @@ The virtual Motor component
  */
 public class Motor {
 
+	public static final double MAX_POWER = 1;
+	public static final double STATIONARY = 0;
+
     private volatile double power;
 
     public Motor() {
@@ -24,11 +27,11 @@ public class Motor {
     	synchronized (this) {
     	
 	        power = newPower;
-	        if (power > 1) {
+	        if (power > MAX_POWER) {
 	            power = 1;
 	        }
 	
-	        if (power < -1) {
+	        if (power < -MAX_POWER) {
 	            power = -1;
 	        }
     	}

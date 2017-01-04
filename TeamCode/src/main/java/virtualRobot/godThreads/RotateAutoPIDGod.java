@@ -33,7 +33,7 @@ public class RotateAutoPIDGod extends GodThread {
             delegateMonitor(pid, new MonitorThread[]{});
             while (!stopThreads.get()) {}
 
-            Log.d("PIDTestOutput", "KP: " + kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
+            Log.d("AutoPID", "Iteration: " + iteration + " KP: " + kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
             Command.ROBOT.addToTelemetry("KP: ",kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
             Command.ROBOT.addToTelemetry("Iteration #", iteration);
 

@@ -30,6 +30,7 @@ public class RotateAutoPIDTester extends LogicThread {
     @Override
     public void loadCommands() {
         Rotate r = new Rotate(kP,90,40,shouldStop);
+        robot.getHeadingSensor().clearValue();
         commands.add(r);
         commands.add(new Command() {
 

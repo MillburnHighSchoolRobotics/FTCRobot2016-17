@@ -18,23 +18,23 @@ import virtualRobot.utils.Vector2i;
 
 /**
  * Created by DOSullivan on 11/4/15.
- * ANalyzes the picture and determines whether or not red is left
+ * Analyzes the picture and determines whether or not red is left
  */
 
 public class DavidClass {
-    final static Mode currentMode = Mode.MIDSPLIT;
-    volatile static double startXPercent = .1;
-    volatile static double endXPercent = .958;
-    volatile static double startYPercent = .298;
-    volatile static double endYPercent = .595;
-    volatile static double start1XPercent = -1;
-    volatile static double end1XPercent = -1;
-    volatile static double start1YPercent = -1;
-    volatile static double end1YPercent = -1;
-    volatile static double start2XPercent = -1;
-    volatile static double end2XPercent = -1;
-    volatile static double start2YPercent = -1;
-    volatile static double end2YPercent = -1;
+    public final static Mode currentMode = Mode.MIDSPLIT;
+    public volatile static double startXPercent = .1;
+    public volatile static double endXPercent = .958;
+    public volatile static double startYPercent = .298;
+    public volatile static double endYPercent = .595;
+    public volatile static double start1XPercent = -1;
+    public volatile static double end1XPercent = -1;
+    public volatile static double start1YPercent = -1;
+    public volatile static double end1YPercent = -1;
+    public volatile static double start2XPercent = -1;
+    public volatile static double end2XPercent = -1;
+    public volatile static double start2YPercent = -1;
+    public volatile static double end2YPercent = -1;
     private static double TOLERANCE = 135;
 
 

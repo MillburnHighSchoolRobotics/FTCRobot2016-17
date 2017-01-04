@@ -1,41 +1,19 @@
-package virtualRobot.commands;
+package virtualRobot.godThreads;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 
-import virtualRobot.AutonomousRobot;
-import virtualRobot.ExitCondition;
-import virtualRobot.PIDController;
-import virtualRobot.VuforiaLocalizerImplSubclass;
+import virtualRobot.GodThread;
+import virtualRobot.commands.Command;
+import virtualRobot.commands.DavidClass;
 import virtualRobot.utils.Vector2i;
 
 /**
- * Created by ethachu19 on 12/7/2016.
+ * Created by ethachu19 on 1/4/2017.
  */
 
-public class AllignWithBeacon implements Command {
-
-    AutonomousRobot robot = Command.AUTO_ROBOT;
-    VuforiaLocalizerImplSubclass vuforia;
-    ExitCondition exitCondition = new ExitCondition() {
-        @Override
-        public boolean isConditionMet() {
-            return false;
-        }
-    };
-
-    private final static double BLUETHRESHOLD = 0.2;
-    private final static double REDTHRESHOLD = 1.5;
-    private final static double tp = 0.2;
-    private PIDController heading = new PIDController(0.008,0,0,0,0);
-
-    public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia) {
-        this.vuforia = vuforia;
-    }
-
-    public void setExitCondition(ExitCondition exitCondition) {
-        this.exitCondition = exitCondition;
-    }
+public class RGBCalTestGod extends GodThread {
 
     private int closestTo11(double num) {
         int res = -1;
@@ -50,7 +28,7 @@ public class AllignWithBeacon implements Command {
     }
 
     @Override
-    public boolean changeRobotState() throws InterruptedException {
+    public void realRun() throws InterruptedException {
         int width = vuforia.rgb.getWidth(), height = vuforia.rgb.getHeight();
         Vector2i start1;
         Vector2i end1;
@@ -70,11 +48,11 @@ public class AllignWithBeacon implements Command {
         }
         Vector2i slope1 = new Vector2i(11,closestTo11((end1.y - start1.y)/(end1.x - start1.x)));
         Vector2i slope2 = new Vector2i(11,closestTo11((end2.y - start2.y)/(end2.x - start2.x)));
-        double currLeft = 0, currRight = 0, adjustedPower;
-        int leftCovered, rightCovered;
         Vector2i currentPos;
-        boolean isInterrupted = false, satisfied = false;
-        while (!exitCondition.isConditionMet() && !isInterrupted && !satisfied) {
+        int leftCovered, rightCovered;
+        double currLeft = 0, currRight = 0;
+        while (!Thread.currentThread().isInterrupted()) {
+
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
             currentPos = new Vector2i(start1);
             for (leftCovered = 0; currentPos.x < end1.x && currentPos.y > end1.y; leftCovered++) {
@@ -90,24 +68,15 @@ public class AllignWithBeacon implements Command {
             }
             currLeft /= leftCovered;
             currRight /= rightCovered;
-            satisfied = (currLeft < BLUETHRESHOLD && currRight > REDTHRESHOLD) || (currLeft > REDTHRESHOLD && currRight < BLUETHRESHOLD);
-            adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
-            robot.getLFMotor().setPower(tp + adjustedPower);
-            robot.getLBMotor().setPower(tp + adjustedPower);
-            robot.getRFMotor().setPower(tp - adjustedPower);
-            robot.getRBMotor().setPower(tp - adjustedPower);
-            if (Thread.currentThread().isInterrupted()) {
-                isInterrupted = true;
-                break;
-            }
+
+            Command.AUTO_ROBOT.addToTelemetry("RGB: ", currLeft + " " + currRight);
+            Log.d("RGBCal", currLeft + " " + currRight);
+
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
-                isInterrupted = true;
                 break;
             }
         }
-        robot.stopMotors();
-        return isInterrupted;
     }
 }

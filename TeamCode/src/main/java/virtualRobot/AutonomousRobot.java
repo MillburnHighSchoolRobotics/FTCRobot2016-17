@@ -27,6 +27,8 @@ public interface AutonomousRobot {
 
     Sensor getRollSensor();
 
+    Sensor getVoltageSensor();
+
     AxisSensor getWorldAccel();
 
     AxisSensor getRawAccel();
