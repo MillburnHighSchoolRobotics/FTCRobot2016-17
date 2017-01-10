@@ -69,11 +69,11 @@ public abstract class UpdateThread extends OpMode {
 
 
 	private MPU9250 imu;
-	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper, capLiftLeft, capLiftRight;
+	private DcMotor leftFront, leftBack, rightFront, rightBack, reaper, capLiftLeft, capLiftRight, flywheel;
 	private UltrasonicSensor sonarLeft, sonarRight;
 	private LightSensor nxtLight1, nxtLight2, nxtLight3, nxtLight4;
 	private ColorSensor colorSensor;
-	private Servo buttonServo, ballLauncherServo;
+	private Servo buttonServo, ballLauncherServo, clawLeft, clawRight, flywheelStopper;
 
 	private GodThread vuforiaEverywhere;
 
@@ -85,10 +85,10 @@ public abstract class UpdateThread extends OpMode {
 	private AxisSensor vRawAccel, vWorldAccel;
 	private StateSensor vStateSensor;
 	private JoystickController vJoystickController1, vJoystickController2;
-	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vLiftLeft, vLiftRight;
-	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder, vLiftLeftEncoder, vLiftRightEncoder;
+	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vLiftLeft, vLiftRight, vReaper, vFlywheel;
+	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder, vLiftLeftEncoder, vLiftRightEncoder, vReaperEncoder, vFlywheelEncoder;
 	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
-	private virtualRobot.components.Servo vButtonServo, vBallLauncherServo;
+	private virtualRobot.components.Servo vButtonServo, vBallLauncherServo, vClawLeft, vClawRight, vFlywheelStopper;
 	private Sensor vLightSensor1, vLightSensor2, vLightSensor3, vLightSensor4;
 	private virtualRobot.components.ColorSensor vColorSensor;
 
@@ -103,14 +103,18 @@ public abstract class UpdateThread extends OpMode {
 		leftBack = hardwareMap.dcMotor.get("leftBack");
 		rightFront = hardwareMap.dcMotor.get("rightFront");
 		rightBack = hardwareMap.dcMotor.get("rightBack");
-//		reaper = hardwareMap.dcMotor.get("reaper");
+		reaper = hardwareMap.dcMotor.get("reaper");
 		capLiftLeft = hardwareMap.dcMotor.get("liftLeft");
 		capLiftRight = hardwareMap.dcMotor.get("liftRight");
+		flywheel = hardwareMap.dcMotor.get("flywheel");
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		if (withServos) {
 			ballLauncherServo = hardwareMap.servo.get("ballLauncher");
 			buttonServo = hardwareMap.servo.get("buttonPusher");
+			clawLeft = hardwareMap.servo.get("clawLeft");
+			clawRight = hardwareMap.servo.get("clawRight");
+			flywheelStopper = hardwareMap.servo.get("flywheelStopper");
 		}
 
         //REVERSE ONE SIDE (If needed, e.g. rightFront.setDirection(DcMotor.Direction.REVERSE)
@@ -162,10 +166,14 @@ public abstract class UpdateThread extends OpMode {
 		vRightBack = robot.getRBMotor();
 		vLiftLeft = robot.getLiftLeftMotor();
 		vLiftRight = robot.getLiftRightMotor();
-//		vReaper = robot.getReaperMotor();
+		vReaper = robot.getReaperMotor();
+		vFlywheel = robot.getFlywheel();
 		if (withServos) {
 			vButtonServo = robot.getButtonServo();
 			vBallLauncherServo = robot.getBallLauncherServo();
+			vClawLeft = robot.getClawLeft();
+			vClawRight = robot.getClawRight();
+			vFlywheelStopper = robot.getFlywheelStopper();
 		}
 		vLeftFrontEncoder = robot.getLFEncoder();
 		vLeftBackEncoder = robot.getLBEncoder();
@@ -173,7 +181,8 @@ public abstract class UpdateThread extends OpMode {
 		vRightBackEncoder = robot.getRBEncoder();
 		vLiftLeftEncoder = robot.getLiftLeftEncoder();
 		vLiftRightEncoder = robot.getLiftRightEncoder();
-//		vReaperEncoder = robot.getReaperEncoder();
+		vReaperEncoder = robot.getReaperEncoder();
+		vFlywheelEncoder = robot.getFlywheelEncoder();
         vJoystickController1 = robot.getJoystickController1();
         vJoystickController2 = robot.getJoystickController2();
 
@@ -217,6 +226,8 @@ public abstract class UpdateThread extends OpMode {
 			vRightBackEncoder.setRawValue(rightBack.getCurrentPosition());
 			vLiftLeftEncoder.setRawValue(capLiftLeft.getCurrentPosition());
 			vLiftRightEncoder.setRawValue(capLiftRight.getCurrentPosition());
+			vReaperEncoder.setRawValue(reaper.getCurrentPosition());
+			vFlywheelEncoder.setRawValue(flywheel.getCurrentPosition());
 			vVoltageSensor.setRawValue(getBatteryVoltage());
 //			vReaperEncoder.setRawValue(reaper.getCurrentPosition());
 
@@ -265,6 +276,8 @@ public abstract class UpdateThread extends OpMode {
 		vRightBackEncoder.setRawValue(-rightBack.getCurrentPosition());
 		vLiftLeftEncoder.setRawValue(capLiftLeft.getCurrentPosition());
 		vLiftRightEncoder.setRawValue(capLiftRight.getCurrentPosition());
+		vReaperEncoder.setRawValue(reaper.getCurrentPosition());
+		vFlywheelEncoder.setRawValue(flywheel.getCurrentPosition());
 		vLightSensor1.setRawValue(nxtLight1.getRawLightDetected());
 		vLightSensor2.setRawValue(nxtLight2.getRawLightDetected());
 		vLightSensor3.setRawValue(nxtLight3.getRawLightDetected());
@@ -287,11 +300,19 @@ public abstract class UpdateThread extends OpMode {
 		double rightBackPower = vRightBack.getPower();
 		double liftLeftPower = vLiftLeft.getPower();
 		double liftRightPower = vLiftRight.getPower();
+		double reaperPower = vReaper.getPower();
+		double flywheelPower = vFlywheel.getPower();
 		double buttonPosition = 0;
 		double ballLauncherPosition = 0;
+		double clawLeftPosition = 0;
+		double clawRightPosition = 0;
+		double flywheelStopperPosition = 0;
 		if (withServos) {
 			buttonPosition = vButtonServo.getPosition();
 			ballLauncherPosition = vBallLauncherServo.getPosition();
+			clawLeftPosition = vClawLeft.getPosition();
+			clawRightPosition = vClawRight.getPosition();
+			flywheelStopperPosition = vFlywheelStopper.getPosition();
 		}
 
 
@@ -306,11 +327,14 @@ public abstract class UpdateThread extends OpMode {
 		rightBack.setPower(rightBackPower);
 		capLiftLeft.setPower(liftLeftPower);
 		capLiftRight.setPower(liftRightPower);
+		reaper.setPower(reaperPower);
+		flywheel.setPower(flywheelPower);
 		if (withServos) {
 			buttonServo.setPosition(buttonPosition);
 			ballLauncherServo.setPosition(ballLauncherPosition);
-
-
+			clawLeft.setPosition(clawLeftPosition);
+			clawRight.setPosition(clawRightPosition);
+			flywheelStopper.setPosition(flywheelStopperPosition);
 		}
 
 		for (Map.Entry<String,Object> e: robot.getTelemetry().entrySet()) {

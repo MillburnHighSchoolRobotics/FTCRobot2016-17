@@ -53,11 +53,19 @@ public interface AutonomousRobot {
 
     Motor getLiftRightMotor();
 
-//    Motor getReaperMotor();
+    Motor getReaperMotor();
+
+    Motor getFlywheel();
 
     Servo getButtonServo();
 
     Servo getBallLauncherServo();
+
+    Servo getFlywheelStopper();
+
+    Servo getClawLeft();
+
+    Servo getClawRight();
 
     Sensor getLFEncoder();
 
@@ -71,7 +79,9 @@ public interface AutonomousRobot {
 
     Sensor getLiftRightEncoder();
 
-//    Sensor getReaperEncoder();
+    Sensor getReaperEncoder();
+
+    Sensor getFlywheelEncoder();
 
     Sensor getLightSensor1();
 
@@ -84,6 +94,8 @@ public interface AutonomousRobot {
     SyncedMotors getRightRotate();
 
     SyncedMotors getLeftRotate();
+
+    SyncedMotors getCapLift();
 
     void addToProgress(String s);
 

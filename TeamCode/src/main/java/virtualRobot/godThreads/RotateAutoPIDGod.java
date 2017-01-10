@@ -18,7 +18,7 @@ import virtualRobot.logicThreads.TestingAutonomouses.RotateAutoPIDTester;
 public class RotateAutoPIDGod extends GodThread {
     AtomicBoolean currentTooBig = new AtomicBoolean(true);
     AtomicBoolean stopThreads = new AtomicBoolean(false);
-    double kP = 0.02332;
+    double kP = 0.01;
     double increment = 0.01;
     boolean lastTimeTooSmall = false;
     long iteration = 1;
@@ -56,6 +56,11 @@ public class RotateAutoPIDGod extends GodThread {
             iteration++;
             stopThreads.set(false);
             currentTooBig.set(true);
+
+            if(Command.ROBOT.getVoltageSensor().getValue() <= 13.5) {
+                Log.d("AutoPID", "Stopped due to voltage being below 13.5 : " + Command.ROBOT.getVoltageSensor().getValue());
+                break;
+            }
 
             if (Thread.currentThread().isInterrupted()) {
                 isInterrupted = true;

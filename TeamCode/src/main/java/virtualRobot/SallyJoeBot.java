@@ -28,14 +28,18 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder;
     private Sensor LiftLeftEncoder, LiftRightEncoder;
+    private Sensor ReaperEncoder, FlywheelEncoder;
     private StateSensor stateSensor;
     private ArrayList<String> robotProgress;
     private HashMap<String, Object> telemetry;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
     private Motor LiftLeftMotor, LiftRightMotor;
-//    private Motor Reaper;
+    private Motor Reaper, Flywheel;
     private Servo ButtonServo, ballLauncherServo;
+    private Servo ClawLeft, ClawRight;
+    private Servo FlywheelStopper;
     private SyncedMotors leftRotate, rightRotate;
+    private SyncedMotors capLift;
     private static final double KP = 0.0001; //TBD
     private static final double KI = 0.0001; //TBD
     private static final double KD = 0.0001; //TBD
@@ -70,18 +74,25 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         RBMotor = new Motor();
         LiftLeftMotor = new Motor();
         LiftRightMotor = new Motor();
-//        Reaper = new Motor();
+        Reaper = new Motor();
+        Flywheel = new Motor();
         LFEncoder = new Sensor();
         LBEncoder = new Sensor();
         RFEncoder = new Sensor();
         RBEncoder = new Sensor();
         LiftLeftEncoder = new Sensor();
         LiftRightEncoder = new Sensor();
+        ReaperEncoder = new Sensor();
+        FlywheelEncoder = new Sensor();
         ButtonServo = new Servo();
         ballLauncherServo = new Servo();
+        ClawLeft = new Servo();
+        ClawRight = new Servo();
+        FlywheelStopper = new Servo();
         leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
         rightRotate = new SyncedMotors(RFMotor, RBMotor, RFEncoder, RBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
-
+        capLift = new SyncedMotors(LiftLeftMotor, LiftRightMotor, LiftLeftEncoder, LiftRightEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
+        capLift.setRatio(1);
         leftRotate.setRatio(1);
         rightRotate.setRatio(1);
 
@@ -137,6 +148,12 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public Sensor getLiftRightEncoder() { return LiftRightEncoder; }
 
     @Override
+    public Sensor getReaperEncoder() { return ReaperEncoder; }
+
+    @Override
+    public Sensor getFlywheelEncoder() { return FlywheelEncoder; }
+
+    @Override
     public synchronized Sensor getLightSensor1() {return nxtlightSensor1;}
 
     @Override
@@ -166,8 +183,11 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     @Override
     public Motor getLiftRightMotor() { return LiftRightMotor; }
 
-//    @Override
-//    public synchronized Motor getReaperMotor() { return Reaper; }
+    @Override
+    public synchronized Motor getReaperMotor() { return Reaper; }
+
+    @Override
+    public Motor getFlywheel() { return Flywheel; }
 
     @Override
     public synchronized Servo getButtonServo() { return ButtonServo; }
@@ -176,12 +196,24 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized Servo getBallLauncherServo() { return ballLauncherServo; }
 
     @Override
+    public Servo getFlywheelStopper() { return FlywheelStopper; }
+
+    @Override
+    public Servo getClawLeft() { return ClawLeft; }
+
+    @Override
+    public Servo getClawRight() { return ClawRight; }
+
+    @Override
     public synchronized StateSensor getStateSensor() { return stateSensor; }
 
     @Override
     public synchronized SyncedMotors getRightRotate() {
         return rightRotate;
     }
+
+    @Override
+    public synchronized SyncedMotors getCapLift() { return capLift; }
 
     @Override
     public synchronized void stopMotors() {LFMotor.setPower(0); RFMotor.setPower(0); LBMotor.setPower(0); RBMotor.setPower(0);}
