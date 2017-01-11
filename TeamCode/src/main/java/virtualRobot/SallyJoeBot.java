@@ -35,7 +35,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
     private Motor LiftLeftMotor, LiftRightMotor;
     private Motor Reaper, Flywheel;
-    private Servo ButtonServo, ballLauncherServo;
+    private Servo ButtonServo;
     private Servo ClawLeft, ClawRight;
     private Servo FlywheelStopper;
     private SyncedMotors leftRotate, rightRotate;
@@ -85,7 +85,6 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         ReaperEncoder = new Sensor();
         FlywheelEncoder = new Sensor();
         ButtonServo = new Servo();
-        ballLauncherServo = new Servo();
         ClawLeft = new Servo();
         ClawRight = new Servo();
         FlywheelStopper = new Servo();
@@ -191,9 +190,6 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
     @Override
     public synchronized Servo getButtonServo() { return ButtonServo; }
-
-    @Override
-    public synchronized Servo getBallLauncherServo() { return ballLauncherServo; }
 
     @Override
     public Servo getFlywheelStopper() { return FlywheelStopper; }

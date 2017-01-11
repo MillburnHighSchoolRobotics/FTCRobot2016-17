@@ -36,7 +36,7 @@ public class RotateAutoPIDTester extends LogicThread {
 
             @Override
             public boolean changeRobotState() throws InterruptedException {
-                new Thread() {
+                Thread x = new Thread() {
                     public void run() {
                         double lastYaw = -400;
                         double curr;
@@ -61,7 +61,9 @@ public class RotateAutoPIDTester extends LogicThread {
                             }
                         }
                     }
-                }.start();
+                };
+                x.start();
+                children.add(x);
                 return Thread.currentThread().isInterrupted();
             }
         });

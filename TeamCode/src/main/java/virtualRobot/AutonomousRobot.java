@@ -59,8 +59,6 @@ public interface AutonomousRobot {
 
     Servo getButtonServo();
 
-    Servo getBallLauncherServo();
-
     Servo getFlywheelStopper();
 
     Servo getClawLeft();
