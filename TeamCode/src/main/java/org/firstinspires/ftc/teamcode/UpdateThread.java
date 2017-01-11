@@ -73,7 +73,7 @@ public abstract class UpdateThread extends OpMode {
 	private UltrasonicSensor sonarLeft, sonarRight;
 	private LightSensor nxtLight1, nxtLight2, nxtLight3, nxtLight4;
 	private ColorSensor colorSensor;
-	private Servo buttonServo, ballLauncherServo, clawLeft, clawRight, flywheelStopper;
+	private Servo buttonServo, clawLeft, clawRight, flywheelStopper;
 
 	private GodThread vuforiaEverywhere;
 
@@ -110,7 +110,6 @@ public abstract class UpdateThread extends OpMode {
 
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		if (withServos) {
-			ballLauncherServo = hardwareMap.servo.get("ballLauncher");
 			buttonServo = hardwareMap.servo.get("buttonPusher");
 			clawLeft = hardwareMap.servo.get("clawLeft");
 			clawRight = hardwareMap.servo.get("clawRight");
@@ -170,7 +169,6 @@ public abstract class UpdateThread extends OpMode {
 		vFlywheel = robot.getFlywheel();
 		if (withServos) {
 			vButtonServo = robot.getButtonServo();
-			vBallLauncherServo = robot.getBallLauncherServo();
 			vClawLeft = robot.getClawLeft();
 			vClawRight = robot.getClawRight();
 			vFlywheelStopper = robot.getFlywheelStopper();
@@ -189,7 +187,6 @@ public abstract class UpdateThread extends OpMode {
 		robotProgress = new ArrayList<String>();
 		//Setup Physical Components
 		buttonServo.setPosition(0.5);
-		ballLauncherServo.setPosition(0);
 
 
 		//UpdateUtil.setPosition(capLeft,0.3);
@@ -234,7 +231,6 @@ public abstract class UpdateThread extends OpMode {
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
 				vButtonServo.setPosition(buttonServo.getPosition());
-				vBallLauncherServo.setPosition(ballLauncherServo.getPosition());
 			}
 		if (WITH_SONAR) {
 			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
@@ -303,13 +299,11 @@ public abstract class UpdateThread extends OpMode {
 		double reaperPower = vReaper.getPower();
 		double flywheelPower = vFlywheel.getPower();
 		double buttonPosition = 0;
-		double ballLauncherPosition = 0;
 		double clawLeftPosition = 0;
 		double clawRightPosition = 0;
 		double flywheelStopperPosition = 0;
 		if (withServos) {
 			buttonPosition = vButtonServo.getPosition();
-			ballLauncherPosition = vBallLauncherServo.getPosition();
 			clawLeftPosition = vClawLeft.getPosition();
 			clawRightPosition = vClawRight.getPosition();
 			flywheelStopperPosition = vFlywheelStopper.getPosition();
@@ -331,7 +325,6 @@ public abstract class UpdateThread extends OpMode {
 		flywheel.setPower(flywheelPower);
 		if (withServos) {
 			buttonServo.setPosition(buttonPosition);
-			ballLauncherServo.setPosition(ballLauncherPosition);
 			clawLeft.setPosition(clawLeftPosition);
 			clawRight.setPosition(clawRightPosition);
 			flywheelStopper.setPosition(flywheelStopperPosition);
