@@ -61,9 +61,9 @@ public interface AutonomousRobot {
 
     Servo getFlywheelStopper();
 
-    Servo getClawLeft();
+    ContinuousRotationServo getClawLeft();
 
-    Servo getClawRight();
+    ContinuousRotationServo getClawRight();
 
     Sensor getLFEncoder();
 

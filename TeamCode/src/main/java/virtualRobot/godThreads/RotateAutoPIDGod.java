@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import virtualRobot.AutonomousRobot;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
@@ -22,6 +23,7 @@ public class RotateAutoPIDGod extends GodThread {
     double increment = 0.01;
     boolean lastTimeTooSmall = false;
     long iteration = 1;
+    AutonomousRobot robot = Command.ROBOT;
     @Override
     public void realRun() throws InterruptedException {
         boolean isInterrupted = false;
@@ -33,9 +35,9 @@ public class RotateAutoPIDGod extends GodThread {
             delegateMonitor(pid, new MonitorThread[]{});
             while (!stopThreads.get()) {}
 
-            Log.d("AutoPID", "Iteration: " + iteration + " KP: " + kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
-            Command.ROBOT.addToTelemetry("KP: ",kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
-            Command.ROBOT.addToTelemetry("Iteration #", iteration);
+            Log.d("AutoPID", "Iteration: " + iteration + " KU: " + kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
+            robot.addToTelemetry("KU: ",kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
+            robot.addToTelemetry("Iteration #", iteration);
 
             if (lastTimeTooSmall && currentTooBig.get()) {
                 kP -= increment;
@@ -57,7 +59,7 @@ public class RotateAutoPIDGod extends GodThread {
             stopThreads.set(false);
             currentTooBig.set(true);
 
-            if(Command.ROBOT.getVoltageSensor().getValue() <= 13.5) {
+            if(robot.getVoltageSensor().getValue() <= 13.5) {
                 Log.d("AutoPID", "Stopped due to voltage being below 13.5 : " + Command.ROBOT.getVoltageSensor().getValue());
                 break;
             }

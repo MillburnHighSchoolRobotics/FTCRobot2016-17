@@ -88,14 +88,17 @@ public abstract class UpdateThread extends OpMode {
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vLiftLeft, vLiftRight, vReaper, vFlywheel;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder, vLiftLeftEncoder, vLiftRightEncoder, vReaperEncoder, vFlywheelEncoder;
 	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
-	private virtualRobot.components.Servo vButtonServo, vBallLauncherServo, vClawLeft, vClawRight, vFlywheelStopper;
+	private virtualRobot.components.Servo vButtonServo, vBallLauncherServo, vFlywheelStopper;
+	private ContinuousRotationServo vClawLeft, vClawRight;
 	private Sensor vLightSensor1, vLightSensor2, vLightSensor3, vLightSensor4;
 	private virtualRobot.components.ColorSensor vColorSensor;
 
     private ElapsedTime runtime = new ElapsedTime();
 
 	private ArrayList<String> robotProgress;
-	
+
+	private long timePerIter = 1000, startTime;
+
 	@Override
 	public void init() {
         //MOTOR SETUP (with physical componenents, e.g. leftBack = hardwareMap.dcMotor.get("leftBack")
@@ -119,7 +122,7 @@ public abstract class UpdateThread extends OpMode {
         //REVERSE ONE SIDE (If needed, e.g. rightFront.setDirection(DcMotor.Direction.REVERSE)
 		rightFront.setDirection(DcMotor.Direction.REVERSE);
 		rightBack.setDirection(DcMotor.Direction.REVERSE);
-		capLiftRight.setDirection(DcMotorSimple.Direction.REVERSE);
+		//capLiftRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
 
@@ -186,13 +189,14 @@ public abstract class UpdateThread extends OpMode {
 
 		robotProgress = new ArrayList<String>();
 		//Setup Physical Components
-		buttonServo.setPosition(0.5);
 
 
 		//UpdateUtil.setPosition(capLeft,0.3);
 		//UpdateUtil.setPosition(capRight,0.3);
 		if (withServos) {
 			buttonServo.setPosition(TeleopLogic.BUTTON_PUSHER_STATIONARY);
+			clawLeft.setPosition(0);
+			clawRight.setPosition(1);
 		}
 
 		addPresets();
@@ -248,7 +252,7 @@ public abstract class UpdateThread extends OpMode {
 	
 	public void loop() {
 		// Update Location. E.g.: double prevEcnoderValue=?, newEncoderValue=?,
-
+		startTime = System.currentTimeMillis();
 		//TODO: Calculate values for prev and newEncoderValues (Not top priority, locationSensor may not be used)
 		double prevEncoderValue = 1;
 		double newEncoderValue = 1;
@@ -325,8 +329,16 @@ public abstract class UpdateThread extends OpMode {
 		flywheel.setPower(flywheelPower);
 		if (withServos) {
 			buttonServo.setPosition(buttonPosition);
-			clawLeft.setPosition(clawLeftPosition);
-			clawRight.setPosition(clawRightPosition);
+			if(MathUtils.equals(clawLeft.getPosition(),clawLeftPosition)) {
+				clawLeft.setPosition(clawLeftPosition + vClawLeft.getSpeed());
+			} else {
+				clawLeft.setPosition(clawLeftPosition);
+			}
+			if(MathUtils.equals(clawRight.getPosition(),clawRightPosition)) {
+				clawRight.setPosition(clawRightPosition + vClawRight.getSpeed());
+			} else {
+				clawRight.setPosition(clawRightPosition);
+			}
 			flywheelStopper.setPosition(flywheelStopperPosition);
 		}
 

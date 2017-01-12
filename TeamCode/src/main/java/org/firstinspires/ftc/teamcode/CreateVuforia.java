@@ -8,9 +8,7 @@ import java.util.ArrayList;
 
 import virtualRobot.GodThread;
 import virtualRobot.VuforiaLocalizerImplSubclass;
-import virtualRobot.godThreads.PIDLineFollowerGod;
-import virtualRobot.godThreads.PIDTesterGodThread;
-import virtualRobot.godThreads.TeleopGodThread;
+import virtualRobot.godThreads.*;
 
 /**
  * Created by 17osullivand on 11/9/16.
@@ -27,6 +25,10 @@ public class CreateVuforia implements Runnable {
         exception.add(TeleopGodThread.class);
         exception.add(PIDLineFollowerGod.class);
         exception.add(PIDTesterGodThread.class);
+        exception.add(RotateAutoPIDGod.class);
+        exception.add(FPSGodThread.class);
+        exception.add(testingTranslateGodThread.class);
+        exception.add(FireBallsGodThread.class);
     }
 
     public CreateVuforia(Class<? extends GodThread> g, GodThread vuforiaEverywhere, Thread t) {

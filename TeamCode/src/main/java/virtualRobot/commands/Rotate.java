@@ -37,6 +37,7 @@ public class Rotate implements Command {
 
     private double time;
     private double timeLimit;
+    private boolean isTesting = false;
     private AtomicBoolean stop = new AtomicBoolean(false);
     
     private PIDController pidController;
@@ -88,6 +89,7 @@ public class Rotate implements Command {
         this(target, 1.0, timeLimit);
         pidController.setKP(kP);
         this.stop = sS;
+        this.isTesting = true;
     }
 
     public Rotate(double angleInDegrees, double power, double timeLimit) {
@@ -151,7 +153,7 @@ public class Rotate implements Command {
         switch (runMode) {
             case WITH_ANGLE_SENSOR:
 
-                while (!exitCondition.isConditionMet() && Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit) && !stop.get()) {
+                while (!exitCondition.isConditionMet() && (Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE || isTesting) && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit) && !stop.get()) {
 
                     double adjustedPower = pidController.getPIDOutput(robot.getHeadingSensor().getValue());
                     adjustedPower = MathUtils.clamp(adjustedPower, -1, 1);
