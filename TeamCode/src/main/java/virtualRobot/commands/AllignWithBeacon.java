@@ -68,8 +68,14 @@ public class AllignWithBeacon implements Command {
             start2 = new Vector2i((int) DavidClass.start2XPercent*width, (int) DavidClass.start2YPercent*height);
             end1 = new Vector2i((int) DavidClass.end1XPercent*width, (int) DavidClass.end1YPercent*height);
         }
-        Vector2i slope1 = new Vector2i(11,closestTo11((end1.y - start1.y)/(end1.x - start1.x)));
-        Vector2i slope2 = new Vector2i(11,closestTo11((end2.y - start2.y)/(end2.x - start2.x)));
+        Vector2i slope1, slope2;
+        if (vuforia.rgb.getHeight() > vuforia.rgb.getWidth()) {
+            slope1 = new Vector2i(11, closestTo11((end1.y - start1.y)/(end1.x - start1.x)));
+            slope2 = new Vector2i(11, closestTo11((end2.y - start2.y) / (end2.x - start2.x)));
+        } else {
+            slope1 = new Vector2i(closestTo11((end1.y - start1.y)/(end1.x - start1.x)),11);
+            slope2 = new Vector2i(closestTo11((end2.y - start2.y) / (end2.x - start2.x)),11);
+        }
         double currLeft = 0, currRight = 0, adjustedPower;
         int leftCovered, rightCovered;
         Vector2i currentPos;

@@ -15,7 +15,7 @@ import virtualRobot.components.Servo;
 public class FireBallsOnly extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands (){
-        commands.add(new MoveServo(new Servo[]{robot.getBallLauncherServo()}, new double[]{1})); //move button pusher
+//        commands.add(new MoveServo(new Servo[]{robot.getBallLauncherServo()}, new double[]{1})); //move button pusher
 
     }
 }

@@ -14,15 +14,16 @@ import virtualRobot.utils.Vector3f;
  * StateSensor detects robots velocity and position
  */
 public class StateSensor extends Sensor {
-    private AutonomousRobot robot = Command.AUTO_ROBOT;
     private long lastUpdateTime;
     private Matrix state;
     private double angle;
+    private AutonomousRobot robot;
 
     public StateSensor() {
         lastUpdateTime = System.currentTimeMillis();
         state = new Matrix(6,1);
         angle = 0;
+        robot = Command.ROBOT;
     }
 
     public synchronized double getAngle() {
@@ -58,6 +59,9 @@ public class StateSensor extends Sensor {
 //    }
 
     public synchronized void update() {
+        if (robot == null) {
+            return;
+        }
         Vector3f angleVec = new Vector3f(robot.getRollSensor().getRawValue(), robot.getPitchSensor().getRawValue(),robot.getHeadingSensor().getRawValue());
         Vector3f accel = robot.getRawAccel().getValueVector();
         Matrix rotation = new Matrix(3,3);

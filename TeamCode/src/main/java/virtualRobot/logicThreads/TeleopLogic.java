@@ -186,14 +186,27 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     }
 
                     if(controller1.isDown(JoystickController.BUTTON_LT)) {
-                        robot.getFlywheelStopper().setPosition(0.5);
-                        robot.getReaperMotor().setPower(1.0);
+//                        robot.getFlywheelStopper().setPosition(0.5);
+//                        robot.getReaperMotor().setPower(1.0);
+//                        robot.getFlywheel().setPower(0);
+                        robot.getFlywheelStopper().setPosition(1);
+                    }
+                    else
+                        robot.getFlywheelStopper().setPosition(0);
+                    if(controller1.isDown(JoystickController.BUTTON_RT)) {
+//                        robot.getFlywheelStopper().setPosition(0);
+//                        robot.getReaperMotor().setPower(1.0);
+//                        robot.getFlywheel().setPower(1.0);
+                        robot.getFlywheel().setPower(0.8);
+                    }
+                    else {
                         robot.getFlywheel().setPower(0);
                     }
-                    else if(controller1.isDown(JoystickController.BUTTON_RT)) {
-                        robot.getFlywheelStopper().setPosition(0);
-                        robot.getReaperMotor().setPower(1.0);
-                        robot.getFlywheel().setPower(1.0);
+                    if(controller1.isDown(JoystickController.BUTTON_A)) {
+                        robot.getReaperMotor().setPower(1);
+                    }
+                    else {
+                        robot.getReaperMotor().setPower(0);
                     }
 
 

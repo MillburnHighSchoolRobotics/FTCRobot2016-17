@@ -36,7 +36,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
     @Override
     public void loadCommands() {
         WallTrace.setOnBlueSide(true); //makes walltrace use 180 degrees
-        commands.add(new MoveServo(new Servo[]{robot.getBallLauncherServo()}, new double[]{1})); //move ballLauncher
+//        commands.add(new MoveServo(new Servo[]{robot.getBallLauncherServo()}, new double[]{1})); //move ballLauncher
         commands.add(new Pause(500));
         Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD, 0); //
         commands.add(escapeWall);

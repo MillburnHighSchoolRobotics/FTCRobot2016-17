@@ -29,7 +29,7 @@ public class RotateAutoPIDTester extends LogicThread {
 
     @Override
     public void loadCommands() {
-        Rotate r = new Rotate(kP,90,40,shouldStop);
+        Rotate r = new Rotate(kP,90,35,shouldStop);
         robot.getHeadingSensor().clearValue();
         commands.add(r);
         commands.add(new Command() {
@@ -38,6 +38,11 @@ public class RotateAutoPIDTester extends LogicThread {
             public boolean changeRobotState() throws InterruptedException {
                 Thread x = new Thread() {
                     public void run() {
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            return;
+                        }
                         double lastYaw = -400;
                         double curr;
                         isTime.set(true);

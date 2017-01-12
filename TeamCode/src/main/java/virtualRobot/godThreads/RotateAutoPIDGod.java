@@ -40,11 +40,13 @@ public class RotateAutoPIDGod extends GodThread {
             robot.addToTelemetry("Iteration #", iteration);
 
             if (lastTimeTooSmall && currentTooBig.get()) {
+                Log.d("AutoPID","----------------------------------------------------------------------------");
                 kP -= increment;
                 increment /= 10;
                 kP += increment;
             }
             if (!lastTimeTooSmall && !currentTooBig.get()) {
+                Log.d("AutoPID","----------------------------------------------------------------------------");
                 increment /= 10;
                 kP += increment;
             }

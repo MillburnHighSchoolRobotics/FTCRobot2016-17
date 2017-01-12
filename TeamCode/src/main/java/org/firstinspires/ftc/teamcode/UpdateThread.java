@@ -88,7 +88,7 @@ public abstract class UpdateThread extends OpMode {
 	private Motor vLeftFront, vLeftBack, vRightFront, vRightBack, vLiftLeft, vLiftRight, vReaper, vFlywheel;
 	private Sensor vLeftFrontEncoder, vLeftBackEncoder, vRightFrontEncoder, vRightBackEncoder, vLiftLeftEncoder, vLiftRightEncoder, vReaperEncoder, vFlywheelEncoder;
 	private virtualRobot.components.UltrasonicSensor vSonarLeft, vSonarRight;
-	private virtualRobot.components.Servo vButtonServo, vBallLauncherServo, vFlywheelStopper;
+	private virtualRobot.components.Servo vButtonServo, vFlywheelStopper;
 	private ContinuousRotationServo vClawLeft, vClawRight;
 	private Sensor vLightSensor1, vLightSensor2, vLightSensor3, vLightSensor4;
 	private virtualRobot.components.ColorSensor vColorSensor;
@@ -212,7 +212,7 @@ public abstract class UpdateThread extends OpMode {
 		imu.zeroYaw();
 		imu.zeroRoll();
 		imu.zeroAccel();
-		telemetry.addData("Is Running Version: ", Translate.KPt + " 1.6");
+		telemetry.addData("Is Running Version: ", Translate.KPt + " 2.0");
         telemetry.addData("Init Loop Time", runtime.toString());
 		telemetry.addData("Battery Voltage: ", getBatteryVoltage());
 		telemetry.addData("Is Good for Testing: ", getBatteryVoltage() < 13.5 ? "NO, BATTERY IS TOO LOW" : "YES");
@@ -284,7 +284,7 @@ public abstract class UpdateThread extends OpMode {
 		vLightSensor4.setRawValue(nxtLight4.getRawLightDetected());
 		vRawAccel.setRawValue(new Vector3f(imu.getIntegratedAccelX(),imu.getIntegratedAccelY(),imu.getIntegratedAccelZ()));
 		vWorldAccel.setRawValue(new Vector3f(imu.getWorldLinearAccelX(),imu.getWorldLinearAccelY(),imu.getWorldLinearAccelZ()));
-		vStateSensor.update();
+//		vStateSensor.update();
 		try {
             vJoystickController1.copyStates(gamepad1);
             vJoystickController2.copyStates(gamepad2);
