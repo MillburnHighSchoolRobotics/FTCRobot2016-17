@@ -153,8 +153,12 @@ public class Rotate implements Command {
         switch (runMode) {
             case WITH_ANGLE_SENSOR:
 
-                while (!exitCondition.isConditionMet() && (Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE || isTesting) && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit) && !stop.get()) {
+                while (!exitCondition.isConditionMet() && (Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE || isTesting) && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
+                    if (stop.get()) {
+                        robot.stopMotors();
+                        return isInterrupted;
+                    }
                     double adjustedPower = pidController.getPIDOutput(robot.getHeadingSensor().getValue());
                     adjustedPower = MathUtils.clamp(adjustedPower, -1, 1);
 

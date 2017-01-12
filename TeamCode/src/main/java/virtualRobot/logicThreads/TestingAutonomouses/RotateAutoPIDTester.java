@@ -29,9 +29,6 @@ public class RotateAutoPIDTester extends LogicThread {
 
     @Override
     public void loadCommands() {
-        Rotate r = new Rotate(kP,90,35,shouldStop);
-        robot.getHeadingSensor().clearValue();
-        commands.add(r);
         commands.add(new Command() {
 
             @Override
@@ -39,7 +36,7 @@ public class RotateAutoPIDTester extends LogicThread {
                 Thread x = new Thread() {
                     public void run() {
                         try {
-                            Thread.sleep(200);
+                            Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             return;
                         }
@@ -48,7 +45,8 @@ public class RotateAutoPIDTester extends LogicThread {
                         isTime.set(true);
                         while (!shouldStop.get()) {
                             curr = robot.getHeadingSensor().getValue();
-                            if (MathUtils.equals(curr, lastYaw)) {
+                            robot.addToTelemetry("Thread: ",curr);
+                            if (MathUtils.equals(curr, lastYaw,0.3)) {
                                 isTime.set(false);
                                 shouldStop.set(true);
                                 return;
@@ -67,10 +65,14 @@ public class RotateAutoPIDTester extends LogicThread {
                         }
                     }
                 };
+                robot.addToProgress("Thread started");
                 x.start();
                 children.add(x);
                 return Thread.currentThread().isInterrupted();
             }
         });
+        Rotate r = new Rotate(kP,90,35000,shouldStop);
+        robot.getHeadingSensor().clearValue();
+        commands.add(r);
     }
 }

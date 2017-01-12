@@ -33,22 +33,23 @@ public class RotateAutoPIDGod extends GodThread {
             pid.start();
             children.add(pid);
             delegateMonitor(pid, new MonitorThread[]{});
-            while (!stopThreads.get()) {}
+            while (!stopThreads.get()) {robot.addToTelemetry("Stop: ", stopThreads.get());}
 
             Log.d("AutoPID", "Iteration: " + iteration + " KU: " + kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
             robot.addToTelemetry("KU: ",kP + " Increment: " + increment + " Too High: " + currentTooBig.get());
             robot.addToTelemetry("Iteration #", iteration);
-
-            if (lastTimeTooSmall && currentTooBig.get()) {
-                Log.d("AutoPID","----------------------------------------------------------------------------");
-                kP -= increment;
-                increment /= 10;
-                kP += increment;
-            }
-            if (!lastTimeTooSmall && !currentTooBig.get()) {
-                Log.d("AutoPID","----------------------------------------------------------------------------");
-                increment /= 10;
-                kP += increment;
+            if (iteration != 1) {
+                if (lastTimeTooSmall && currentTooBig.get()) {
+                    Log.d("AutoPID", "----------------------------------------------------------------------------");
+                    kP -= increment;
+                    increment /= 10;
+                    kP += increment;
+                }
+                if (!lastTimeTooSmall && !currentTooBig.get()) {
+                    Log.d("AutoPID", "tooBig then tooSmall-----------------------------------------------------------------------");
+                    increment /= 10;
+                    kP += increment;
+                }
             }
             if (!lastTimeTooSmall && currentTooBig.get()) {
                 kP -= increment;
@@ -58,6 +59,7 @@ public class RotateAutoPIDGod extends GodThread {
             }
 
             iteration++;
+            lastTimeTooSmall = !currentTooBig.get();
             stopThreads.set(false);
             currentTooBig.set(true);
 
