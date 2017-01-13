@@ -177,4 +177,6 @@ public class Vector3f {
     public double dotProduct(Vector3f x){
         return this.x*x.x + this.y*x.y + this.z*x.z;
     }
+
+    public Matrix toMatix() { return new Matrix(new double[][]{{x},{y},{z}}); }
 }

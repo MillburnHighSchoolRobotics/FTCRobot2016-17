@@ -3,6 +3,7 @@ package virtualRobot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import virtualRobot.components.AxisSensor;
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.StateSensor;
@@ -26,6 +27,12 @@ public interface AutonomousRobot {
 
     Sensor getRollSensor();
 
+    Sensor getVoltageSensor();
+
+    AxisSensor getWorldAccel();
+
+    AxisSensor getRawAccel();
+
     ColorSensor getColorSensor();
 
     StateSensor getStateSensor();
@@ -42,11 +49,21 @@ public interface AutonomousRobot {
 
     Motor getRBMotor();
 
-//    Motor getReaperMotor();
+    Motor getLiftLeftMotor();
+
+    Motor getLiftRightMotor();
+
+    Motor getReaperMotor();
+
+    Motor getFlywheel();
 
     Servo getButtonServo();
 
-    Servo getBallLauncherServo();
+    Servo getFlywheelStopper();
+
+    ContinuousRotationServo getClawLeft();
+
+    ContinuousRotationServo getClawRight();
 
     Sensor getLFEncoder();
 
@@ -56,7 +73,13 @@ public interface AutonomousRobot {
 
     Sensor getRBEncoder();
 
-//    Sensor getReaperEncoder();
+    Sensor getLiftLeftEncoder();
+
+    Sensor getLiftRightEncoder();
+
+    Sensor getReaperEncoder();
+
+    Sensor getFlywheelEncoder();
 
     Sensor getLightSensor1();
 
@@ -69,6 +92,8 @@ public interface AutonomousRobot {
     SyncedMotors getRightRotate();
 
     SyncedMotors getLeftRotate();
+
+    SyncedMotors getCapLift();
 
     void addToProgress(String s);
 

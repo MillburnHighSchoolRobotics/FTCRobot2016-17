@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TestingOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import virtualRobot.PIDController;
@@ -8,6 +9,7 @@ import virtualRobot.PIDController;
 /**
  * Created by shant on 2/14/2016.
  */
+@TeleOp(name = "Test: Whole Lift", group = "Tests")
 public class LiftTestBoth extends OpMode {
     DcMotor liftLeft;
     DcMotor liftRight;
@@ -16,8 +18,8 @@ public class LiftTestBoth extends OpMode {
 
     @Override
     public void init() {
-        liftLeft = hardwareMap.dcMotor.get("left");
-        liftRight = hardwareMap.dcMotor.get("right");
+        liftLeft = hardwareMap.dcMotor.get("capLiftLeft");
+        liftRight = hardwareMap.dcMotor.get("capLiftRight");
         liftLeft.setDirection(DcMotor.Direction.REVERSE);
         initLiftLeftEncoder = liftLeft.getCurrentPosition();
         initLiftRightEncoder = liftRight.getCurrentPosition();

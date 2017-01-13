@@ -7,20 +7,23 @@ import virtualRobot.utils.MathUtils;
  * Virtual ContinousRotationServo. Set Position
  */
 public class ContinuousRotationServo extends Servo {
-//
-//    public synchronized double getSpeed () {
-//    	double retVal = 0;
-//    	synchronized (this) {
-//    		retVal = (getPosition() - 90) / 90.0;
-//    	}
-//        return retVal;
-//    }
-//
-//    public synchronized void setSpeed (double speed) {
-//    	synchronized (this) {
-//    		setPosition((speed + 1) * 180);
-//    	}
-//    }
+
+    double speed = 0;
+
+    public synchronized double getSpeed () {
+    	double retVal = 0;
+    	synchronized (this) {
+    		retVal = speed;
+    	}
+        return retVal;
+    }
+
+    public synchronized void setSpeed (double speed) {
+    	synchronized (this) {
+    		this.speed = speed;
+    	}
+    }
+
     public synchronized void setPositionDegrees(double degrees) {
         setPosition(degrees/360);
     }

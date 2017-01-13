@@ -137,8 +137,8 @@ public class SyncedMotors{
                 lastSpeedRatio = adjust;
             }
         }
-        double slavePower = MathUtils.clamp(power*(ratio+adjust),-1,1);
-        double realPower = MathUtils.clamp(power*(ratio-adjust), -1, 1);
+        double slavePower = MathUtils.clamp(power*ratio + adjust,-1,1);
+        double realPower = MathUtils.clamp(power -adjust, -1, 1);
         if (first0) {realPower = 0; slavePower = power;}
         if (second0) {slavePower = 0; realPower = power;}
         if (type == SyncMode.MOTORS) {

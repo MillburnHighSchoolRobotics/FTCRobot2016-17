@@ -68,12 +68,12 @@ public class FTCTakePicture implements Command{
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
             if (mode==Mode.TAKING_PICTURE){
                 boolean analyzed = DavidClass.analyzePic2(bm);
-                Log.d("cameraReturn Analyze", analyzed + " ");
+                Log.d("cameraReturn","Analyzed: " + analyzed + " ");
                 redisLeft.set(analyzed);
             }
             else {
                 boolean[] analyzed = DavidClass.checkIfAllRed(bm);
-                Log.d("cameraReturn Check", analyzed[0] + " isAllRedAndRedIsLeft " + analyzed[1]);
+                Log.d("cameraReturn","Check: " + analyzed[0] + " isAllRedAndRedIsLeft " + analyzed[1]);
                 isRed.set(analyzed[0]);
                 isRedAndRedIsLeft.set(analyzed[1]);
             }

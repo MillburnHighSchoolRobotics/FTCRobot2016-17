@@ -1,29 +1,29 @@
 package virtualRobot.components;
 
 import com.kauailabs.navx.ftc.MPU9250;
-import com.vuforia.Matrix34F;
 
+import virtualRobot.AutonomousRobot;
+import virtualRobot.commands.Command;
 import virtualRobot.utils.MathUtils;
 import virtualRobot.utils.Matrix;
 import virtualRobot.utils.Vector2f;
 import virtualRobot.utils.Vector3f;
 
 /**
- * Created by shant on 2/8/2016.
- * Location Sensor. Keeps track of bot's position on field
+ * Created by ethachu19 on 12/1/16
+ * StateSensor detects robots velocity and position
  */
 public class StateSensor extends Sensor {
-
     private long lastUpdateTime;
-    private Vector3f location;
-    private Vector3f velocity;
+    private Matrix state;
     private double angle;
+    private AutonomousRobot robot;
 
     public StateSensor() {
         lastUpdateTime = System.currentTimeMillis();
-        location = new Vector3f();
-        velocity = new Vector3f();
+        state = new Matrix(6,1);
         angle = 0;
+        robot = Command.ROBOT;
     }
 
     public synchronized double getAngle() {
@@ -33,11 +33,11 @@ public class StateSensor extends Sensor {
     }
 
     public synchronized Vector3f getPosition() {
-        return new Vector3f(location);
+        return new Vector3f(state.arr[3][0],state.arr[4][0],state.arr[5][0]);
     }
 
     public synchronized Vector3f getVelocity() {
-        return new Vector3f(velocity);
+        return new Vector3f(state.arr[0][0],state.arr[1][0],state.arr[2][0]);
     }
 
     //X:Roll Y:Pitch Z:Yaw
@@ -56,21 +56,42 @@ public class StateSensor extends Sensor {
 //        rotation.m21 = sin(x)*cos(y);
 //        rotation.m22 = cos(x)*cos(y);
 //        Vector3f step = rotation.multiply(accel);
-
 //    }
 
-    public synchronized void update(MPU9250 imu) {
-        Vector3f angleVec = new Vector3f(imu.getIntegratedRoll(),imu.getIntegratedPitch(),imu.getIntegratedYaw());
-        Vector3f accel = new Vector3f(imu.getIntegratedAccelX(),imu.getIntegratedAccelY(),imu.getIntegratedAccelZ()).multiply(9.8);
+    public synchronized void update() {
+        if (robot == null) {
+            return;
+        }
+        Vector3f angleVec = new Vector3f(robot.getRollSensor().getRawValue(), robot.getPitchSensor().getRawValue(),robot.getHeadingSensor().getRawValue());
+        Vector3f accel = robot.getRawAccel().getValueVector();
+        Matrix rotation = new Matrix(3,3);
+        Matrix identity = Matrix.identity(6);
+        Matrix variance = Matrix.diagonalFill(6,0.5);
+        rotation.arr[0][0] = cos(angleVec.y)*cos(angleVec.z);
+        rotation.arr[0][1] = sin(angleVec.x)*sin(angleVec.y)*cos(angleVec.z) - cos(angleVec.x)*sin(angleVec.z);
+        rotation.arr[0][2] = cos(angleVec.x)*sin(angleVec.y)*cos(angleVec.z) - sin(angleVec.x)*sin(angleVec.z);
+        rotation.arr[1][0] = sin(angleVec.y)*sin(angleVec.z);
+        rotation.arr[1][1] = sin(angleVec.x)*sin(angleVec.y)*sin(angleVec.z) + cos(angleVec.x)*cos(angleVec.z);
+        rotation.arr[1][2] = cos(angleVec.x)*sin(angleVec.y)*sin(angleVec.z) + sin(angleVec.x)*cos(angleVec.z);
+        rotation.arr[2][0] = -sin(angleVec.y);
+        rotation.arr[2][1] = sin(angleVec.x)*cos(angleVec.y);
+        rotation.arr[2][2] = cos(angleVec.x)*cos(angleVec.y);
+        accel = rotation.multiply(accel).toVector3f(0);
         double delta = System.currentTimeMillis() - lastUpdateTime;
+        Vector3f location = state.toVector3f(0);
+        Vector3f velocity = state.toVector3f(3);
         location.addEquals(velocity.multiply(delta),accel.multiply(0.5 * delta*delta));
         velocity.addEquals(accel.multiply(delta));
+        state.arr[0][0] = location.x;
+        state.arr[1][0] = location.y;
+        state.arr[2][0] = location.z;
+        state.arr[3][0] = velocity.x;
+        state.arr[4][0] = velocity.y;
+        state.arr[5][0] = velocity.z;
         angle = angleVec.z;
     }
     
-    private static double cos(double x) {
-        return MathUtils.cosDegrees(x);
-    }
+    private static double cos(double x) {return MathUtils.cosDegrees(x);}
 
     private static double sin(double x) {
         return MathUtils.sinDegrees(x);

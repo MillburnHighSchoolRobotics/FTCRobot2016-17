@@ -47,6 +47,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
     public final static double CAP_LEFT_CLOSED = 0;
     public final static double CAP_RIGHT_OPEN = 1;
     public final static double CAP_RIGHT_CLOSED = 0;
+
     @Override
     public void loadCommands() {
 
@@ -57,17 +58,16 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                 JoystickController controller1 = robot.getJoystickController1();
                 JoystickController controller2 = robot.getJoystickController2();
                 while (!isInterrupted) {
-                    double BallLauncherOpen = 1;
-                    double BallLauncherClosed = 0;
                     controller1.logicalRefresh();
                     controller2.logicalRefresh();
 
                 //Movement Code
                     if (!MathUtils.equals(controller1.getValue(JoystickController.R_1), 0) ) {
+                        Log.d("joystickInput", "Left Stick Stationary");
                         double angle = Math.toDegrees(controller1.getValue(JoystickController.THETA_1));
                         double power = controller1.getValue(JoystickController.R_1);
                         angle = angle < 0 ? angle + 360 : angle;
-                        robot.getTelemetry().put("Movement: ", angle + " " + power);
+                        Log.d("teleOpMovement", "Turn: " + angle + " " + power);
                         if (angle >= 45 && angle < 135) {
                             robot.getLeftRotate().setPower(power);
                             robot.getRightRotate().setPower(power);
@@ -82,14 +82,14 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                             robot.getRightRotate().setPower(power);
                         }
                     } else {
-                        Log.d("thingDown?", "Left Trigger");
+                        Log.d("joystickInput", "Left Stick Moved");
                         //in the case of mecanum wheels, translating and strafing
                         double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_2)),2);
                         double power = controller1.getValue(JoystickController.R_2);
                         double scale = 0;
                         double LF = 0, RF = 0, LB = 1, RB = 1;
                         movementAngle = movementAngle < 0 ? movementAngle + 360 : movementAngle;
-                        Log.d("translateJoy", movementAngle + " " + power);
+                        Log.d("teleOpMovement", "Translate: " + movementAngle + " " + power);
                         if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
                             scale = MathUtils.sinDegrees(movementAngle-45) / MathUtils.cosDegrees(movementAngle-45);
                             LF = power * POWER_MATRIX[0][0];
@@ -150,7 +150,6 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
                     } else if (controller2.isDown(JoystickController.BUTTON_RT)) {
                         robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
-
                     } else {
                         robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
                     }
@@ -178,6 +177,39 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getRBMotor().setPower(1.0);
                     }
 
+                    if(controller2.isDpadUp()) {
+                        robot.getCapLift().setPower(1.0);
+                    } else if (controller2.isDpadDown()) {
+                        robot.getCapLift().setPower(-1.0);
+                    } else {
+                        robot.getCapLift().setPower(0);
+                    }
+
+                    if(controller1.isDown(JoystickController.BUTTON_LT)) {
+//                        robot.getFlywheelStopper().setPosition(0.5);
+//                        robot.getReaperMotor().setPower(1.0);
+//                        robot.getFlywheel().setPower(0);
+                        robot.getFlywheelStopper().setPosition(1);
+                    }
+                    else
+                        robot.getFlywheelStopper().setPosition(0);
+                    if(controller1.isDown(JoystickController.BUTTON_RT)) {
+//                        robot.getFlywheelStopper().setPosition(0);
+//                        robot.getReaperMotor().setPower(1.0);
+//                        robot.getFlywheel().setPower(1.0);
+                        robot.getFlywheel().setPower(0.8);
+                    }
+                    else {
+                        robot.getFlywheel().setPower(0);
+                    }
+                    if(controller1.isDown(JoystickController.BUTTON_A)) {
+                        robot.getReaperMotor().setPower(1);
+                    }
+                    else {
+                        robot.getReaperMotor().setPower(0);
+                    }
+
+
                     //lifting cap ball
                     /*if (controller2.isPressed(JoystickController.BUTTON_A)) {
                         if(MathUtils.equals(robot.getCapLeftServo().getPosition(),CAP_LEFT_OPEN))
@@ -190,17 +222,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         else
                             robot.getCapRightServo().setPosition(CAP_RIGHT_OPEN);
                     }*/
-                    if (controller2.isDown(JoystickController.BUTTON_A))
-                        BallLauncherOpen = MathUtils.clamp(BallLauncherOpen-.1, 0, 1);
-                    if (controller2.isDown(JoystickController.BUTTON_B))
-                        BallLauncherClosed = MathUtils.clamp(BallLauncherOpen+.1, 0, 1);
-                    if (controller1.isDown(JoystickController.BUTTON_A)) {
-                        //&& controller1.isDown(JoystickController.BUTTON_B) && controller2.isDown(JoystickController.BUTTON_A) && controller2.isDown(JoystickController.BUTTON_B))
-                        robot.getBallLauncherServo().setPosition(BallLauncherOpen);
-                    }
-                    if (controller1.isDown(JoystickController.BUTTON_B)) {
-                        robot.getBallLauncherServo().setPosition(BallLauncherClosed);
-                    }
+
 //                    if (controller2.getValue(JoystickController.Y_1) > 0.05) {
 //                        double currLeft = robot.getSonarLeft().getValue();
 //                        double currRight = robot.getSonarRight().getValue();
@@ -233,7 +255,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         isInterrupted = true;
                     }
             }
-                Log.d("teleOpThread", "wasInterrupted");
+                Log.d("FTCThreads", "teleOp was Interrupted");
                 return isInterrupted;
             }
         });

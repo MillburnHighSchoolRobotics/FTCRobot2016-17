@@ -3,6 +3,7 @@ package virtualRobot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import virtualRobot.components.AxisSensor;
 import virtualRobot.components.ColorSensor;
 import virtualRobot.components.ContinuousRotationServo;
 import virtualRobot.components.StateSensor;
@@ -20,30 +21,43 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     //Motors, sensors, servos referenced (e.g. private Motor...)
     private Sensor nxtlightSensor1, nxtlightSensor2, nxtlightSensor3, nxtlightSensor4;
     private Sensor headingSensor, pitchSensor, rollSensor;
+    private Sensor voltageSensor;
+    private AxisSensor rawAccel, worldAccel;
     private ColorSensor colorSensor;
     private UltrasonicSensor sonarLeft, sonarRight;
     private JoystickController joystickController1, joystickController2;
     private Sensor LFEncoder, LBEncoder, RFEncoder, RBEncoder;
+    private Sensor LiftLeftEncoder, LiftRightEncoder;
+    private Sensor ReaperEncoder, FlywheelEncoder;
     private StateSensor stateSensor;
     private ArrayList<String> robotProgress;
     private HashMap<String, Object> telemetry;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
-//    private Motor Reaper;
-    private Servo ButtonServo, ballLauncherServo;
+    private Motor LiftLeftMotor, LiftRightMotor;
+    private Motor Reaper, Flywheel;
+    private Servo ButtonServo;
+    private ContinuousRotationServo ClawLeft, ClawRight;
+    private Servo FlywheelStopper;
     private SyncedMotors leftRotate, rightRotate;
+    private SyncedMotors capLift;
     private static final double KP = 0.0001; //TBD
     private static final double KI = 0.0001; //TBD
     private static final double KD = 0.0001; //TBD
+    private static final float mmPerInch = 25.4f;
+    public static final float mmBotWidth = 16 * mmPerInch;            // ... or whatever is right for your robot
+    public static final float mmFTCFieldWidth = (12 * 12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
     public static final double BWTHRESHOLD = 3.7; //B+W/2 = 3.01
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
     public SallyJoeBot() {
-
+        rawAccel = new AxisSensor();
+        worldAccel = new AxisSensor();
         joystickController1 = new JoystickController();
         joystickController2 = new JoystickController();
         headingSensor = new Sensor();
         pitchSensor = new Sensor();
         rollSensor = new Sensor();
+        voltageSensor = new Sensor();
         colorSensor = new ColorSensor();
         nxtlightSensor1 = new Sensor();
         nxtlightSensor2 = new Sensor();
@@ -58,16 +72,26 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         LBMotor = new Motor();
         RFMotor = new Motor();
         RBMotor = new Motor();
-//        Reaper = new Motor();
+        LiftLeftMotor = new Motor();
+        LiftRightMotor = new Motor();
+        Reaper = new Motor();
+        Flywheel = new Motor();
         LFEncoder = new Sensor();
         LBEncoder = new Sensor();
         RFEncoder = new Sensor();
         RBEncoder = new Sensor();
+        LiftLeftEncoder = new Sensor();
+        LiftRightEncoder = new Sensor();
+        ReaperEncoder = new Sensor();
+        FlywheelEncoder = new Sensor();
         ButtonServo = new Servo();
-        ballLauncherServo = new Servo();
+        ClawLeft = new ContinuousRotationServo();
+        ClawRight = new ContinuousRotationServo();
+        FlywheelStopper = new Servo();
         leftRotate = new SyncedMotors(LFMotor, LBMotor, LFEncoder, LBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
         rightRotate = new SyncedMotors(RFMotor, RBMotor, RFEncoder, RBEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
-
+        capLift = new SyncedMotors(LiftLeftMotor, LiftRightMotor, LiftLeftEncoder, LiftRightEncoder, KP, KI, KD, SyncedMotors.SyncAlgo.POSITION);
+        capLift.setRatio(1);
         leftRotate.setRatio(1);
         rightRotate.setRatio(1);
 
@@ -90,6 +114,15 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     }
 
     @Override
+    public Sensor getVoltageSensor() { return voltageSensor; }
+
+    @Override
+    public AxisSensor getWorldAccel() { return worldAccel; }
+
+    @Override
+    public AxisSensor getRawAccel() { return rawAccel; }
+
+    @Override
     public synchronized UltrasonicSensor getSonarLeft(){return sonarLeft;}
 
     @Override
@@ -106,6 +139,18 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
 
     @Override
     public synchronized Sensor getRBEncoder () {return RBEncoder;}
+
+    @Override
+    public Sensor getLiftLeftEncoder() { return LiftLeftEncoder; }
+
+    @Override
+    public Sensor getLiftRightEncoder() { return LiftRightEncoder; }
+
+    @Override
+    public Sensor getReaperEncoder() { return ReaperEncoder; }
+
+    @Override
+    public Sensor getFlywheelEncoder() { return FlywheelEncoder; }
 
     @Override
     public synchronized Sensor getLightSensor1() {return nxtlightSensor1;}
@@ -131,14 +176,29 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     @Override
     public synchronized Motor getRBMotor() { return RBMotor; }
 
-//    @Override
-//    public synchronized Motor getReaperMotor() { return Reaper; }
+    @Override
+    public Motor getLiftLeftMotor() { return LiftLeftMotor; }
+
+    @Override
+    public Motor getLiftRightMotor() { return LiftRightMotor; }
+
+    @Override
+    public synchronized Motor getReaperMotor() { return Reaper; }
+
+    @Override
+    public Motor getFlywheel() { return Flywheel; }
 
     @Override
     public synchronized Servo getButtonServo() { return ButtonServo; }
 
     @Override
-    public synchronized Servo getBallLauncherServo() { return ballLauncherServo; }
+    public Servo getFlywheelStopper() { return FlywheelStopper; }
+
+    @Override
+    public ContinuousRotationServo getClawLeft() { return ClawLeft; }
+
+    @Override
+    public ContinuousRotationServo getClawRight() { return ClawRight; }
 
     @Override
     public synchronized StateSensor getStateSensor() { return stateSensor; }
@@ -147,6 +207,9 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized SyncedMotors getRightRotate() {
         return rightRotate;
     }
+
+    @Override
+    public synchronized SyncedMotors getCapLift() { return capLift; }
 
     @Override
     public synchronized void stopMotors() {LFMotor.setPower(0); RFMotor.setPower(0); LBMotor.setPower(0); RBMotor.setPower(0);}

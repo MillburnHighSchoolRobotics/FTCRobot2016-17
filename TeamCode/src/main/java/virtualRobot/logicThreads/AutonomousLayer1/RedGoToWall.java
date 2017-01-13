@@ -35,7 +35,7 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
     }
     @Override
     public void loadCommands() {
-        commands.add(new MoveServo(new Servo[]{robot.getBallLauncherServo()}, new double[]{1})); //move Ball Launcher
+//        commands.add(new MoveServo(new Servo[]{robot.getBallLauncherServo()}, new double[]{1})); //move Ball Launcher
         commands.add(new Pause(500));
         Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD_LEFT, 0); //
         commands.add(escapeWall); //Move Away from wall

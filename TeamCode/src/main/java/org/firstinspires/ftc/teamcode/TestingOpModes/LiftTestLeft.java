@@ -1,18 +1,20 @@
 package org.firstinspires.ftc.teamcode.TestingOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by shant on 2/13/2016.
  */
+@TeleOp(name = "Test: Left Lift", group = "Tests")
 public class LiftTestLeft extends OpMode {
     DcMotor motor1;
     double initMotorEncoder;
     double motorEncoder = 0;
     @Override
     public void init() {
-        motor1 = hardwareMap.dcMotor.get("butts");
+        motor1 = hardwareMap.dcMotor.get("capLiftLeft");
         initMotorEncoder = motor1.getCurrentPosition();
     }
 
