@@ -342,7 +342,7 @@ public class Translate implements Command {
                     position = ((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue)) / 2);
             }
             else{
-               //TODO: do this shit
+               //TODO: implement encoder only non-basic movement
             }
             if (position >= myTarget) {
                 notDone = true;

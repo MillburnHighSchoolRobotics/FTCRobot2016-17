@@ -31,7 +31,7 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
     private static double BLIND_ADJUSTMENT_SECOND = 900; //if all of our line sensors fail
     private static double LIGHT_ADJUSTMENT = 75; //if we get to a "far displacement"
     private static double SMALL_ADJUSTMENT_RED_1 = 150;
-    private static double SMALL_ADJUSTMENT_RED_2 = 135;
+    private static double SMALL_ADJUSTMENT_RED_2 = 50;
     private static double SMALL_ADJUSTMENT_BLUE_1 = 200;
     private static double SMALL_ADJUSTMENT_BLUE_2 = 200;
     final ExitCondition hitsLineRed = new ExitCondition() {
@@ -237,7 +237,7 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
                 else if (line == GodThread.Line.RED_SECOND_LINE) {
                     commands.add(new Pause(200));
                     robot.addToProgress("Small Correction");
-                    commands.add(new Translate(SMALL_ADJUSTMENT_RED_2, Translate.Direction.FORWARD, 0));
+                    commands.add(new Translate(SMALL_ADJUSTMENT_RED_2, Translate.Direction.FORWARD, 0).setTolerance(25));
                 }
 
                 break;

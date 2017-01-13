@@ -34,6 +34,8 @@ import virtualRobot.logicThreads.NoSensorAutonomouses.RedStrafeToRamp;
 public class RedAutoGodThread extends GodThread {
     private final static boolean WITH_SONAR = true;
     private AtomicBoolean redIsLeft = new AtomicBoolean();
+    boolean firstSmallCorrect = false;
+    boolean secondSmallCorrect = false;
     LogicThread takePicture = new LogicThread() {
         @Override
         public void loadCommands() {
@@ -173,7 +175,14 @@ public class RedAutoGodThread extends GodThread {
         takepicturenow2.start();
         children.add(takepicturenow2);
         delegateMonitor(takepicturenow2, new MonitorThread[]{});
-
+        if (secondSmallCorrect) {
+            Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.SMALLCORRECTION, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
+            Thread adjust = new Thread(reAdjust);
+            adjust.start();
+            children.add(adjust);
+            delegateMonitor(adjust, new MonitorThread[]{});
+        }
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
