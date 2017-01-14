@@ -149,7 +149,7 @@ public abstract class UpdateThread extends OpMode {
 		vHeadingSensor = robot.getHeadingSensor();
 		vPitchSensor = robot.getPitchSensor();
 		vRollSensor = robot.getRollSensor();
-		vStateSensor = robot.getStateSensor();
+		vStateSensor = robot.getStateSensor().setRobot(robot);
 		vVoltageSensor = robot.getVoltageSensor();
 		vLightSensor1 = robot.getLightSensor1();
 		vLightSensor2 = robot.getLightSensor2();
@@ -284,7 +284,7 @@ public abstract class UpdateThread extends OpMode {
 		vLightSensor4.setRawValue(nxtLight4.getRawLightDetected());
 		vRawAccel.setRawValue(new Vector3f(imu.getIntegratedAccelX(),imu.getIntegratedAccelY(),imu.getIntegratedAccelZ()));
 		vWorldAccel.setRawValue(new Vector3f(imu.getWorldLinearAccelX(),imu.getWorldLinearAccelY(),imu.getWorldLinearAccelZ()));
-//		vStateSensor.update();
+		vStateSensor.update();
 		try {
             vJoystickController1.copyStates(gamepad1);
             vJoystickController2.copyStates(gamepad2);
@@ -359,6 +359,8 @@ public abstract class UpdateThread extends OpMode {
 		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 //		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
+		telemetry.addData("Position: ", vStateSensor.getPosition().toString());
+		telemetry.addData("Velocity: ", vStateSensor.getVelocity().toString());
 		Log.d("Heading: ", String.valueOf(robot.getHeadingSensor().getValue()) + " " + imu.getIntegratedYaw());
 		if (godThread.equals(TakePictureTestGod.class)) {
 			telemetry.addData("redIsLeft: ", "" + ((TakePictureTestGod)vuforiaEverywhere).getRedIsLeft().get());

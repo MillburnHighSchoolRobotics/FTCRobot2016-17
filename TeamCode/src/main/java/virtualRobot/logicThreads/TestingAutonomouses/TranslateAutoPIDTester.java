@@ -9,6 +9,7 @@ import virtualRobot.LogicThread;
 import virtualRobot.commands.Command;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.SpawnNewThread;
+import virtualRobot.commands.Translate;
 import virtualRobot.godThreads.RotateAutoPIDGod;
 import virtualRobot.utils.MathUtils;
 
@@ -16,15 +17,17 @@ import virtualRobot.utils.MathUtils;
  * Created by ethachu19 on 11/14/2016.
  */
 
-public class RotateAutoPIDTester extends LogicThread {
+public class TranslateAutoPIDTester extends LogicThread {
     double kP;
     private AtomicBoolean isTime;
     private AtomicBoolean shouldStop;
+    private long iter;
 
-    public RotateAutoPIDTester(double kP, AtomicBoolean ab, AtomicBoolean ab2) {
+    public TranslateAutoPIDTester(double kP, AtomicBoolean ab, AtomicBoolean ab2, long iter) {
         this.kP = kP;
         this.isTime = ab;
         this.shouldStop = ab2;
+        this.iter = iter;
     }
 
     @Override
@@ -40,18 +43,18 @@ public class RotateAutoPIDTester extends LogicThread {
                         } catch (InterruptedException e) {
                             return;
                         }
-                        double lastYaw = -400;
+                        double lastEncoder = Double.NaN;
                         double curr;
                         isTime.set(true);
                         while (!shouldStop.get()) {
                             curr = robot.getHeadingSensor().getValue();
                             robot.addToTelemetry("Thread: ",curr);
-                            if (MathUtils.equals(curr, lastYaw,0.3)) {
+                            if (MathUtils.equals(curr, lastEncoder,10)) {
                                 isTime.set(false);
                                 shouldStop.set(true);
                                 return;
                             }
-                            lastYaw = curr;
+                            lastEncoder = curr;
 
                             if (Thread.currentThread().isInterrupted()) {
                                 break;
@@ -71,7 +74,7 @@ public class RotateAutoPIDTester extends LogicThread {
                 return Thread.currentThread().isInterrupted();
             }
         });
-        Rotate r = new Rotate(kP,90,35000,shouldStop);
+        Translate r = new Translate(kP,90,35000,shouldStop,iter % 2 == 0 ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD);
         robot.getHeadingSensor().clearValue();
         commands.add(r);
     }

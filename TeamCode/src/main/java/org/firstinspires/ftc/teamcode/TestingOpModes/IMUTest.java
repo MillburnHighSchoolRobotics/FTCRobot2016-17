@@ -40,9 +40,11 @@ public class IMUTest extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("yaw", imu.getYaw());
-        telemetry.addData("pitch", imu.getPitch());
-        telemetry.addData("roll", imu.getRoll());
+        telemetry.addData("yaw ", imu.getYaw());
+        telemetry.addData("pitch ", imu.getPitch());
+        telemetry.addData("roll ", imu.getRoll());
+        telemetry.addData("fused ", imu.getFusedHeading());
+        telemetry.addData("gyro ", imu.getRawGyroX() + " " + imu.getRawGyroY() + " " + imu.getRawGyroZ());
     }
     public void stop() {
         imu.close();

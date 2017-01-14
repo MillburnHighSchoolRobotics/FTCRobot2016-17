@@ -4,6 +4,7 @@ package virtualRobot.commands;
 import android.util.Log;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
@@ -32,15 +33,18 @@ public class Translate implements Command {
     private double currentValue;
     private int multiplier[] = {1,1,1,1};  //LF, RF, LB, RB
 
+    private AtomicBoolean stop = new AtomicBoolean(false);
+    private boolean testing = false;
 
     private double time;
-    private double timeLimit;
+    private double timeLimit = -1;
     private double myTarget;
     private double referenceAngle;
     private double angleModifier; //(0-45) degrees, subtracts that angle from current movement (e.g. FORWARD_RIGTHT with angleModifier of 10, would move at 35 degrees, FORWARD_LEFT with same modifier would move at 125 degrees)
     private double movementAngle; //represents the actual angle the robot moves at
     private static final double SQRT_2 = Math.sqrt(2);
     private static final AutonomousRobot robot = Command.AUTO_ROBOT;
+
     private static final int POWER_MATRIX[][] = { //for each of the directions
 
             { 1, 1, 1, 1 },
@@ -52,6 +56,7 @@ public class Translate implements Command {
             { -1, 1, 1, -1 },
             { 0, 1, 1,   0 }
     };
+
     public static void setGlobalMaxPower(double p) {
         globalMaxPower = p;
     }
@@ -226,6 +231,17 @@ public class Translate implements Command {
         this.timeLimit = timeLimit;
     }
 
+    public Translate(double kP, int i, int i1, AtomicBoolean shouldStop, Translate.Direction dir) {
+        this(i,dir,0,1,0,"AutoPID",i1);
+        headingController.setKP(0);
+        setKPRotate(0);
+        translateController.setKP(kP);
+        translateController.setKI(0);
+        translateController.setKD(0);
+        testing = true;
+        stop = shouldStop;
+        THRESHOLDt = 0;
+    }
 
 
     public void setTimeLimit(double timeLimit) {
@@ -478,8 +494,9 @@ public class Translate implements Command {
         else { //If angleModifier = 0
           //boolean[] issueArray = {false, false, false, false};
           while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                  && shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget())
-                  && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
+                  && (shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget()) || testing)
+                  && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)
+                  && !stop.get()) {
           LFvalue = robot.getLFEncoder().getValue();
           RFvalue = robot.getRFEncoder().getValue();
           LBvalue = robot.getLBEncoder().getValue();
@@ -885,7 +902,7 @@ public class Translate implements Command {
     public static final double KPt  =.001875;
     public static final double  KIt = .0000694444;
     public static final double KDt = .012656;
-    public static final double THRESHOLDt = 484; //TBD
+    public static double THRESHOLDt = 484; //TBD
 
     //OLD KU, TU, KP, THRESHOLD, TOLERANCE: .00131562, 83, .001086096, 964, 100
 }

@@ -9,14 +9,16 @@ import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
 import virtualRobot.commands.Command;
-import virtualRobot.logicThreads.TestingAutonomouses.PIDTester;
-import virtualRobot.logicThreads.TestingAutonomouses.RotateAutoPIDTester;
+import virtualRobot.logicThreads.TestingAutonomouses.TranslateAutoPIDTester;
 
+/**
+ * Created by ethachu19 on 1/13/2017.
+ */
 /**
  * Created by ethachu19 on 11/14/2016.
  */
 
-public class RotateAutoPIDGod extends GodThread {
+public class TranslateAutoPIDGod extends GodThread {
     AtomicBoolean currentTooBig = new AtomicBoolean(true);
     AtomicBoolean stopThreads = new AtomicBoolean(false);
     double kP = 0.0453191;
@@ -28,8 +30,8 @@ public class RotateAutoPIDGod extends GodThread {
     public void realRun() throws InterruptedException {
         boolean isInterrupted = false;
         while (!isInterrupted) {
-            Log.d("PIDOUTROTATE","\n-----------------------------------------------------------------\n-");
-            LogicThread PIDTest = new RotateAutoPIDTester(kP,currentTooBig,stopThreads);
+            Log.d("PIDOUTTRANSLATE","\n-----------------------------------------------------------------\n-");
+            LogicThread PIDTest = new TranslateAutoPIDTester(kP,currentTooBig,stopThreads,iteration);
             Thread pid = new Thread(PIDTest);
             pid.start();
             children.add(pid);
@@ -89,3 +91,4 @@ public class RotateAutoPIDGod extends GodThread {
         }
     }
 }
+

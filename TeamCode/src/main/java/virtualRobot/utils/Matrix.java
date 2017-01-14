@@ -37,7 +37,7 @@ public class Matrix {
     public synchronized Matrix multiply(Vector3f v) {
         if (arr[0].length != 3)
             throw new IllegalArgumentException("Matrix is not width of 3");
-        Matrix result = new Matrix(length(),3);
+        Matrix result = new Matrix(length(),1);
         for(int i = 0; i < length(); i++) {
             for(int j = 0; j < 3; j++) {
                 result.arr[i][0] += v.getArr()[j] * arr[i][j];

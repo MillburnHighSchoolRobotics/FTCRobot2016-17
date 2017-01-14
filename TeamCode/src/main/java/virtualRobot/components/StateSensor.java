@@ -1,5 +1,7 @@
 package virtualRobot.components;
 
+import android.util.Log;
+
 import com.kauailabs.navx.ftc.MPU9250;
 
 import virtualRobot.AutonomousRobot;
@@ -17,13 +19,17 @@ public class StateSensor extends Sensor {
     private long lastUpdateTime;
     private Matrix state;
     private double angle;
-    private AutonomousRobot robot;
+    private AutonomousRobot robot = null;
 
     public StateSensor() {
         lastUpdateTime = System.currentTimeMillis();
         state = new Matrix(6,1);
         angle = 0;
-        robot = Command.ROBOT;
+    }
+
+    public StateSensor setRobot(AutonomousRobot robot) {
+        this.robot = robot;
+        return this;
     }
 
     public synchronized double getAngle() {
@@ -33,11 +39,11 @@ public class StateSensor extends Sensor {
     }
 
     public synchronized Vector3f getPosition() {
-        return new Vector3f(state.arr[3][0],state.arr[4][0],state.arr[5][0]);
+        return new Vector3f(state.toVector3f(3));
     }
 
     public synchronized Vector3f getVelocity() {
-        return new Vector3f(state.arr[0][0],state.arr[1][0],state.arr[2][0]);
+        return new Vector3f(state.toVector3f(0));
     }
 
     //X:Roll Y:Pitch Z:Yaw
@@ -59,9 +65,6 @@ public class StateSensor extends Sensor {
 //    }
 
     public synchronized void update() {
-        if (robot == null) {
-            return;
-        }
         Vector3f angleVec = new Vector3f(robot.getRollSensor().getRawValue(), robot.getPitchSensor().getRawValue(),robot.getHeadingSensor().getRawValue());
         Vector3f accel = robot.getRawAccel().getValueVector();
         Matrix rotation = new Matrix(3,3);
@@ -77,6 +80,7 @@ public class StateSensor extends Sensor {
         rotation.arr[2][1] = sin(angleVec.x)*cos(angleVec.y);
         rotation.arr[2][2] = cos(angleVec.x)*cos(angleVec.y);
         accel = rotation.multiply(accel).toVector3f(0);
+        robot.addToTelemetry("Accel: ", accel.toString());
         double delta = System.currentTimeMillis() - lastUpdateTime;
         Vector3f location = state.toVector3f(0);
         Vector3f velocity = state.toVector3f(3);
@@ -89,6 +93,7 @@ public class StateSensor extends Sensor {
         state.arr[4][0] = velocity.y;
         state.arr[5][0] = velocity.z;
         angle = angleVec.z;
+        lastUpdateTime = System.currentTimeMillis();
     }
     
     private static double cos(double x) {return MathUtils.cosDegrees(x);}
