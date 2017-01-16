@@ -494,7 +494,7 @@ public class Translate implements Command {
         else { //If angleModifier = 0
           //boolean[] issueArray = {false, false, false, false};
           while (!Thread.currentThread().isInterrupted() && !exitCondition.isConditionMet()
-                  && (shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget()) || testing)
+                  && (testing || shouldKeepLooping(LFvalue, RFvalue, LBvalue, RBvalue, translateController.getTarget()) )
                   && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)
                   && !stop.get()) {
           LFvalue = robot.getLFEncoder().getValue();
@@ -896,13 +896,18 @@ public class Translate implements Command {
     public static final double KD = 0.03031468031;
     public static final double THRESHOLD = 1000;
 
-    //0.0031006, .003125
-    //KU: .003125
-    //TU; 54
-    public static final double KPt  =.001875;
-    public static final double  KIt = .0000694444;
-    public static final double KDt = .012656;
-    public static double THRESHOLDt = 484; //TBD
 
-    //OLD KU, TU, KP, THRESHOLD, TOLERANCE: .00131562, 83, .001086096, 964, 100
+    //0.00296875,  .003125 LowerBound, UpperBound
+    //TU: 83
+    //KU: .003125
+    public static final double KPt  =0.001875;
+    public static final double  KIt = .000045180722;
+    public static final double KDt = .019453125;
+    public static double THRESHOLDt = 425; //TBD
+
+    //OLD //0.0031006, .003125
+    //OLD KU: .003125
+    //OLD TU; 54
+    //OLDER  KU, TU, KP, THRESHOLD, TOLERANCE: .00131562, 83, .001086096, 964, 100
+
 }
