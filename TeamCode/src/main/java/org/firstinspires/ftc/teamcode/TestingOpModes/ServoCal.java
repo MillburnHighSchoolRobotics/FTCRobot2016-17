@@ -15,14 +15,14 @@ public class ServoCal extends OpMode {
 
     @Override
     public void init() {
-        servo = hardwareMap.servo.get("servo");
+        servo = hardwareMap.servo.get("flywheelStopper");
         pos = 0;
     }
 
     @Override
     public void loop() {
-        if (gamepad1.a) pos -= 0.02;
-        if (gamepad1.b) pos += 0.02;
+        if (gamepad1.a) pos = 0.22;
+        if (gamepad1.b) pos = 0.38;
 
         pos = Math.max(Math.min(pos, 1), 0);
 

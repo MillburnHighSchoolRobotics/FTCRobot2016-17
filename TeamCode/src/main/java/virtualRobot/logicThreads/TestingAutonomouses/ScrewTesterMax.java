@@ -5,6 +5,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
+import virtualRobot.VuforiaLocalizerImplSubclass;
+import virtualRobot.commands.AllignWithBeacon;
+import virtualRobot.commands.Command;
 import virtualRobot.commands.CompensateColor;
 import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
@@ -20,6 +23,12 @@ import virtualRobot.logicThreads.AutonomousLayer2.ToWhiteLine;
 public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 
     private static final double SCALE = .7;
+    private VuforiaLocalizerImplSubclass vuforia;
+
+    public ScrewTesterMax(VuforiaLocalizerImplSubclass vuforia) {
+        this.vuforia = vuforia;
+    }
+
     @Override
     public void loadCommands() {
 //        commands.add(new Command(){
@@ -139,74 +148,83 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //            }
 //        });
 //        LineTrace lt = new LineTrace();
-        final int whiteTape = 13;
-        ExitCondition whiteLine = new ExitCondition() {
+//        final int whiteTape = 13;
+//        ExitCondition whiteLine = new ExitCondition() {
+//            @Override
+//            public boolean isConditionMet() {
+//                if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape && robot.getColorSensor().getBlue() < 255)){
+//                    robot.addToProgress("ColorSensorTriggered");
+//                    return true;
+//                }
+//                else if(robot.getLightSensor1().getRawValue()> .61) {
+//                    robot.addToProgress("LightSensor1Triggered");
+//                    return true;
+//                }
+//                else if(robot.getLightSensor3().getRawValue()> .61) {
+//                    robot.addToProgress("LightSensor3Triggered");
+//                    return true;
+//                }
+//                else if(robot.getLightSensor2().getRawValue()> .61) {
+//                    robot.addToProgress("LightSensor2Triggered");
+//                    return true;
+//                }else if((robot.getLightSensor4().getRawValue()> .61)){
+//                    robot.addToProgress("LightSensor4Triggered");
+//                    return true;
+//                }
+//                return false;
+//            }
+//        };
+//        Translate t1 = new Translate(Translate.RunMode.HEADING_ONLY, Translate.Direction.FORWARD, 0, 1);
+//        t1.setExitCondition(whiteLine);
+//        commands.add(t1);
+//        commands.add(new Pause(200));
+//        Translate newT1 = new Translate(1500, Translate.Direction.BACKWARD,0,0.2);
+//        newT1.setExitCondition(whiteLine);
+//        commands.add(newT1);
+//        //commands.add(new Pause(200));
+//        //commands.add(new Rotate(0, .5, 2000));
+//        commands.add(new Pause(200));
+//        commands.add(new CompensateColor(2000));
+//        commands.add(new Pause(200));
+//        commands.add(new Translate(50, Translate.Direction.BACKWARD,0,0.2).setTolerance(25));
+//        commands.add(new Pause(5000));
+//        commands.add(new Translate(500, Translate.Direction.FORWARD, 0));
+//        commands.add(new Pause(200));
+//        Translate t2 = new Translate(Translate.RunMode.HEADING_ONLY, Translate.Direction.FORWARD, 0, 1);
+//        t2.setExitCondition(whiteLine);
+//        commands.add(t2);
+////        Translate.setGlobalTolerance(50);
+//        commands.add(new Pause(200));
+//        Translate newT = new Translate(1500, Translate.Direction.BACKWARD,0,0.2);
+//        newT.setExitCondition(whiteLine);
+//        commands.add(newT);
+//        //Translate.setGlobalTolerance(50);
+//        //commands.add(new Rotate(0, .5, 2000)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
+//        commands.add(new Pause(200));
+//        CompensateColor lt = new CompensateColor(2000);
+//        lt.setExitCondition(new ExitCondition() {
+//            @Override
+//            public boolean isConditionMet() {
+//                return false;
+//            }
+//        });
+//        robot.stopMotors();
+//        robot.addToProgress("Replace on Line Done");
+//        commands.add(new Pause(200));
+//        commands.add(lt);
+//        robot.stopMotors();
+//        commands.add(new Pause(200));
+//        robot.addToProgress("Pause Finished, Translate Now");
+//        commands.add(new Translate(50, Translate.Direction.BACKWARD,0,0.2).setTolerance(25));
+//        robot.addToProgress("Translate Done");
+        final AtomicBoolean ab = new AtomicBoolean();
+        commands.add(new AllignWithBeacon(vuforia,ab));
+        commands.add(new Command() {
             @Override
-            public boolean isConditionMet() {
-                if((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape && robot.getColorSensor().getBlue() < 255)){
-                    robot.addToProgress("ColorSensorTriggered");
-                    return true;
-                }
-                else if(robot.getLightSensor1().getRawValue()> .61) {
-                    robot.addToProgress("LightSensor1Triggered");
-                    return true;
-                }
-                else if(robot.getLightSensor3().getRawValue()> .61) {
-                    robot.addToProgress("LightSensor3Triggered");
-                    return true;
-                }
-                else if(robot.getLightSensor2().getRawValue()> .61) {
-                    robot.addToProgress("LightSensor2Triggered");
-                    return true;
-                }else if((robot.getLightSensor4().getRawValue()> .61)){
-                    robot.addToProgress("LightSensor4Triggered");
-                    return true;
-                }
-                return false;
-            }
-        };
-        Translate t1 = new Translate(Translate.RunMode.HEADING_ONLY, Translate.Direction.FORWARD, 0, 1);
-        t1.setExitCondition(whiteLine);
-        commands.add(t1);
-        commands.add(new Pause(200));
-        Translate newT1 = new Translate(1500, Translate.Direction.BACKWARD,0,0.2);
-        newT1.setExitCondition(whiteLine);
-        commands.add(newT1);
-        //commands.add(new Pause(200));
-        //commands.add(new Rotate(0, .5, 2000));
-        commands.add(new Pause(200));
-        commands.add(new CompensateColor(2000));
-        commands.add(new Pause(200));
-        commands.add(new Translate(50, Translate.Direction.BACKWARD,0,0.2).setTolerance(25));
-        commands.add(new Pause(5000));
-        commands.add(new Translate(500, Translate.Direction.FORWARD, 0));
-        commands.add(new Pause(200));
-        Translate t2 = new Translate(Translate.RunMode.HEADING_ONLY, Translate.Direction.FORWARD, 0, 1);
-        t2.setExitCondition(whiteLine);
-        commands.add(t2);
-//        Translate.setGlobalTolerance(50);
-        commands.add(new Pause(200));
-        Translate newT = new Translate(1500, Translate.Direction.BACKWARD,0,0.2);
-        newT.setExitCondition(whiteLine);
-        commands.add(newT);
-        //Translate.setGlobalTolerance(50);
-        //commands.add(new Rotate(0, .5, 2000)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
-        commands.add(new Pause(200));
-        CompensateColor lt = new CompensateColor(2000);
-        lt.setExitCondition(new ExitCondition() {
-            @Override
-            public boolean isConditionMet() {
-                return false;
+            public boolean changeRobotState() throws InterruptedException {
+                robot.addToProgress("Red is Left: " + ab.get());
+                return Thread.currentThread().isInterrupted();
             }
         });
-        robot.stopMotors();
-        robot.addToProgress("Replace on Line Done");
-        commands.add(new Pause(200));
-        commands.add(lt);
-        robot.stopMotors();
-        commands.add(new Pause(200));
-        robot.addToProgress("Pause Finished, Translate Now");
-        commands.add(new Translate(50, Translate.Direction.BACKWARD,0,0.2).setTolerance(25));
-        robot.addToProgress("Translate Done");
     }
 }

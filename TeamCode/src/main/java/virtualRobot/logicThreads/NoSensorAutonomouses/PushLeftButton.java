@@ -14,7 +14,7 @@ import virtualRobot.logicThreads.TeleopLogic;
  * Pushes the left button
  */
 public class PushLeftButton extends LogicThread<AutonomousRobot> {
-    public final static double BUTTON_PUSHER_LEFT = 0.25;
+    public final static double BUTTON_PUSHER_LEFT = 0.6;
     public final static double BEACON_RAM_TRANSLATE = PushRightButton.BEACON_RAM_TRANSLATE; //translate to get the robot to hit button
     sonarStatus status;
     public PushLeftButton(sonarStatus status) {

@@ -29,6 +29,8 @@ public class CreateVuforia implements Runnable {
         exception.add(FPSGodThread.class);
         exception.add(testingTranslateGodThread.class);
         exception.add(FireBallsGodThread.class);
+        exception.add(TranslateAutoPIDGod.class);
+        exception.add(TranslateTeleopPIDGod.class);
     }
 
     public CreateVuforia(Class<? extends GodThread> g, GodThread vuforiaEverywhere, Thread t) {

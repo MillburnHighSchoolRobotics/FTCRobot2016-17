@@ -31,7 +31,7 @@ public class PIDLineFollowerGod extends GodThread {
         //mtfb.start();
         //children.add(mtfb);
 
-        LogicThread rstr = new ScrewTesterMax();
+        LogicThread rstr = new ScrewTesterMax(vuforia);
         Thread threa = new Thread(rstr);
         threa.start();
         children.add(threa);

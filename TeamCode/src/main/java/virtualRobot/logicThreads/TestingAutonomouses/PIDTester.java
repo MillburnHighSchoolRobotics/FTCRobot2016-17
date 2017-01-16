@@ -1,5 +1,7 @@
 package virtualRobot.logicThreads.TestingAutonomouses;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.Pause;
@@ -24,7 +26,8 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
 //        commands.add(new Translate(7000, Translate.Direction.FORWARD, 0));
 //        commands.add(new Pause(3000));
 //        commands.add(new Translate(7000, Translate.Direction.LEFT, 0));
-        commands.add(new Rotate(90));
+        //commands.add(new Rotate(90));
+        commands.add(new Translate(0.0077,5000,-1,new AtomicBoolean(), Translate.Direction.FORWARD));
 //        commands.add(new Rotate(90, 1));
 
     }

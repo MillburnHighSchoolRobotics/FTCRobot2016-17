@@ -163,7 +163,6 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 ////                        robot.getReaperMotor().setPosition(robot.getReaperEncoder(), 500);
 //                        robot.getReaperMotor().setPower(0);
 //                    }
-
                     if(controller1.isDpadLeft()) {
                         robot.getLFMotor().setPower(1.0);
                     }
@@ -177,35 +176,29 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.getRBMotor().setPower(1.0);
                     }
 
-                    if(controller2.isDpadUp()) {
-                        robot.getCapLift().setPower(1.0);
-                    } else if (controller2.isDpadDown()) {
-                        robot.getCapLift().setPower(-1.0);
-                    } else {
-                        robot.getCapLift().setPower(0);
-                    }
 
                     if(controller1.isDown(JoystickController.BUTTON_LT)) {
 //                        robot.getFlywheelStopper().setPosition(0.5);
 //                        robot.getReaperMotor().setPower(1.0);
 //                        robot.getFlywheel().setPower(0);
-                        robot.getFlywheelStopper().setPosition(1);
+                        robot.getFlywheelStopper().setPosition(0.38);
                     }
                     else
-                        robot.getFlywheelStopper().setPosition(0);
+                        robot.getFlywheelStopper().setPosition(0.22);
                     if(controller1.isDown(JoystickController.BUTTON_RT)) {
 //                        robot.getFlywheelStopper().setPosition(0);
 //                        robot.getReaperMotor().setPower(1.0);
 //                        robot.getFlywheel().setPower(1.0);
-                        robot.getFlywheel().setPower(0.8);
+                        robot.getFlywheel().setPower(0.9);
                     }
                     else {
                         robot.getFlywheel().setPower(0);
                     }
-                    if(controller1.isDown(JoystickController.BUTTON_A)) {
+                    if(controller1.isDown(JoystickController.BUTTON_RB)) {
                         robot.getReaperMotor().setPower(1);
-                    }
-                    else {
+                    } else if(controller1.isDown(JoystickController.BUTTON_LB)){
+                        robot.getReaperMotor().setPower(-1);
+                    } else {
                         robot.getReaperMotor().setPower(0);
                     }
 

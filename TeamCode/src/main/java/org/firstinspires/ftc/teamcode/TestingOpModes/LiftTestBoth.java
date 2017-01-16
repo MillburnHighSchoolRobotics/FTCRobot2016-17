@@ -18,8 +18,8 @@ public class LiftTestBoth extends OpMode {
 
     @Override
     public void init() {
-        liftLeft = hardwareMap.dcMotor.get("capLiftLeft");
-        liftRight = hardwareMap.dcMotor.get("capLiftRight");
+        liftLeft = hardwareMap.dcMotor.get("liftLeft");
+        liftRight = hardwareMap.dcMotor.get("liftRight");
         liftLeft.setDirection(DcMotor.Direction.REVERSE);
         initLiftLeftEncoder = liftLeft.getCurrentPosition();
         initLiftRightEncoder = liftRight.getCurrentPosition();
@@ -31,18 +31,19 @@ public class LiftTestBoth extends OpMode {
         //TODO TUNE THIS PID CONTROLLER
         double liftLeftPower;
         double liftRightPower;
-        PIDController liftController = new PIDController(0.005, 0, 0, 0);
+        double tp = 0.6;
+        PIDController liftController = new PIDController(0, 0, 0, 0);
         liftController.setTarget(0);
         double liftPIDOut = liftController.getPIDOutput((liftLeft.getCurrentPosition() - initLiftLeftEncoder) - (liftRight.getCurrentPosition() - initLiftRightEncoder));
         //liftPIDOut = 0;
         if (gamepad1.a && !(gamepad1.a && gamepad1.b)) {
-            liftLeftPower = 0.6 + liftPIDOut;
-            liftRightPower = 0.6 - liftPIDOut;
+            liftLeftPower = tp + liftPIDOut;
+            liftRightPower = tp - liftPIDOut;
 
         }
         else if (gamepad1.b && !(gamepad1.a && gamepad1.b)) {
-            liftLeftPower = -0.6 + liftPIDOut;
-            liftRightPower = -0.6 - liftPIDOut;
+            liftLeftPower = -tp + liftPIDOut;
+            liftRightPower = -tp - liftPIDOut;
         }
         else {
             liftLeftPower = 0;

@@ -14,7 +14,7 @@ public class LiftTestRight extends OpMode {
     double motorEncoder = 0;
     @Override
     public void init() {
-        motor1 = hardwareMap.dcMotor.get("capLiftRight");
+        motor1 = hardwareMap.dcMotor.get("liftRight");
         initMotorEncoder = motor1.getCurrentPosition();
     }
 
@@ -25,10 +25,10 @@ public class LiftTestRight extends OpMode {
         }
         else {
             if (gamepad1.a) {
-                motor1.setPower(1);
+                motor1.setPower(0.6);
             }
             else if (gamepad1.b) {
-                motor1.setPower(-1);
+                motor1.setPower(-0.6);
             }
             else {
                 motor1.setPower(0);

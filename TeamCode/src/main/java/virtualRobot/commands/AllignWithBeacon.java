@@ -3,6 +3,8 @@ package virtualRobot.commands;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.PIDController;
@@ -15,6 +17,7 @@ import virtualRobot.utils.Vector2i;
 
 public class AllignWithBeacon implements Command {
 
+    AtomicBoolean redIsLeft;
     AutonomousRobot robot = Command.AUTO_ROBOT;
     VuforiaLocalizerImplSubclass vuforia;
     ExitCondition exitCondition = new ExitCondition() {
@@ -29,8 +32,9 @@ public class AllignWithBeacon implements Command {
     private final static double tp = 0.2;
     private PIDController heading = new PIDController(0.008,0,0,0,0);
 
-    public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia) {
+    public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft) {
         this.vuforia = vuforia;
+        this.redIsLeft = redIsLeft;
     }
 
     public void setExitCondition(ExitCondition exitCondition) {
@@ -96,7 +100,15 @@ public class AllignWithBeacon implements Command {
             }
             currLeft /= leftCovered;
             currRight /= rightCovered;
-            satisfied = (currLeft < BLUETHRESHOLD && currRight > REDTHRESHOLD) || (currLeft > REDTHRESHOLD && currRight < BLUETHRESHOLD);
+            if (currLeft < BLUETHRESHOLD && currRight > REDTHRESHOLD) {
+                redIsLeft.set(true);
+                satisfied = true;
+                break;
+            } else if (currLeft > REDTHRESHOLD && currRight < BLUETHRESHOLD) {
+                redIsLeft.set(false);
+                satisfied = true;
+                break;
+            }
             adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
             robot.getLFMotor().setPower(tp + adjustedPower);
             robot.getLBMotor().setPower(tp + adjustedPower);
