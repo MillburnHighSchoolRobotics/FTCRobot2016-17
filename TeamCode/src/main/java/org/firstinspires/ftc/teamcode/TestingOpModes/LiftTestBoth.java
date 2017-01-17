@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TestingOpModes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import virtualRobot.PIDController;
 
@@ -13,6 +14,8 @@ import virtualRobot.PIDController;
 public class LiftTestBoth extends OpMode {
     DcMotor liftLeft;
     DcMotor liftRight;
+    Servo clawLeft;
+    Servo clawRight;
     int initLiftLeftEncoder;
     int initLiftRightEncoder;
 
@@ -20,6 +23,8 @@ public class LiftTestBoth extends OpMode {
     public void init() {
         liftLeft = hardwareMap.dcMotor.get("liftLeft");
         liftRight = hardwareMap.dcMotor.get("liftRight");
+        clawLeft = hardwareMap.servo.get("clawLeft");
+        clawRight = hardwareMap.servo.get("clawRight");
         liftLeft.setDirection(DcMotor.Direction.REVERSE);
         initLiftLeftEncoder = liftLeft.getCurrentPosition();
         initLiftRightEncoder = liftRight.getCurrentPosition();
@@ -49,7 +54,22 @@ public class LiftTestBoth extends OpMode {
             liftLeftPower = 0;
             liftRightPower = 0;
         }
+        if (gamepad1.dpad_up) {
+            clawLeft.setPosition(clawLeft.getPosition()+.01);
 
+        }
+        if (gamepad1.dpad_down) {
+            clawLeft.setPosition(clawLeft.getPosition()-.01);
+
+        } if (gamepad1.dpad_left) {
+            clawLeft.setPosition(clawRight.getPosition()+.01);
+
+        }
+        if (gamepad1.dpad_right) {
+            clawLeft.setPosition(clawRight.getPosition()-.01);
+
+        }
+        
         liftLeftPower = Math.max(Math.min(liftLeftPower, 1), -1);
         liftRightPower = Math.max(Math.min(liftRightPower, 1), -1);
 
