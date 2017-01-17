@@ -36,7 +36,7 @@ public class LiftTestBoth extends OpMode {
         //TODO TUNE THIS PID CONTROLLER
         double liftLeftPower;
         double liftRightPower;
-        double tp = 0.6;
+        double tp = 0.4;
         PIDController liftController = new PIDController(0, 0, 0, 0);
         liftController.setTarget(0);
         double liftPIDOut = liftController.getPIDOutput((liftLeft.getCurrentPosition() - initLiftLeftEncoder) - (liftRight.getCurrentPosition() - initLiftRightEncoder));

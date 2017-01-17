@@ -189,7 +189,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 //                        robot.getFlywheelStopper().setPosition(0);
 //                        robot.getReaperMotor().setPower(1.0);
 //                        robot.getFlywheel().setPower(1.0);
-                        robot.getFlywheel().setPower(0.9);
+                        robot.getFlywheel().setPower(0);
                     }
                     else {
                         robot.getFlywheel().setPower(0);
