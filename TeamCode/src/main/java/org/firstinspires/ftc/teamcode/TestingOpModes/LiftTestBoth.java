@@ -14,6 +14,7 @@ import virtualRobot.PIDController;
 public class LiftTestBoth extends OpMode {
     DcMotor liftLeft;
     DcMotor liftRight;
+
     Servo clawLeft;
     Servo clawRight;
     int initLiftLeftEncoder;
