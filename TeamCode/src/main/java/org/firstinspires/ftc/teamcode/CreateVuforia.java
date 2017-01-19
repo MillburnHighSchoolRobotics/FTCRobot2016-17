@@ -23,7 +23,7 @@ public class CreateVuforia implements Runnable {
 
     static {
         exception.add(TeleopGodThread.class);
-        exception.add(PIDLineFollowerGod.class);
+        //exception.add(PIDLineFollowerGod.class);
         exception.add(PIDTesterGodThread.class);
         exception.add(RotateAutoPIDGod.class);
         exception.add(FPSGodThread.class);

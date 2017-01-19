@@ -27,10 +27,10 @@ public class AllignWithBeacon implements Command {
         }
     };
 
-    private final static double BLUETHRESHOLD = 0.2;
-    private final static double REDTHRESHOLD = 1.5;
-    private final static double tp = 0.2;
-    private PIDController heading = new PIDController(0.008,0,0,0,0);
+    private final static double BLUETHRESHOLD = 0.6;
+    private final static double REDTHRESHOLD = 1.45;
+    private final static double tp = -0.2;
+    private PIDController heading = new PIDController(0,0,0,0,0);
 
     public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft) {
         this.vuforia = vuforia;
