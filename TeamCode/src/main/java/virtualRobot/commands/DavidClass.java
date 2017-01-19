@@ -23,18 +23,18 @@ import virtualRobot.utils.Vector2i;
 
 public class DavidClass {
     public final static Mode currentMode = Mode.MIDSPLIT;
-    public volatile static double startXPercent = .1;
-    public volatile static double endXPercent = .958;
-    public volatile static double startYPercent = .298;
-    public volatile static double endYPercent = .595;
-    public volatile static double start1XPercent = -1;
+    public volatile static double startXPercent = 0;
+    public volatile static double endXPercent = 1;
+    public volatile static double startYPercent = 0.135;
+    public volatile static double endYPercent = 1;
+    public volatile static double start1XPercent = 0;
     public volatile static double end1XPercent = -1;
-    public volatile static double start1YPercent = -1;
+    public volatile static double start1YPercent = 0;
     public volatile static double end1YPercent = -1;
-    public volatile static double start2XPercent = -1;
-    public volatile static double end2XPercent = -1;
-    public volatile static double start2YPercent = -1;
-    public volatile static double end2YPercent = -1;
+    public volatile static double start2XPercent = 0.66;
+    public volatile static double end2XPercent = 1;
+    public volatile static double start2YPercent = 0;
+    public volatile static double end2YPercent = 0.8353;
     private static double TOLERANCE = 135;
 
 
@@ -53,7 +53,7 @@ public class DavidClass {
         Bitmap image= Bitmap.createScaledBitmap(bmp, bmp.getWidth() / 2, bmp.getHeight() / 2, true);
 //        image= Bitmap.createScaledBitmap(bmp, image.getWidth() / 2, image.getHeight() / 2, true);
         Matrix matrix = new Matrix();
-        matrix.postRotate(90);
+        matrix.postRotate(180);
 //        Bitmap scaledBitmap = Bitmap.createScaledBitmap(image, image.getWidth(), image.getHeight(), true);
         image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
 
@@ -94,7 +94,9 @@ public class DavidClass {
                 }
 
             }
-
+            Log.d("DavidClass", "Width: "+ width);
+            Log.d("DavidClass", "Height: " + height);
+            Log.d("DavidClass","Mid: " + midX);
             //lAvg = roundUp(lSum, lNum);
             //rAvg = roundUp(rSum, rNum);
             Log.d("DavidClass", "Pic Size: " + Long.toString(midX - startX) + " by " + Long.toString(endX - midX));

@@ -224,7 +224,7 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
             public boolean changeRobotState() throws InterruptedException {
                 robot.addToProgress("Red is Left: " + ab.get());
                 return Thread.currentThread().isInterrupted();
-            }
+        }
         });
     }
 }
