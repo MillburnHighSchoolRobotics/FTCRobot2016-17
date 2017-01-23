@@ -61,8 +61,8 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     controller1.logicalRefresh();
                     controller2.logicalRefresh();
 
-                //Movement Code
-                    if (!MathUtils.equals(controller1.getValue(JoystickController.R_1), 0) ) {
+                    //Movement Code
+                    if (!MathUtils.equals(controller1.getValue(JoystickController.R_1), 0)) {
                         Log.d("joystickInput", "Left Stick Stationary");
                         double angle = Math.toDegrees(controller1.getValue(JoystickController.THETA_1));
                         double power = controller1.getValue(JoystickController.R_1);
@@ -84,35 +84,35 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     } else {
                         Log.d("joystickInput", "Left Stick Moved");
                         //in the case of mecanum wheels, translating and strafing
-                        double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_2)),2);
+                        double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_2)), 2);
                         double power = controller1.getValue(JoystickController.R_2);
                         double scale = 0;
                         double LF = 0, RF = 0, LB = 1, RB = 1;
                         movementAngle = movementAngle < 0 ? movementAngle + 360 : movementAngle;
                         Log.d("teleOpMovement", "Translate: " + movementAngle + " " + power);
                         if (movementAngle >= 0 && movementAngle <= 90) { //quadrant 1
-                            scale = MathUtils.sinDegrees(movementAngle-45) / MathUtils.cosDegrees(movementAngle-45);
+                            scale = MathUtils.sinDegrees(movementAngle - 45) / MathUtils.cosDegrees(movementAngle - 45);
                             LF = power * POWER_MATRIX[0][0];
                             RF = power * POWER_MATRIX[0][1] * scale;
                             LB = power * POWER_MATRIX[0][2] * scale;
                             RB = power * POWER_MATRIX[0][3];
-                        } else if (movementAngle  > 90 && movementAngle <= 180 ) { //quadrant 2
+                        } else if (movementAngle > 90 && movementAngle <= 180) { //quadrant 2
                             power *= -1;
                             scale = MathUtils.sinDegrees(movementAngle - 135) / MathUtils.cosDegrees(movementAngle - 135);
                             LF = (power * POWER_MATRIX[2][0] * scale);
                             RF = (power * POWER_MATRIX[2][1]);
                             LB = (power * POWER_MATRIX[2][2]);
-                            RB = (power * POWER_MATRIX[2][3] * scale );
+                            RB = (power * POWER_MATRIX[2][3] * scale);
                         } else if (movementAngle > 180 && movementAngle <= 270) { //quadrant 3
-                            scale = MathUtils.sinDegrees(movementAngle-225) / MathUtils.cosDegrees(movementAngle-225);
+                            scale = MathUtils.sinDegrees(movementAngle - 225) / MathUtils.cosDegrees(movementAngle - 225);
                             LF = (power * POWER_MATRIX[4][0]);
-                            RF = (power * POWER_MATRIX[4][1] * scale );
-                            LB = (power * POWER_MATRIX[4][2] * scale );
+                            RF = (power * POWER_MATRIX[4][1] * scale);
+                            LB = (power * POWER_MATRIX[4][2] * scale);
                             RB = (power * POWER_MATRIX[4][3]);
                             Log.d("aaa", robot.getLFMotor().getPower() + " " + robot.getRFMotor().getPower() + " " + robot.getLBMotor().getPower() + " " + robot.getRBMotor().getPower());
                         } else if (movementAngle > 270 && movementAngle < 360) { //quadrant 4
                             power *= -1;
-                            scale = MathUtils.sinDegrees(movementAngle - 315) / MathUtils.cosDegrees(movementAngle-315);
+                            scale = MathUtils.sinDegrees(movementAngle - 315) / MathUtils.cosDegrees(movementAngle - 315);
                             LF = (power * POWER_MATRIX[6][0] * scale);
                             RF = (power * POWER_MATRIX[6][1]);
                             LB = (power * POWER_MATRIX[6][2]);
@@ -130,6 +130,19 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 
                     robot.getTelemetry().put("Speed Ratio: ", robot.getLeftRotate().getSpeedRatio() + " " + robot.getRightRotate().getSpeedRatio());
 
+                    if (controller1.isDpadLeft()) {
+                        robot.getLFMotor().setPower(1.0);
+                    }
+                    if (controller1.isDpadRight()) {
+                        robot.getRFMotor().setPower(1.0);
+                    }
+                    if (controller1.isDpadUp()) {
+                        robot.getLBMotor().setPower(1.0);
+                    }
+                    if (controller1.isDpadDown()) {
+                        robot.getRBMotor().setPower(1.0);
+                    }
+
                     //Beacon Code
                     if (controller2.isPressed(JoystickController.BUTTON_X)) {
 //                        PIDController allign = new PIDController(0.5,0.5,0.5, SallyJoeBot.BWTHRESHOLD);
@@ -146,9 +159,9 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     }
 
                     //button pusher
-                    if (controller2.isDown(JoystickController.BUTTON_LT)) {
+                    if (controller2.isDpadLeft()) {
                         robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
-                    } else if (controller2.isDown(JoystickController.BUTTON_RT)) {
+                    } else if (controller2.isDpadRight()) {
                         robot.getButtonServo().setPosition(PushRightButton.BUTTON_PUSHER_RIGHT);
                     } else {
                         robot.getButtonServo().setPosition(BUTTON_PUSHER_STATIONARY);
@@ -163,47 +176,34 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 ////                        robot.getReaperMotor().setPosition(robot.getReaperEncoder(), 500);
 //                        robot.getReaperMotor().setPower(0);
 //                    }
-                    if(controller1.isDpadLeft()) {
-                        robot.getLFMotor().setPower(1.0);
-                    }
-                    if(controller1.isDpadRight()) {
-                        robot.getRFMotor().setPower(1.0);
-                    }
-                    if(controller1.isDpadUp()) {
-                        robot.getLBMotor().setPower(1.0);
-                    }
-                    if(controller1.isDpadDown()) {
-                        robot.getRBMotor().setPower(1.0);
-                    }
 
 
-                    if(controller1.isDown(JoystickController.BUTTON_LT)) {
+                    if (controller2.isDown(JoystickController.BUTTON_LT)) {
 //                        robot.getFlywheelStopper().setPosition(0.5);
 //                        robot.getReaperMotor().setPower(1.0);
 //                        robot.getFlywheel().setPower(0);
                         robot.getFlywheelStopper().setPosition(0.38);
-                    }
-                    else
-                        robot.getFlywheelStopper().setPosition(0.22);
-                    if(controller1.isDown(JoystickController.BUTTON_RT)) {
+                    } else
+                        robot.getFlywheelStopper().setPosition(0.26);
+                    if (controller2.isDown(JoystickController.BUTTON_RT)) {
 //                        robot.getFlywheelStopper().setPosition(0);
-                        robot.getReaperMotor().setPower(1.0);
+//                        robot.getReaperMotor().setPower(1.0);
 //                        robot.getFlywheel().setPower(1.0);
-                        robot.getFlywheel().setPower(0.9);
-                    }
-                    else {
+                        robot.getFlywheel().setPower(.45);
+                    } else {
                         robot.getFlywheel().setPower(0);
                     }
-                    if(controller1.isDown(JoystickController.BUTTON_RB)) {
+                    if (controller2.isDown(JoystickController.BUTTON_RB)) {
                         robot.getReaperMotor().setPower(1);
-                    } else if(controller1.isDown(JoystickController.BUTTON_LB ) && !(controller1.isDown(JoystickController.BUTTON_RT)) ){
+                    } else if (controller2.isDown(JoystickController.BUTTON_LB) && !(controller1.isDown(JoystickController.BUTTON_RT))) {
                         robot.getReaperMotor().setPower(-1);
-                    } else if (!(controller1.isDown(JoystickController.BUTTON_RT))){
+                    } else// if (!(controller1.isDown(JoystickController.BUTTON_RT)))
+                    {
                         robot.getReaperMotor().setPower(0);
                     }
 
 
-                    //lifting cap ball
+                //lifting cap ball
                     /*if (controller2.isPressed(JoystickController.BUTTON_A)) {
                         if(MathUtils.equals(robot.getCapLeftServo().getPosition(),CAP_LEFT_OPEN))
                             robot.getCapLeftServo().setPosition(CAP_LEFT_CLOSED);
@@ -242,11 +242,11 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 //                        robot.getRBMotor().setPower((tp + errClose + errAllign)*-1);
 //                    }
 
-                    try {
-                        Thread.currentThread().sleep(30);
-                    } catch (InterruptedException e) {
-                        isInterrupted = true;
-                    }
+                try {
+                    Thread.currentThread().sleep(30);
+                } catch (InterruptedException e) {
+                    isInterrupted = true;
+                }
             }
                 Log.d("FTCThreads", "teleOp was Interrupted");
                 return isInterrupted;

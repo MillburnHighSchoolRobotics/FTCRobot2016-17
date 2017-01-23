@@ -29,6 +29,8 @@ public class LiftTestBoth extends OpMode {
         liftLeft.setDirection(DcMotor.Direction.REVERSE);
         initLiftLeftEncoder = liftLeft.getCurrentPosition();
         initLiftRightEncoder = liftRight.getCurrentPosition();
+        clawLeft.setPosition(0);
+        clawRight.setPosition(0);
     }
 
     @Override

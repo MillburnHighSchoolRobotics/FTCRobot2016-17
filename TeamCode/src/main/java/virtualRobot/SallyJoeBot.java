@@ -40,6 +40,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private Servo FlywheelStopper;
     private SyncedMotors leftRotate, rightRotate;
     private SyncedMotors capLift;
+    public double initialBattery;
     private static final double KP = 0.0001; //TBD
     private static final double KI = 0.0001; //TBD
     private static final double KD = 0.0001; //TBD
