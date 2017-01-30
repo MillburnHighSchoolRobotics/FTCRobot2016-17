@@ -20,8 +20,17 @@ public class testingTranslateLogicThread extends LogicThread {
         robot.getRFEncoder().clearValue();
         robot.getLBEncoder().clearValue();
         robot.getRBEncoder().clearValue();*/
-            Translate c = new Translate(Translate.RunMode.HEADING_ONLY, Translate.Direction.BACKWARD, 0, .2);
+        Translate a = new Translate(5000, Translate.Direction.FORWARD, 0,1,0,null,5000);
+        Translate b = new Translate(5000, Translate.Direction.BACKWARD, 0,1,0,null,5000);
+        Translate c = new Translate(5000, Translate.Direction.FORWARD_LEFT, 0,1,0,null,5000);
+        Translate d = new Translate(5000, Translate.Direction.BACKWARD_RIGHT, 0,1,0,null,5000);
+        commands.add(a);
+        commands.add(new Pause(2000));
+        commands.add(b);
+        commands.add(new Pause(2000));
         commands.add(c);
+        commands.add(new Pause(2000));
+        commands.add(d);
 
 
     }

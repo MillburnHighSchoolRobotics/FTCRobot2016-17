@@ -22,7 +22,7 @@ public class testingTranslateGodThread extends GodThread {
         teleopThread.start();
         children.add(teleopThread);
         delegateMonitor(teleopThread, new MonitorThread[]{});*/
-        LogicThread toFirstLine = new ToWhiteLine(true, Line.BLUE_FIRST_LINE, new AtomicBoolean(), new AtomicBoolean(), new AtomicBoolean());
+        LogicThread toFirstLine = new testingTranslateLogicThread();
         Thread tfl = new Thread(toFirstLine);
         tfl.start();
         children.add(tfl);

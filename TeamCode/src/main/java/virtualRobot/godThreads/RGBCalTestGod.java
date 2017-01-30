@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.Log;
 
 import virtualRobot.GodThread;
+import virtualRobot.commands.AllignWithBeacon;
 import virtualRobot.commands.Command;
 import virtualRobot.commands.DavidClass;
 import virtualRobot.utils.Vector2i;
@@ -46,6 +47,7 @@ public class RGBCalTestGod extends GodThread {
             start2 = new Vector2i((int) DavidClass.start2XPercent*width, (int) DavidClass.start2YPercent*height);
             end1 = new Vector2i((int) DavidClass.end1XPercent*width, (int) DavidClass.end1YPercent*height);
         }
+        Log.d("RGBCal", "memes");
         Command.AUTO_ROBOT.addToProgress("Start1: " + start1.toString());
         Command.AUTO_ROBOT.addToProgress("Start2: " + start2.toString());
         Command.AUTO_ROBOT.addToProgress("End1: " + end1.toString());
@@ -53,34 +55,79 @@ public class RGBCalTestGod extends GodThread {
         Vector2i slope1 = new Vector2i(11,closestTo11((end1.y - start1.y)/(end1.x - start1.x)));
         Vector2i slope2 = new Vector2i(11,closestTo11((end2.y - start2.y)/(end2.x - start2.x)));
         Vector2i currentPos;
-        int leftCovered, rightCovered;
-        double currLeft = 0, currRight = 0, red, blue;
-        while (!Thread.currentThread().isInterrupted()) {
+        int leftCovered, rightCovered, covered;
+        double currLeft = 0, currRight = 0, red, blue, alpha, curr = 0;
+        double avgAlphaLeft,avgAlphaRight,avgAlpha;
+        String temp = "";
+        //Log.d("RGBCal", currLeft + " " + currRight + " " + curr + " ");
+        while (true) {
             currLeft = 0;
             currRight = 0;
+            curr = 0;
+            avgAlpha = 0;
+            avgAlphaLeft = 0;
+            avgAlphaRight = 0;
+            temp = "";
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
             currentPos = new Vector2i(start1);
-            for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y; leftCovered++) {
+            //Log.d("RGBCal", currLeft + " " + currRight + " " + curr + " ");
+
+            for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y;) {
                 red = Color.red(bm.getPixel(currentPos.x,currentPos.y));
                 blue = Color.blue(bm.getPixel(currentPos.x,currentPos.y));
-                currLeft += red/blue;
+                //Log.d("RGBCal"," LEFT: memes");
+                if (blue != 0) {
+                    currLeft += red / blue;
+                    avgAlphaLeft += Color.alpha(bm.getPixel(currentPos.x,currentPos.y));
+                    leftCovered++;
+                }
+                //Log.d("RGBCal", "LEFT: " + currLeft + " " + leftCovered + " " + red + " " + blue);
                 currentPos.x += slope1.x;
                 currentPos.y += slope1.y;
             }
             currentPos = new Vector2i(start2);
-            for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; rightCovered++) {
+            for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y;) {
                 red = Color.red(bm.getPixel(currentPos.x,currentPos.y));
                 blue = Color.blue(bm.getPixel(currentPos.x,currentPos.y));
-                currRight += red/blue;
+                if (blue != 0) {
+                    currRight += red / blue;
+                    avgAlphaRight += Color.alpha(bm.getPixel(currentPos.x,currentPos.y));
+                    rightCovered++;
+                }
+                //Log.d("RGBCal", "RIGHT: " + currRight + " " + rightCovered + " " + red + " " + blue);
                 currentPos.x += slope2.x;
                 currentPos.y += slope2.y;
             }
-            Command.AUTO_ROBOT.addToTelemetry("Sum: ",currLeft + " " + currRight);
+            currentPos = new Vector2i(start1.x, vuforia.rgb.getHeight()*2/3);
+            for (covered = 0; currentPos.x < end2.x;) {
+                red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                alpha = Color.alpha(bm.getPixel(currentPos.x,currentPos.y));
+                if (blue != 0 && (blue > 200 || red > 200) && (red/blue < AllignWithBeacon.BLUETHRESHOLD || red/blue > AllignWithBeacon.REDTHRESHOLD)) {
+                    curr += red / blue;
+                    avgAlpha += alpha;
+                    covered++;
+                }
+                Log.d("RGBCal", "HORZ: " + curr + " " + covered + " " + red + " " + blue + " " + alpha + " " + avgAlpha);
+                currentPos.x += 8;
+            }
+            Log.d("RGBCal","Alpha " + temp);
+            Command.AUTO_ROBOT.addToTelemetry("Sum: ",currLeft + " " + currRight + " " + curr);
+            Command.AUTO_ROBOT.addToTelemetry("SumAlpha: ",avgAlphaLeft + " " + avgAlphaRight + " " + avgAlpha);
             currLeft /= leftCovered;
             currRight /= rightCovered;
-            Command.AUTO_ROBOT.addToTelemetry("RGB: ", currLeft + " " + currRight);
-            Command.AUTO_ROBOT.addToTelemetry("Covered: ", leftCovered + " " + rightCovered);
-            Log.d("RGBCal", currLeft + " " + currRight + " " + leftCovered + " " + rightCovered);
+            curr /= covered;
+            avgAlphaLeft /= leftCovered;
+            avgAlphaRight /= rightCovered;
+            avgAlpha /= covered;
+            Command.AUTO_ROBOT.addToTelemetry("RGB: ", currLeft + " " + currRight + " " + curr);
+            Command.AUTO_ROBOT.addToTelemetry("Covered: ", leftCovered + " " + rightCovered + " " + covered);
+            Command.AUTO_ROBOT.addToTelemetry("Alpha: ", avgAlphaLeft + " " + avgAlphaRight + " " + avgAlpha);
+            Log.d("RGBCal", currLeft + " " + currRight + " " + curr + " " + leftCovered + " " + rightCovered + " " + covered + " " + avgAlphaLeft + " " + avgAlphaRight + " " +avgAlpha);
+
+            if (Thread.currentThread().isInterrupted()) {
+                break;
+            }
 
             try {
                 Thread.sleep(10);

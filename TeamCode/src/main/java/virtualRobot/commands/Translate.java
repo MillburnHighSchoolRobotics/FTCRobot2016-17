@@ -25,7 +25,7 @@ public class Translate implements Command {
     private String name;
     public static double noAngle = Double.MIN_VALUE;
 
-    private PIDController translateController;
+    public PIDController translateController;
     private PIDController headingController, headingOnlyController;
     private PIDController LFtranslateController, RFtranslateController, LBtranslateController, RBtranslateController;
 
@@ -76,8 +76,8 @@ public class Translate implements Command {
         RFtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         LBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
-        headingController = new PIDController(0.04, 0, 0, 0);
-        headingOnlyController = new PIDController(0.04, 0, 0, 0);
+        headingController = new PIDController(0.04, 0, 0, 0); //.04
+        headingOnlyController = new PIDController(0.04, 0, 0, 0); //.04
         if (blueSide) {
             headingController.setTarget(-180);
             headingOnlyController.setTarget(-180);
@@ -231,8 +231,8 @@ public class Translate implements Command {
         this.timeLimit = timeLimit;
     }
 
-    public Translate(double kP, int i, int i1, AtomicBoolean shouldStop, Translate.Direction dir) {
-        this(i,dir,0,1,0,"AutoPID",i1);
+    public Translate(double kP, int i, int timeLimit, AtomicBoolean shouldStop, Translate.Direction dir) {
+        this(i,dir,0,1,0,"AutoPID",timeLimit);
         headingController.setKP(0);
         setKPRotate(0);
         translateController.setKP(kP);
@@ -900,10 +900,10 @@ public class Translate implements Command {
     //0.00296875,  .003125 LowerBound, UpperBound
     //TU: 83
     //KU: .003125
-    public static final double KPt  =0.001875;
-    public static final double  KIt = .000045180722;
-    public static final double KDt = .019453125;
-    public static double THRESHOLDt = 425; //TBD
+    public static final double KPt  =0.0024;
+    public static final double  KIt = .000087272727;
+    public static final double KDt = .0165;
+    public static double THRESHOLDt = 284; //TBD
 
     //OLD //0.0031006, .003125
     //OLD KU: .003125

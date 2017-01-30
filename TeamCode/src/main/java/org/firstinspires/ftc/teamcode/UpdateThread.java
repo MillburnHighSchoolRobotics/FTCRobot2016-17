@@ -184,6 +184,7 @@ public abstract class UpdateThread extends OpMode {
 		//UpdateUtil.setPosition(capRight,0.3);
 		if (withServos) {
 			buttonServo.setPosition(TeleopLogic.BUTTON_PUSHER_STATIONARY);
+			flywheelStopper.setPosition(0.6);
 		}
 
 		addPresets();
@@ -216,10 +217,12 @@ public abstract class UpdateThread extends OpMode {
 			vFlywheelEncoder.setRawValue(flywheel.getCurrentPosition());
 			vVoltageSensor.setRawValue(getBatteryVoltage());
 //			vReaperEncoder.setRawValue(reaper.getCurrentPosition());
+		Log.d("THREADS", "Program Started");
 
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
 				vButtonServo.setPosition(buttonServo.getPosition());
+				vFlywheelStopper.setPosition(flywheelStopper.getPosition());
 			}
 		if (WITH_SONAR) {
 			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
@@ -293,9 +296,9 @@ public abstract class UpdateThread extends OpMode {
 
 		// Copy State of Motors and Servos E.g. leftFront.setPower(leftPower), Servo.setPosition(vServo.getPosition());
 
-		Log.d("servoState", " " + buttonPosition);
+		//Log.d("servoState", " " + buttonPosition);
 		telemetry.addData("Motors: ", MathUtils.truncate(leftFrontPower,2) + " " + MathUtils.truncate(leftBackPower,2) + " " + MathUtils.truncate(rightFrontPower,2) + " " + MathUtils.truncate(rightBackPower,2));
-		Log.d("motorPower", leftFrontPower + " " + leftBackPower + " " + rightFrontPower + " " + rightBackPower);
+		//Log.d("motorPower", leftFrontPower + " " + leftBackPower + " " + rightFrontPower + " " + rightBackPower);
 		leftFront.setPower(leftFrontPower);
 		leftBack.setPower(leftBackPower);
 		rightFront.setPower(rightFrontPower);
@@ -331,12 +334,12 @@ public abstract class UpdateThread extends OpMode {
 		if (WITH_SONAR)
 		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
 		telemetry.addData("Color sensor: ", "Red: " + vColorSensor.getRed() + " Green: " + vColorSensor.getGreen() + " Blue: " + vColorSensor.getBlue());
-		Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
+		//Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 //		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());
 		telemetry.addData("Position: ", vStateSensor.getPosition().toString());
 		telemetry.addData("Velocity: ", vStateSensor.getVelocity().toString());
-		Log.d("Heading: ", String.valueOf(robot.getHeadingSensor().getValue()) + " " + imu.getIntegratedYaw());
+		//Log.d("Heading: ", String.valueOf(robot.getHeadingSensor().getValue()) + " " + imu.getIntegratedYaw());
 		if (godThread.equals(TakePictureTestGod.class)) {
 			telemetry.addData("redIsLeft: ", "" + ((TakePictureTestGod)vuforiaEverywhere).getRedIsLeft().get());
 		}
