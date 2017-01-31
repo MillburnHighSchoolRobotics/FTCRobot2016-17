@@ -22,26 +22,34 @@ public class FireBallsOnly extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands (){
 
-        LogicThread<AutonomousRobot> spinReaper = new LogicThread<AutonomousRobot>() {
+        commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{0})); //move button pusher
+
+        LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
             @Override
             public void loadCommands() {
-                commands.add(new MoveMotor(robot.getFlywheel(), .45));
+                commands.add(new MoveMotor(robot.getFlywheel(), .79));
             }
         };
+
+        LogicThread<AutonomousRobot> forward = new LogicThread<AutonomousRobot>() {
+            @Override
+            public void loadCommands() {
+                commands.add(new Translate(3150, Translate.Direction.LEFT, 0));
+                commands.add(new Pause(300));
+                commands.add(new Rotate(10, .5, 1000));
+            }
+        };
+
         List<LogicThread> threads = new ArrayList<LogicThread>();
-        threads.add(spinReaper);
+        threads.add(forward);
+        threads.add(spinFlywheel);
 
 
         commands.add(new SpawnNewThread(threads));
-        commands.add(new Pause(500));
-        commands.add(new Translate(1200, Translate.Direction.LEFT, 0));
-        commands.add(new Pause(500));
-        commands.add(new Rotate(0, 1, 3000));
-        commands.add(new Pause(500));
-       commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{.38})); //move button pusher
-        commands.add(new MoveMotor(robot.getReaperMotor(), 1));
-        commands.add(new Pause(1000));
+        commands.add(new Pause(3000));
+        commands.add(new MoveMotor(robot.getReaperMotor(), .21));
 
+        commands.add(new Pause(1000));
 
     }
 }

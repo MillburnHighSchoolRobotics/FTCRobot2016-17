@@ -191,7 +191,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     if (controller2.isDown(JoystickController.BUTTON_RT)) {
 //                        robot.getFlywheelStopper().setPosition(0);
 //                        robot.getReaperMotor().setPower(1.0);
-                        robot.getFlywheel().setPower(.7);
+                        robot.getFlywheel().setPower(.8);
 //                        robot.getFlywheel().setPower(.88);
                     } else {
                         robot.getFlywheel().setPower(0);

@@ -18,7 +18,8 @@ import virtualRobot.utils.MathUtils;
 public class Translate implements Command {
     private ExitCondition exitCondition;
     private static double globalMaxPower = 1;
-    private double TOLERANCE = 100;
+    private double TOLERANCE = 50;
+    final static double blueAngle = -180;
     private static boolean blueSide = false;
     private RunMode runMode;
     private Direction direction;
@@ -76,11 +77,11 @@ public class Translate implements Command {
         RFtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         LBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
-        headingController = new PIDController(0.04, 0, 0, 0); //.04
-        headingOnlyController = new PIDController(0.04, 0, 0, 0); //.04
+        headingController = new PIDController(0, 0, 0, 0); //.04
+        headingOnlyController = new PIDController(0, 0, 0, 0); //.04
         if (blueSide) {
-            headingController.setTarget(-180);
-            headingOnlyController.setTarget(-180);
+            headingController.setTarget(blueAngle);
+            headingOnlyController.setTarget(blueAngle);
         }
         translateController = new PIDController(KPt, KIt, KDt, THRESHOLDt);
         maxPower = globalMaxPower;
@@ -643,6 +644,7 @@ public class Translate implements Command {
                       }
                       break;
               }
+              Log.d("TRANSLATE DIAGNOSTICS", "" + "Pid Output" + pidOutput + " Encoder Values" + Math.abs(LFvalue) + " " + Math.abs(RFvalue) + " " + Math.abs(LBvalue) + " " + Math.abs(RBvalue) + "HEADING CORRECTED POWERS" + LFPower + " " + RFPower + " "  + LBPower + " " +RBPower + "HEADINGOUTPUT: " + headingOutput + " ANGLE: " + robot.getHeadingSensor().getValue());
 
               Log.d("MULTIPLIED POWERS", LFPower * multiplier[0] + " " + RFPower * multiplier[1] + LBPower * multiplier[2] + RBPower * multiplier[3]);
               robot.getLFMotor().setPower(LFPower * multiplier[0]);

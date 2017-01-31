@@ -109,7 +109,7 @@ public class RGBCalTestGod extends GodThread {
                     covered++;
                 }
                 Log.d("RGBCal", "HORZ: " + curr + " " + covered + " " + red + " " + blue + " " + alpha + " " + avgAlpha);
-                currentPos.x += 8;
+                currentPos.x += 4;
             }
             Log.d("RGBCal","Alpha " + temp);
             Command.AUTO_ROBOT.addToTelemetry("Sum: ",currLeft + " " + currRight + " " + curr);

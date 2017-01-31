@@ -13,9 +13,9 @@ import virtualRobot.LogicThread;
 public class SpawnNewThread implements Command {
 	private List<LogicThread> logic;
     private List<Thread> t;
-    
+
     private ExitCondition exitCondition;
-    
+
     public SpawnNewThread() {
     	logic = new ArrayList<LogicThread>();
     	t = new ArrayList<Thread>();
@@ -36,8 +36,7 @@ public class SpawnNewThread implements Command {
     public boolean changeRobotState() {
         int i = 0;
         boolean isInterrupted = false;
-        
-        while (!exitCondition.isConditionMet() && i < logic.size()) {
+        while (!exitCondition.isConditionMet() && i < logic.size() ) {
         	Thread temp = new Thread(logic.get(i++));
         	temp.start();
         	t.add(temp);
@@ -57,5 +56,8 @@ public class SpawnNewThread implements Command {
     
     public void addLogicThread(LogicThread l) {
     	logic.add(l);
+    }
+    public void setExitCondition(ExitCondition e) {
+        exitCondition = e;
     }
 }
