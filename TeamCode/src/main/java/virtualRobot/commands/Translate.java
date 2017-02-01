@@ -231,8 +231,8 @@ public class Translate implements Command {
         this.timeLimit = timeLimit;
     }
 
-    public Translate(double kP, int i, int i1, AtomicBoolean shouldStop, Translate.Direction dir) {
-        this(i,dir,0,1,0,"AutoPID",i1);
+    public Translate(double kP, int i, int timeLimit, AtomicBoolean shouldStop, Translate.Direction dir) {
+        this(i,dir,0,1,0,"AutoPID",timeLimit);
         headingController.setKP(0);
         setKPRotate(0);
         translateController.setKP(kP);
@@ -900,10 +900,10 @@ public class Translate implements Command {
     //0.00296875,  .003125 LowerBound, UpperBound
     //TU: 83
     //KU: .003125
-    public static final double KPt  =0.001875;
-    public static final double  KIt = .000045180722;
-    public static final double KDt = .019453125;
-    public static double THRESHOLDt = 425; //TBD
+    public static final double KPt  =0.1;
+    public static final double  KIt =0;
+    public static final double KDt = 0;
+    public static double THRESHOLDt = 0; //TBD
 
     //OLD //0.0031006, .003125
     //OLD KU: .003125
