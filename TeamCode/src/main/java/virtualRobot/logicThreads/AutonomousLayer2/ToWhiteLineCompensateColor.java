@@ -2,16 +2,23 @@ package virtualRobot.logicThreads.AutonomousLayer2;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
+import virtualRobot.commands.MoveMotor;
+import virtualRobot.commands.MoveServo;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
+import virtualRobot.commands.SpawnNewThread;
 import virtualRobot.commands.Translate;
 import virtualRobot.commands.WallTrace;
+import virtualRobot.commands.killChildren;
+import virtualRobot.components.Servo;
 
 /**
  * Created by 17osullivand on 12/2/16.
@@ -111,6 +118,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
 
     @Override
     public void loadCommands() {
+
         robot.getLFEncoder().clearValue();
         robot.getRFEncoder().clearValue();
         robot.getLBEncoder().clearValue();
@@ -150,7 +158,9 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         if(type.getLine() == GodThread.LineType.SECOND && robot.getSonarLeft().getValue()> 21)
             commands.add(new Translate(75,Translate.Direction.FORWARD,0).setTolerance(50));
 
-
+        if (type.getLine() == GodThread.LineType.FIRST) {
+            fireBalls();
+        }
         commands.add(new Pause(200));
     }
 
@@ -164,5 +174,36 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         double RBvalue = robot.getRBEncoder().getValue();
         Log.d("AVGDIST", " " + Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4));
         return (Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4;
+    }
+    private void fireBalls() {
+        commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{0})); //move button pusher
+
+        LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
+            @Override
+            public void loadCommands() {
+                commands.add(new MoveMotor(robot.getFlywheel(), .8));
+                commands.add(new Pause(1000));
+
+            }
+        };
+        LogicThread<AutonomousRobot> moveReaper = new LogicThread<AutonomousRobot>() {
+            @Override
+            public void loadCommands() {
+                commands.add(new Pause(1000));
+                commands.add(new MoveMotor(robot.getReaperMotor(), .21));
+
+            }
+        };
+
+
+        List<LogicThread> threads = new ArrayList<LogicThread>();
+        threads.add(spinFlywheel);
+        threads.add(moveReaper);
+
+        SpawnNewThread fly = new SpawnNewThread((threads));
+
+        commands.add(fly);
+        commands.add(new Pause(3000));
+        commands.add(new killChildren(this));
     }
 }

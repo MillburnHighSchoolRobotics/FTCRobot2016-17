@@ -3,7 +3,7 @@ package virtualRobot.godThreads;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
-import virtualRobot.logicThreads.NoSensorAutonomouses.FireBallsOnly;
+import virtualRobot.logicThreads.NoSensorAutonomouses.moveAndFireBalls;
 import virtualRobot.monitorThreads.TimeMonitor;
 
 /**
@@ -22,7 +22,7 @@ public class RedStatesGodThread extends GodThread{
         tm.start();
         children.add(tm);
 
-        LogicThread fireBalls = new FireBallsOnly();
+        LogicThread fireBalls = new moveAndFireBalls();
         Thread fb = new Thread(fireBalls);
         fb.start();
         children.add(fb);

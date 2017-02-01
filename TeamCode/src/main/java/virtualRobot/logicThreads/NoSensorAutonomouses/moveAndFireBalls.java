@@ -18,7 +18,7 @@ import virtualRobot.components.Servo;
  * Created by 17osullivand on 11/27/16.
  */
 
-public class FireBallsOnly extends LogicThread<AutonomousRobot> {
+public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands (){
 

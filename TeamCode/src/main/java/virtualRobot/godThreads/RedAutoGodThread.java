@@ -71,7 +71,7 @@ public class RedAutoGodThread extends GodThread {
         tfl.start();
         children.add(tfl);
         delegateMonitor(tfl, new MonitorThread[]{});
-        if (lastSensorTriggered.get()) {
+       /* if (lastSensorTriggered.get()) {
             Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
             LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
@@ -86,7 +86,7 @@ public class RedAutoGodThread extends GodThread {
             adjust.start();
             children.add(adjust);
             delegateMonitor(adjust, new MonitorThread[]{});
-        }
+        }*/
         if (allSensorsFailed.get()) {
             Command.AUTO_ROBOT.addToProgress("RunningAllSensorsFailed");
 

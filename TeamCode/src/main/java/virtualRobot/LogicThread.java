@@ -74,7 +74,7 @@ public abstract class LogicThread<T extends AutonomousRobot> implements Runnable
         commands = new ArrayList<Command>();
         children = new ArrayList<Thread>();
     }
-    protected void killChildren() {
+    public void killChildren() {
         for (Thread x: children) //Kill any threads made using spawn new thread
             if (x.isAlive())
                 x.interrupt();

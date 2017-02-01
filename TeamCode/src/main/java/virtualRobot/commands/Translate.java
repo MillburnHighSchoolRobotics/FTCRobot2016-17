@@ -77,8 +77,8 @@ public class Translate implements Command {
         RFtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         LBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
-        headingController = new PIDController(0, 0, 0, 0); //.04
-        headingOnlyController = new PIDController(0, 0, 0, 0); //.04
+        headingController = new PIDController(.04, 0, 0, 0); //.04
+        headingOnlyController = new PIDController(.04, 0, 0, 0); //.04
         if (blueSide) {
             headingController.setTarget(blueAngle);
             headingOnlyController.setTarget(blueAngle);
@@ -196,11 +196,11 @@ public class Translate implements Command {
             }
             else {
                 //once again, multiply by sqrt(2) to math up with the end goal of 2*sqrt(2)*target.
-                translateController.setTarget(target * Math.sqrt(2));
-                LFtranslateController.setTarget(target * Math.sqrt(2));
-                RFtranslateController.setTarget(target * Math.sqrt(2));
-                LBtranslateController.setTarget(target * Math.sqrt(2));
-                RBtranslateController.setTarget(target * Math.sqrt(2));
+                translateController.setTarget(target * SQRT_2);
+                LFtranslateController.setTarget(target * SQRT_2);
+                RFtranslateController.setTarget(target * SQRT_2);
+                LBtranslateController.setTarget(target * SQRT_2);
+                RBtranslateController.setTarget(target * SQRT_2);
 
             }
 
@@ -782,10 +782,15 @@ public class Translate implements Command {
                     }
 
                     Log.d("MULTIPLIED POWERS", LFPower * multiplier[0] + " " + RFPower * multiplier[1] + LBPower * multiplier[2] + RBPower * multiplier[3]);
-                    robot.getLFMotor().setPower(LFPower * multiplier[0]);
-                    robot.getRFMotor().setPower(RFPower * multiplier[1]);
-                    robot.getLBMotor().setPower(LBPower * multiplier[2]);
-                    robot.getRBMotor().setPower(RBPower * multiplier[3]);
+                    double multipliedLF = LFPower*multiplier[0];
+                    double multipliedRF = RFPower*multiplier[1];
+                    double multipliedLB = RFPower*multiplier[2];
+                    double multipliedRB = RFPower*multiplier[3];
+
+                    robot.getLFMotor().setPower(multipliedLF);
+                    robot.getRFMotor().setPower(multipliedRF);
+                    robot.getLBMotor().setPower(multipliedLB);
+                    robot.getRBMotor().setPower(multipliedRB);
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;
