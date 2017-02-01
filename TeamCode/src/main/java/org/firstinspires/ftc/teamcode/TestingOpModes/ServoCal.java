@@ -21,10 +21,12 @@ public class ServoCal extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.a) pos = 0.22;
-        if (gamepad1.b) pos = 0.38;
+        if (gamepad1.a) pos = 0;
+        if (gamepad1.b) pos = 0.6;
 
         pos = Math.max(Math.min(pos, 1), 0);
+
+        telemetry.addData("Pos: ", pos);
 
         servo.setPosition(pos);
     }

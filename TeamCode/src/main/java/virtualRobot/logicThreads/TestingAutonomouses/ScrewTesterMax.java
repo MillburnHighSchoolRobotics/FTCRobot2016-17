@@ -1,19 +1,26 @@
 package virtualRobot.logicThreads.TestingAutonomouses;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.util.Log;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
+import virtualRobot.PIDController;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.AllignWithBeacon;
 import virtualRobot.commands.Command;
 import virtualRobot.commands.CompensateColor;
+import virtualRobot.commands.DavidClass;
 import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
 import virtualRobot.logicThreads.AutonomousLayer2.ToWhiteLine;
+import virtualRobot.utils.Vector2i;
 
 /**
  * Created by ethachu19 on 10/27/2016.
@@ -217,14 +224,62 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //        robot.addToProgress("Pause Finished, Translate Now");
 //        commands.add(new Translate(50, Translate.Direction.BACKWARD,0,0.2).setTolerance(25));
 //        robot.addToProgress("Translate Done");
-        final AtomicBoolean ab = new AtomicBoolean();
-        commands.add(new AllignWithBeacon(vuforia,ab));
-        commands.add(new Command() {
+//        final AtomicBoolean ab = new AtomicBoolean();
+//        commands.add(new AllignWithBeacon(vuforia,ab));
+//        commands.add(new Command() {
+//            @Override
+//            public boolean changeRobotState() throws InterruptedException {
+//                robot.addToProgress("Red is Left: " + ab.get());
+//                robot.addToProgress("Finished");
+//                return Thread.currentThread().isInterrupted();
+//        }
+//        });
+        commands.add(new Command () {
+            PIDController compensate = new PIDController(0.1,0,0,1.025,0);
             @Override
             public boolean changeRobotState() throws InterruptedException {
-                robot.addToProgress("Red is Left: " + ab.get());
-                return Thread.currentThread().isInterrupted();
-        }
+                double power, curr = 0, red, blue, adjustedPower = 0;
+                int covered;
+                boolean isInterrupted = false;
+                int width = vuforia.rgb.getWidth(), height = vuforia.rgb.getHeight();
+                int end = (int) (DavidClass.endXPercent * width);
+                Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                Vector2i currentPos;
+                while (!isInterrupted) {
+                    curr = 0;
+                    bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
+                    currentPos = new Vector2i((int) (DavidClass.startXPercent * width), vuforia.rgb.getHeight() / 2);
+                    for (covered = 0; currentPos.x < end;) {
+                        red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                        blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                        if (blue != 0 && (blue > 200 || red > 200) && (red/blue < AllignWithBeacon.BLUETHRESHOLD || red/blue > AllignWithBeacon.REDTHRESHOLD)) {
+                            curr += red / blue;
+                            covered++;
+                        }
+                        currentPos.x += 8;
+                    }
+                    curr /= covered;
+                    power = -1 * compensate.getPIDOutput(curr);
+                    //adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
+                    Log.d("AllignWithBeacon", "" + power + " " + adjustedPower + " " + curr + " " + covered);
+                    robot.addToTelemetry("AllignWithBeacon ", curr + " " + covered + " " + power);
+                    robot.getLFMotor().setPower(power + adjustedPower);
+                    robot.getLBMotor().setPower(power + adjustedPower);
+                    robot.getRFMotor().setPower(power - adjustedPower);
+                    robot.getRBMotor().setPower(power - adjustedPower);
+                    if (Thread.currentThread().isInterrupted()) {
+                        isInterrupted = true;
+                        break;
+                    }
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException ex) {
+                        isInterrupted = true;
+                        break;
+                    }
+                }
+                return isInterrupted;
+            }
         });
     }
 }

@@ -2,6 +2,7 @@ package virtualRobot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import virtualRobot.components.AxisSensor;
 import virtualRobot.components.ColorSensor;
@@ -31,7 +32,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private Sensor ReaperEncoder, FlywheelEncoder;
     private StateSensor stateSensor;
     private ArrayList<String> robotProgress;
-    private HashMap<String, Object> telemetry;
+    private ConcurrentHashMap<String, Object> telemetry;
     private Motor LFMotor, LBMotor, RFMotor, RBMotor;
     private Motor LiftLeftMotor, LiftRightMotor;
     private Motor Reaper, Flywheel;
@@ -67,7 +68,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         sonarLeft = new UltrasonicSensor();
         sonarRight = new UltrasonicSensor();
         robotProgress = new ArrayList<String>();
-        telemetry = new HashMap<>();
+        telemetry = new ConcurrentHashMap<>();
         stateSensor = new StateSensor();
         LFMotor = new Motor();
         LBMotor = new Motor();
@@ -245,7 +246,7 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     public synchronized void addToTelemetry(String s, Object arg) { telemetry.put(s,arg); }
 
     @Override
-    public synchronized HashMap<String, Object> getTelemetry () { return telemetry; }
+    public synchronized ConcurrentHashMap<String, Object> getTelemetry () { return telemetry; }
 
 
 }

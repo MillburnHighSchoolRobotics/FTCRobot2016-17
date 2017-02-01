@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import virtualRobot.godThreads.RedAutoGodThread;
+import virtualRobot.godThreads.RedStatesGodThread;
 
 /**
  * Created by 17osullivand on 10/6/16.
@@ -12,7 +12,7 @@ import virtualRobot.godThreads.RedAutoGodThread;
 public class RedAutoUpdate extends UpdateThread {
     @Override
     public void setGodThread() {
-        godThread = RedAutoGodThread.class;
+        godThread = RedStatesGodThread.class;
     }
     @Override
     public void addPresets() {

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import virtualRobot.JoystickController;
 import virtualRobot.LogicThread;
+import virtualRobot.PIDController;
 import virtualRobot.TeleopRobot;
 import virtualRobot.commands.Command;
 import virtualRobot.logicThreads.NoSensorAutonomouses.PushLeftButton;
@@ -40,13 +41,14 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
             {-1, 1, 1, -1},
             {0, 1, 1, 0}
     };
-
+    private double reaperPower = .21;
     private static final double servoValOpen = 1.0, servoValClosed = 0.25;
     public static final double BUTTON_PUSHER_STATIONARY = (PushLeftButton.BUTTON_PUSHER_LEFT + PushRightButton.BUTTON_PUSHER_RIGHT) / 2;
     public final static double CAP_LEFT_OPEN = 1;
     public final static double CAP_LEFT_CLOSED = 0;
     public final static double CAP_RIGHT_OPEN = 1;
     public final static double CAP_RIGHT_CLOSED = 0;
+    PIDController pidShuffle;
 
     @Override
     public void loadCommands() {
@@ -158,6 +160,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         robot.stopMotors();
                     }
 
+
                     //button pusher
                     if (controller2.isDpadLeft()) {
                         robot.getButtonServo().setPosition(PushLeftButton.BUTTON_PUSHER_LEFT);
@@ -182,21 +185,33 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 //                        robot.getFlywheelStopper().setPosition(0.5);
 //                        robot.getReaperMotor().setPower(1.0);
 //                        robot.getFlywheel().setPower(0);
-                        robot.getFlywheelStopper().setPosition(0.38);
+                        robot.getFlywheelStopper().setPosition(0.6);
                     } else
-                        robot.getFlywheelStopper().setPosition(0.26);
+                        robot.getFlywheelStopper().setPosition(0);
                     if (controller2.isDown(JoystickController.BUTTON_RT)) {
 //                        robot.getFlywheelStopper().setPosition(0);
 //                        robot.getReaperMotor().setPower(1.0);
-//                        robot.getFlywheel().setPower(1.0);
-                        robot.getFlywheel().setPower(.45);
+                        robot.getFlywheel().setPower(.8);
+//                        robot.getFlywheel().setPower(.88);
                     } else {
                         robot.getFlywheel().setPower(0);
                     }
+
+
+
+                    if (controller2.isDpadUp()) {
+                        reaperPower += .01;
+                    } else if (controller2.isDpadDown()) {
+                        reaperPower -= .01;
+                    }
+
+                    reaperPower = MathUtils.clamp(reaperPower, 0, 1);
+                    robot.getTelemetry().put("Reaper Power: ", reaperPower);
+
                     if (controller2.isDown(JoystickController.BUTTON_RB)) {
-                        robot.getReaperMotor().setPower(1);
+                        robot.getReaperMotor().setPower(reaperPower);
                     } else if (controller2.isDown(JoystickController.BUTTON_LB) && !(controller1.isDown(JoystickController.BUTTON_RT))) {
-                        robot.getReaperMotor().setPower(-1);
+                        robot.getReaperMotor().setPower(-reaperPower);
                     } else// if (!(controller1.isDown(JoystickController.BUTTON_RT)))
                     {
                         robot.getReaperMotor().setPower(0);
@@ -241,6 +256,16 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 //                        robot.getRFMotor().setPower((tp + errClose + errAllign)*-1);
 //                        robot.getRBMotor().setPower((tp + errClose + errAllign)*-1);
 //                    }
+                    if (controller1.isPressed(JoystickController.BUTTON_X)) {
+                        pidShuffle = new PIDController(0.5,0.1,0,10,robot.getLFEncoder().getValue() + 10);
+                    }
+                    if (controller1.isDown(JoystickController.BUTTON_X)) {
+                        double adjustedPower = pidShuffle.getPIDOutput(robot.getLFEncoder().getValue());
+                        robot.getLFMotor().setPower(adjustedPower);
+                        robot.getLBMotor().setPower(adjustedPower);
+                        robot.getRFMotor().setPower(adjustedPower);
+                        robot.getRBMotor().setPower(adjustedPower);
+                    }
 
                 try {
                     Thread.currentThread().sleep(30);

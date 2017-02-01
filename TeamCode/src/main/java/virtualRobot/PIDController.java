@@ -101,6 +101,9 @@ public class PIDController {
         this.kD = kD;
     }
 
+    public double getKp() {
+        return kP;
+    }
     public String toString() {
         return P + " " + I + " " + D;
     }

@@ -2,6 +2,7 @@ package virtualRobot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import virtualRobot.components.AxisSensor;
 import virtualRobot.components.ColorSensor;
@@ -103,5 +104,5 @@ public interface AutonomousRobot {
 
     void addToTelemetry(String s, Object arg);
 
-    HashMap<String, Object> getTelemetry ();
+    ConcurrentHashMap<String, Object> getTelemetry ();
 }
