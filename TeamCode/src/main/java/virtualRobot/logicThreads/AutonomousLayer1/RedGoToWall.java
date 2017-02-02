@@ -40,7 +40,11 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
     }
     @Override
     public void loadCommands() {
-        commands.add(new Pause(500));
+        davePlan();
+commands.add(new Pause(5000));
+        robot.addToProgress("Went To Wall");
+
+        /*commands.add(new Pause(500));
         Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD_LEFT, 0); //
         commands.add(escapeWall); //Move Away from wall
         commands.add(new Pause(100));
@@ -79,7 +83,107 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
         commands.add(new Pause(200));
         commands.add(new Rotate(0, .5, 700)); //Straighten out again
         commands.add(new Pause(200));
-        robot.addToProgress("Went To Wall");
+        robot.addToProgress("Went To Wall");*/
 }
+private void davePlan(){
+    commands.add(new Pause(500));
+    Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD, 0); //
+    commands.add(escapeWall); //Move Away from wall
+    commands.add(new Pause(100));
+    ///commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
+    commands.add(new Rotate(-45, .5, 2000));
+    commands.add(new Pause(500));
+    commands.add(new Translate(3900, Translate.Direction.BACKWARD, 0,1, -45));
+    commands.add(new Pause(200));
+    commands.add(new Rotate(0, .5, 1000)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
+    commands.add(new Pause(200));
+    /*Translate strafeRight = new Translate(1950, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
+
+
+    if (WITH_SONAR) {
+        strafeRight.setExitCondition(new ExitCondition() {
+            @Override
+            public boolean isConditionMet() {
+                double sonarRight = robot.getSonarRight().getFilteredValue();
+                double sonarLeft = robot.getSonarLeft().getFilteredValue();
+                Log.d("UltraSOUND", "" + robot.getSonarLeft().getValue() + "" + robot.getSonarRight().getValue());
+                if (sonarRight <= SONAR_ERROR_MIN || sonarLeft <= SONAR_ERROR_MIN || sonarRight >= SONAR_ERROR_MAX || sonarLeft >= SONAR_ERROR_MAX) {
+                    sonarWorks.set(false);
+
+                } else if (sonarRight < CLOSE_TO_WALL || sonarLeft < CLOSE_TO_WALL) {
+                    sonarWorks.set(true);
+                    robot.addToProgress("SONAR GOOD DATA");
+                    return true;
+                } else {
+                    sonarWorks.set(true);
+                }
+                return false;
+            }
+        });
+    }
+    commands.add(strafeRight);*/
+    robot.addToProgress("Went To Wall");
+    }
+    private void ethanPlan() {
+        commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{0})); //move button pusher
+
+        LogicThread<AutonomousRobot> spinFlywheelAndMove = new LogicThread<AutonomousRobot>() {
+            @Override
+            public void loadCommands() {
+                commands.add(new MoveMotor(robot.getFlywheel(), .79));
+                commands.add(new Translate(3150, Translate.Direction.LEFT, 0));
+                commands.add(new Pause(300));
+                commands.add(new Rotate(0, .5, 1000));
+            }
+        };
+        LogicThread<AutonomousRobot> moveReaper = new LogicThread<AutonomousRobot>() {
+            @Override
+            public void loadCommands() {
+                commands.add(new Pause(2000));
+                commands.add(new MoveMotor(robot.getReaperMotor(), .21));
+
+            }
+        };
+
+
+        List<LogicThread> threads = new ArrayList<LogicThread>();
+        threads.add(spinFlywheelAndMove);
+        threads.add(moveReaper);
+
+        SpawnNewThread fly = new SpawnNewThread((threads));
+
+        commands.add(fly);
+        commands.add(new Pause(3000));
+        commands.add(new killChildren(this));
+        commands.add(new Translate(5000, Translate.Direction.BACKWARD, 0)); //Continue Backward (relative to the angle we just rotated to)
+        commands.add(new Pause(1000));
+        commands.add(new Rotate(90, .5, 2000));
+        Translate strafeRight = new Translate(1950, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
+
+
+        if (WITH_SONAR) {
+            strafeRight.setExitCondition(new ExitCondition() {
+                @Override
+                public boolean isConditionMet() {
+                    double sonarRight = robot.getSonarRight().getFilteredValue();
+                    double sonarLeft = robot.getSonarLeft().getFilteredValue();
+                    Log.d("UltraSOUND", "" + robot.getSonarLeft().getValue() + "" + robot.getSonarRight().getValue());
+                    if (sonarRight <= SONAR_ERROR_MIN || sonarLeft <= SONAR_ERROR_MIN || sonarRight >= SONAR_ERROR_MAX || sonarLeft >= SONAR_ERROR_MAX) {
+                        sonarWorks.set(false);
+
+                    } else if (sonarRight < CLOSE_TO_WALL || sonarLeft < CLOSE_TO_WALL) {
+                        sonarWorks.set(true);
+                        robot.addToProgress("SONAR GOOD DATA");
+                        return true;
+                    } else {
+                        sonarWorks.set(true);
+                    }
+                    return false;
+                }
+            });
+        }
+        commands.add(strafeRight);
+        commands.add(new Pause(200));
+    }
 
 }

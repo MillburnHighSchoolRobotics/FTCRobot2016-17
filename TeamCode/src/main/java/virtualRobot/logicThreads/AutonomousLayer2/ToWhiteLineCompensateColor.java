@@ -35,6 +35,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     AtomicBoolean lastSensorTriggered, firstSensorTriggered;
     AtomicBoolean sonarWorks;
     GodThread.Line type;
+    private boolean escapeWall = false;
 
 
     private static final int whiteTape = 13;
@@ -123,7 +124,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         robot.getRFEncoder().clearValue();
         robot.getLBEncoder().clearValue();
         robot.getRBEncoder().clearValue();
-        if (type.getLine()== GodThread.LineType.FIRST && !sonarWorks.get()) {
+        if (type.getLine()== GodThread.LineType.FIRST && !sonarWorks.get() && escapeWall) {
             commands.add(new Translate(ESCAPE_WALL, Translate.Direction.LEFT, 0));
             commands.add(new Pause(200));
         }
@@ -176,12 +177,13 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         return (Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4;
     }
     private void fireBalls() {
-        commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{0})); //move button pusher
+        commands.add(new Translate(400, Translate.Direction.BACKWARD_LEFT, 0));
+        commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{0})); //move flywheel
 
         LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
             @Override
             public void loadCommands() {
-                commands.add(new MoveMotor(robot.getFlywheel(), .8));
+                commands.add(new MoveMotor(robot.getFlywheel(), .85));
                 commands.add(new Pause(1000));
 
             }
@@ -189,7 +191,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         LogicThread<AutonomousRobot> moveReaper = new LogicThread<AutonomousRobot>() {
             @Override
             public void loadCommands() {
-                commands.add(new Pause(1000));
+                commands.add(new Pause(2000));
                 commands.add(new MoveMotor(robot.getReaperMotor(), .21));
 
             }
@@ -203,7 +205,9 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         SpawnNewThread fly = new SpawnNewThread((threads));
 
         commands.add(fly);
-        commands.add(new Pause(3000));
+        commands.add(new Pause(5000));
         commands.add(new killChildren(this));
+        commands.add(new Translate(400, Translate.Direction.FORWARD_RIGHT, 0));
+
     }
 }
