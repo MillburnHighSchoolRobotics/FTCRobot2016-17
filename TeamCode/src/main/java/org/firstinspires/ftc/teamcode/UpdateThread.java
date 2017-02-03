@@ -222,7 +222,7 @@ public abstract class UpdateThread extends OpMode {
 		//vCapServo.setPosition((UpdateUtil.getPosition(capLeft) + UpdateUtil.getPosition(capRight))/2);
 			if (withServos) {
 				vButtonServo.setPosition(buttonServo.getPosition());
-				vFlywheelStopper.setPosition(0);
+				vFlywheelStopper.setPosition(.6);
 			}
 		if (WITH_SONAR) {
 			vSonarLeft.setRawValue(sonarLeft.getUltrasonicLevel());
