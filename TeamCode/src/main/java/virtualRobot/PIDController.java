@@ -10,6 +10,7 @@ public class PIDController {
     private double kD;
     private double threshold;
     private boolean switchSign = false;
+    private double maxI = Double.MAX_VALUE;
 
     private double P;
     private double I;
@@ -56,6 +57,11 @@ public class PIDController {
         this.switchSign = switchSign;
     }
 
+    public PIDController(double kP, double kI, double kD, double threshold, double target, boolean switchSign, double maxValue) {
+        this(kP,kI,kD,threshold,target,switchSign);
+        this.maxI = maxValue;
+    }
+
     public double getPIDOutput(double currentValue) {
         D = (target-currentValue) - P;
         P = target - currentValue;
@@ -73,6 +79,8 @@ public class PIDController {
                 I = 0;
             }
         }
+
+        I = Math.min(I,maxI);
 
         return kP * P + kI * I + kD * D;
     }
