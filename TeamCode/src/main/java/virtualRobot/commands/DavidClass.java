@@ -21,6 +21,7 @@ import virtualRobot.utils.Vector2i;
  * Analyzes the picture and determines whether or not red is left
  */
 
+@Deprecated
 public class DavidClass {
     public final static Mode currentMode = Mode.MIDSPLIT;
     public volatile static double startXPercent = 0;
