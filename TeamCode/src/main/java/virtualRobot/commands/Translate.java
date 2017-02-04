@@ -907,10 +907,10 @@ public class Translate implements Command {
     //0.00296875,  .003125 LowerBound, UpperBound
     //TU: 83
     //KU: .003125
-    public static final double KPt  =0.0024;
-    public static final double  KIt = .000087272727;
-    public static final double KDt = .0165;
-    public static double THRESHOLDt = 284; //TBD
+    public static final double KPt  =0.00194;
+    public static final double  KIt = .000061904761;
+    public static final double KDt = .01535625;
+    public static double THRESHOLDt = 460; //TBD
 
     //OLD //0.0031006, .003125
     //OLD KU: .003125

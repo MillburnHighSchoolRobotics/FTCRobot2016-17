@@ -17,31 +17,14 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
     public static boolean forward = true;
     @Override
     public void loadCommands() {
-        /*Translate.setGlobalMaxPower(1.0);
-        //commands.add(new Translate(5000, Translate.Direction.FORWARD, 0));
-        commands.add(new Pause(2000));
+       // Translate.setGlobalMaxPower(1.0);
+        commands.add(new Translate(5000, Translate.Direction.FORWARD, 0));
+        /*commands.add(new Pause(2000));
         commands.add(new Translate(3000, Translate.Direction.FORWARD, 0));
         commands.add(new Pause(2000));
         commands.add(new Translate(500, Translate.Direction.FORWARD, 0));*/
 
-        commands.add(new Translate(3000, Translate.Direction.RIGHT, 0));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //commands.add(new Translate(3000, Translate.Direction.RIGHT, 0));
         //commands.add(new Pause(3000));
         //commands.add(new Translate(7000, Translate.Direction.FORWARD, 0));
         //commands.add(new Translate(7000, Translate.Direction.FORWARD, 0));
@@ -54,9 +37,9 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
         //commands.add(new Rotate(90));
 
         //HIGH: .008125; LOW: .007
-        //HIGH: .005; LOW: .00475
-        //Translate c = new Translate(.004,5000,-1,new AtomicBoolean(), Translate.Direction.FORWARD);
-        //commands.add(c);
+        //LOW: .003; HIGH: .0035
+       // Translate c = new Translate(.00325,5000,-1,new AtomicBoolean(), Translate.Direction.FORWARD);
+       // commands.add(c);
         //Command.AUTO_ROBOT.addToProgress("Translate KP:" + c.translateController.getKp());
 //        commands.add(new Rotate(90, 1));
 

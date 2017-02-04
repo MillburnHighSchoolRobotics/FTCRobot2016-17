@@ -41,14 +41,14 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
     @Override
     public void loadCommands() {
         davePlan();
-commands.add(new Pause(5000));
+        commands.add(new Pause(5000));
         robot.addToProgress("Went To Wall");
 
         /*commands.add(new Pause(500));
         Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD_LEFT, 0); //
         commands.add(escapeWall); //Move Away from wall
         commands.add(new Pause(100));
-        ///commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
+        //commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
         commands.add(new Translate(5500, Translate.Direction.BACKWARD_RIGHT, 0));
         commands.add(new Pause(200));
         commands.add(new Translate(500, Translate.Direction.BACKWARD, 0)); //Continue Backward (relative to the angle we just rotated to)
@@ -87,13 +87,13 @@ commands.add(new Pause(5000));
 }
 private void davePlan(){
     commands.add(new Pause(500));
-    Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD, 0); //
+    Translate escapeWall = new Translate(800, Translate.Direction.BACKWARD, 0); //
     commands.add(escapeWall); //Move Away from wall
     commands.add(new Pause(100));
     ///commands.add(new Rotate(INT_ANGLE, 1)); //Rotate In such a way to glance the ball
     commands.add(new Rotate(-45, .5, 2000));
     commands.add(new Pause(500));
-    commands.add(new Translate(3900, Translate.Direction.BACKWARD, 0,1, -45));
+    commands.add(new Translate(4500, Translate.Direction.BACKWARD, 0,1, -45));
     commands.add(new Pause(200));
     commands.add(new Rotate(0, .5, 1000)); //Straighten out (note that rotate takes in a target value, not a relative value). So this will return us to the angle we started our bot at.
     commands.add(new Pause(200));

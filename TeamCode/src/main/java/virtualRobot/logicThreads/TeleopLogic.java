@@ -66,25 +66,43 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     //Movement Code
                     if (!MathUtils.equals(controller1.getValue(JoystickController.R_1), 0)) {
                         Log.d("joystickInput", "Left Stick Stationary");
+                        robot.addToTelemetry("TeleOp: ", "Rotating");
                         double angle = Math.toDegrees(controller1.getValue(JoystickController.THETA_1));
                         double power = controller1.getValue(JoystickController.R_1);
                         angle = angle < 0 ? angle + 360 : angle;
                         Log.d("teleOpMovement", "Turn: " + angle + " " + power);
                         if (angle >= 45 && angle < 135) {
-                            robot.getLeftRotate().setPower(power);
-                            robot.getRightRotate().setPower(power);
+//                            robot.getLeftRotate().setPower(power);
+//                            robot.getRightRotate().setPower(power);
+                            robot.getLFMotor().setPower(power);
+                            robot.getLBMotor().setPower(power);
+                            robot.getRFMotor().setPower(power);
+                            robot.getRBMotor().setPower(power);
                         } else if (angle < 45 || angle >= 315) {
-                            robot.getLeftRotate().setPower(power);
-                            robot.getRightRotate().setPower(-power);
+//                            robot.getLeftRotate().setPower(power);
+//                            robot.getRightRotate().setPower(-power);
+                            robot.getLFMotor().setPower(power);
+                            robot.getLBMotor().setPower(power);
+                            robot.getRFMotor().setPower(-power);
+                            robot.getRBMotor().setPower(-power);
                         } else if (angle >= 225 && angle < 315) {
-                            robot.getLeftRotate().setPower(-power);
-                            robot.getRightRotate().setPower(-power);
+//                            robot.getLeftRotate().setPower(-power);
+//                            robot.getRightRotate().setPower(-power);
+                            robot.getLFMotor().setPower(-power);
+                            robot.getLBMotor().setPower(-power);
+                            robot.getRFMotor().setPower(-power);
+                            robot.getRBMotor().setPower(-power);
                         } else if (angle >= 135 && angle < 225) {
-                            robot.getLeftRotate().setPower(-power);
-                            robot.getRightRotate().setPower(power);
+//                            robot.getLeftRotate().setPower(-power);
+//                            robot.getRightRotate().setPower(power);
+                            robot.getLFMotor().setPower(-power);
+                            robot.getLBMotor().setPower(-power);
+                            robot.getRFMotor().setPower(power);
+                            robot.getRBMotor().setPower(power);
                         }
                     } else {
                         Log.d("joystickInput", "Left Stick Moved");
+                        robot.addToTelemetry("TeleOp: ", "Translate");
                         //in the case of mecanum wheels, translating and strafing
                         double movementAngle = MathUtils.truncate(Math.toDegrees(controller1.getValue(JoystickController.THETA_2)), 2);
                         double power = controller1.getValue(JoystickController.R_2);
@@ -122,6 +140,7 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                         }
 //                        robot.getLeftRotate().setRatioAndPower(LF,LB);
 //                        robot.getRightRotate().setRatioAndPower(RF,RB);
+                       robot.addToTelemetry("Boom: ", LF + " " + LB + " " + RF + " " + RB);
                         robot.getLFMotor().setPower(LF);
                         robot.getLBMotor().setPower(LB);
                         robot.getRFMotor().setPower(RF);

@@ -18,6 +18,7 @@ public class MoveMotor implements Command {
 	private PIDController pidController;
 	private Translate.RunMode runMode;
 	private double tolerance;
+	private double timeLimit = Double.MAX_VALUE;
 
 	public MoveMotor() {
 		exitCondition = new ExitCondition() {
@@ -45,6 +46,11 @@ public class MoveMotor implements Command {
 	public MoveMotor(Motor motor, double power) {
 		this(motor);
 		this.power = power;
+	}
+
+	public MoveMotor(Motor motor, double power, double timeLimit) {
+		this(motor, power);
+		this.timeLimit = timeLimit;
 	}
 
 	public MoveMotor(Motor motor, double power, Sensor encoder, double target, Translate.RunMode runMode, boolean clearEncoders) {
@@ -114,8 +120,9 @@ public class MoveMotor implements Command {
 		switch (runMode) {
 		case CUSTOM:
 			motor.setPower(power);
+			long start = System.currentTimeMillis();
 
-			while (!exitCondition.isConditionMet()) {
+			while (!exitCondition.isConditionMet() && (System.currentTimeMillis() - start < timeLimit)) {
 
 				if (Thread.currentThread().isInterrupted()) {
 					isInterrupted = true;

@@ -13,8 +13,9 @@ import virtualRobot.godThreads.RedStatesGodThread;
 public class RedAutoUpdate extends UpdateThread {
     @Override
     public void setGodThread() {
-        godThread = RedAutoGodThread.class;
+        godThread = RedStatesGodThread.class;
     }
+//    public void setGodThread() { godThread = RedAutoGodThread.class; }
     @Override
     public void addPresets() {
 
