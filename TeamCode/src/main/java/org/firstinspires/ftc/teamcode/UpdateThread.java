@@ -74,7 +74,6 @@ public abstract class UpdateThread extends OpMode {
 	private LightSensor nxtLight1, nxtLight2, nxtLight3, nxtLight4;
 	private ColorSensor colorSensor;
 	private Servo buttonServo, flywheelStopper;
-
 	private GodThread vuforiaEverywhere;
 
 
@@ -107,7 +106,6 @@ public abstract class UpdateThread extends OpMode {
 		rightBack = hardwareMap.dcMotor.get("rightBack");
 		reaper = hardwareMap.dcMotor.get("reaper");
 		flywheel = hardwareMap.dcMotor.get("flywheel");
-
         //SERVO SETUP (with physical components, e.g. servo = hardwareMap....)
 		if (withServos) {
 			buttonServo = hardwareMap.servo.get("buttonPusher");
@@ -329,7 +327,7 @@ public abstract class UpdateThread extends OpMode {
 		}
 		telemetry.addData("RotateIsBlue", Rotate.onBlue);
 		telemetry.addData("buttonServo Position", buttonPosition);
-		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
+		telemetry.addData("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue() + " " + robot.getFlywheelEncoder().getValue());
 		telemetry.addData("Light Sensor Arrays: ", robot.getLightSensor1().getValue() + " " + robot.getLightSensor2().getValue() + " " + robot.getLightSensor3().getValue() + " " + robot.getLightSensor4().getValue());
 		if (WITH_SONAR)
 		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
@@ -340,6 +338,7 @@ public abstract class UpdateThread extends OpMode {
 		telemetry.addData("Position: ", vStateSensor.getPosition().toString());
 		telemetry.addData("Velocity: ", vStateSensor.getVelocity().toString());
 		//Log.d("Heading: ", String.valueOf(robot.getHeadingSensor().getValue()) + " " + imu.getIntegratedYaw());
+		Log.d("encoders","Flywheel Encoder: "  + robot.getFlywheelEncoder().getRawValue());
 		if (godThread.equals(TakePictureTestGod.class)) {
 			telemetry.addData("redIsLeft: ", "" + ((TakePictureTestGod)vuforiaEverywhere).getRedIsLeft().get());
 		}

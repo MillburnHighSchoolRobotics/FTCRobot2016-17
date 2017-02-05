@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.Command;
+import virtualRobot.commands.MoveMotorPID;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
@@ -18,7 +19,7 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands() {
        // Translate.setGlobalMaxPower(1.0);
-        commands.add(new Translate(5000, Translate.Direction.FORWARD, 0));
+        //commands.add(new Translate(5000, Translate.Direction.FORWARD, 0));
         /*commands.add(new Pause(2000));
         commands.add(new Translate(3000, Translate.Direction.FORWARD, 0));
         commands.add(new Pause(2000));
@@ -42,6 +43,8 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
        // commands.add(c);
         //Command.AUTO_ROBOT.addToProgress("Translate KP:" + c.translateController.getKp());
 //        commands.add(new Rotate(90, 1));
+
+        commands.add(new MoveMotorPID(.02,robot.getFlywheel(),robot.getFlywheelEncoder()));
 
     }
 }
