@@ -11,6 +11,7 @@ import virtualRobot.ExitCondition;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.MoveMotor;
+import virtualRobot.commands.MoveMotorPID;
 import virtualRobot.commands.MoveServo;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
@@ -183,7 +184,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
             @Override
             public void loadCommands() {
-                commands.add(new MoveMotor(robot.getFlywheel(), .85));
+                commands.add(new MoveMotorPID(50,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
                 commands.add(new Pause(1000));
 
             }

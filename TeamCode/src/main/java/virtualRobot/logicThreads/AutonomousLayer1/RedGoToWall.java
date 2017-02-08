@@ -13,6 +13,7 @@ import virtualRobot.ExitCondition;
 import virtualRobot.LogicThread;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.MoveMotor;
+import virtualRobot.commands.MoveMotorPID;
 import virtualRobot.commands.MoveServo;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
@@ -130,7 +131,7 @@ private void davePlan(){
         LogicThread<AutonomousRobot> spinFlywheelAndMove = new LogicThread<AutonomousRobot>() {
             @Override
             public void loadCommands() {
-                commands.add(new MoveMotor(robot.getFlywheel(), .79));
+                commands.add(new MoveMotorPID(50,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
                 commands.add(new Translate(3150, Translate.Direction.LEFT, 0));
                 commands.add(new Pause(300));
                 commands.add(new Rotate(0, .5, 1000));

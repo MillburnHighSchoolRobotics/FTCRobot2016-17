@@ -17,6 +17,7 @@ import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.SpawnNewThread;
 import virtualRobot.commands.Translate;
+import virtualRobot.commands.killChildren;
 import virtualRobot.components.Motor;
 import virtualRobot.components.Servo;
 
@@ -26,14 +27,7 @@ import virtualRobot.components.Servo;
 
 public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
     private AtomicBoolean reapStart;
-    LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
-        @Override
-        public void loadCommands() {
-            commands.add(new Translate(2500, Translate.Direction.RIGHT, 0));
-//            commands.add(new MoveMotorPID(650, robot.getFlywheel(), robot.getFlywheelEncoder()));
-//            commands.add(new MoveMotor(robot.getFlywheel(), .875));
-        }
-    };
+
 
     LogicThread<AutonomousRobot> forward = new LogicThread<AutonomousRobot>() {
         @Override
@@ -43,25 +37,39 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
             commands.add(new Rotate(0, .5, 500));
         }
     };
+    LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
+        @Override
+        public void loadCommands() {
+            commands.add(new MoveMotorPID(90,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
+            commands.add(new Pause(1000));
+
+        }
+    };
+    LogicThread<AutonomousRobot> moveReaper = new LogicThread<AutonomousRobot>() {
+        @Override
+        public void loadCommands() {
+            commands.add(new Pause(4000));
+            commands.add(new MoveMotor(robot.getReaperMotor(), .21));
+
+        }
+    };
+
+
 
     @Override
     public void loadCommands (){
-        commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{0})); //move button pusher
+        commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{.6})); //move button pusher
 
         List<LogicThread> threads = new ArrayList<LogicThread>();
-        //threads.add(forward);
+        threads.add(forward);
         threads.add(spinFlywheel);
+        threads.add(moveReaper);
 
-        commands.add(new SpawnNewThread(threads));
-//        commands.add(new MoveMotor(robot.getFlywheel(), .875));
-        commands.add(new MoveMotorPID(100, robot.getFlywheel(), robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
-        //commands.add(new Translate(2500, Translate.Direction.LEFT, 0));
-        //commands.add(new Pause(500));
-        ///commands.add(new Rotate(0, .5, 500));
-        ///commands.add(new Pause(2500));
-        ///commands.add(new MoveMotor(robot.getReaperMotor(), .21));
+        SpawnNewThread fly = new SpawnNewThread((threads));
 
-        commands.add(new Pause(1000));
+        commands.add(fly);
+        commands.add(new Pause(15000));
+        commands.add(new killChildren(this));
 
     }
 }

@@ -210,7 +210,35 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     if (controller2.isDown(JoystickController.BUTTON_RT)) {
 //                        robot.getFlywheelStopper().setPosition(0);
 //                        robot.getReaperMotor().setPower(1.0);
-                        robot.getFlywheel().setPower(.8);
+                        double lastSpeed =0;
+                        double currPower = 0;
+                        double lastEncoder =robot.getFlywheelEncoder().getRawValue();
+                        double lastTime = System.currentTimeMillis();
+                        double MSC = 335;
+                        double PPC = 25.9;
+                       PIDController speedController = new PIDController(29.1,17.308,12.232, 0);
+                        speedController.setTarget(75);
+
+                        while (controller2.isDown(JoystickController.BUTTON_RT)) {
+                            double a = robot.getFlywheelEncoder().getRawValue()-lastEncoder;
+                                //Command.AUTO_ROBOT.addToTelemetry("DIF: ", a);
+                                if (System.currentTimeMillis() - lastTime > MSC ) { //1780 RPM = 333 milliseconds/cycle
+
+
+                                    double time = lastTime;
+                                    lastEncoder = robot.getFlywheelEncoder().getRawValue();
+                                    lastTime = System.currentTimeMillis();
+                                    lastSpeed = (a / PPC) / (System.currentTimeMillis() - time); //25.9 pulses per cycle
+
+
+                                }
+                            double oldPower = currPower;
+                            currPower = speedController.getPIDOutput(lastSpeed);
+                            currPower = MathUtils.clamp(currPower, -1, 1);
+
+                            robot.getFlywheel().setPower(currPower == 0 ? oldPower : currPower);
+
+                        }
 //                        robot.getFlywheel().setPower(.88);
                     } else {
                         robot.getFlywheel().setPower(0);
@@ -296,5 +324,10 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                 return isInterrupted;
             }
         });
+
+    }
+
+    private void moveMotorPid() {
+
     }
 }
