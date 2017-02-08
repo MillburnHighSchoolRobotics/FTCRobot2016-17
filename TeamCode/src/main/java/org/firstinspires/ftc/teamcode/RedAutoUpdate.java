@@ -12,10 +12,10 @@ import virtualRobot.godThreads.RedStatesGodThread;
 @Autonomous(name = "Testing: Red Autonomous", group =  "Autonomous")
 public class RedAutoUpdate extends UpdateThread {
     @Override
-    public void setGodThread() {
-        godThread = RedStatesGodThread.class;
-    }
-//    public void setGodThread() { godThread = RedAutoGodThread.class; }
+//    public void setGodThread() {
+//        godThread = RedStatesGodThread.class;
+//    }
+      public void setGodThread() { godThread = RedAutoGodThread.class; }
     @Override
     public void addPresets() {
 

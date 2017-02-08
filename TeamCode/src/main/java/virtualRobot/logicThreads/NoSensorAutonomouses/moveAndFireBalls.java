@@ -69,7 +69,7 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
 
         commands.add(fly);
         commands.add(new Pause(6700));
-        //commands.add(new killChildren(this));
+        commands.add(new killChildren(this));
 
     }
 }
