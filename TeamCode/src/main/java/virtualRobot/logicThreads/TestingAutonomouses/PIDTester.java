@@ -44,7 +44,7 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
         //Command.AUTO_ROBOT.addToProgress("Translate KP:" + c.translateController.getKp());
 //        commands.add(new Rotate(90, 1));
 
-        commands.add(new MoveMotorPID(.02,robot.getFlywheel(),robot.getFlywheelEncoder()));
+        commands.add(new MoveMotorPID(50,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
 
     }
 }

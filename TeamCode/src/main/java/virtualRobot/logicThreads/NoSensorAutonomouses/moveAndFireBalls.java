@@ -54,7 +54,7 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
 
         commands.add(new SpawnNewThread(threads));
 //        commands.add(new MoveMotor(robot.getFlywheel(), .875));
-        commands.add(new MoveMotorPID(650, robot.getFlywheel(), robot.getFlywheelEncoder()));
+        commands.add(new MoveMotorPID(100, robot.getFlywheel(), robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
         //commands.add(new Translate(2500, Translate.Direction.LEFT, 0));
         //commands.add(new Pause(500));
         ///commands.add(new Rotate(0, .5, 500));

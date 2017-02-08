@@ -63,6 +63,7 @@ public abstract class UpdateThread extends OpMode {
 	private Thread t;
 	private CreateVuforia cv;
 	boolean tInstantiated= false;
+	public static boolean allDone = false;
 
 	//here we will initiate all of our PHYSICAL components. E.g: private DcMotor leftBack...
 	//also initiate sensors. E.g. private AnalogInput sonar, private ColorSensor colorSensor, private DigitalChannel ...
@@ -99,6 +100,7 @@ public abstract class UpdateThread extends OpMode {
 
 	@Override
 	public void init() {
+		allDone = false;
         //MOTOR SETUP (with physical componenents, e.g. leftBack = hardwareMap.dcMotor.get("leftBack")
 		leftFront = hardwareMap.dcMotor.get("leftFront");
 		leftBack = hardwareMap.dcMotor.get("leftBack");
@@ -349,6 +351,7 @@ public abstract class UpdateThread extends OpMode {
 	
 	public void stop() {
 		imu.close();
+		allDone = true;
 		if (tInstantiated)
 		t.interrupt();
 	}
