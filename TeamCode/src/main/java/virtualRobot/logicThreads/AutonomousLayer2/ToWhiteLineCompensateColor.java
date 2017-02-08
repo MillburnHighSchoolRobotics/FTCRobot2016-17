@@ -10,6 +10,8 @@ import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
+import virtualRobot.VuforiaLocalizerImplSubclass;
+import virtualRobot.commands.AllignWithBeacon;
 import virtualRobot.commands.MoveMotor;
 import virtualRobot.commands.MoveMotorPID;
 import virtualRobot.commands.MoveServo;
@@ -33,8 +35,9 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE = 6550; //Max Displacement To The Second Line
     public static final double ESCAPE_WALL = 200;
     AtomicBoolean allSensorsFail; //has other Line Sensor triggered
-    AtomicBoolean lastSensorTriggered, firstSensorTriggered;
+    AtomicBoolean lastSensorTriggered, firstSensorTriggered, redIsLeft;
     AtomicBoolean sonarWorks;
+    VuforiaLocalizerImplSubclass vuforia;
     GodThread.Line type;
     private boolean escapeWall = false;
 
@@ -75,7 +78,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
                 return true;
             }
             else if(robot.getLightSensor1().getRawValue()> .61) {
-                if (type.getColor() == GodThread.ColorType.RED) {
+                if (type == GodThread.Line.RED_FIRST_LINE || type == GodThread.Line.BLUE_SECOND_LINE) {
                     lastSensorTriggered.set(true);
                 } else {
                     firstSensorTriggered.set(true);
@@ -95,7 +98,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
                 return true;
             }else if((robot.getLightSensor4().getRawValue()> .61)){
                 allSensorsFail.set(false);
-                if (type.getColor() == GodThread.ColorType.BLUE) {
+                if (type == GodThread.Line.BLUE_FIRST_LINE || type == GodThread.Line.RED_SECOND_LINE) {
                     lastSensorTriggered.set(true);
                 } else {
                     firstSensorTriggered.set(true);
@@ -108,13 +111,15 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         }
     };
 
-    public ToWhiteLineCompensateColor( GodThread.Line type, AtomicBoolean firstSensorTriggered, AtomicBoolean lastSensorTriggered, AtomicBoolean allSensorsFail, AtomicBoolean sonarWorks) {
+    public ToWhiteLineCompensateColor( GodThread.Line type, AtomicBoolean firstSensorTriggered, AtomicBoolean lastSensorTriggered, AtomicBoolean allSensorsFail, AtomicBoolean sonarWorks, AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia) {
         super();
         this.type = type;
         this.allSensorsFail = allSensorsFail;
         this.firstSensorTriggered = firstSensorTriggered;
         this.lastSensorTriggered = lastSensorTriggered;
         this.sonarWorks = sonarWorks;
+        this.redIsLeft = redIsLeft;
+        this.vuforia = vuforia;
     }
 
 
@@ -130,14 +135,14 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
             commands.add(new Pause(200));
         }
         if (type.getLine() == GodThread.LineType.SECOND) {
-            commands.add(new Translate(600, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0)); //so we don't recheck the same line
+            commands.add(new Translate(600, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0)); //so we don't recheck the same line
             commands.add(new Pause(200));
             }
         Translate firstDisplacement;
         if (type.getLine()== GodThread.LineType.FIRST)
             firstDisplacement = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE, type.getColor()== GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .2);
         else
-            firstDisplacement = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE, type.getColor()== GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .2);
+            firstDisplacement = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE, type.getColor()== GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2);
         allSensorsFail.set(true);
         firstDisplacement.setExitCondition(atwhitelineSecond);
         commands.add(firstDisplacement);
@@ -150,9 +155,8 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         Translate thirdDisplacement = new Translate(MAX_ALLOWABLE_DISPLACEMENT_BACK_TO_LINE, type.getColor()== GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .1);
         thirdDisplacement.setExitCondition(atwhitelineSecond);
         commands.add(thirdDisplacement);*/
-        commands.add(new Pause(200));
 
-            if(robot.getLightSensor4().getRawValue()> .61)
+            /*if(robot.getLightSensor4().getRawValue()> .61)
                 commands.add(new Translate(type.getLine() == GodThread.LineType.FIRST ? 75 : 100,Translate.Direction.BACKWARD,0).setTolerance(50));
             else if(robot.getLightSensor1().getRawValue()> .61)
                 commands.add(new Translate(type.getLine() == GodThread.LineType.FIRST ? 75 : 100,Translate.Direction.FORWARD,0).setTolerance(50));
@@ -162,8 +166,9 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
 
         if (type.getLine() == GodThread.LineType.FIRST) {
             fireBalls();
-        }
+        }*/
         commands.add(new Pause(200));
+        commands.add(new AllignWithBeacon(vuforia, redIsLeft));
     }
 
 
@@ -184,7 +189,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
             @Override
             public void loadCommands() {
-                commands.add(new MoveMotorPID(50,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
+                commands.add(new MoveMotorPID(87,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
                 commands.add(new Pause(1000));
 
             }

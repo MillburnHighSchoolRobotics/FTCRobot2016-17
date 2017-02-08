@@ -99,7 +99,12 @@ public class MoveMotorPID implements Command {
     @Override
     public boolean changeRobotState() throws InterruptedException {
         double motorSpeed;
+        boolean isInterrupted = false;
         while (!exitCondition.isConditionMet()) {
+            if (Thread.currentThread().isInterrupted()) {
+                isInterrupted = true;
+                break;
+            }
            lastSpeed = getSpeedOfRev();
             //Command.AUTO_ROBOT.addToTelemetry("Speed: ", lastSpeed);
 
@@ -115,7 +120,9 @@ public class MoveMotorPID implements Command {
             motor.setPower(currPower == 0 ? oldPower : currPower);
 
         }
-        return false;
+        motor.setPower(0);
+
+        return isInterrupted;
     }
     private double getMappedSpeed(double speed) {
         return (maxAS/100)*speed;

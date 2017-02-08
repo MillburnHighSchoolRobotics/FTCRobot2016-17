@@ -29,6 +29,7 @@ import virtualRobot.logicThreads.NoSensorAutonomouses.Pauselogic;
 import virtualRobot.logicThreads.NoSensorAutonomouses.PushLeftButton;
 import virtualRobot.logicThreads.NoSensorAutonomouses.PushRightButton;
 import virtualRobot.logicThreads.NoSensorAutonomouses.RedStrafeToCenterGoal;
+import virtualRobot.logicThreads.NoSensorAutonomouses.moveAndFireBalls;
 
 //import virtualRobot.logicThreads.BlueDumpPeople;
 
@@ -40,6 +41,8 @@ import virtualRobot.logicThreads.NoSensorAutonomouses.RedStrafeToCenterGoal;
 public class BlueAutoGodThread extends GodThread {
     private final static boolean WITH_SONAR = true;
     private AtomicBoolean redIsLeft = new AtomicBoolean();
+    boolean firstSmallCorrect = false;
+    boolean secondSmallCorrect = false;
     LogicThread takePicture = new LogicThread() {
         @Override
         public void loadCommands() {
@@ -56,8 +59,14 @@ public class BlueAutoGodThread extends GodThread {
     @Override
     public void realRun() throws InterruptedException {
         // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD
+        LogicThread fireBalls = new moveAndFireBalls();
+        Thread fB = new Thread(fireBalls);
+        fB.start();
+        children.add(fB);
+        delegateMonitor(fB, new MonitorThread[]{});
 
-        LogicThread goToWall = new BlueGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
+
+        LogicThread goToWall = new RedGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
         Thread gtw = new Thread(goToWall);
         gtw.start();
         children.add(gtw);
@@ -70,14 +79,15 @@ public class BlueAutoGodThread extends GodThread {
 
 
         boolean weCanUseSonar = sonarWorks.get() && WITH_SONAR;
-        LogicThread toFirstLine = new ToWhiteLineCompensateColor(GodThread.Line.BLUE_FIRST_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks);
+        LogicThread toFirstLine = new ToWhiteLineCompensateColor(GodThread.Line.BLUE_FIRST_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, vuforia);
+        //FIRST LINE = first line we go to
         Thread tfl = new Thread(toFirstLine);
         tfl.start();
         children.add(tfl);
         delegateMonitor(tfl, new MonitorThread[]{});
-        if (lastSensorTriggered.get()) {
+       /* if (lastSensorTriggered.get()) {
             Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
-            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.BLUE_FIRST_LINE, weCanUseSonar);
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
             children.add(adjust);
@@ -85,7 +95,7 @@ public class BlueAutoGodThread extends GodThread {
         }
         if (firstSensorTriggered.get()) {
             Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
-            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.BLUE_FIRST_LINE, weCanUseSonar);
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
             children.add(adjust);
@@ -94,14 +104,14 @@ public class BlueAutoGodThread extends GodThread {
         if (allSensorsFailed.get()) {
             Command.AUTO_ROBOT.addToProgress("RunningAllSensorsFailed");
 
-            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTFAILS, GodThread.Line.BLUE_FIRST_LINE, weCanUseSonar);
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTFAILS, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
             children.add(adjust);
             delegateMonitor(adjust, new MonitorThread[]{});
         } else{
             Command.AUTO_ROBOT.addToProgress("CompensatingColor");
-            LogicThread allignToLine = new ColorCompensator(Line.BLUE_FIRST_LINE);
+            LogicThread allignToLine = new ColorCompensator(Line.RED_FIRST_LINE);
             Thread atl = new Thread(allignToLine);
             atl.start();
             children.add(atl);
@@ -111,10 +121,10 @@ public class BlueAutoGodThread extends GodThread {
         Thread takepicturenow = new Thread(takePicture);
         takepicturenow.start();
         children.add(takepicturenow);
-        delegateMonitor(takepicturenow, new MonitorThread[]{});
+        delegateMonitor(takepicturenow, new MonitorThread[]{});*/
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
-        if (!redIsLeft.get()) {
+        if (redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
             Thread pl = new Thread(pushLeft);
             pl.start();
@@ -136,14 +146,14 @@ public class BlueAutoGodThread extends GodThread {
         redIsLeft.set(false);
         lastSensorTriggered.set(false);
         allSensorsFailed.set(false);
-        LogicThread toSecondLine = new ToWhiteLineCompensateColor(GodThread.Line.BLUE_SECOND_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks );
+        LogicThread toSecondLine = new ToWhiteLineCompensateColor(GodThread.Line.BLUE_SECOND_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, vuforia );
         Thread tsl = new Thread(toSecondLine);
         tsl.start();
         children.add(tsl);
         delegateMonitor(tsl, new MonitorThread[]{});
-        if (lastSensorTriggered.get()) {
+       /* if (lastSensorTriggered.get()) {
             Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
-            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.BLUE_SECOND_LINE, weCanUseSonar);
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
             children.add(adjust);
@@ -151,7 +161,7 @@ public class BlueAutoGodThread extends GodThread {
         }
         if (firstSensorTriggered.get()) {
             Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
-            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.BLUE_SECOND_LINE, weCanUseSonar);
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
             children.add(adjust);
@@ -160,7 +170,7 @@ public class BlueAutoGodThread extends GodThread {
         if (allSensorsFailed.get()) {
             Command.AUTO_ROBOT.addToProgress("RunningAllSensorsFailed");
 
-            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTFAILS, GodThread.Line.BLUE_SECOND_LINE, weCanUseSonar);
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTFAILS, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
             Thread adjust = new Thread(reAdjust);
             adjust.start();
             children.add(adjust);
@@ -168,7 +178,7 @@ public class BlueAutoGodThread extends GodThread {
         } else{
             Command.AUTO_ROBOT.addToProgress("Compensating color");
 
-            LogicThread allignToLine = new ColorCompensator(Line.BLUE_SECOND_LINE);
+            LogicThread allignToLine = new ColorCompensator(Line.RED_SECOND_LINE);
             Thread atl = new Thread(allignToLine);
             atl.start();
             children.add(atl);
@@ -179,9 +189,16 @@ public class BlueAutoGodThread extends GodThread {
         takepicturenow2.start();
         children.add(takepicturenow2);
         delegateMonitor(takepicturenow2, new MonitorThread[]{});
-
-        Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
-        if (!redIsLeft.get()) {
+        if (secondSmallCorrect) {
+            Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+            LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.SMALLCORRECTION, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
+            Thread adjust = new Thread(reAdjust);
+            adjust.start();
+            children.add(adjust);
+            delegateMonitor(adjust, new MonitorThread[]{});
+        }
+        Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));*/
+        if (redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
             Thread pl = new Thread(pushLeft);
             pl.start();
@@ -207,7 +224,6 @@ public class BlueAutoGodThread extends GodThread {
         delegateMonitor(str, new MonitorThread[]{});
 
     }
-
 }
 
 
@@ -221,208 +237,8 @@ public class BlueAutoGodThread extends GodThread {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*private AtomicBoolean firstRedIsLeft = new AtomicBoolean();
-    private AtomicBoolean secondRedIsLeft = new AtomicBoolean();
-    private AtomicBoolean sonarWorks = new AtomicBoolean();
-    private AtomicBoolean lineSensorWorks = new AtomicBoolean();
-    private final static boolean WITH_SONAR = UpdateThread.WITH_SONAR;
-
-    @Override
-    public void realRun() throws InterruptedException {
-        double lineTarget = 4;
-        // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD
-        LogicThread goToWall = new BlueGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
-        Thread gtw = new Thread(goToWall);
-        gtw.start();
-        children.add(gtw);
-
-        //keep the program alive as long as the two monitor threads are still going - should proceed every logicThread addition
-        delegateMonitor(gtw, new MonitorThread[]{});
-
-//THE FOLLOWING BLOCK MOVES TO FIRST BEACON, TAKES PIC AND PUSHES BUTTON
-//*****************************
-        if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
-            LogicThread toFirstLine = new ToWhiteLine(lineSensorWorks, Line.BLUE_FIRST_LINE); //Goes to firstLine
-            Thread tfl = new Thread(toFirstLine);
-            tfl.start();
-            children.add(tfl);
-            delegateMonitor(tfl, new MonitorThread[]{});
-            if (lineSensorWorks.get()) { //If our line sensor works
-                LogicThread fixAllignment = new AllignLineUltraLine(Line.BLUE_FIRST_LINE, getLineValue(toFirstLine), firstRedIsLeft, vuforia); //ReAdjust to Line, take pic
-                lineTarget = getLineValue(toFirstLine);
-                Thread fa = new Thread(fixAllignment);
-                fa.start();
-                children.add(fa);
-                delegateMonitor(fa, new MonitorThread[]{});
-            }
-            else { //our line sensor fails
-                LogicThread fixAllignment = new AllignLineUltraNoLine(Line.BLUE_FIRST_LINE, firstRedIsLeft, vuforia); //ReAdjust to line, take pic
-                Thread fa = new Thread(fixAllignment);
-                fa.start();
-                children.add(fa);
-                delegateMonitor(fa, new MonitorThread[]{});
-            }
-
-        } else { //our sonar fails or we're not using one
-            LogicThread toFirstLine = new ToLineNoUltra(lineSensorWorks, Line.BLUE_FIRST_LINE); //Goes to firstLine
-            Thread tfl = new Thread(toFirstLine);
-            tfl.start();
-            children.add(tfl);
-            delegateMonitor(tfl, new MonitorThread[]{});
-            if (lineSensorWorks.get()) { //If our line sensor works
-                LogicThread fixAllignment = new AllignLineNoUltraLine(Line.BLUE_FIRST_LINE, getLineValue(toFirstLine), firstRedIsLeft, vuforia); //ReAdjust to Line, take pic
-                lineTarget = getLineValue(toFirstLine);
-                Thread fa = new Thread(fixAllignment);
-                fa.start();
-                children.add(fa);
-                delegateMonitor(fa, new MonitorThread[]{});
-            }
-            else { //our line sensor fails
-                LogicThread fixAllignment = new AllignLineNoUltraNoLine(Line.BLUE_FIRST_LINE, firstRedIsLeft, vuforia); //ReAdjust to line, take pic
-                Thread fa = new Thread(fixAllignment);
-                fa.start();
-                children.add(fa);
-                delegateMonitor(fa, new MonitorThread[]{});
-            }
-        }
-        Command.ROBOT.addToProgress("red is left /" + Boolean.toString(firstRedIsLeft.get()));
-        if (firstRedIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
-            Thread pl = new Thread(pushLeft);
-            pl.start();
-            children.add(pl);
-            delegateMonitor(pl, new MonitorThread[]{});
-        }
-
-        else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR);
-            Thread pr = new Thread(pushRight);
-            pr.start();
-            children.add(pr);
-            delegateMonitor(pr, new MonitorThread[]{});
-        }
-//*****************************
-//THE FOLLOWING BLOCK MOVES TO SECOND BEACON, TAKES PIC AND PUSHES BUTTON (note that it's the same as above, but the Linetype is changed to second beacon)
-//*****************************
-       /* if (sonarWorks.get() && WITH_SONAR) { //If our sonar works, and we're using one
-            LogicThread toFirstLine = new ToWhiteLine(lineSensorWorks, Line.BLUE_SECOND_LINE, lineTarget, lineSensorWorks.get()); //Goes to firstLine
-            Thread tfl = new Thread(toFirstLine);
-            tfl.start();
-            children.add(tfl);
-            delegateMonitor(tfl, new MonitorThread[]{});
-            if (lineSensorWorks.get()) { //If our line sensor works (note we are rechecking this again even after checking before)
-                LogicThread fixAllignment = new AllignLineUltraLine(Line.BLUE_SECOND_LINE, lineTarget, secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
-                Thread fa = new Thread(fixAllignment);
-                fa.start();
-                children.add(fa);
-                delegateMonitor(fa, new MonitorThread[]{});
-            }
-            else { //our line sensor fails
-                LogicThread fixAllignment = new AllignLineUltraNoLine(Line.BLUE_SECOND_LINE, secondRedIsLeft, vuforia); //ReAdjust to line, take pic
-                Thread fa = new Thread(fixAllignment);
-                fa.start();
-                children.add(fa);
-                delegateMonitor(fa, new MonitorThread[]{});
-            }
-
-        } else { //our sonar fails, or we're not using one
-            LogicThread toFirstLine = new ToLineNoUltra(lineSensorWorks, Line.BLUE_SECOND_LINE, lineTarget, lineSensorWorks.get()); //Goes to firstLine
-            Thread tfl = new Thread(toFirstLine);
-            tfl.start();
-            children.add(tfl);
-            delegateMonitor(tfl, new MonitorThread[]{});
-            if (lineSensorWorks.get()) { //If our line sensor works
-                LogicThread fixAllignment = new AllignLineNoUltraLine(Line.BLUE_SECOND_LINE, lineTarget, secondRedIsLeft, vuforia); //ReAdjust to Line, take pic
-                Thread fa = new Thread(fixAllignment);
-                fa.start();
-                children.add(fa);
-                delegateMonitor(fa, new MonitorThread[]{});
-            }
-            else { //our line sensor fails
-                LogicThread fixAllignment = new AllignLineNoUltraNoLine(Line.BLUE_SECOND_LINE, secondRedIsLeft, vuforia); //ReAdjust to line, take pic
-                Thread fa = new Thread(fixAllignment);
-                fa.start();
-                children.add(fa);
-                delegateMonitor(fa, new MonitorThread[]{});
-            }
-        }
-        Command.ROBOT.addToProgress("second red is left /" + Boolean.toString(secondRedIsLeft.get()));
-        if (secondRedIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
-            Thread pl = new Thread(pushLeft);
-            pl.start();
-            children.add(pl);
-            delegateMonitor(pl, new MonitorThread[]{});
-        }
-
-        else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR);
-            Thread pr = new Thread(pushRight);
-            pr.start();
-            children.add(pr);
-            delegateMonitor(pr, new MonitorThread[]{});
-        }*/
-//*****************************
-//THE FOLLOWING BLOCK STRAFES TO RAMP
-//*****************************
-       /* LogicThread strafeToRamp = new BlueStrafeToRamp();
-        Thread str = new Thread(strafeToRamp);
-        str.start();
-        children.add(str);
-        delegateMonitor(str, new MonitorThread[]{});
-
-    }
-    private double getLineValue(LogicThread<AutonomousRobot> l) {
-        double lineValue = (double) l.data.get(0);
-        return lineValue;
-    }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*MonitorThread watchingForTime = new TimeMonitor(System.currentTimeMillis(), 30000);
-        Thread tm = new Thread(watchingForTime);
-        tm.start();
-        children.add(tm);*/
-
-// THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD TO THE LIST
-        /*LogicThread moveToFirstBeacon = new BlueAutonomousLogic(redIsLeft, vuforia);
+ /*// THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD TO THE LIST
+        LogicThread moveToFirstBeacon = new RedAutonomousLogic(redIsLeft, vuforia);
         Thread mtfb = new Thread(moveToFirstBeacon);
         mtfb.start(); //Knocks Ball, Goes to First Beacon, Takes Pic
         children.add(mtfb);
@@ -433,7 +249,7 @@ public class BlueAutoGodThread extends GodThread {
 
         //Pushes Button
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
-        if (!redIsLeft.get()) {
+        if (redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton();
             Thread pl = new Thread(pushLeft);
             pl.start();
@@ -448,8 +264,8 @@ public class BlueAutoGodThread extends GodThread {
             children.add(pr);
             delegateMonitor(pr, new MonitorThread[]{});
         }
-
-       /* LogicThread rmtscb = new BlueMoveToSecondBeacon(redIsLeft, super.vuforia);
+        /*
+        LogicThread rmtscb = new RedMoveToSecondBeacon(redIsLeft, super.vuforia);
         Thread godThread = new Thread(rmtscb);
         godThread.start();
         children.add(godThread); //Goes to second beacon, takes pic
@@ -457,7 +273,7 @@ public class BlueAutoGodThread extends GodThread {
 
 
         //pushes button
-        if (!redIsLeft.get()) {
+        if (redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton();
             Thread pl = new Thread(pushLeft);
             pl.start();
@@ -478,4 +294,4 @@ public class BlueAutoGodThread extends GodThread {
         Thread rst = new Thread(rstr);
         rst.start();
         children.add(rst);
-        delegateMonitor(rst, new MonitorThread[]{}); */
+        delegateMonitor(rst, new MonitorThread[]{});*/

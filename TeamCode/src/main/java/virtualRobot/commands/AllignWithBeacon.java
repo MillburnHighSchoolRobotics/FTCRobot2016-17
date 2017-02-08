@@ -53,7 +53,8 @@ public class AllignWithBeacon implements Command {
     public final static double REDTHRESHOLD = 1.4;
     private static double tp = -0.2;
     private PIDController heading = new PIDController(0,0,0,0,0);
-    private PIDController compensate = new PIDController(0.2,0,(BLUETHRESHOLD + REDTHRESHOLD)/2,0.1);
+    //private PIDController compensate = new PIDController(0.2,0,(BLUETHRESHOLD + REDTHRESHOLD)/2,0.1);
+    private PIDController compensate = new PIDController(.345,0.00,0,0.3,1.025,false,2);
 
     public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft) {
         this.vuforia = vuforia;

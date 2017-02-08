@@ -235,7 +235,8 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //        }
 //        });
         commands.add(new Command () {
-            PIDController compensate = new PIDController(0.345,0.00,0,0.3,1.025,false,2);
+            //.345 maybe?
+            PIDController compensate = new PIDController(.345,0.00,0,0.3,1.025,false,2);
             PIDController heading = new PIDController(0.4,0,0,0,0);
             //final double TOLERANCE = 0.04;
             double timeLimit;
@@ -264,7 +265,7 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
                     if (covered == 0)
                         continue;
                     curr /= covered;
-                    power = -1 * compensate.getPIDOutput(curr);
+                    power = compensate.getPIDOutput(curr);
                     //adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
                     Log.d("AllignWithBeacon", "" + power + " " + adjustedPower + " " + curr + " " + covered);
                     robot.addToTelemetry("AllignWithBeacon ", curr + " " + covered + " " + power);

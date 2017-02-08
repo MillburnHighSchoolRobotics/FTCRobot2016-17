@@ -32,7 +32,7 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
     LogicThread<AutonomousRobot> forward = new LogicThread<AutonomousRobot>() {
         @Override
         public void loadCommands() {
-            commands.add(new Translate(2500, Translate.Direction.LEFT, 0));
+            commands.add(new Translate(2000, Translate.Direction.LEFT, 0));
             commands.add(new Pause(500));
             commands.add(new Rotate(0, .5, 500));
         }
@@ -40,7 +40,7 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
     LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
         @Override
         public void loadCommands() {
-            commands.add(new MoveMotorPID(90,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
+            commands.add(new MoveMotorPID(87,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
             commands.add(new Pause(1000));
 
         }
@@ -68,8 +68,8 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
         SpawnNewThread fly = new SpawnNewThread((threads));
 
         commands.add(fly);
-        commands.add(new Pause(15000));
-        commands.add(new killChildren(this));
+        commands.add(new Pause(6700));
+        //commands.add(new killChildren(this));
 
     }
 }
