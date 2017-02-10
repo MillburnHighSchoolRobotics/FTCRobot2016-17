@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.Log;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.zip.DeflaterOutputStream;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
@@ -14,6 +15,9 @@ import virtualRobot.utils.Vector2i;
 
 /**
  * Created by ethachu19 on 12/7/2016.
+ *
+ * Moves to Beacon with Heading Correction and Alligns with Beacon using PID while getting redIsLeft
+ * AKA the Great Deprecation of 2017
  *
  * NOTE FOR TEAM OF 2016 - 2017: CAMERA IS FLIPPED AND 180 DEGREE ROTATE IS TOO COSTLY
  */
@@ -51,6 +55,7 @@ public class AllignWithBeacon implements Command {
 
     public final static double BLUETHRESHOLD = 0.65;
     public final static double REDTHRESHOLD = 1.4;
+    public double timeLimit = Double.MAX_VALUE;
     private static double tp = -0.2;
     private PIDController heading = new PIDController(0,0,0,0,0);
     private PIDController compensate = new PIDController(0.2,0,(BLUETHRESHOLD + REDTHRESHOLD)/2,0.1);
@@ -58,6 +63,11 @@ public class AllignWithBeacon implements Command {
     public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft) {
         this.vuforia = vuforia;
         this.redIsLeft = redIsLeft;
+    }
+
+    public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft, double timeLimit) {
+        this(vuforia, redIsLeft);
+        this.timeLimit = timeLimit;
     }
 
     public void setExitCondition(ExitCondition exitCondition) {
@@ -179,7 +189,8 @@ public class AllignWithBeacon implements Command {
         }
         double power, curr = 0;
         int covered;
-        while (!exitCondition.isConditionMet() && !isInterrupted) {
+        long start = System.currentTimeMillis();
+        while (!exitCondition.isConditionMet() && !isInterrupted && (System.currentTimeMillis() - start < timeLimit)) {
             curr = 0;
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
             currentPos = new Vector2i(start1.x, vuforia.rgb.getHeight()/2);

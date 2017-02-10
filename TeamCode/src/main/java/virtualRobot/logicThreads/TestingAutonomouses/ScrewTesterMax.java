@@ -235,8 +235,8 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //        }
 //        });
         commands.add(new Command () {
-            PIDController compensate = new PIDController(0.345,0.00,0,0.3,1.025,false,2);
-            PIDController heading = new PIDController(0.4,0,0,0,0);
+            PIDController compensate = new PIDController(0.35,0,0,0,1.025);
+            PIDController heading = new PIDController(0.01,0,0,0,0);
             //final double TOLERANCE = 0.04;
             double timeLimit;
             @Override
@@ -245,13 +245,13 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
                 int covered;
                 boolean isInterrupted = false;
                 int width = vuforia.rgb.getWidth(), height = vuforia.rgb.getHeight();
-                int end = (int) (DavidClass.endXPercent * width);
+                int end = (int) (AllignWithBeacon.endXPercent * width);
                 Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
                 Vector2i currentPos;
                 while (!isInterrupted) {
                     curr = 0;
                     bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-                    currentPos = new Vector2i((int) (DavidClass.startXPercent * width), vuforia.rgb.getHeight() / 2);
+                    currentPos = new Vector2i((int) (AllignWithBeacon.startXPercent * width), vuforia.rgb.getHeight() / 2);
                     for (covered = 0; currentPos.x < end;) {
                         red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
                         blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
@@ -265,7 +265,7 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
                         continue;
                     curr /= covered;
                     power = -1 * compensate.getPIDOutput(curr);
-                    //adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
+                    adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
                     Log.d("AllignWithBeacon", "" + power + " " + adjustedPower + " " + curr + " " + covered);
                     robot.addToTelemetry("AllignWithBeacon ", curr + " " + covered + " " + power);
                     robot.getLFMotor().setPower(power + adjustedPower);
