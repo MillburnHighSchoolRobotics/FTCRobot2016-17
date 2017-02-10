@@ -168,7 +168,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
             fireBalls();
         }*/
         commands.add(new Pause(200));
-        commands.add(new AllignWithBeacon(vuforia, redIsLeft));
+        commands.add(new AllignWithBeacon(vuforia, redIsLeft, AllignWithBeacon.Direction.FORWARD));
     }
 
 

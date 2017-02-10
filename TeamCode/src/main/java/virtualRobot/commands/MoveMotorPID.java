@@ -88,8 +88,6 @@ public class MoveMotorPID implements Command {
             lastEncoder = encoder.getRawValue();
             lastTime = System.currentTimeMillis();
             return (a/PPC)/(System.currentTimeMillis()-time); //25.9 pulses per cycle
-
-
         }
        // Command.AUTO_ROBOT.addToTelemetry("PENS: ", "Ban");
 
