@@ -92,7 +92,13 @@ public class Translate implements Command {
         direction = Direction.FORWARD;
         multiplier = POWER_MATRIX[direction.getCode()]; //When Direction is FORWARD, code is 0
         timeLimit = -1;
+        if (!gloablAngleSet)
         referenceAngle = Double.MIN_VALUE;
+        else {
+            referenceAngle = globalReferenceAngleModifier;
+            headingOnlyController.setTarget(referenceAngle);
+            headingController.setTarget(referenceAngle);
+        }
         angleModifier = 0;
         movementAngle = direction.getAngle();
     }
