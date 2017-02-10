@@ -236,7 +236,6 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //        });
         commands.add(new Command () {
             PIDController compensate = new PIDController(0.35,0,0,0,1.025);
-            PIDController heading = new PIDController(0.01,0,0,0,0);
             PIDController heading = new PIDController(0.4,0,0,0,0);
             //final double TOLERANCE = 0.04;
             double timeLimit;
