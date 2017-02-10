@@ -58,6 +58,7 @@ public class RedAutoGodThread extends GodThread {
         Thread tm = new Thread(watchingForTime);
         tm.start();
         children.add(tm);
+
         LogicThread fireBalls = new moveAndFireBalls();
         Thread fB = new Thread(fireBalls);
         fB.start();

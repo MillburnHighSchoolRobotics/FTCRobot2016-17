@@ -19,6 +19,8 @@ public class Translate implements Command {
     private ExitCondition exitCondition;
     private static double globalMaxPower = 1;
     private double TOLERANCE = 50;
+   static double globalReferenceAngleModifier = 0;
+    static boolean gloablAngleSet = false;
     final static double blueAngle = -180;
     private static boolean blueSide = false;
     private RunMode runMode;
@@ -41,6 +43,7 @@ public class Translate implements Command {
     private double timeLimit = -1;
     private double myTarget;
     private double referenceAngle;
+
     private double angleModifier; //(0-45) degrees, subtracts that angle from current movement (e.g. FORWARD_RIGTHT with angleModifier of 10, would move at 35 degrees, FORWARD_LEFT with same modifier would move at 125 degrees)
     private double movementAngle; //represents the actual angle the robot moves at
     private static final double SQRT_2 = Math.sqrt(2);
@@ -217,8 +220,16 @@ public class Translate implements Command {
         this (target, direction, angleModifier, maxPower);
 
         this.referenceAngle = referenceAngle;
-        headingController.setTarget(this.referenceAngle  + (blueSide ? -180 : 0));
-        headingOnlyController.setTarget(this.referenceAngle+(blueSide ? -180 : 0));
+        headingController.setTarget(this.referenceAngle  + (blueSide ? -180 : 0) + (globalReferenceAngleModifier));
+        headingOnlyController.setTarget(this.referenceAngle+(blueSide ? -180 : 0) + (globalReferenceAngleModifier));
+
+    }
+    public Translate(double target, Direction direction, double angleModifier, double maxPower, double referenceAngle, boolean useGlobalAngle) {
+        this (target, direction, angleModifier, maxPower);
+
+        this.referenceAngle = referenceAngle;
+        headingController.setTarget(this.referenceAngle  + (blueSide ? -180 : 0) + (useGlobalAngle ? globalReferenceAngleModifier : 0));
+        headingOnlyController.setTarget(this.referenceAngle+(blueSide ? -180 : 0) + (useGlobalAngle ? globalReferenceAngleModifier: 0));
 
     }
 
@@ -226,9 +237,16 @@ public class Translate implements Command {
         this (target, direction, angleModifier, maxPower, referenceAngle);
         this.name = name;
     }
-
+    public Translate(double target, Direction direction, double angleModifier, double maxPower, double referenceAngle, String name, boolean useGlobalAngle) {
+        this (target, direction, angleModifier, maxPower, referenceAngle, useGlobalAngle);
+        this.name = name;
+    }
     public Translate(double target, Direction direction, double angleModifier, double maxPower, double referenceAngle, String name, double timeLimit) {
         this(target, direction, angleModifier, maxPower, referenceAngle, name);
+        this.timeLimit = timeLimit;
+    }
+    public Translate(double target, Direction direction, double angleModifier, double maxPower, double referenceAngle, String name, boolean useGlobalAngle, double timeLimit) {
+        this(target, direction, angleModifier, maxPower, referenceAngle, name, useGlobalAngle);
         this.timeLimit = timeLimit;
     }
 
@@ -882,6 +900,14 @@ public class Translate implements Command {
         public Direction getNext() {
             return vals[(this.ordinal()+1) % vals.length];
         }
+    }
+    public static void setGlobalAngleMod(double d) {
+        globalReferenceAngleModifier = d;
+        gloablAngleSet = true;
+    }
+    public static void resetGlobalAngleMod() {
+        globalReferenceAngleModifier = 0;
+        gloablAngleSet = false;
     }
     private double sinDegrees(double  d) {
         return Math.sin(Math.toRadians(d));

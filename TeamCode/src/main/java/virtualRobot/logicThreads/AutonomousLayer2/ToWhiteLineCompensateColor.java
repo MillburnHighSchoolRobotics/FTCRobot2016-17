@@ -125,7 +125,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
 
     @Override
     public void loadCommands() {
-
+        Translate.setGlobalAngleMod(90);
         robot.getLFEncoder().clearValue();
         robot.getRFEncoder().clearValue();
         robot.getLBEncoder().clearValue();
