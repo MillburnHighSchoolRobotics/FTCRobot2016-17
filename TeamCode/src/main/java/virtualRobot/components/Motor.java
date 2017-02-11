@@ -1,5 +1,7 @@
 package virtualRobot.components;
 
+import virtualRobot.SomeoneDunGoofed;
+
 /*
 The virtual Motor component
  */
@@ -27,7 +29,9 @@ public class Motor {
     public synchronized void setPower(double newPower) {
     	
     	synchronized (this) {
-    	
+			if (Double.isNaN(newPower)) {
+				throw new SomeoneDunGoofed("FUCK YOU BRO");
+			}
 	        power = newPower;
 	        if (power > MAX_POWER) {
 	            power = 1;

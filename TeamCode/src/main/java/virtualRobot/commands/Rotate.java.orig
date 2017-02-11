@@ -198,16 +198,26 @@ public class Rotate implements Command {
                 robot.getLBEncoder().clearValue();
                 robot.getRFEncoder().clearValue();
                 robot.getRBEncoder().clearValue();
-
-                while (!exitCondition.isConditionMet() && Math.abs(Math.abs(pidController.getTarget())
-                        - (Math.abs(robot.getLFEncoder().getValue()) + Math.abs(robot.getLBEncoder().getValue())
+<<<<<<< HEAD
+                robot.addToProgress("Rotate Angle: " + currentAngle);
+                double angle = currentAngle;
+                while (!exitCondition.isConditionMet() && (Math.abs(angleInDegrees - currentAngle) > TOLERANCE || isTesting) && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)){//Mehmet: Unsure of relevance of 20, may need to be changed.
                     currentAngle = angle + ((robot.getRFEncoder().getValue()/robot.getRFMotor().getMotorType().getTicksPerRevolution()) * SallyJoeBot.wheelDiameter * Math.PI) / (Math.sqrt((Math.pow(SallyJoeBot.botWidth,2) + Math.pow(SallyJoeBot.botLength,2))) * Math.PI) * 360;
-                    robot.getLeftRotate().setPower(Math.signum(angleInDegrees)*power);
-                    robot.getRightRotate().setPower(-Math.signum(angleInDegrees)*power);
+                    robot.addToTelemetry("Rotate: ", currentAngle);
+                    adjustedPower = MathUtils.clamp(pidController.getPIDOutput(currentAngle),-1,1);
                     robot.getLBMotor().setPower(adjustedPower);
                     robot.getLFMotor().setPower(adjustedPower);
                     robot.getRFMotor().setPower(-adjustedPower);
                     robot.getRBMotor().setPower(-adjustedPower);
+=======
+
+                while (!exitCondition.isConditionMet() && Math.abs(Math.abs(pidController.getTarget())
+                        - (Math.abs(robot.getLFEncoder().getValue()) + Math.abs(robot.getLBEncoder().getValue())
+                        + Math.abs(robot.getRFEncoder().getValue()) + Math.abs(robot.getRBEncoder().getValue())) / 4) > 20){//Mehmet: Unsure of relevance of 20, may need to be changed.
+                    robot.getLeftRotate().setPower(Math.signum(angleInDegrees)*power);
+                    robot.getRightRotate().setPower(-Math.signum(angleInDegrees)*power);
+                    
+>>>>>>> origin/master
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;
