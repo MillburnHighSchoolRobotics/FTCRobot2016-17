@@ -13,6 +13,7 @@ public class Motor {
 
     public Motor(MotorType motorType) {
         power = 0;
+		this.motorType = motorType;
     }
 
     public synchronized double getPower () {
@@ -60,31 +61,31 @@ public class Motor {
 		private final double KD;
 		private final double PPC; //Pulses per cycle
 
-		public double getKP() {
+		public synchronized double getKP() {
 			return KP;
 		}
 
-		public double getKI() {
+		public synchronized double getKI() {
 			return KI;
 		}
 
-		public double getKD() {
+		public synchronized double getKD() {
 			return KD;
 		}
 
-		public double getPPC() {
+		public synchronized double getPPC() {
 			return PPC;
 		}
 
-		public double getMSC() {
+		public synchronized double getMSC() {
 			return MSC;
 		}
 
-		public double getMaxActSpeed() {
+		public synchronized double getMaxActSpeed() {
 			return maxActSpeed;
 		}
 
-		public double getTicksPerRevolution() {
+		public synchronized double getTicksPerRevolution() {
 			return ticksPerRevolution;
 		}
 

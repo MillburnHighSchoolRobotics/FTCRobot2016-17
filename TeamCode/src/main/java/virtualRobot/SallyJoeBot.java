@@ -48,8 +48,8 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private static final float mmPerInch = 25.4f;
     public static final float mmBotWidth = 16 * mmPerInch; // ... or whatever is right for your robot
     public static final float mmFTCFieldWidth = (12 * 12 - 2) * mmPerInch; // the FTC field is ~11'10" center-to-center of the glass panels
-    public static final double wheelDiameter = 5.5; // in cm
-    public static final double botWidth = 120, botLength = 160; // in cm
+    public static final double wheelDiameter = 10; // in cm
+    public static final double botWidth = 40, botLength = 32.5 ; // in cm
     public static final double BWTHRESHOLD = 3.7; //B+W/2 = 3.01
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
