@@ -232,6 +232,7 @@ public abstract class UpdateThread extends OpMode {
 			//Chill
 		}
 		Rotate.resetAngle();
+		Rotate.setDefaultMode(Rotate.RunMode.WITH_ENCODER);
 		t = cv.t;
 		vuforiaEverywhere = cv.vuforiaEverywhere;
 		godThread = cv.godThread;
@@ -335,6 +336,7 @@ public abstract class UpdateThread extends OpMode {
 		if (WITH_SONAR)
 		telemetry.addData("Ultrasonic: ", robot.getSonarLeft().getValue() + " " + robot.getSonarRight().getValue());
 		telemetry.addData("Color sensor: ", "Red: " + vColorSensor.getRed() + " Green: " + vColorSensor.getGreen() + " Blue: " + vColorSensor.getBlue());
+		telemetry.addData("Rotate Angle: ", Rotate.getCurrentAngle());
 		//Log.d("syncedMotors: ",robot.getLeftRotate().getSpeedA() + " " + robot.getLeftRotate().getSpeedB() + " " + robot.getRightRotate().getSpeedA() + " " + robot.getRightRotate().getSpeedB()) ;
 //		Log.d("encoders: ", robot.getLFEncoder().getValue() + " " + robot.getLBEncoder().getValue() + " " + robot.getRFEncoder().getValue() + " " + robot.getRBEncoder().getValue());
 		telemetry.addData("IMU testing: ", imu.getIntegratedPitch() + " " + imu.getIntegratedRoll() + " " + imu.getIntegratedYaw());

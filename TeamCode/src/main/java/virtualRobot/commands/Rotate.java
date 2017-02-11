@@ -217,13 +217,13 @@ public class Rotate implements Command {
                 robot.addToProgress("Rotate Angle: " + currentAngle);
                 double angle = currentAngle;
                 while (!exitCondition.isConditionMet() && (Math.abs(angleInDegrees - currentAngle) > TOLERANCE || isTesting) && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)){//Mehmet: Unsure of relevance of 20, may need to be changed.
-                    currentAngle = angle + ((robot.getLFEncoder().getValue()/robot.getLFMotor().getMotorType().getTicksPerRevolution()) * SallyJoeBot.wheelDiameter * Math.PI) / (Math.sqrt((Math.pow(SallyJoeBot.botWidth,2) + Math.pow(SallyJoeBot.botLength,2))) * Math.PI) * 360;
+                    currentAngle = angle + ((robot.getRFEncoder().getValue()/robot.getRFMotor().getMotorType().getTicksPerRevolution()) * SallyJoeBot.wheelDiameter * Math.PI) / (Math.sqrt((Math.pow(SallyJoeBot.botWidth,2) + Math.pow(SallyJoeBot.botLength,2))) * Math.PI) * 360;
                     robot.addToTelemetry("Rotate: ", currentAngle);
                     adjustedPower = MathUtils.clamp(pidController.getPIDOutput(currentAngle),-1,1);
-                    robot.getLBMotor().setPower(-adjustedPower);
-                    robot.getLFMotor().setPower(-adjustedPower);
-                    robot.getRFMotor().setPower(adjustedPower);
-                    robot.getRBMotor().setPower(adjustedPower);
+                    robot.getLBMotor().setPower(adjustedPower);
+                    robot.getLFMotor().setPower(adjustedPower);
+                    robot.getRFMotor().setPower(-adjustedPower);
+                    robot.getRBMotor().setPower(-adjustedPower);
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;
