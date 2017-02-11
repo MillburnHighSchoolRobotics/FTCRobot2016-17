@@ -189,7 +189,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
             @Override
             public void loadCommands() {
-                commands.add(new MoveMotorPID(87,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
+                commands.add(new MoveMotorPID(87,robot.getFlywheel(),robot.getFlywheelEncoder()));
                 commands.add(new Pause(1000));
 
             }

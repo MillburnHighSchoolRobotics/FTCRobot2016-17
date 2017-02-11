@@ -43,19 +43,19 @@ public class MoveMotorPID implements Command {
     PIDController speedController;
 
     //PIDController speedController = new PIDController(29.1,.05197,4073.191,0);
-    public MoveMotorPID(double speed, Motor motor, Sensor encoder, MotorType motorType) {
-        maxAS = motorType.maxActSpeed;
+    public MoveMotorPID(double speed, Motor motor, Sensor encoder) {
+        maxAS = motor.getMotorType().getMaxActSpeed();
         this.speed = getMappedSpeed(MathUtils.clamp(speed, 0, 100));
         this.motor = motor;
         this.encoder = encoder;
         lastTime = System.currentTimeMillis();
         lastSpeed = 0;
         lastEncoder = encoder.getRawValue();
-        KP = motorType.KP;
-        KI = motorType.KI;
-        KD = motorType.KD;
-        PPC = motorType.PPC;
-        MSC = motorType.MSC;
+        KP = motor.getMotorType().getKP();
+        KI = motor.getMotorType().getKI();
+        KD = motor.getMotorType().getKD();
+        PPC = motor.getMotorType().getPPC();
+        MSC = motor.getMotorType().getMSC();
         speedController = new PIDController(KP,KI,KD,0);
         speedController.setTarget(this.speed);
 
@@ -124,25 +124,5 @@ public class MoveMotorPID implements Command {
     }
     private double getMappedSpeed(double speed) {
         return (maxAS/100)*speed;
-    }
-    public enum MotorType {
-        NeverRest3_7(29.1,17.308,12.232, 25.9, 335, .06); //NevRest 3.7
-        private final double KP;
-        private final double KI;
-        private final double KD;
-        private final double PPC;
-        private final double MSC;
-        private final double maxActSpeed;
-
-
-
-        private MotorType(double KP, double KI, double KD, double PPC,  double MSC, double maxAS) {
-            this.KP = KP;
-            this.KI = KI;
-            this.KD = KD;
-            this.PPC = PPC;
-            this.MSC = MSC;
-            this.maxActSpeed = maxAS;
-        } //Kp, Ki, Kd, Pulses per cycle of motor, Milliseconds per cycle of motor, max actual speed (e.g. speed w/o mapping)
     }
 }

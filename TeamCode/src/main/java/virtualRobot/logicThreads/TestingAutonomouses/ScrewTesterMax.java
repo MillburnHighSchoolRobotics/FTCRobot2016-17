@@ -224,69 +224,69 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //        robot.addToProgress("Pause Finished, Translate Now");
 //        commands.add(new Translate(50, Translate.Direction.BACKWARD,0,0.2).setTolerance(25));
 //        robot.addToProgress("Translate Done");
-//        final AtomicBoolean ab = new AtomicBoolean();
-//        commands.add(new AllignWithBeacon(vuforia,ab));
-//        commands.add(new Command() {
-//            @Override
-//            public boolean changeRobotState() throws InterruptedException {
-//                robot.addToProgress("Red is Left: " + ab.get());
-//                robot.addToProgress("Finished");
-//                return Thread.currentThread().isInterrupted();
-//        }
-//        });
-        commands.add(new Command () {
-            PIDController compensate = new PIDController(0.35,0,0,0,1.025);
-            PIDController heading = new PIDController(0.4,0,0,0,0);
-            //final double TOLERANCE = 0.04;
-            double timeLimit;
+        final AtomicBoolean ab = new AtomicBoolean();
+        commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.BACKWARD, 2000));
+        commands.add(new Command() {
             @Override
             public boolean changeRobotState() throws InterruptedException {
-                double power, curr = 0, red, blue, adjustedPower = 0;
-                int covered;
-                boolean isInterrupted = false;
-                int width = vuforia.rgb.getWidth(), height = vuforia.rgb.getHeight();
-                int end = (int) (AllignWithBeacon.endXPercent * width);
-                Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-                Vector2i currentPos;
-                while (!isInterrupted) {
-                    curr = 0;
-                    bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-                    currentPos = new Vector2i((int) (AllignWithBeacon.startXPercent * width), vuforia.rgb.getHeight() / 2);
-                    for (covered = 0; currentPos.x < end;) {
-                        red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
-                        blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
-                        if (blue != 0 && (blue > 200 || red > 200) && (red/blue < AllignWithBeacon.BLUETHRESHOLD || red/blue > AllignWithBeacon.REDTHRESHOLD)) {
-                            curr += red / blue;
-                            covered++;
-                        }
-                        currentPos.x += 8;
-                    }
-                    if (covered == 0)
-                        continue;
-                    curr /= covered;
-                    power = compensate.getPIDOutput(curr);
-                    adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
-                    Log.d("AllignWithBeacon", "" + power + " " + adjustedPower + " " + curr + " " + covered);
-                    robot.addToTelemetry("AllignWithBeacon ", curr + " " + covered + " " + power);
-                    robot.getLFMotor().setPower(power + adjustedPower);
-                    robot.getLBMotor().setPower(power + adjustedPower);
-                    robot.getRFMotor().setPower(power - adjustedPower);
-                    robot.getRBMotor().setPower(power - adjustedPower);
-                    if (Thread.currentThread().isInterrupted()) {
-                        isInterrupted = true;
-                        break;
-                    }
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException ex) {
-                        isInterrupted = true;
-                        break;
-                    }
-                }
-                robot.addToProgress("EXITED COMMAND");
-                robot.stopMotors();
-                return isInterrupted;
+                robot.addToProgress("Red is Left: " + ab.get());
+                robot.addToProgress("Finished");
+                return Thread.currentThread().isInterrupted();
             }
         });
+//        commands.add(new Command () {
+//            PIDController compensate = new PIDController(0.335,0,0,0.15,1.025);
+//            PIDController heading = new PIDController(0.4,0,0,0,0);
+//            //final double TOLERANCE = 0.04;
+//            double timeLimit;
+//            @Override
+//            public boolean changeRobotState() throws InterruptedException {
+//                double power, curr = 0, red, blue, adjustedPower = 0;
+//                int covered;
+//                boolean isInterrupted = false;
+//                int width = vuforia.rgb.getWidth(), height = vuforia.rgb.getHeight();
+//                int end = (int) (AllignWithBeacon.endXPercent * width);
+//                Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+//                Vector2i currentPos;
+//                while (!isInterrupted) {
+//                    curr = 0;
+//                    bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
+//                    currentPos = new Vector2i((int) (AllignWithBeacon.startXPercent * width), vuforia.rgb.getHeight() / 2);
+//                    for (covered = 0; currentPos.x < end;) {
+//                        red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+//                        blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+//                        if (blue != 0 && (blue > 200 || red > 200) && (red/blue < AllignWithBeacon.BLUETHRESHOLD || red/blue > AllignWithBeacon.REDTHRESHOLD)) {
+//                            curr += red / blue;
+//                            covered++;
+//                        }
+//                        currentPos.x += 8;
+//                    }
+//                    if (covered == 0)
+//                        continue;
+//                    curr /= covered;
+//                    power = compensate.getPIDOutput(curr);
+//                    //adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
+//                    Log.d("AllignWithBeacon", "" + power + " " + adjustedPower + " " + curr + " " + covered);
+//                    robot.addToTelemetry("AllignWithBeacon ", curr + " " + covered + " " + power);
+//                    robot.getLFMotor().setPower(power + adjustedPower);
+//                    robot.getLBMotor().setPower(power + adjustedPower);
+//                    robot.getRFMotor().setPower(power - adjustedPower);
+//                    robot.getRBMotor().setPower(power - adjustedPower);
+//                    if (Thread.currentThread().isInterrupted()) {
+//                        isInterrupted = true;
+//                        break;
+//                    }
+//                    try {
+//                        Thread.sleep(10);
+//                    } catch (InterruptedException ex) {
+//                        isInterrupted = true;
+//                        break;
+//                    }
+//                }
+//                robot.addToProgress("EXITED COMMAND");
+//                robot.stopMotors();
+//                return isInterrupted;
+//            }
+//        });
     }
 }

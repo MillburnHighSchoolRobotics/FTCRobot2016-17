@@ -1,5 +1,7 @@
 package virtualRobot.logicThreads.TestingAutonomouses;
 
+import android.util.Log;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.AutonomousRobot;
@@ -44,7 +46,17 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
         //Command.AUTO_ROBOT.addToProgress("Translate KP:" + c.translateController.getKp());
 //        commands.add(new Rotate(90, 1));
 
-        commands.add(new MoveMotorPID(50,robot.getFlywheel(),robot.getFlywheelEncoder(), MoveMotorPID.MotorType.NeverRest3_7));
+        //commands.add(new MoveMotorPID(50,robot.getFlywheel(),robot.getFlywheelEncoder()));
+        Rotate.setDefaultMode(Rotate.RunMode.WITH_ENCODER);
+        commands.add(new Rotate(90));
+//        commands.add(new Command() {
+//
+//            @Override
+//            public boolean changeRobotState() throws InterruptedException {
+//                Log.d("PIDOUTPUTTICKS","" + robot.getLFMotor().getMotorType());
+//                return false;
+//            }
+//        });
 
     }
 }
