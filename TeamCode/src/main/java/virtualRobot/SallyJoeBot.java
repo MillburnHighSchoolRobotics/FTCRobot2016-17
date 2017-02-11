@@ -46,8 +46,10 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
     private static final double KI = 0.0001; //TBD
     private static final double KD = 0.0001; //TBD
     private static final float mmPerInch = 25.4f;
-    public static final float mmBotWidth = 16 * mmPerInch;            // ... or whatever is right for your robot
-    public static final float mmFTCFieldWidth = (12 * 12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
+    public static final float mmBotWidth = 16 * mmPerInch; // ... or whatever is right for your robot
+    public static final float mmFTCFieldWidth = (12 * 12 - 2) * mmPerInch; // the FTC field is ~11'10" center-to-center of the glass panels
+    public static final double wheelDiameter = 5.5; // in cm
+    public static final double botWidth = 120, botLength = 160; // in cm
     public static final double BWTHRESHOLD = 3.7; //B+W/2 = 3.01
 
     //Motors, sensors, servos instantiated (e.g Motor = new Motor(), some positions can also be set if desired
@@ -70,14 +72,14 @@ public class SallyJoeBot implements AutonomousRobot, TeleopRobot {
         robotProgress = new ArrayList<String>();
         telemetry = new ConcurrentHashMap<>();
         stateSensor = new StateSensor();
-        LFMotor = new Motor();
-        LBMotor = new Motor();
-        RFMotor = new Motor();
-        RBMotor = new Motor();
-        LiftLeftMotor = new Motor();
-        LiftRightMotor = new Motor();
-        Reaper = new Motor();
-        Flywheel = new Motor();
+        LFMotor = new Motor(Motor.MotorType.NeveRest40);
+        LBMotor = new Motor(Motor.MotorType.NeveRest40);
+        RFMotor = new Motor(Motor.MotorType.NeveRest40);
+        RBMotor = new Motor(Motor.MotorType.NeveRest40);
+        LiftLeftMotor = new Motor(Motor.MotorType.NeveRest60);
+        LiftRightMotor = new Motor(Motor.MotorType.NeveRest60);
+        Reaper = new Motor(Motor.MotorType.NeveRest40);
+        Flywheel = new Motor(Motor.MotorType.NeveRest3_7);
         LFEncoder = new Sensor();
         LBEncoder = new Sensor();
         RFEncoder = new Sensor();

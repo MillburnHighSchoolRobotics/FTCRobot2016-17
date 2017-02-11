@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.PIDController;
+import virtualRobot.SallyJoeBot;
 import virtualRobot.utils.MathUtils;
 
 /**
@@ -17,13 +18,16 @@ public class Rotate implements Command {
     private ExitCondition exitCondition;
 
     public static final double THRESHOLD = 0 ;
+    public static RunMode defaultMode = RunMode.WITH_ANGLE_SENSOR;
+
+    public static void setDefaultMode(RunMode defaultMode) {
+        Rotate.defaultMode = defaultMode;
+    }
     //KU:  0.0351875, 0.0377188, 0.04025, 0.04102
     //KU: 0.0377188; TU: 106 0.04102 TU = 80
     public static final double KP =  0.02719146;
     public static final double KI = 0.0005724517895; //0.0005131034;
     public static final double KD = 0.3228985875; //0.24273;
-
-    public static final double MIN_MAX_POWER = .99;
 
     public static final double TOLERANCE = 0.6;
 
@@ -39,6 +43,7 @@ public class Rotate implements Command {
     private double timeLimit;
     private boolean isTesting = false;
     private AtomicBoolean stop = new AtomicBoolean(false);
+    private static double currentAngle = 0;
     
     private PIDController pidController;
 
@@ -62,7 +67,7 @@ public class Rotate implements Command {
         
         pidController = new PIDController(KP, KI, KD, THRESHOLD);
 
-        runMode = RunMode.WITH_ANGLE_SENSOR;
+        runMode = defaultMode;
 
         timeLimit = -1;
     }
@@ -151,18 +156,17 @@ public class Rotate implements Command {
     public boolean changeRobotState() throws InterruptedException{
     	boolean isInterrupted = false;
         time = System.currentTimeMillis();
-        initAngle = robot.getHeadingSensor().getValue();
+        double adjustedPower;
         switch (runMode) {
             case WITH_ANGLE_SENSOR:
-
+                initAngle = robot.getHeadingSensor().getValue();
                 while (!exitCondition.isConditionMet() && (Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) > TOLERANCE || isTesting) && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)) {
 
                     if (stop.get()) {
                         robot.stopMotors();
                         return isInterrupted;
                     }
-                    double adjustedPower = pidController.getPIDOutput(robot.getHeadingSensor().getValue());
-                    adjustedPower = MathUtils.clamp(adjustedPower, -1, 1);
+                    adjustedPower = MathUtils.clamp(pidController.getPIDOutput(robot.getHeadingSensor().getValue()),-1,1);
 
                     /*double ratio = Math.abs(angleInDegrees - robot.getHeadingSensor().getValue()) / (Math.abs(angleInDegrees - initAngle));
                     double powerScaler = power;
@@ -198,13 +202,15 @@ public class Rotate implements Command {
                 robot.getLBEncoder().clearValue();
                 robot.getRFEncoder().clearValue();
                 robot.getRBEncoder().clearValue();
+                while (!exitCondition.isConditionMet() && (Math.abs(angleInDegrees - currentAngle) > TOLERANCE || isTesting) && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)){//Mehmet: Unsure of relevance of 20, may need to be changed.
+                    currentAngle = ((robot.getLFEncoder().getValue()/robot.getLFMotor().getMotorType().getTicksPerRevolution()) * SallyJoeBot.wheelDiameter * Math.PI) / (Math.sqrt((Math.pow(SallyJoeBot.botWidth,2) + Math.pow(SallyJoeBot.botLength,2))) * Math.PI) * 360;
 
-                while (!exitCondition.isConditionMet() && Math.abs(Math.abs(pidController.getTarget())
-                        - (Math.abs(robot.getLFEncoder().getValue()) + Math.abs(robot.getLBEncoder().getValue())
-                        + Math.abs(robot.getRFEncoder().getValue()) + Math.abs(robot.getRBEncoder().getValue())) / 4) > 20){//Mehmet: Unsure of relevance of 20, may need to be changed.
-                    robot.getLeftRotate().setPower(Math.signum(angleInDegrees)*power);
-                    robot.getRightRotate().setPower(-Math.signum(angleInDegrees)*power);
-                    
+                    adjustedPower = MathUtils.clamp(pidController.getPIDOutput(robot.getHeadingSensor().getValue()),-1,1);
+
+                    robot.getLBMotor().setPower(adjustedPower);
+                    robot.getLFMotor().setPower(adjustedPower);
+                    robot.getRFMotor().setPower(-adjustedPower);
+                    robot.getRBMotor().setPower(-adjustedPower);
 
                     if (Thread.currentThread().isInterrupted()) {
                         isInterrupted = true;
