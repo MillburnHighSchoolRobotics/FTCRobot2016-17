@@ -55,10 +55,11 @@ public class AllignWithBeacon implements Command {
 
     public final static double BLUETHRESHOLD = 0.65;
     public final static double REDTHRESHOLD = 1.4;
-    public double timeLimit = Double.MAX_VALUE;
+    public final static double LINETHRESHOLD = 0.5;
+    public double timeLimit = -1;
     private static double tp = -0.2;
     private PIDController heading = new PIDController(0,0,0,0,0);
-    private PIDController compensate = new PIDController(0.345,0,0,0.3,(BLUETHRESHOLD + REDTHRESHOLD)/2);
+    private PIDController compensate = new PIDController(0.335,0,0,0.3,(BLUETHRESHOLD + REDTHRESHOLD)/2);
     private Direction direction;
 
     public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft, Direction dir) {
@@ -86,6 +87,13 @@ public class AllignWithBeacon implements Command {
             }
         }
         return res;
+    }
+
+    private boolean isOnLine() {
+        return robot.getLightSensor1().getValue() > LINETHRESHOLD ||
+                robot.getLightSensor2().getValue() > LINETHRESHOLD ||
+                robot.getLightSensor3().getValue() > LINETHRESHOLD ||
+                robot.getLightSensor4().getValue() > LINETHRESHOLD;
     }
 
     @Override
@@ -124,33 +132,55 @@ public class AllignWithBeacon implements Command {
             currLeft = 0;
             currRight = 0;
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-            currentPos = new Vector2i(start1);
-            for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y; leftCovered++) {
-                red = Color.red(bm.getPixel(currentPos.x,currentPos.y));
-                blue = Color.blue(bm.getPixel(currentPos.x,currentPos.y));
-                currLeft += red/blue;
-                currentPos.x += slope1.x;
-                currentPos.y += slope1.y;
+            if (direction == Direction.FORWARD) {
+                currentPos = new Vector2i(start1);
+                for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y;) {
+                    red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                    blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                    if (blue != 0) {
+                        currLeft += red / blue;
+                        leftCovered++;
+                    }
+                    currentPos.x += slope1.x;
+                    currentPos.y += slope1.y;
+                }
+                if (leftCovered == 0)
+                    continue;
+                currLeft /= leftCovered;
+                if (currLeft > REDTHRESHOLD) {
+                    redIsLeft.set(true);
+                    satisfied = true;
+                    break;
+                } else if (currLeft < BLUETHRESHOLD) {
+                    redIsLeft.set(false);
+                    satisfied = true;
+                }
             }
-//            currentPos = new Vector2i(start2);
-//            for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; rightCovered++) {
-//                red = Color.red(bm.getPixel(currentPos.x,currentPos.y));
-//                blue = Color.blue(bm.getPixel(currentPos.x,currentPos.y));
-//                currRight += red/blue;
-//                currentPos.x += slope2.x;
-//                currentPos.y += slope2.y;
-//            }
-            currLeft /= leftCovered;
-//            currRight /= rightCovered;
-            if (currLeft > REDTHRESHOLD) {
-                redIsLeft.set(true);
-                satisfied = true;
-                break;
-            } else if (currLeft < BLUETHRESHOLD) {
-                redIsLeft.set(false);
-                satisfied = true;
-                break;
+            else {
+                currentPos = new Vector2i(start2);
+                for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y;) {
+                    red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                    blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                    if (blue != 0) {
+                        currRight += red / blue;
+                        rightCovered++;
+                    }
+                    currentPos.x += slope2.x;
+                    currentPos.y += slope2.y;
+                }
+                if (rightCovered == 0)
+                    continue;
+                currRight /= rightCovered;
+                if (currRight > REDTHRESHOLD) {
+                    redIsLeft.set(false);
+                    satisfied = true;
+                } else if (currRight < BLUETHRESHOLD) {
+                    redIsLeft.set(true);
+                    satisfied = true;
+                }
             }
+            if (satisfied && isOnLine())
+                break;
             adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
             robot.getLFMotor().setPower((tp + adjustedPower) * direction.getMultiplier());
             robot.getLBMotor().setPower((tp + adjustedPower) * direction.getMultiplier());
@@ -169,26 +199,6 @@ public class AllignWithBeacon implements Command {
         }
         robot.addToProgress("Switched To Precision");
         robot.stopMotors();
-        bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-        currentPos = new Vector2i(start2);
-        for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; rightCovered++) {
-            red = Color.red(bm.getPixel(currentPos.x,currentPos.y));
-            blue = Color.blue(bm.getPixel(currentPos.x,currentPos.y));
-            currRight += red/blue;
-            currentPos.x += slope2.x;
-            currentPos.y += slope2.y;
-        }
-        currRight /= rightCovered;
-        if(currRight > REDTHRESHOLD) {
-            redIsLeft.set(true);
-            satisfied = false;
-            return isInterrupted;
-        }
-        if(currRight < BLUETHRESHOLD) {
-            redIsLeft.set(false);
-            satisfied = false;
-            return isInterrupted;
-        }
         double power, curr = 0;
         int covered;
         long start = System.currentTimeMillis();
@@ -205,6 +215,8 @@ public class AllignWithBeacon implements Command {
                 }
                 currentPos.x += 8;
             }
+            if (covered == 0)
+                continue;
             curr /= covered;
             power = (redIsLeft.get() ? 1 : -1) * compensate.getPIDOutput(curr);
             adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
@@ -229,8 +241,8 @@ public class AllignWithBeacon implements Command {
     }
 
     public enum Direction {
-        FORWARD(1),
-        BACKWARD(-1);
+        FORWARD(-1),
+        BACKWARD(1);
 
         private int dir;
         private Direction(int x) {
