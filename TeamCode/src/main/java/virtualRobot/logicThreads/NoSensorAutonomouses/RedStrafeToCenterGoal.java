@@ -13,7 +13,7 @@ import virtualRobot.commands.Translate;
 public class RedStrafeToCenterGoal extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands (){
-        commands.add(new Translate(1000, Translate.Direction.LEFT,0)); //move away from beacon towards corner of field in front of ramp
+        commands.add(new Translate(5000, Translate.Direction.LEFT,0)); //move away from beacon towards corner of field in front of ramp
         commands.add(new Pause(100));
 ;
     }
