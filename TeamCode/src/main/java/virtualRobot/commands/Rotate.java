@@ -148,6 +148,12 @@ public class Rotate implements Command {
         return exitCondition;
     }
 
+    public double getCurrentAngle() {
+        if (runMode == RunMode.WITH_ANGLE_SENSOR)
+            throw new RuntimeException("ROTATE IS ON ANGLE SENSOR, NO USE OF CURRENT ANGLE");
+        return currentAngle;
+    }
+
     public void setTHRESHOLD (double THRESHOLD) {
 
     }
@@ -203,8 +209,7 @@ public class Rotate implements Command {
                 robot.getRFEncoder().clearValue();
                 robot.getRBEncoder().clearValue();
                 while (!exitCondition.isConditionMet() && (Math.abs(angleInDegrees - currentAngle) > TOLERANCE || isTesting) && (timeLimit == -1 || (System.currentTimeMillis() - time) < timeLimit)){//Mehmet: Unsure of relevance of 20, may need to be changed.
-                    currentAngle = ((robot.getLFEncoder().getValue()/robot.getLFMotor().getMotorType().getTicksPerRevolution()) * SallyJoeBot.wheelDiameter * Math.PI) / (Math.sqrt((Math.pow(SallyJoeBot.botWidth,2) + Math.pow(SallyJoeBot.botLength,2))) * Math.PI) * 360;
-
+                    currentAngle += ((robot.getLFEncoder().getValue()/robot.getLFMotor().getMotorType().getTicksPerRevolution()) * SallyJoeBot.wheelDiameter * Math.PI) / (Math.sqrt((Math.pow(SallyJoeBot.botWidth,2) + Math.pow(SallyJoeBot.botLength,2))) * Math.PI) * 360;
                     adjustedPower = MathUtils.clamp(pidController.getPIDOutput(robot.getHeadingSensor().getValue()),-1,1);
 
                     robot.getLBMotor().setPower(adjustedPower);
