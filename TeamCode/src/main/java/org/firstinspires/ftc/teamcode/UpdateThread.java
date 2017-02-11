@@ -231,7 +231,7 @@ public abstract class UpdateThread extends OpMode {
 		while (!cv.getGood()) {
 			//Chill
 		}
-		Rotate.resetAngle();
+		Rotate.setCurrentAngle(0);
 		Rotate.setDefaultMode(Rotate.RunMode.WITH_ENCODER);
 		t = cv.t;
 		vuforiaEverywhere = cv.vuforiaEverywhere;
