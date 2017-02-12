@@ -37,23 +37,23 @@ public class RGBCalTestGod extends GodThread {
         Vector2i end2;
         Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         if (DavidClass.currentMode == DavidClass.Mode.MIDSPLIT) {
-            start1 = new Vector2i((int) DavidClass.startXPercent*width, (int) DavidClass.startYPercent*height);
-            end2 = new Vector2i((int) DavidClass.endXPercent*width, (int) DavidClass.endYPercent*height);
+            start1 = new Vector2i((int) (DavidClass.startXPercent*width), (int) (DavidClass.startYPercent*height));
+            end2 = new Vector2i((int) (DavidClass.endXPercent*width), (int) (DavidClass.endYPercent*height));
             end1 = new Vector2i((start1.x + end2.x)/2, end2.y);
             start2 = new Vector2i(end1.x,start1.y);
         } else {
-            start1 = new Vector2i((int) DavidClass.start1XPercent*width, (int) DavidClass.start1YPercent*height);
-            end2 = new Vector2i((int) DavidClass.end2XPercent*width, (int) DavidClass.end2YPercent*height);
-            start2 = new Vector2i((int) DavidClass.start2XPercent*width, (int) DavidClass.start2YPercent*height);
-            end1 = new Vector2i((int) DavidClass.end1XPercent*width, (int) DavidClass.end1YPercent*height);
+            start1 = new Vector2i((int) (DavidClass.start1XPercent*width), (int) (DavidClass.start1YPercent*height));
+            end2 = new Vector2i((int) (DavidClass.end2XPercent*width), (int) (DavidClass.end2YPercent*height));
+            start2 = new Vector2i((int) (DavidClass.start2XPercent*width), (int) (DavidClass.start2YPercent*height));
+            end1 = new Vector2i((int) (DavidClass.end1XPercent*width), (int) (DavidClass.end1YPercent*height));
         }
         Log.d("RGBCal", "memes");
         Command.AUTO_ROBOT.addToProgress("Start1: " + start1.toString());
         Command.AUTO_ROBOT.addToProgress("Start2: " + start2.toString());
         Command.AUTO_ROBOT.addToProgress("End1: " + end1.toString());
         Command.AUTO_ROBOT.addToProgress("End2: " + end2.toString());
-        Vector2i slope1 = new Vector2i(11,closestTo11((end1.y - start1.y)/(end1.x - start1.x)));
-        Vector2i slope2 = new Vector2i(11,closestTo11((end2.y - start2.y)/(end2.x - start2.x)));
+        Vector2i slope1 = new Vector2i(11,closestTo11(((double)(end1.y - start1.y))/(end1.x - start1.x)));
+        Vector2i slope2 = new Vector2i(11,closestTo11(((double)(end2.y - start2.y))/(end2.x - start2.x)));
         Vector2i currentPos;
         int leftCovered, rightCovered, covered;
         double currLeft = 0, currRight = 0, red, blue, alpha, curr = 0;
