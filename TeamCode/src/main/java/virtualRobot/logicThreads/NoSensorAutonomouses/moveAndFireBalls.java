@@ -32,6 +32,8 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
     LogicThread<AutonomousRobot> forward = new LogicThread<AutonomousRobot>() {
         @Override
         public void loadCommands() {
+            commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{0})); //move button pusher
+
             commands.add(new Translate(2000, Translate.Direction.LEFT, 0));
             commands.add(new Pause(500));
             commands.add(new Rotate(0, .5, 500));
@@ -48,7 +50,7 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
     LogicThread<AutonomousRobot> moveReaper = new LogicThread<AutonomousRobot>() {
         @Override
         public void loadCommands() {
-            commands.add(new Pause(4000));
+            commands.add(new Pause(2000));
             commands.add(new MoveMotor(robot.getReaperMotor(), .21));
 
         }
@@ -58,7 +60,6 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
 
     @Override
     public void loadCommands (){
-        commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{.6})); //move button pusher
 
         List<LogicThread> threads = new ArrayList<LogicThread>();
         threads.add(forward);
@@ -68,7 +69,9 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
         SpawnNewThread fly = new SpawnNewThread((threads));
 
         commands.add(fly);
-        commands.add(new Pause(6700));
+        commands.add(new Pause(5000));
+        commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{.6})); //move button pusher
+
         commands.add(new killChildren(this));
 
     }

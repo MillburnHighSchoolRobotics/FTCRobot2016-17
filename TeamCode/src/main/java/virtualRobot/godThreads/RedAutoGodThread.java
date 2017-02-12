@@ -31,7 +31,7 @@ import virtualRobot.monitorThreads.TimeMonitor;
 /**
  * Created by shant on 1/10/2016.
  * Runs Red Autonomous With All LogicThreads
- * THIS IS EXACTLY SAME AS REDAUTOGODTHREAD EXCEPT THE LINETYPE ENUM IS CHANGED FROM BLUE TO RED AND THE GO TO WALL CHANGED TO RED(Go Trump)
+ * THIS IS EXACTLY SAME AS BLUEAUTOGODTHREAD EXCEPT THE LINETYPE ENUM IS CHANGED FROM BLUE TO RED AND THE GO TO WALL CHANGED TO RED(Go Trump)
  */
 public class RedAutoGodThread extends GodThread {
     private final static boolean WITH_SONAR = true;

@@ -125,7 +125,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
 
     @Override
     public void loadCommands() {
-        Translate.setGlobalAngleMod(90);
+        Translate.setGlobalAngleMod(type.getColor()== GodThread.ColorType.BLUE ? -90 : 90);
         robot.getLFEncoder().clearValue();
         robot.getRFEncoder().clearValue();
         robot.getLBEncoder().clearValue();
@@ -135,9 +135,14 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
             commands.add(new Pause(200));
         }
         if (type.getLine() == GodThread.LineType.SECOND) {
-            commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0)); //so we don't recheck the same line
+            commands.add(new Translate(2000, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0)); //so we don't recheck the same line
             commands.add(new Pause(200));
-            }
+        }
+        onlyAllign();
+
+    }
+
+    private void withoutAllign() {
         Translate firstDisplacement;
         if (type.getLine()== GodThread.LineType.FIRST)
             firstDisplacement = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE, type.getColor()== GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .2);
@@ -168,10 +173,20 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
             fireBalls();
         }*/
         commands.add(new Pause(200));
-        //commands.add(new AllignWithBeacon(vuforia, redIsLeft, AllignWithBeacon.Direction.FORWARD));
+        if (type.getLine() == GodThread.LineType.FIRST)
+            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD));
+        else
+            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.RED ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD));
+        commands.add(new Pause(1000));
     }
+    private void onlyAllign() {
+        if (type.getLine() == GodThread.LineType.FIRST)
+        commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD));
+        else
+            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.RED ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD));
+        commands.add(new Pause(1000));
 
-
+    }
 
 
     private double getAvgDistance() {

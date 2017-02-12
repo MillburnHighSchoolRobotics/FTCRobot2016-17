@@ -235,7 +235,7 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
             }
         });
         commands.add(new Pause(1000));
-        commands.add(new Translate(1000, Translate.Direction.FORWARD, 0, .2));
+        commands.add(new Translate(2000, Translate.Direction.FORWARD, 0, .2));
         commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.FORWARD, 5000));
         commands.add(new Command() {
             @Override

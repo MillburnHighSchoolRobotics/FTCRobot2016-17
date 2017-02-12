@@ -30,6 +30,7 @@ import virtualRobot.logicThreads.NoSensorAutonomouses.PushLeftButton;
 import virtualRobot.logicThreads.NoSensorAutonomouses.PushRightButton;
 import virtualRobot.logicThreads.NoSensorAutonomouses.RedStrafeToCenterGoal;
 import virtualRobot.logicThreads.NoSensorAutonomouses.moveAndFireBalls;
+import virtualRobot.monitorThreads.TimeMonitor;
 
 //import virtualRobot.logicThreads.BlueDumpPeople;
 
@@ -59,14 +60,19 @@ public class BlueAutoGodThread extends GodThread {
     @Override
     public void realRun() throws InterruptedException {
         // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD
+        MonitorThread watchingForTime = new TimeMonitor(7000);
+        Thread tm = new Thread(watchingForTime);
+        tm.start();
+        children.add(tm);
+
         LogicThread fireBalls = new moveAndFireBalls();
         Thread fB = new Thread(fireBalls);
         fB.start();
         children.add(fB);
-        delegateMonitor(fB, new MonitorThread[]{});
+        delegateMonitor(fB, new MonitorThread[]{watchingForTime});
 
 
-        LogicThread goToWall = new RedGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
+        LogicThread goToWall = new BlueGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
         Thread gtw = new Thread(goToWall);
         gtw.start();
         children.add(gtw);
@@ -124,7 +130,7 @@ public class BlueAutoGodThread extends GodThread {
         delegateMonitor(takepicturenow, new MonitorThread[]{});*/
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
-        if (redIsLeft.get()) {
+        if (!redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
             Thread pl = new Thread(pushLeft);
             pl.start();
@@ -198,7 +204,7 @@ public class BlueAutoGodThread extends GodThread {
             delegateMonitor(adjust, new MonitorThread[]{});
         }
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));*/
-        if (redIsLeft.get()) {
+        if (!redIsLeft.get()) {
             LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
             Thread pl = new Thread(pushLeft);
             pl.start();
@@ -217,11 +223,12 @@ public class BlueAutoGodThread extends GodThread {
 //*****************************
 //THE FOLLOWING BLOCK STRAFES TO RAMP
 //*****************************
-        LogicThread strafeToGoal = new BlueStrafeToCenterGoal();
+        LogicThread strafeToGoal = new RedStrafeToCenterGoal();
         Thread str = new Thread(strafeToGoal);
         str.start();
         children.add(str);
         delegateMonitor(str, new MonitorThread[]{});
+
 
     }
 }

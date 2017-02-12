@@ -35,7 +35,20 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
     }
     @Override
     public void loadCommands() {
-        WallTrace.setOnBlueSide(true); //makes walltrace use 180 degrees
+        warrenPlan();
+        commands.add(new Pause(500));
+        robot.addToProgress("Went To Wall");
+
+
+
+
+
+
+
+
+
+
+        /*WallTrace.setOnBlueSide(true); //makes walltrace use 180 degrees
 //        commands.add(new MoveServo(new Servo[]{robot.getBallLauncherServo()}, new double[]{1})); //move ballLauncher
         commands.add(new Pause(500));
         Translate escapeWall = new Translate(500, Translate.Direction.BACKWARD, 0); //
@@ -80,10 +93,42 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
         commands.add(new Pause(200));
         commands.add(new Rotate(0, .5, 600)); //Straighten out again
         commands.add(new Pause(200));
-        robot.addToProgress("Went To Wall");
+        robot.addToProgress("Went To Wall");*/
 
     }
+    private void warrenPlan() { //We've already fired balls and are on our way to the second beacon.
+        commands.add(new Rotate(-45, .5, 1000));
+        commands.add(new Pause(500));
+        commands.add(new Translate(6000, Translate.Direction.FORWARD, 0,1,55));
+        commands.add(new Pause(500));
+        commands.add(new Rotate(-90, .7, 3000));
+        commands.add(new Pause(500));
+        Translate strafeRight = new Translate(1950, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
 
+
+        if (WITH_SONAR) {
+            strafeRight.setExitCondition(new ExitCondition() {
+                @Override
+                public boolean isConditionMet() {
+                    double sonarRight = robot.getSonarRight().getFilteredValue();
+                    double sonarLeft = robot.getSonarLeft().getFilteredValue();
+                    Log.d("UltraSOUND", "" + robot.getSonarLeft().getValue() + "" + robot.getSonarRight().getValue());
+                    if (sonarRight <= SONAR_ERROR_MIN || sonarLeft <= SONAR_ERROR_MIN || sonarRight >= SONAR_ERROR_MAX || sonarLeft >= SONAR_ERROR_MAX) {
+                        sonarWorks.set(false);
+
+                    } else if (sonarRight < CLOSE_TO_WALL || sonarLeft < CLOSE_TO_WALL) {
+                        sonarWorks.set(true);
+                        robot.addToProgress("SONAR GOOD DATA");
+                        return true;
+                    } else {
+                        sonarWorks.set(true);
+                    }
+                    return false;
+                }
+            });
+        }
+        commands.add(strafeRight);
+    }
     }
   /*Translate escapeWall = new Translate(1200, Translate.Direction.FORWARD, 0);
         commands.add(escapeWall); //Move Away from wall

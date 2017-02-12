@@ -42,7 +42,7 @@ public class RedGoToWall extends LogicThread<AutonomousRobot>  {
     @Override
     public void loadCommands() {
         warrenPlan();
-        commands.add(new Pause(5000));
+        commands.add(new Pause(500));
         robot.addToProgress("Went To Wall");
 
         /*commands.add(new Pause(500));
