@@ -225,12 +225,23 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //        commands.add(new Translate(50, Translate.Direction.BACKWARD,0,0.2).setTolerance(25));
 //        robot.addToProgress("Translate Done");
         final AtomicBoolean ab = new AtomicBoolean();
-        commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.BACKWARD, 2000));
+        commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.BACKWARD, 5000));
         commands.add(new Command() {
             @Override
             public boolean changeRobotState() throws InterruptedException {
                 robot.addToProgress("Red is Left: " + ab.get());
-                robot.addToProgress("Finished");
+                robot.addToProgress("Finished 1st");
+                return Thread.currentThread().isInterrupted();
+            }
+        });
+        commands.add(new Pause(1000));
+        commands.add(new Translate(1000, Translate.Direction.FORWARD, 0, .2));
+        commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.FORWARD, 5000));
+        commands.add(new Command() {
+            @Override
+            public boolean changeRobotState() throws InterruptedException {
+                robot.addToProgress("Red is Left: " + ab.get());
+                robot.addToProgress("Finished 2nd");
                 return Thread.currentThread().isInterrupted();
             }
         });

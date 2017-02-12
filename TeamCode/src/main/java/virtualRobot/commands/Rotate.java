@@ -210,6 +210,8 @@ public class Rotate implements Command {
                 }
                 break;
             case WITH_ENCODER:
+                robot.addToProgress("Mode: " + "Encoder");
+
                 robot.getLFEncoder().clearValue();
                 robot.getLBEncoder().clearValue();
                 robot.getRFEncoder().clearValue();
@@ -234,10 +236,18 @@ public class Rotate implements Command {
                 }
                 break;
             case WALL_ALIGN:
+                robot.addToProgress("Mode: " + "WallAllign");
+
                 ExitCondition wall = new ExitCondition() {
                     @Override
                     public boolean isConditionMet() {
-                        return robot.getSonarLeft().getFilteredValue() == robot.getSonarRight().getFilteredValue();
+                        if (robot.getSonarLeft().getFilteredValue() == robot.getSonarRight().getFilteredValue()) {
+                            robot.stopMotors();
+                            robot.addToProgress("SONAR: " + "We cool");
+                            return true;
+
+                        }
+                        return false;
                     }
                 };
                 robot.getLFEncoder().clearValue();

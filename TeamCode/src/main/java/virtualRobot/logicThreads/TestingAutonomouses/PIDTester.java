@@ -49,8 +49,12 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
         //commands.add(new MoveMotorPID(50,robot.getFlywheel(),robot.getFlywheelEncoder()));
         Rotate.setDefaultMode(Rotate.RunMode.WITH_ENCODER);
         commands.add(new Rotate(55,.5,1000));
+        Rotate.setDefaultMode(Rotate.RunMode.WALL_ALIGN);
         commands.add(new Pause(1000));
-        commands.add(new Rotate(0,0.5,1000));
+        commands.add(new Rotate(0,0.5));
+        commands.add(new Pause(1000));
+        commands.add(new Rotate(0,0.5));
+
 //        commands.add(new Command() {
 //
 //            @Override

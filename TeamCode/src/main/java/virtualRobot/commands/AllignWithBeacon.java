@@ -27,7 +27,7 @@ public class AllignWithBeacon implements Command {
     public enum Mode {
         MIDSPLIT, TWORECTANGLES
     }
-    
+    private final static boolean flipUpsideDown = true;
     public final static Mode currentMode = Mode.MIDSPLIT;
     public volatile static double startXPercent = 0;
     public volatile static double endXPercent = 1;
@@ -35,13 +35,16 @@ public class AllignWithBeacon implements Command {
     public volatile static double endYPercent = 1;
 
     public volatile static double start1XPercent = 0;
-    public volatile static double end1XPercent = -1;
+    public volatile static double end1XPercent = .2;
+
     public volatile static double start1YPercent = 0;
-    public volatile static double end1YPercent = -1;
-    public volatile static double start2XPercent = 0.66;
+    public volatile static double end1YPercent = 1;
+
+    public volatile static double start2XPercent = 0.4;
     public volatile static double end2XPercent = 1;
+
     public volatile static double start2YPercent = 0;
-    public volatile static double end2YPercent = 0.8353;
+    public volatile static double end2YPercent = 1;
     
     AtomicBoolean redIsLeft;
     AutonomousRobot robot = Command.AUTO_ROBOT;
@@ -53,11 +56,11 @@ public class AllignWithBeacon implements Command {
         }
     };
 
-    public final static double BLUETHRESHOLD = 0.65;
-    public final static double REDTHRESHOLD = 1.4;
-    public final static double LINETHRESHOLD = 0.5;
+    public final static double BLUETHRESHOLD = 0.7; //.65
+    public final static double REDTHRESHOLD = 1.43;
+    public final static double LINETHRESHOLD = 0.61;
     public double timeLimit = -1;
-    private static double tp = -0.2;
+    private static double tp = -0.1;
     private PIDController heading = new PIDController(0,0,0,0,0);
     private PIDController compensate = new PIDController(0.335,0,0,0.3,(BLUETHRESHOLD + REDTHRESHOLD)/2);
     private Direction direction;
@@ -80,8 +83,9 @@ public class AllignWithBeacon implements Command {
     private int closestToFrac(double num, double frac) {
         int res = -1;
         double leastDist = Double.MAX_VALUE;
-        for (int i = 0; i < 12; i++) {
-            if (Math.abs(i/11 - num) < leastDist) {
+        for (int i = 0; i < 24; i++) {
+            Log.d("SUPERSHIT", num + " " + frac + " " + leastDist + " I:" + i);
+            if (Math.abs(i/frac - num) < leastDist) {
                 res = i;
                 leastDist = Math.abs(i/frac - num);
             }
@@ -105,39 +109,64 @@ public class AllignWithBeacon implements Command {
         Vector2i end2;
         Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         int coF = 12;
+        Log.d("width/height", width + " " + height);
+
         if (currentMode == Mode.MIDSPLIT) {
-            start1 = new Vector2i((int) (startXPercent*width), (int) (startYPercent*height));
-            end2 = new Vector2i((int) (endXPercent*width), (int) (endYPercent*height));
-            end1 = new Vector2i((start1.x + end2.x)/2, end2.y);
-            start2 = new Vector2i(end1.x,start1.y);
+            if (flipUpsideDown) {
+                start2 = new Vector2i((int) (startXPercent*width), (int) (startYPercent*height));
+                end1 = new Vector2i((int) (endXPercent*width), (int) (endYPercent*height));
+                end2 = new Vector2i((start2.x + end1.x)/2, end1.y);
+                start1 = new Vector2i(end2.x,start2.y);
+
+            } else {
+                start1 = new Vector2i((int) (startXPercent * width), (int) (startYPercent * height));
+                end2 = new Vector2i((int) (endXPercent * width), (int) (endYPercent * height));
+                end1 = new Vector2i((start1.x + end2.x) / 2, end2.y);
+                start2 = new Vector2i(end1.x, start1.y);
+            }
+
+            Log.d("MYVALS", start1.toString() + " " + end1.toString());
+            Log.d("SUPERSHIT1", String.valueOf(((double)(end1.y - start1.y))/(end1.x - start1.x)));
+
         } else {
-            start1 = new Vector2i((int) start1XPercent*width, (int) start1YPercent*height);
-            end2 = new Vector2i((int) end2XPercent*width, (int) end2YPercent*height);
-            start2 = new Vector2i((int) start2XPercent*width, (int) start2YPercent*height);
-            end1 = new Vector2i((int) end1XPercent*width, (int) end1YPercent*height);
+            if (flipUpsideDown) {
+                start2 = new Vector2i((int) (start1XPercent*width), (int) (start1YPercent*height));
+                end1 = new Vector2i((int) (end2XPercent*width), (int) (end2YPercent*height));
+                start1 = new Vector2i((int) (start2XPercent*width), (int) (start2YPercent*height));
+                end2 = new Vector2i((int) (end1XPercent*width), (int) (end1YPercent*height));
+            } else {
+                start1 = new Vector2i((int) (start1XPercent * width), (int) (start1YPercent * height));
+                end2 = new Vector2i((int) (end2XPercent * width), (int) (end2YPercent * height));
+                start2 = new Vector2i((int) (start2XPercent * width), (int) (start2YPercent * height));
+                end1 = new Vector2i((int) (end1XPercent * width), (int) (end1YPercent * height));
+            }
         }
         Vector2i slope1, slope2;
         if (vuforia.rgb.getHeight() > vuforia.rgb.getWidth()) {
-            slope1 = new Vector2i(coF, closestToFrac((end1.y - start1.y)/(end1.x - start1.x),coF));
-            slope2 = new Vector2i(coF, closestToFrac((end2.y - start2.y) / (end2.x - start2.x),coF));
+            slope1 = new Vector2i(coF, closestToFrac(((double)(end1.y - start1.y))/(end1.x - start1.x),coF));
+            slope2 = new Vector2i(coF, closestToFrac(((double)(end2.y - start2.y)) / (end2.x - start2.x),coF));
         } else {
-            slope1 = new Vector2i(coF,closestToFrac((end1.y - start1.y)/(end1.x - start1.x), coF));
-            slope2 = new Vector2i(coF,closestToFrac((end2.y - start2.y) / (end2.x - start2.x),coF));
+            slope1 = new Vector2i(coF,closestToFrac(((double)(end1.y - start1.y))/(end1.x - start1.x), coF));
+            slope2 = new Vector2i(coF,closestToFrac(((double)(end2.y - start2.y)) / (end2.x - start2.x),coF));
         }
         double currLeft = 0, currRight = 0, adjustedPower = 0,red = 0,blue = 0;
         int leftCovered = 0, rightCovered = 0;
         Vector2i currentPos;
         boolean isInterrupted = false, satisfied = false;
+        Log.d("SHIT", end1.toString() + " " + start1.toString() + " " + slope1.toString());
+
         while (!exitCondition.isConditionMet() && !isInterrupted && !satisfied) {
             currLeft = 0;
             currRight = 0;
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-            if (direction == Direction.FORWARD) {
+            if (direction == Direction.BACKWARD) {
                 currentPos = new Vector2i(start1);
                 for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y;) {
                     red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
                     blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
                     if (blue != 0) {
+                        Log.d("Debug", red + " " + blue + " " + currentPos.toString());
+
                         currLeft += red / blue;
                         leftCovered++;
                     }
@@ -147,21 +176,28 @@ public class AllignWithBeacon implements Command {
                 if (leftCovered == 0)
                     continue;
                 currLeft /= leftCovered;
+                robot.addToTelemetry("currLEFT: ", currLeft);
+                robot.addToTelemetry("Slope: ", slope1.toString());
+
+                //Log.d("currLEFT", String.valueOf(currLeft));
                 if (currLeft > REDTHRESHOLD) {
+                    robot.stopMotors();
                     redIsLeft.set(true);
                     satisfied = true;
-                    break;
                 } else if (currLeft < BLUETHRESHOLD) {
+                    robot.stopMotors();
                     redIsLeft.set(false);
                     satisfied = true;
                 }
             }
             else {
+                Log.d("SHIT", end2.toString() + " " + start2.toString() + " " + slope2.toString());
                 currentPos = new Vector2i(start2);
                 for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y;) {
                     red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
                     blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
                     if (blue != 0) {
+                        Log.d("Debug", red + " " + blue + " " + currentPos.toString());
                         currRight += red / blue;
                         rightCovered++;
                     }
@@ -171,15 +207,24 @@ public class AllignWithBeacon implements Command {
                 if (rightCovered == 0)
                     continue;
                 currRight /= rightCovered;
+                robot.addToTelemetry("currRIGHT: ", currRight);
+              //  Log.d("currRIGHT", String.valueOf(currRight));
+
                 if (currRight > REDTHRESHOLD) {
+                   // robot.addToProgress("currRIGHT: " + currRight);
+                    robot.stopMotors();
+
                     redIsLeft.set(false);
                     satisfied = true;
                 } else if (currRight < BLUETHRESHOLD) {
+                   // robot.addToProgress("currRIGHT: " + currRight);
+                    robot.stopMotors();
+
                     redIsLeft.set(true);
                     satisfied = true;
                 }
             }
-            if (satisfied && isOnLine())
+            if (satisfied)
                 break;
             adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
             robot.getLFMotor().setPower((tp + adjustedPower) * direction.getMultiplier());
@@ -199,6 +244,7 @@ public class AllignWithBeacon implements Command {
         }
         robot.addToProgress("Switched To Precision");
         robot.stopMotors();
+        Thread.sleep(1000);
         double power, curr = 0;
         int covered;
         long start = System.currentTimeMillis();
@@ -237,6 +283,7 @@ public class AllignWithBeacon implements Command {
                 break;
             }
         }
+        robot.stopMotors();
         return isInterrupted;
     }
 
