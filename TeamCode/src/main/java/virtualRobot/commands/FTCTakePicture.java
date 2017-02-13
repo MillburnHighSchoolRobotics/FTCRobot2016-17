@@ -29,7 +29,6 @@ import virtualRobot.VuforiaLocalizerImplSubclass;
  * Takes a Picture Using Vuforia
  */
 
-@Deprecated
 public class FTCTakePicture implements Command{
     private ExitCondition exitCondition;
     AtomicBoolean redisLeft;

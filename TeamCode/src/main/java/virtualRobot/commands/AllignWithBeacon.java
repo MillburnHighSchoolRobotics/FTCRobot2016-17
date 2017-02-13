@@ -10,6 +10,7 @@ import java.util.zip.DeflaterOutputStream;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
 import virtualRobot.PIDController;
+import virtualRobot.SomeoneDunGoofed;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.utils.Vector2i;
 
@@ -64,16 +65,23 @@ public class AllignWithBeacon implements Command {
     private PIDController heading = new PIDController(0,0,0,0,0);
     private PIDController compensate = new PIDController(0.335,0,0,0.3,(BLUETHRESHOLD + REDTHRESHOLD)/2);
     private Direction direction;
-
+    private double maxDistance = Double.MAX_VALUE;
+  AtomicBoolean maxDistanceReached;
     public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft, Direction dir) {
         this.vuforia = vuforia;
         this.redIsLeft = redIsLeft;
         this.direction = dir;
     }
 
+
     public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft, Direction dir, double timeLimit) {
         this(vuforia, redIsLeft, dir);
         this.timeLimit = timeLimit;
+    }
+    public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft, Direction dir, double timeLimit, double maxDistance, AtomicBoolean maxDistanceReached) {
+        this(vuforia, redIsLeft, dir, timeLimit);
+        this.maxDistance = maxDistance;
+        this.maxDistanceReached = maxDistanceReached;
     }
 
     public void setExitCondition(ExitCondition exitCondition) {
@@ -102,6 +110,10 @@ public class AllignWithBeacon implements Command {
 
     @Override
     public boolean changeRobotState() throws InterruptedException {
+        robot.getLFEncoder().clearValue();
+        robot.getRFEncoder().clearValue();
+        robot.getLBEncoder().clearValue();
+        robot.getRBEncoder().clearValue();
         int width = vuforia.rgb.getWidth(), height = vuforia.rgb.getHeight();
         Vector2i start1;
         Vector2i end1;
@@ -113,10 +125,10 @@ public class AllignWithBeacon implements Command {
 
         if (currentMode == Mode.MIDSPLIT) {
             if (flipUpsideDown) {
-                start2 = new Vector2i((int) (startXPercent*width), (int) (startYPercent*height));
-                end1 = new Vector2i((int) (endXPercent*width), (int) (endYPercent*height));
-                end2 = new Vector2i((start2.x + end1.x)/2, end1.y);
-                start1 = new Vector2i(end2.x,start2.y);
+                start2 = new Vector2i((int) (startXPercent * width), (int) (startYPercent * height));
+                end1 = new Vector2i((int) (endXPercent * width), (int) (endYPercent * height));
+                end2 = new Vector2i((start2.x + end1.x) / 2, end1.y);
+                start1 = new Vector2i(end2.x, start2.y);
 
             } else {
                 start1 = new Vector2i((int) (startXPercent * width), (int) (startYPercent * height));
@@ -126,14 +138,14 @@ public class AllignWithBeacon implements Command {
             }
 
             Log.d("MYVALS", start1.toString() + " " + end1.toString());
-            Log.d("SUPERSHIT1", String.valueOf(((double)(end1.y - start1.y))/(end1.x - start1.x)));
+            Log.d("SUPERSHIT1", String.valueOf(((double) (end1.y - start1.y)) / (end1.x - start1.x)));
 
         } else {
             if (flipUpsideDown) {
-                start2 = new Vector2i((int) (start1XPercent*width), (int) (start1YPercent*height));
-                end1 = new Vector2i((int) (end2XPercent*width), (int) (end2YPercent*height));
-                start1 = new Vector2i((int) (start2XPercent*width), (int) (start2YPercent*height));
-                end2 = new Vector2i((int) (end1XPercent*width), (int) (end1YPercent*height));
+                start2 = new Vector2i((int) (start1XPercent * width), (int) (start1YPercent * height));
+                end1 = new Vector2i((int) (end2XPercent * width), (int) (end2YPercent * height));
+                start1 = new Vector2i((int) (start2XPercent * width), (int) (start2YPercent * height));
+                end2 = new Vector2i((int) (end1XPercent * width), (int) (end1YPercent * height));
             } else {
                 start1 = new Vector2i((int) (start1XPercent * width), (int) (start1YPercent * height));
                 end2 = new Vector2i((int) (end2XPercent * width), (int) (end2YPercent * height));
@@ -143,13 +155,13 @@ public class AllignWithBeacon implements Command {
         }
         Vector2i slope1, slope2;
         if (vuforia.rgb.getHeight() > vuforia.rgb.getWidth()) {
-            slope1 = new Vector2i(coF, closestToFrac(((double)(end1.y - start1.y))/(end1.x - start1.x),coF));
-            slope2 = new Vector2i(coF, closestToFrac(((double)(end2.y - start2.y)) / (end2.x - start2.x),coF));
+            slope1 = new Vector2i(coF, closestToFrac(((double) (end1.y - start1.y)) / (end1.x - start1.x), coF));
+            slope2 = new Vector2i(coF, closestToFrac(((double) (end2.y - start2.y)) / (end2.x - start2.x), coF));
         } else {
-            slope1 = new Vector2i(coF,closestToFrac(((double)(end1.y - start1.y))/(end1.x - start1.x), coF));
-            slope2 = new Vector2i(coF,closestToFrac(((double)(end2.y - start2.y)) / (end2.x - start2.x),coF));
+            slope1 = new Vector2i(coF, closestToFrac(((double) (end1.y - start1.y)) / (end1.x - start1.x), coF));
+            slope2 = new Vector2i(coF, closestToFrac(((double) (end2.y - start2.y)) / (end2.x - start2.x), coF));
         }
-        double currLeft = 0, currRight = 0, adjustedPower = 0,red = 0,blue = 0;
+        double currLeft = 0, currRight = 0, adjustedPower = 0, red = 0, blue = 0;
         int leftCovered = 0, rightCovered = 0;
         Vector2i currentPos;
         boolean isInterrupted = false, satisfied = false;
@@ -161,7 +173,7 @@ public class AllignWithBeacon implements Command {
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
             if (direction == Direction.BACKWARD) {
                 currentPos = new Vector2i(start1);
-                for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y;) {
+                for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y; ) {
                     red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
                     blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
                     if (blue != 0) {
@@ -189,11 +201,10 @@ public class AllignWithBeacon implements Command {
                     redIsLeft.set(false);
                     satisfied = true;
                 }
-            }
-            else {
+            } else {
                 Log.d("SHIT", end2.toString() + " " + start2.toString() + " " + slope2.toString());
                 currentPos = new Vector2i(start2);
-                for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y;) {
+                for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; ) {
                     red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
                     blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
                     if (blue != 0) {
@@ -208,16 +219,16 @@ public class AllignWithBeacon implements Command {
                     continue;
                 currRight /= rightCovered;
                 robot.addToTelemetry("currRIGHT: ", currRight);
-              //  Log.d("currRIGHT", String.valueOf(currRight));
+                //  Log.d("currRIGHT", String.valueOf(currRight));
 
                 if (currRight > REDTHRESHOLD) {
-                   // robot.addToProgress("currRIGHT: " + currRight);
+                    // robot.addToProgress("currRIGHT: " + currRight);
                     robot.stopMotors();
 
                     redIsLeft.set(false);
                     satisfied = true;
                 } else if (currRight < BLUETHRESHOLD) {
-                   // robot.addToProgress("currRIGHT: " + currRight);
+                    // robot.addToProgress("currRIGHT: " + currRight);
                     robot.stopMotors();
 
                     redIsLeft.set(true);
@@ -231,6 +242,15 @@ public class AllignWithBeacon implements Command {
             robot.getLBMotor().setPower((tp + adjustedPower) * direction.getMultiplier());
             robot.getRFMotor().setPower((tp - adjustedPower) * direction.getMultiplier());
             robot.getRBMotor().setPower((tp - adjustedPower) * direction.getMultiplier());
+            if (getAvgDistance() > maxDistance) {
+                maxDistanceReached.set(true);
+                exitCondition = new ExitCondition() {
+                    @Override
+                    public boolean isConditionMet() { //will then automatically break out of rest of parts of allign to beacon
+                        return true;
+                    }
+                };
+            }
             if (Thread.currentThread().isInterrupted()) {
                 isInterrupted = true;
                 break;
@@ -242,6 +262,52 @@ public class AllignWithBeacon implements Command {
                 break;
             }
         }
+        Thread.sleep(500);
+        if (!exitCondition.isConditionMet()) {
+            robot.addToProgress("Switched To Correction"); //acounts for times where it goes to far and alligns with one side of beacon
+        currLeft = 0;
+        currRight = 0;
+        bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
+        if (direction == Direction.BACKWARD) {
+            currentPos = new Vector2i(start2);
+            for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; ) {
+                red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                if (blue != 0) {
+                    currRight += red / blue;
+                    rightCovered++;
+                }
+                currentPos.x += slope2.x;
+                currentPos.y += slope2.y;
+            }
+            if (rightCovered == 0)
+                throw new SomeoneDunGoofed("Covered shouldn't be 0!");
+            currRight /= rightCovered;
+            if (currRight < REDTHRESHOLD && currRight > BLUETHRESHOLD) {
+                redIsLeft.set(!redIsLeft.get()); //should then be accounted for in precision allignment
+            }
+        }
+        if (direction == Direction.FORWARD) {
+            currentPos = new Vector2i(start1);
+            for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y; ) {
+                red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                if (blue != 0) {
+
+                    currLeft += red / blue;
+                    leftCovered++;
+                }
+                currentPos.x += slope1.x;
+                currentPos.y += slope1.y;
+            }
+            if (leftCovered == 0)
+                throw new SomeoneDunGoofed("Covered shouldn't be 0!");
+            currLeft /= leftCovered;
+            if (currLeft < REDTHRESHOLD && currLeft > BLUETHRESHOLD) {
+                redIsLeft.set(!redIsLeft.get()); //should then be accounted for in precision allignment
+            }
+        }
+    }
         robot.addToProgress("Switched To Precision");
         robot.stopMotors();
         Thread.sleep(1000);
@@ -286,7 +352,14 @@ public class AllignWithBeacon implements Command {
         robot.stopMotors();
         return isInterrupted;
     }
-
+    private double getAvgDistance() {
+        double LFvalue = robot.getLFEncoder().getValue();
+        double RFvalue = robot.getRFEncoder().getValue();
+        double LBvalue = robot.getLBEncoder().getValue();
+        double RBvalue = robot.getRBEncoder().getValue();
+        Log.d("AVGDIST", " " + Math.abs((Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4));
+        return (Math.abs(LFvalue) + Math.abs(RFvalue) + Math.abs(LBvalue) + Math.abs(RBvalue))/4;
+    }
     public enum Direction {
         FORWARD(-1),
         BACKWARD(1);

@@ -12,6 +12,7 @@ import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.VuforiaLocalizerImplSubclass;
 import virtualRobot.commands.AllignWithBeacon;
+import virtualRobot.commands.CompensateColor;
 import virtualRobot.commands.MoveMotor;
 import virtualRobot.commands.MoveMotorPID;
 import virtualRobot.commands.MoveServo;
@@ -33,13 +34,17 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     public static final double MAX_ALLOWABLE_DISPLACEMENT_BACK_TO_LINE = 2000; //Max Displacement When we correct for momentum; if this fails all sensors are broken
     public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE = 3000; //Max Displacement To The First Line
     public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE = 6550; //Max Displacement To The Second Line
+    public static final double MAX_DISTANCE_WHEN_CORRECTING = 1000;
     public static final double ESCAPE_WALL = 200;
     AtomicBoolean allSensorsFail; //has other Line Sensor triggered
-    AtomicBoolean lastSensorTriggered, firstSensorTriggered, redIsLeft;
+    AtomicBoolean lastSensorTriggered, firstSensorTriggered, redIsLeft, maxDistanceReached;
     AtomicBoolean sonarWorks;
     VuforiaLocalizerImplSubclass vuforia;
     GodThread.Line type;
     private boolean escapeWall = false;
+    private Mode mode = Mode.NORMAL;
+    private double maxDistance = Double.MAX_VALUE;
+
 
 
     private static final int whiteTape = 13;
@@ -111,7 +116,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         }
     };
 
-    public ToWhiteLineCompensateColor( GodThread.Line type, AtomicBoolean firstSensorTriggered, AtomicBoolean lastSensorTriggered, AtomicBoolean allSensorsFail, AtomicBoolean sonarWorks, AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia) {
+    public ToWhiteLineCompensateColor( GodThread.Line type, AtomicBoolean firstSensorTriggered, AtomicBoolean lastSensorTriggered, AtomicBoolean allSensorsFail, AtomicBoolean sonarWorks, AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia, Mode mode) {
         super();
         this.type = type;
         this.allSensorsFail = allSensorsFail;
@@ -120,28 +125,57 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         this.sonarWorks = sonarWorks;
         this.redIsLeft = redIsLeft;
         this.vuforia = vuforia;
+        this.mode = mode;
+    }
+    public ToWhiteLineCompensateColor( GodThread.Line type, AtomicBoolean firstSensorTriggered, AtomicBoolean lastSensorTriggered, AtomicBoolean allSensorsFail, AtomicBoolean sonarWorks, AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia, Mode mode, double maxDistance, AtomicBoolean maxDistanceReached) {
+        super();
+        this.type = type;
+        this.allSensorsFail = allSensorsFail;
+        this.firstSensorTriggered = firstSensorTriggered;
+        this.lastSensorTriggered = lastSensorTriggered;
+        this.sonarWorks = sonarWorks;
+        this.redIsLeft = redIsLeft;
+        this.vuforia = vuforia;
+        this.mode = mode;
+        this.maxDistance = maxDistance;
+        this.maxDistanceReached = maxDistanceReached;
     }
 
 
     @Override
     public void loadCommands() {
+
         Translate.setGlobalAngleMod(type.getColor()== GodThread.ColorType.BLUE ? -90 : 90);
-        robot.getLFEncoder().clearValue();
-        robot.getRFEncoder().clearValue();
-        robot.getLBEncoder().clearValue();
-        robot.getRBEncoder().clearValue();
-        if (type.getLine()== GodThread.LineType.FIRST && !sonarWorks.get() && escapeWall) {
-            commands.add(new Translate(ESCAPE_WALL, Translate.Direction.LEFT, 0));
-            commands.add(new Pause(200));
-        }
-        if (type.getLine() == GodThread.LineType.SECOND) {
-            commands.add(new Translate(2000, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0)); //so we don't recheck the same line
-            commands.add(new Pause(200));
-        }
-        onlyAllign();
+if (mode == Mode.NORMAL) {
+    robot.getLFEncoder().clearValue();
+    robot.getRFEncoder().clearValue();
+    robot.getLBEncoder().clearValue();
+    robot.getRBEncoder().clearValue();
+    if (type.getLine() == GodThread.LineType.FIRST && !sonarWorks.get() && escapeWall) {
+        commands.add(new Translate(ESCAPE_WALL, Translate.Direction.LEFT, 0));
+        commands.add(new Pause(200));
+    }
+    if (type.getLine() == GodThread.LineType.SECOND) {
+        commands.add(new Translate(2000, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0)); //so we don't recheck the same line
+        commands.add(new Pause(200));
+    }
+    onlyAllign();
+} else {
+    colorCompensator();
+}
 
     }
+    private void colorCompensator() {
+        Translate firstDisplacement;
+        if (type.getLine() == GodThread.LineType.FIRST) {
+            firstDisplacement = new Translate(MAX_DISTANCE_WHEN_CORRECTING, type.getColor()== GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2);
+        }
+        else
+            firstDisplacement = new Translate(MAX_DISTANCE_WHEN_CORRECTING, type.getColor()== GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .2);
+        allSensorsFail.set(true);
+        firstDisplacement.setExitCondition(atwhitelineSecond);
 
+    }
     private void withoutAllign() {
         Translate firstDisplacement;
         if (type.getLine()== GodThread.LineType.FIRST)
@@ -181,9 +215,9 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     }
     private void onlyAllign() {
         if (type.getLine() == GodThread.LineType.FIRST)
-        commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD));
+        commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached));
         else
-            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.RED ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD));
+            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.RED ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached));
         commands.add(new Pause(1000));
 
     }
@@ -230,5 +264,9 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
         commands.add(new killChildren(this));
         commands.add(new Translate(400, Translate.Direction.FORWARD_RIGHT, 0));
 
+    }
+    public enum Mode {
+        NORMAL,
+        CORRECTION;
     }
 }
