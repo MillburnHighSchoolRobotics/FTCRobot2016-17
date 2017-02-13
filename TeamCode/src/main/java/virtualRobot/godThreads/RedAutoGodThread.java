@@ -104,7 +104,7 @@ public class RedAutoGodThread extends GodThread {
                 delegateMonitor(adjust, new MonitorThread[]{});
             }
             if (firstSensorTriggered.get()) {
-                Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+                Command.AUTO_ROBOT.addToProgress("FirstSensorTriggered");
                 LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
                 adjust.start();
@@ -181,7 +181,7 @@ public class RedAutoGodThread extends GodThread {
                 delegateMonitor(adjust, new MonitorThread[]{});
             }
             if (firstSensorTriggered.get()) {
-                Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+                Command.AUTO_ROBOT.addToProgress("FirstSensorTriggered");
                 LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
                 adjust.start();

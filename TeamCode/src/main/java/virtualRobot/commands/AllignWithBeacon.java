@@ -61,7 +61,7 @@ public class AllignWithBeacon implements Command {
     public final static double REDTHRESHOLD = 1.43;
     public final static double LINETHRESHOLD = 0.61;
     public double timeLimit = -1;
-    private static double tp = -0.1;
+    private static double tp = -0.15;
     private PIDController heading = new PIDController(0,0,0,0,0);
     private PIDController compensate = new PIDController(0.335,0,0,0.3,(BLUETHRESHOLD + REDTHRESHOLD)/2);
     private Direction direction;
@@ -242,6 +242,7 @@ public class AllignWithBeacon implements Command {
             robot.getLBMotor().setPower((tp + adjustedPower) * direction.getMultiplier());
             robot.getRFMotor().setPower((tp - adjustedPower) * direction.getMultiplier());
             robot.getRBMotor().setPower((tp - adjustedPower) * direction.getMultiplier());
+            robot.addToTelemetry("CurrentDistance", getAvgDistance());
             if (getAvgDistance() > maxDistance) {
                 maxDistanceReached.set(true);
                 exitCondition = new ExitCondition() {
