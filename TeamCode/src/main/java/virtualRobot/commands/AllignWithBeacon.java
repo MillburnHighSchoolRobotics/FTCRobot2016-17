@@ -193,11 +193,9 @@ public class AllignWithBeacon implements Command {
 
                 //Log.d("currLEFT", String.valueOf(currLeft));
                 if (currLeft > REDTHRESHOLD) {
-                    robot.stopMotors();
                     redIsLeft.set(true);
                     satisfied = true;
                 } else if (currLeft < BLUETHRESHOLD) {
-                    robot.stopMotors();
                     redIsLeft.set(false);
                     satisfied = true;
                 }
@@ -223,19 +221,17 @@ public class AllignWithBeacon implements Command {
 
                 if (currRight > REDTHRESHOLD) {
                     // robot.addToProgress("currRIGHT: " + currRight);
-                    robot.stopMotors();
 
                     redIsLeft.set(false);
                     satisfied = true;
                 } else if (currRight < BLUETHRESHOLD) {
                     // robot.addToProgress("currRIGHT: " + currRight);
-                    robot.stopMotors();
 
                     redIsLeft.set(true);
                     satisfied = true;
                 }
             }
-            if (satisfied)
+            if (satisfied && isOnLine())
                 break;
             adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
             robot.getLFMotor().setPower((tp + adjustedPower) * direction.getMultiplier());

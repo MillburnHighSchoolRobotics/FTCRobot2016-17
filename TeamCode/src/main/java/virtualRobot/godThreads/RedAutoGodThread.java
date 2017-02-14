@@ -35,8 +35,8 @@ import virtualRobot.monitorThreads.TimeMonitor;
  */
 public class RedAutoGodThread extends GodThread {
     private final static boolean WITH_SONAR = true;
-    private final static double MAX_DISTANCE_FIRST = Double.MAX_VALUE; //TO BE CHANGED
-    private final static double MAX_DISTANCE_SECOND = Double.MAX_VALUE; //TO BE CHANGED
+    public final static double MAX_DISTANCE_FIRST = Double.MAX_VALUE; //TO BE CHANGED
+    public final static double MAX_DISTANCE_SECOND = Double.MAX_VALUE; //TO BE CHANGED
     private AtomicBoolean redIsLeft = new AtomicBoolean();
     boolean firstSmallCorrect = false;
     boolean secondSmallCorrect = false;

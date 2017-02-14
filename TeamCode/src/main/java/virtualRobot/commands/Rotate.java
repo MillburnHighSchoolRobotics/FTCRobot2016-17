@@ -62,7 +62,7 @@ public class Rotate implements Command {
     public static void setGlobalMaxPower(double p) {
         globalMaxPower = p;
     }
-    public static void setOnBlueSide(boolean b) {onBlue = b;}
+    public static void setOnBlueSide() {onBlue = true;}
 
     public Rotate() {
 
