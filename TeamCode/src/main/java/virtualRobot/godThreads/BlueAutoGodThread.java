@@ -41,8 +41,8 @@ import virtualRobot.monitorThreads.TimeMonitor;
  */
 public class BlueAutoGodThread extends GodThread {
     private final static boolean WITH_SONAR = true;
-    private final static double MAX_DISTANCE_FIRST = Double.MAX_VALUE; //TO BE CHANGED
-    private final static double MAX_DISTANCE_SECOND = Double.MAX_VALUE; //TO BE CHANGED
+    private final static double MAX_DISTANCE_FIRST = RedAutoGodThread.MAX_DISTANCE_FIRST; //TO BE CHANGED
+    private final static double MAX_DISTANCE_SECOND = RedAutoGodThread.MAX_DISTANCE_SECOND; //TO BE CHANGED
     private AtomicBoolean redIsLeft = new AtomicBoolean();
     boolean firstSmallCorrect = false;
     boolean secondSmallCorrect = false;
@@ -75,7 +75,7 @@ public class BlueAutoGodThread extends GodThread {
         delegateMonitor(fB, new MonitorThread[]{watchingForTime});
 
 
-        LogicThread goToWall = new RedGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
+        LogicThread goToWall = new BlueGoToWall(sonarWorks);//Knocks Ball, Goes to first wall
         Thread gtw = new Thread(goToWall);
         gtw.start();
         children.add(gtw);
@@ -104,15 +104,15 @@ public class BlueAutoGodThread extends GodThread {
 
             if (lastSensorTriggered.get()) {
                 Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
-                LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
+                LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.BLUE_FIRST_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
                 adjust.start();
                 children.add(adjust);
                 delegateMonitor(adjust, new MonitorThread[]{});
             }
             if (firstSensorTriggered.get()) {
-                Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
-                LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
+                Command.AUTO_ROBOT.addToProgress("FirstSensorTriggered");
+                LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.BLUE_FIRST_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
                 adjust.start();
                 children.add(adjust);
@@ -121,14 +121,14 @@ public class BlueAutoGodThread extends GodThread {
             if (allSensorsFailed.get()) {
                 Command.AUTO_ROBOT.addToProgress("RunningAllSensorsFailed");
 
-                LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTFAILS, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
+                LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTFAILS, GodThread.Line.BLUE_FIRST_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
                 adjust.start();
                 children.add(adjust);
                 delegateMonitor(adjust, new MonitorThread[]{});
             } else {
                 Command.AUTO_ROBOT.addToProgress("CompensatingColor");
-                LogicThread allignToLine = new ColorCompensator(Line.RED_FIRST_LINE);
+                LogicThread allignToLine = new ColorCompensator(Line.BLUE_FIRST_LINE);
                 Thread atl = new Thread(allignToLine);
                 atl.start();
                 children.add(atl);
@@ -187,7 +187,7 @@ public class BlueAutoGodThread extends GodThread {
                 delegateMonitor(adjust, new MonitorThread[]{});
             }
             if (firstSensorTriggered.get()) {
-                Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+                Command.AUTO_ROBOT.addToProgress("FirstSensorTriggered");
                 LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.BLUE_SECOND_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
                 adjust.start();

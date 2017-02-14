@@ -175,8 +175,18 @@ public class AllignWithBeacon implements Command {
                 if (blue != 0) {
                     Log.d("Debug", red + " " + blue + " " + currentPos.toString());
 
+<<<<<<< HEAD
                     currLeft += red / blue;
                     leftCovered++;
+=======
+                //Log.d("currLEFT", String.valueOf(currLeft));
+                if (currLeft > REDTHRESHOLD) {
+                    redIsLeft.set(true);
+                    satisfied = true;
+                } else if (currLeft < BLUETHRESHOLD) {
+                    redIsLeft.set(false);
+                    satisfied = true;
+>>>>>>> 0b39f18149d061a340c8603286a0af5fda4038b3
                 }
                 currentPos.x += slope1.x;
                 currentPos.y += slope1.y;
@@ -203,10 +213,25 @@ public class AllignWithBeacon implements Command {
             currRight /= rightCovered;
             robot.addToTelemetry("currRIGHT: ", currRight);
                 //  Log.d("currRIGHT", String.valueOf(currRight));
+<<<<<<< HEAD
             if (currRight > REDTHRESHOLD || currRight < BLUETHRESHOLD) {
                 satisfied = true;
             } else if (currLeft < BLUETHRESHOLD || currLeft > REDTHRESHOLD) {
                 satisfied = true;
+=======
+
+                if (currRight > REDTHRESHOLD) {
+                    // robot.addToProgress("currRIGHT: " + currRight);
+
+                    redIsLeft.set(false);
+                    satisfied = true;
+                } else if (currRight < BLUETHRESHOLD) {
+                    // robot.addToProgress("currRIGHT: " + currRight);
+
+                    redIsLeft.set(true);
+                    satisfied = true;
+                }
+>>>>>>> 0b39f18149d061a340c8603286a0af5fda4038b3
             }
             if (satisfied && isOnLine())
                 break;

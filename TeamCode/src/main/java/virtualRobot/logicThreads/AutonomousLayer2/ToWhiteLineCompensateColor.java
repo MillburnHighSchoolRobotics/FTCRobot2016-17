@@ -156,9 +156,11 @@ if (mode == Mode.NORMAL) {
         commands.add(new Pause(200));
     }
     if (type.getLine() == GodThread.LineType.SECOND) {
+        //TODO: Add walltrace if sonarWorks
         commands.add(new Translate(2000, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0)); //so we don't recheck the same line
         commands.add(new Pause(200));
     }
+
     onlyAllign();
 } else {
     colorCompensator();
@@ -214,11 +216,19 @@ if (mode == Mode.NORMAL) {
         commands.add(new Pause(1000));
     }
     private void onlyAllign() {
-        if (type.getLine() == GodThread.LineType.FIRST)
-        commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached));
-        else
+        //TODO: Add wallTrace instead of translate if sonar works
+        if (type.getLine() == GodThread.LineType.FIRST) {
+            commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.RED ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2));
+            commands.add (new Pause(200));
+
+            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached));
+        }
+            else {
+            commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2));
+            commands.add (new Pause(200));
             commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.RED ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached));
-        commands.add(new Pause(1000));
+        }
+            commands.add(new Pause(1000));
 
     }
 

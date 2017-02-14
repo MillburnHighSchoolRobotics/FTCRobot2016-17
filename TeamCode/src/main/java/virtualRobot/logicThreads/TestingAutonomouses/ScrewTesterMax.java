@@ -224,6 +224,8 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //        robot.addToProgress("Pause Finished, Translate Now");
 //        commands.add(new Translate(50, Translate.Direction.BACKWARD,0,0.2).setTolerance(25));
 //        robot.addToProgress("Translate Done");
+
+
         final AtomicBoolean ab = new AtomicBoolean();
         commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.BACKWARD, 5000));
         commands.add(new Command() {
@@ -245,9 +247,12 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
                 return Thread.currentThread().isInterrupted();
             }
         });
+
+
+
 //        commands.add(new Command () {
-//            PIDController compensate = new PIDController(0.335,0,0,0.15,1.025);
-//            PIDController heading = new PIDController(0.4,0,0,0,0);
+//            private PIDController compensate = new PIDController(0.6,0,0,0.3,(AllignWithBeacon.BLUETHRESHOLD + AllignWithBeacon.REDTHRESHOLD)/2);
+//            PIDController heading = new PIDController(0,0,0,0,0); //.4
 //            //final double TOLERANCE = 0.04;
 //            double timeLimit;
 //            @Override

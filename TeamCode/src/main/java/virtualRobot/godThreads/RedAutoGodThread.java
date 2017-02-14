@@ -35,8 +35,8 @@ import virtualRobot.monitorThreads.TimeMonitor;
  */
 public class RedAutoGodThread extends GodThread {
     private final static boolean WITH_SONAR = true;
-    private final static double MAX_DISTANCE_FIRST = Double.MAX_VALUE; //TO BE CHANGED
-    private final static double MAX_DISTANCE_SECOND = Double.MAX_VALUE; //TO BE CHANGED
+    public final static double MAX_DISTANCE_FIRST = Double.MAX_VALUE; //TO BE CHANGED
+    public final static double MAX_DISTANCE_SECOND = Double.MAX_VALUE; //TO BE CHANGED
     private AtomicBoolean redIsLeft = new AtomicBoolean();
     boolean firstSmallCorrect = false;
     boolean secondSmallCorrect = false;
@@ -104,7 +104,7 @@ public class RedAutoGodThread extends GodThread {
                 delegateMonitor(adjust, new MonitorThread[]{});
             }
             if (firstSensorTriggered.get()) {
-                Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+                Command.AUTO_ROBOT.addToProgress("FirstSensorTriggered");
                 LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
                 adjust.start();
@@ -181,7 +181,7 @@ public class RedAutoGodThread extends GodThread {
                 delegateMonitor(adjust, new MonitorThread[]{});
             }
             if (firstSensorTriggered.get()) {
-                Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
+                Command.AUTO_ROBOT.addToProgress("FirstSensorTriggered");
                 LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
                 adjust.start();
