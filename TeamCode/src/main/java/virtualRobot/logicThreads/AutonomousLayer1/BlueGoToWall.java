@@ -101,7 +101,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
         robot.addToProgress("Here1");
 
         commands.add(new Pause(500));
-        commands.add(new Translate(6000, Translate.Direction.FORWARD, 0,1,55));
+        commands.add(new Translate(6000, Translate.Direction.FORWARD, 0,1,-45));
         robot.addToProgress("Here2");
 
         commands.add(new Pause(500));
@@ -109,7 +109,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
         robot.addToProgress("Here3");
 
         commands.add(new Pause(500));
-        Translate strafeRight = new Translate(1950, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
+        Translate strafeRight = new Translate(500, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
 
 
         if (WITH_SONAR) {

@@ -56,13 +56,13 @@ public class AllignWithBeacon implements Command {
             return false;
         }
     };
-
+    private int whiteTape = 13;
     public final static double BLUETHRESHOLD = 0.7; //.65
     public final static double REDTHRESHOLD = 1.43;
-    public final static double LINETHRESHOLD = 0.61;
+    public final static double LINETHRESHOLD = 0.62;
     public double timeLimit = -1;
     private static double tp = -0.15;
-    private PIDController heading = new PIDController(0,0,0,0,0);
+    private PIDController heading = new PIDController(.04,0,0,0,0);
     private PIDController compensate = new PIDController(0.335,0,0,0.3,(BLUETHRESHOLD + REDTHRESHOLD)/2);
     private Direction direction;
     private double maxDistance = Double.MAX_VALUE;
@@ -105,7 +105,8 @@ public class AllignWithBeacon implements Command {
         return robot.getLightSensor1().getValue() > LINETHRESHOLD ||
                 robot.getLightSensor2().getValue() > LINETHRESHOLD ||
                 robot.getLightSensor3().getValue() > LINETHRESHOLD ||
-                robot.getLightSensor4().getValue() > LINETHRESHOLD;
+                robot.getLightSensor4().getValue() > LINETHRESHOLD ||
+                ((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape && robot.getColorSensor().getBlue() < 255));
     }
 
     @Override
