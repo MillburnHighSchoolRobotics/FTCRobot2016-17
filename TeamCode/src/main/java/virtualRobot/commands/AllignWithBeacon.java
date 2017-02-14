@@ -91,11 +91,12 @@ public class AllignWithBeacon implements Command {
     private int closestToFrac(double num, double frac) {
         int res = -1;
         double leastDist = Double.MAX_VALUE;
-        for (int i = 0; i < 24; i++) {
-            Log.d("SUPERSHIT", num + " " + frac + " " + leastDist + " I:" + i);
+        for (int i = 0; true; i++) {
             if (Math.abs(i/frac - num) < leastDist) {
                 res = i;
                 leastDist = Math.abs(i/frac - num);
+            } else {
+                break;
             }
         }
         return res;
@@ -136,10 +137,6 @@ public class AllignWithBeacon implements Command {
                 end1 = new Vector2i((start1.x + end2.x) / 2, end2.y);
                 start2 = new Vector2i(end1.x, start1.y);
             }
-
-            Log.d("MYVALS", start1.toString() + " " + end1.toString());
-            Log.d("SUPERSHIT1", String.valueOf(((double) (end1.y - start1.y)) / (end1.x - start1.x)));
-
         } else {
             if (flipUpsideDown) {
                 start2 = new Vector2i((int) (start1XPercent * width), (int) (start1YPercent * height));
@@ -165,75 +162,50 @@ public class AllignWithBeacon implements Command {
         int leftCovered = 0, rightCovered = 0;
         Vector2i currentPos;
         boolean isInterrupted = false, satisfied = false;
-        Log.d("SHIT", end1.toString() + " " + start1.toString() + " " + slope1.toString());
 
         while (!exitCondition.isConditionMet() && !isInterrupted && !satisfied) {
             currLeft = 0;
             currRight = 0;
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-            if (direction == Direction.BACKWARD) {
-                currentPos = new Vector2i(start1);
-                for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y; ) {
-                    red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
-                    blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
-                    if (blue != 0) {
-                        Log.d("Debug", red + " " + blue + " " + currentPos.toString());
+            currentPos = new Vector2i(start1);
+            for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y; ) {
+                red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                if (blue != 0) {
+                    Log.d("Debug", red + " " + blue + " " + currentPos.toString());
 
-                        currLeft += red / blue;
-                        leftCovered++;
-                    }
-                    currentPos.x += slope1.x;
-                    currentPos.y += slope1.y;
+                    currLeft += red / blue;
+                    leftCovered++;
                 }
-                if (leftCovered == 0)
-                    continue;
-                currLeft /= leftCovered;
-                robot.addToTelemetry("currLEFT: ", currLeft);
-                robot.addToTelemetry("Slope: ", slope1.toString());
-
-                //Log.d("currLEFT", String.valueOf(currLeft));
-                if (currLeft > REDTHRESHOLD) {
-                    robot.stopMotors();
-                    redIsLeft.set(true);
-                    satisfied = true;
-                } else if (currLeft < BLUETHRESHOLD) {
-                    robot.stopMotors();
-                    redIsLeft.set(false);
-                    satisfied = true;
+                currentPos.x += slope1.x;
+                currentPos.y += slope1.y;
+            }
+            if (leftCovered == 0)
+                continue;
+            currLeft /= leftCovered;
+            robot.addToTelemetry("currLEFT: ", currLeft);
+            robot.addToTelemetry("Slope: ", slope1.toString());
+            currentPos = new Vector2i(start2);
+            for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; ) {
+                red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                if (blue != 0) {
+                    Log.d("Debug", red + " " + blue + " " + currentPos.toString());
+                    currRight += red / blue;
+                    rightCovered++;
                 }
-            } else {
-                Log.d("SHIT", end2.toString() + " " + start2.toString() + " " + slope2.toString());
-                currentPos = new Vector2i(start2);
-                for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; ) {
-                    red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
-                    blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
-                    if (blue != 0) {
-                        Log.d("Debug", red + " " + blue + " " + currentPos.toString());
-                        currRight += red / blue;
-                        rightCovered++;
-                    }
-                    currentPos.x += slope2.x;
-                    currentPos.y += slope2.y;
-                }
-                if (rightCovered == 0)
-                    continue;
-                currRight /= rightCovered;
-                robot.addToTelemetry("currRIGHT: ", currRight);
+                currentPos.x += slope2.x;
+                currentPos.y += slope2.y;
+            }
+            if (rightCovered == 0)
+                continue;
+            currRight /= rightCovered;
+            robot.addToTelemetry("currRIGHT: ", currRight);
                 //  Log.d("currRIGHT", String.valueOf(currRight));
-
-                if (currRight > REDTHRESHOLD) {
-                    // robot.addToProgress("currRIGHT: " + currRight);
-                    robot.stopMotors();
-
-                    redIsLeft.set(false);
-                    satisfied = true;
-                } else if (currRight < BLUETHRESHOLD) {
-                    // robot.addToProgress("currRIGHT: " + currRight);
-                    robot.stopMotors();
-
-                    redIsLeft.set(true);
-                    satisfied = true;
-                }
+            if (currRight > REDTHRESHOLD || currRight < BLUETHRESHOLD) {
+                satisfied = true;
+            } else if (currLeft < BLUETHRESHOLD || currLeft > REDTHRESHOLD) {
+                satisfied = true;
             }
             if (satisfied)
                 break;
@@ -265,49 +237,20 @@ public class AllignWithBeacon implements Command {
         Thread.sleep(500);
         if (!exitCondition.isConditionMet()) {
             robot.addToProgress("Switched To Correction"); //acounts for times where it goes to far and alligns with one side of beacon
-        currLeft = 0;
-        currRight = 0;
-        bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-        if (direction == Direction.BACKWARD) {
-            currentPos = new Vector2i(start2);
-            for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; ) {
-                red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
-                blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
-                if (blue != 0) {
-                    currRight += red / blue;
-                    rightCovered++;
-                }
-                currentPos.x += slope2.x;
-                currentPos.y += slope2.y;
-            }
-            if (rightCovered == 0)
-                throw new SomeoneDunGoofed("Covered shouldn't be 0!");
-            currRight /= rightCovered;
-            if (currRight < REDTHRESHOLD && currRight > BLUETHRESHOLD) {
-                redIsLeft.set(!redIsLeft.get()); //should then be accounted for in precision allignment
+            if (currLeft < BLUETHRESHOLD && currRight > REDTHRESHOLD) {
+                redIsLeft.set(false);
+            } else if (currLeft > REDTHRESHOLD && currRight < BLUETHRESHOLD) {
+                redIsLeft.set(true);
+            } else if (currLeft < BLUETHRESHOLD) {
+                redIsLeft.set(true);
+            } else if (currLeft > REDTHRESHOLD) {
+                redIsLeft.set(false);
+            } else if (currRight < BLUETHRESHOLD) {
+                redIsLeft.set(false);
+            } else if (currRight > REDTHRESHOLD) {
+                redIsLeft.set(true);
             }
         }
-        if (direction == Direction.FORWARD) {
-            currentPos = new Vector2i(start1);
-            for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y; ) {
-                red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
-                blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
-                if (blue != 0) {
-
-                    currLeft += red / blue;
-                    leftCovered++;
-                }
-                currentPos.x += slope1.x;
-                currentPos.y += slope1.y;
-            }
-            if (leftCovered == 0)
-                throw new SomeoneDunGoofed("Covered shouldn't be 0!");
-            currLeft /= leftCovered;
-            if (currLeft < REDTHRESHOLD && currLeft > BLUETHRESHOLD) {
-                redIsLeft.set(!redIsLeft.get()); //should then be accounted for in precision allignment
-            }
-        }
-    }
         robot.addToProgress("Switched To Precision");
         robot.stopMotors();
         Thread.sleep(1000);
