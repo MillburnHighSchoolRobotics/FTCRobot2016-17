@@ -145,7 +145,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     @Override
     public void loadCommands() {
 
-        Translate.setGlobalAngleMod(type.getColor()== GodThread.ColorType.BLUE ? -90 : 90);
+        Translate.setGlobalAngleMod(type.getColor() == GodThread.ColorType.RED ? 90 : -90);
 if (mode == Mode.NORMAL) {
     robot.getLFEncoder().clearValue();
     robot.getRFEncoder().clearValue();
@@ -221,12 +221,12 @@ if (mode == Mode.NORMAL) {
             commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.RED ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2));
             commands.add (new Pause(200));
 
-            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached));
+            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached, type.getColor() == GodThread.ColorType.RED? 90 : -90));
         }
             else {
             commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2));
             commands.add (new Pause(200));
-            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.RED ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached));
+            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.RED ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached,  type.getColor() == GodThread.ColorType.RED? 90 : -90));
         }
             commands.add(new Pause(1000));
 

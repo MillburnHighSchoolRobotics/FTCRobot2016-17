@@ -83,6 +83,12 @@ public class AllignWithBeacon implements Command {
         this.maxDistance = maxDistance;
         this.maxDistanceReached = maxDistanceReached;
     }
+    public AllignWithBeacon(VuforiaLocalizerImplSubclass vuforia, AtomicBoolean redIsLeft, Direction dir, double timeLimit, double maxDistance, AtomicBoolean maxDistanceReached, double referenceAnlge) {
+        this(vuforia, redIsLeft, dir, timeLimit);
+        this.maxDistance = maxDistance;
+        this.maxDistanceReached = maxDistanceReached;
+        heading.setTarget(referenceAnlge);
+    }
 
     public void setExitCondition(ExitCondition exitCondition) {
         this.exitCondition = exitCondition;
@@ -164,7 +170,7 @@ public class AllignWithBeacon implements Command {
         Vector2i currentPos;
         boolean isInterrupted = false, satisfied = false;
 
-        while (!exitCondition.isConditionMet() && !isInterrupted && !satisfied) {
+        while (!exitCondition.isConditionMet() && !isInterrupted && (!satisfied || !isOnLine())) {
             currLeft = 0;
             currRight = 0;
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());

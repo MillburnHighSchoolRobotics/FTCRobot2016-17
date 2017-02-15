@@ -37,7 +37,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
     public void loadCommands() {
         warrenPlan();
         robot.addToProgress("Went To Wall");
-        commands.add(new Pause(5000));
+        commands.add(new Pause(500));
 
 
 
@@ -97,7 +97,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
 
     }
     private void warrenPlan() { //We've already fired balls and are on our way to the second beacon.
-        commands.add(new Rotate(-45, .5, 1000));
+        commands.add(new Rotate(-45, .5, 2000));
         robot.addToProgress("Here1");
 
         commands.add(new Pause(500));
@@ -105,7 +105,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
         robot.addToProgress("Here2");
 
         commands.add(new Pause(500));
-        commands.add(new Rotate(-90, .7, 3000));
+        commands.add(new Rotate(-90, .5, 5000));
         robot.addToProgress("Here3");
 
         commands.add(new Pause(500));

@@ -537,6 +537,7 @@ public class Translate implements Command {
           pidOutput *= maxPower;
 
           double headingOutput = headingController.getPIDOutput(robot.getHeadingSensor().getValue());
+              headingOutput *= maxPower;
           headingOutput = MathUtils.clamp(headingOutput, -1, 1);
 
 
