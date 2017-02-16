@@ -30,18 +30,18 @@ import virtualRobot.components.Servo;
 
 public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     //Note that displacement is handled in exitCondition
-    public static final double WALL_TRACE_SONAR_THRESHOLD = 15; //How close we want to trace wall
+    public static final double WALL_TRACE_SONAR_THRESHOLD = 17; //How close we want to trace wall
     public static final double MAX_ALLOWABLE_DISPLACEMENT_BACK_TO_LINE = 2000; //Max Displacement When we correct for momentum; if this fails all sensors are broken
-    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE = 3000; //Max Displacement To The First Line
+    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE = 6000; //Max Displacement To The First Line
     public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE = 6550; //Max Displacement To The Second Line
     public static final double MAX_DISTANCE_WHEN_CORRECTING = 1000;
-    public static final double ESCAPE_WALL = 200;
+    public static final double ESCAPE_WALL = 500;
     AtomicBoolean allSensorsFail; //has other Line Sensor triggered
     AtomicBoolean lastSensorTriggered, firstSensorTriggered, redIsLeft, maxDistanceReached;
     AtomicBoolean sonarWorks;
     VuforiaLocalizerImplSubclass vuforia;
     GodThread.Line type;
-    private boolean escapeWall = false;
+    private boolean escapeWall =true ;
     private Mode mode = Mode.NORMAL;
     private double maxDistance = Double.MAX_VALUE;
 
@@ -101,7 +101,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
                 allSensorsFail.set(false);
                 robot.addToProgress("LightSensor2Triggered");
                 return true;
-            }else if((robot.getLightSensor4().getRawValue()>= .62)){
+            }else if((robot.getLightSensor4().getRawValue()>= .65)){
                 allSensorsFail.set(false);
                 if (type == GodThread.Line.BLUE_FIRST_LINE || type == GodThread.Line.RED_SECOND_LINE) {
                     lastSensorTriggered.set(true);
@@ -157,11 +157,12 @@ if (mode == Mode.NORMAL) {
     }
     if (type.getLine() == GodThread.LineType.SECOND) {
         //TODO: Add walltrace if sonarWorks
-        commands.add(new Translate(2000, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0)); //so we don't recheck the same line
+        commands.add(new Translate(2000, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .15)); //so we don't recheck the same line
         commands.add(new Pause(200));
     }
 
-    onlyAllign();
+    //onlyAllign();
+    onlyPrecise();
 } else {
     colorCompensator();
 }
@@ -177,6 +178,22 @@ if (mode == Mode.NORMAL) {
         allSensorsFail.set(true);
         firstDisplacement.setExitCondition(atwhitelineSecond);
 
+    }
+    private void onlyPrecise() {
+        Translate firstDisplacement;
+        if (type.getLine()== GodThread.LineType.FIRST)
+            firstDisplacement = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE, type.getColor()== GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .15);
+        else
+            firstDisplacement = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE, type.getColor()== GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .15);
+        allSensorsFail.set(true);
+        firstDisplacement.setExitCondition(atwhitelineSecond);
+        commands.add(firstDisplacement);
+        if (type.getLine()== GodThread.LineType.FIRST && sonarWorks.get()) {
+            commands.add(new Pause(500));
+            commands.add(new Translate(200, Translate.Direction.LEFT, 0));
+            commands.add(new Pause(500));
+
+        }
     }
     private void withoutAllign() {
         Translate firstDisplacement;
@@ -221,12 +238,12 @@ if (mode == Mode.NORMAL) {
             commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.RED ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2));
             commands.add (new Pause(200));
 
-            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached, type.getColor() == GodThread.ColorType.RED? 90 : -90));
+            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.BLUE ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 3000, maxDistance, maxDistanceReached, type.getColor() == GodThread.ColorType.RED? 90 : -90));
         }
             else {
             commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2));
             commands.add (new Pause(200));
-            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.RED ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 2000, maxDistance, maxDistanceReached,  type.getColor() == GodThread.ColorType.RED? 90 : -90));
+            commands.add(new AllignWithBeacon(vuforia, redIsLeft, type.getColor() == GodThread.ColorType.RED ? AllignWithBeacon.Direction.FORWARD : AllignWithBeacon.Direction.BACKWARD, 3000, maxDistance, maxDistanceReached,  type.getColor() == GodThread.ColorType.RED? 90 : -90));
         }
             commands.add(new Pause(1000));
 

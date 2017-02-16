@@ -88,14 +88,14 @@ public class RedAutoGodThread extends GodThread {
         tfl.start();
         children.add(tfl);
         delegateMonitor(tfl, new MonitorThread[]{});
-        if (maxDistanceReached.get()) {
-            LogicThread correction = new ToWhiteLineCompensateColor(GodThread.Line.RED_FIRST_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, vuforia, ToWhiteLineCompensateColor.Mode.CORRECTION);
-            Thread cor = new Thread(correction);
-            cor.start();
-            children.add(cor);
-            delegateMonitor(cor, new MonitorThread[]{});
+        //if (maxDistanceReached.get()) {
+//            LogicThread correction = new ToWhiteLineCompensateColor(GodThread.Line.RED_FIRST_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, vuforia, ToWhiteLineCompensateColor.Mode.CORRECTION);
+//            Thread cor = new Thread(correction);
+//            cor.start();
+//            children.add(cor);
+//            delegateMonitor(cor, new MonitorThread[]{});
 
-            if (lastSensorTriggered.get()) {
+            if (lastSensorTriggered.get() && false) {
                 Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
                 LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
@@ -103,7 +103,7 @@ public class RedAutoGodThread extends GodThread {
                 children.add(adjust);
                 delegateMonitor(adjust, new MonitorThread[]{});
             }
-            if (firstSensorTriggered.get()) {
+            if (firstSensorTriggered.get() && false) {
                 Command.AUTO_ROBOT.addToProgress("FirstSensorTriggered");
                 LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_FIRST_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
@@ -119,23 +119,29 @@ public class RedAutoGodThread extends GodThread {
                 adjust.start();
                 children.add(adjust);
                 delegateMonitor(adjust, new MonitorThread[]{});
+               // TIME TO TAKE PICTURE
+            Thread takepicturenow = new Thread(takePicture);
+            takepicturenow.start();
+            children.add(takepicturenow);
+            delegateMonitor(takepicturenow, new MonitorThread[]{});
+
             } else {
                 Command.AUTO_ROBOT.addToProgress("CompensatingColor");
-                LogicThread allignToLine = new ColorCompensator(Line.RED_FIRST_LINE);
+                LogicThread allignToLine = new ColorCompensator(Line.RED_FIRST_LINE, 1000, redIsLeft, vuforia);
                 Thread atl = new Thread(allignToLine);
                 atl.start();
                 children.add(atl);
                 delegateMonitor(atl, new MonitorThread[]{});
             }
-            //TIME TO TAKE PICTURE
-            Thread takepicturenow = new Thread(takePicture);
-            takepicturenow.start();
-            children.add(takepicturenow);
-            delegateMonitor(takepicturenow, new MonitorThread[]{});
-        }
+//            //TIME TO TAKE PICTURE
+//            Thread takepicturenow = new Thread(takePicture);
+//            takepicturenow.start();
+//            children.add(takepicturenow);
+//            delegateMonitor(takepicturenow, new MonitorThread[]{});
+//        //}
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (redIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.RED_FIRST_LINE);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
@@ -143,7 +149,7 @@ public class RedAutoGodThread extends GodThread {
         }
 
         else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR);
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.RED_FIRST_LINE);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
@@ -163,16 +169,16 @@ public class RedAutoGodThread extends GodThread {
         tsl.start();
         children.add(tsl);
         delegateMonitor(tsl, new MonitorThread[]{});
-        if (maxDistanceReached.get()) {
-            LogicThread correction2 = new ToWhiteLineCompensateColor(GodThread.Line.RED_SECOND_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, vuforia, ToWhiteLineCompensateColor.Mode.CORRECTION);
-            Thread cor = new Thread(correction2);
-            cor.start();
-            children.add(cor);
-            delegateMonitor(cor, new MonitorThread[]{});
+        //if (maxDistanceReached.get()) {
+//            LogicThread correction2 = new ToWhiteLineCompensateColor(GodThread.Line.RED_SECOND_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, vuforia, ToWhiteLineCompensateColor.Mode.CORRECTION);
+//            Thread cor2 = new Thread(correction2);
+//            cor2.start();
+//            children.add(cor2);
+//            delegateMonitor(cor2, new MonitorThread[]{});
 
 
 
-            if (lastSensorTriggered.get()) {
+            if (lastSensorTriggered.get() && false) {
                 Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
                 LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.LASTLIGHTTRIGGERED, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
@@ -180,7 +186,7 @@ public class RedAutoGodThread extends GodThread {
                 children.add(adjust);
                 delegateMonitor(adjust, new MonitorThread[]{});
             }
-            if (firstSensorTriggered.get()) {
+            if (firstSensorTriggered.get() && false) {
                 Command.AUTO_ROBOT.addToProgress("FirstSensorTriggered");
                 LogicThread reAdjust = new CompensateForMiss(CompensateForMiss.TriggerLevel.FIRSTLIGHTTRIGGERED, GodThread.Line.RED_SECOND_LINE, weCanUseSonar);
                 Thread adjust = new Thread(reAdjust);
@@ -196,10 +202,15 @@ public class RedAutoGodThread extends GodThread {
                 adjust.start();
                 children.add(adjust);
                 delegateMonitor(adjust, new MonitorThread[]{});
+                           //TIME TO TAKE PICTURE
+            Thread takepicturenow2 = new Thread(takePicture);
+            takepicturenow2.start();
+            children.add(takepicturenow2);
+            delegateMonitor(takepicturenow2, new MonitorThread[]{});
             } else {
                 Command.AUTO_ROBOT.addToProgress("Compensating color");
 
-                LogicThread allignToLine = new ColorCompensator(Line.RED_SECOND_LINE);
+                LogicThread allignToLine = new ColorCompensator(Line.RED_SECOND_LINE, 1000, redIsLeft, vuforia);
                 Thread atl = new Thread(allignToLine);
                 atl.start();
                 children.add(atl);
@@ -207,11 +218,11 @@ public class RedAutoGodThread extends GodThread {
             }
 
 
-            //TIME TO TAKE PICTURE
-            Thread takepicturenow2 = new Thread(takePicture);
-            takepicturenow2.start();
-            children.add(takepicturenow2);
-            delegateMonitor(takepicturenow2, new MonitorThread[]{});
+//            //TIME TO TAKE PICTURE
+//            Thread takepicturenow2 = new Thread(takePicture);
+//            takepicturenow2.start();
+//            children.add(takepicturenow2);
+//            delegateMonitor(takepicturenow2, new MonitorThread[]{});
 
             if (secondSmallCorrect) {
                 Command.AUTO_ROBOT.addToProgress("LastSensorTriggered");
@@ -221,11 +232,11 @@ public class RedAutoGodThread extends GodThread {
                 children.add(adjust);
                 delegateMonitor(adjust, new MonitorThread[]{});
             }
-        }
+       //}
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (redIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR);
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.RED_SECOND_LINE);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
@@ -233,7 +244,7 @@ public class RedAutoGodThread extends GodThread {
         }
 
         else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR);
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.RED_SECOND_LINE);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);

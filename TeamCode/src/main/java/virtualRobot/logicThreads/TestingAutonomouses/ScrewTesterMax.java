@@ -22,6 +22,9 @@ import virtualRobot.commands.Translate;
 import virtualRobot.logicThreads.AutonomousLayer2.ToWhiteLine;
 import virtualRobot.utils.Vector2i;
 
+import static android.R.attr.right;
+import static android.R.attr.width;
+
 /**
  * Created by ethachu19 on 10/27/2016.
  * used to test ethan's algos
@@ -226,33 +229,32 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //        robot.addToProgress("Translate Done");
 
 
-        final AtomicBoolean ab = new AtomicBoolean();
-        commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.FORWARD, 5000));
-        commands.add(new Command() {
-            @Override
-            public boolean changeRobotState() throws InterruptedException {
-                robot.addToProgress("Red is Left: " + ab.get());
-                robot.addToProgress("Finished 1st");
-                return Thread.currentThread().isInterrupted();
-            }
-        });
-        commands.add(new Pause(1000));
-        commands.add(new Translate(2000, Translate.Direction.BACKWARD, 0, .2));
-        commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.BACKWARD, 5000));
-        commands.add(new Command() {
-            @Override
-            public boolean changeRobotState() throws InterruptedException {
-                robot.addToProgress("Red is Left: " + ab.get());
-                robot.addToProgress("Finished 2nd");
-                return Thread.currentThread().isInterrupted();
-            }
-        });
-
-
+//        final AtomicBoolean ab = new AtomicBoolean();
+//        commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.BACKWARD, 5000));
+//        commands.add(new Command() {
+//            @Override
+//            public boolean changeRobotState() throws InterruptedException {
+//                robot.addToProgress("Red is Left: " + ab.get());
+//                robot.addToProgress("Finished 1st");
+//                return Thread.currentThread().isInterrupted();
+//            }
+//        });
+//        commands.add(new Pause(1000));
+//        commands.add(new Translate(2000, Translate.Direction.FORWARD, 0, .2));
+//        commands.add(new AllignWithBeacon(vuforia,ab, AllignWithBeacon.Direction.FORWARD, 5000));
+//        commands.add(new Command() {
+//            @Override
+//            public boolean changeRobotState() throws InterruptedException {
+//                robot.addToProgress("Red is Left: " + ab.get());
+//                robot.addToProgress("Finished 2nd");
+//                return Thread.currentThread().isInterrupted();
+//            }
+//        });
 
 //        commands.add(new Command () {
-//            private PIDController compensate = new PIDController(0.6,0,0,0.3,(AllignWithBeacon.BLUETHRESHOLD + AllignWithBeacon.REDTHRESHOLD)/2);
-//            PIDController heading = new PIDController(0,0,0,0,0); //.4
+//
+//            private PIDController compensate = new PIDController(.2,0,0,0,0);
+//            PIDController heading = new PIDController(.008,0,0,0,0);
 //            //final double TOLERANCE = 0.04;
 //            double timeLimit;
 //            @Override
@@ -264,30 +266,65 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //                int end = (int) (AllignWithBeacon.endXPercent * width);
 //                Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 //                Vector2i currentPos;
-//                while (!isInterrupted) {
-//                    curr = 0;
-//                    bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-//                    currentPos = new Vector2i((int) (AllignWithBeacon.startXPercent * width), vuforia.rgb.getHeight() / 2);
-//                    for (covered = 0; currentPos.x < end;) {
+//                double currLeft = 0, currRight = 0;
+//                int leftCovered = 0, rightCovered = 0;
+//                Vector2i slope1, slope2, start2, end1, end2, start1;
+//                int coF = 12;
+//                double startXPercent = 0;
+//                double endXPercent = 1;
+//                double startYPercent = 0.135;
+//                double endYPercent = 1;
+//                start2 = new Vector2i((int) (startXPercent * width), (int) (startYPercent * height));
+//                end1 = new Vector2i((int) (endXPercent * width), (int) (endYPercent * height));
+//                end2 = new Vector2i((start2.x + end1.x) / 2, end1.y);
+//                start1 = new Vector2i(end2.x, start2.y);
+//                isInterrupted = false;
+//                slope1 = new Vector2i(coF, closestToFrac(((double) (end1.y - start1.y)) / (end1.x - start1.x), coF));
+//                slope2 = new Vector2i(coF, closestToFrac(((double) (end2.y - start2.y)) / (end2.x - start2.x), coF));
+//                currLeft = 0;
+//                currRight = 0;
+//                bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
+//                currentPos = new Vector2i(start1);
+//                boolean run = true;
+//                while (run ) {
+//                    for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y; ) {
 //                        red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
 //                        blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
-//                        if (blue != 0 && (blue > 200 || red > 200) && (red/blue < AllignWithBeacon.BLUETHRESHOLD || red/blue > AllignWithBeacon.REDTHRESHOLD)) {
-//                            curr += red / blue;
-//                            covered++;
+//                        if (blue != 0 && (((red/blue) < AllignWithBeacon.REDTHRESHOLD) && ((red/blue) > AllignWithBeacon.BLUETHRESHOLD))) {
+//                            Log.d("Debug", red + " " + blue + " " + currentPos.toString());
+//
+//                            //currLeft += red / blue;
+//                            leftCovered++;
 //                        }
-//                        currentPos.x += 8;
+//                        currentPos.x += slope1.x;
+//                        currentPos.y += slope1.y;
 //                    }
-//                    if (covered == 0)
-//                        continue;
-//                    curr /= covered;
-//                    power = compensate.getPIDOutput(curr);
+//
+//                //currLeft /= leftCovered;
+//               // robot.addToTelemetry("currLEFT: ", currLeft);
+//                currentPos = new Vector2i(start2);
+//                for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; ) {
+//                    red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+//                    blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+//                    if (blue != 0 && (((red/blue) < AllignWithBeacon.REDTHRESHOLD) && ((red/blue) > AllignWithBeacon.BLUETHRESHOLD))) {
+//                        Log.d("Debug", red + " " + blue + " " + currentPos.toString());
+//                        //currRight += red / blue;
+//                        rightCovered++;
+//                    }
+//                    currentPos.x += slope2.x;
+//                    currentPos.y += slope2.y;
+//                }
+//                //currRight /= rightCovered;
+//                    double dif = (leftCovered - rightCovered);
+//                      power = compensate.getPIDOutput(dif);
+//                    power*=.05;
 //                    //adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
-//                    Log.d("AllignWithBeacon", "" + power + " " + adjustedPower + " " + curr + " " + covered);
-//                    robot.addToTelemetry("AllignWithBeacon ", curr + " " + covered + " " + power);
+//                   // adjustedPower *=.2;
 //                    robot.getLFMotor().setPower(power + adjustedPower);
 //                    robot.getLBMotor().setPower(power + adjustedPower);
 //                    robot.getRFMotor().setPower(power - adjustedPower);
 //                    robot.getRBMotor().setPower(power - adjustedPower);
+//                    leftCovered= rightCovered = 0;
 //                    if (Thread.currentThread().isInterrupted()) {
 //                        isInterrupted = true;
 //                        break;
@@ -298,11 +335,91 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //                        isInterrupted = true;
 //                        break;
 //                    }
-//                }
-//                robot.addToProgress("EXITED COMMAND");
+//
+//            }
+//
 //                robot.stopMotors();
 //                return isInterrupted;
 //            }
 //        });
+
+
+
+        commands.add(new Command () {
+            //1.8, .0507, 15.975
+
+            private PIDController compensate = new PIDController(1.125, 0.0241,0,0,(AllignWithBeacon.BLUETHRESHOLD + AllignWithBeacon.REDTHRESHOLD)/2);
+            PIDController heading = new PIDController(.008,0,0,0,0);
+            //final double TOLERANCE = 0.04;
+            double timeLimit;
+            @Override
+            public boolean changeRobotState() throws InterruptedException {
+                double power, curr = 0, red, blue, adjustedPower = 0;
+                int covered;
+                boolean isInterrupted = false;
+                int width = vuforia.rgb.getWidth(), height = vuforia.rgb.getHeight();
+                int end = (int) (AllignWithBeacon.endXPercent * width);
+                Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                Vector2i currentPos;
+                while (!isInterrupted) {
+                    curr = 0;
+                    bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
+                    currentPos = new Vector2i((int) (AllignWithBeacon.startXPercent * width), vuforia.rgb.getHeight() / 2);
+                    for (covered = 0; currentPos.x < end;) {
+                        red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                        blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                        if (blue != 0 && (blue > 200 || red > 200) && (red/blue < AllignWithBeacon.BLUETHRESHOLD || red/blue > AllignWithBeacon.REDTHRESHOLD)) {
+                            curr += red / blue;
+                            covered++;
+                        }
+                        currentPos.x += 8;
+                    }
+
+
+                    if (covered == 0)
+                        continue;
+
+
+                    curr /= covered;
+                    power = compensate.getPIDOutput(curr);
+                    adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
+                    power *= .15;
+                    adjustedPower *=0;
+                    Log.d("AllignWithBeacon", "" + power + " " + adjustedPower + " " + curr + " " + covered);
+                    robot.addToTelemetry("AllignWithBeacon ", curr + " " + covered + " " + power);
+                    robot.getLFMotor().setPower(power + adjustedPower);
+                    robot.getLBMotor().setPower(power + adjustedPower);
+                    robot.getRFMotor().setPower(power - adjustedPower);
+                    robot.getRBMotor().setPower(power - adjustedPower);
+                    if (Thread.currentThread().isInterrupted()) {
+                        isInterrupted = true;
+                        break;
+                    }
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException ex) {
+                        isInterrupted = true;
+                        break;
+                    }
+                }
+                robot.addToProgress("EXITED COMMAND");
+                robot.stopMotors();
+                return isInterrupted;
+            }
+        });
+
+    }
+    private int closestToFrac(double num, double frac) {
+        int res = -1;
+        double leastDist = Double.MAX_VALUE;
+        for (int i = 0; true; i++) {
+            if (Math.abs(i/frac - num) < leastDist) {
+                res = i;
+                leastDist = Math.abs(i/frac - num);
+            } else {
+                break;
+            }
+        }
+        return res;
     }
 }

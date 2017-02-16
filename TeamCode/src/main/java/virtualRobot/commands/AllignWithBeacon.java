@@ -62,8 +62,8 @@ public class AllignWithBeacon implements Command {
     public final static double LINETHRESHOLD = 0.62;
     public double timeLimit = -1;
     private static double tp = -0.15;
-    private PIDController heading = new PIDController(.04,0,0,0,0);
-    private PIDController compensate = new PIDController(0.335,0,0,0.3,(BLUETHRESHOLD + REDTHRESHOLD)/2);
+    private PIDController heading = new PIDController(0,0,0,0,0);
+    private PIDController compensate = new PIDController(1.5,.05357,10.5,0,(BLUETHRESHOLD + REDTHRESHOLD)/2);
     private Direction direction;
     private double maxDistance = Double.MAX_VALUE;
   AtomicBoolean maxDistanceReached;
@@ -191,7 +191,6 @@ public class AllignWithBeacon implements Command {
                 continue;
             currLeft /= leftCovered;
             robot.addToTelemetry("currLEFT: ", currLeft);
-            robot.addToTelemetry("Slope: ", slope1.toString());
             currentPos = new Vector2i(start2);
             for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; ) {
                 red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
@@ -214,8 +213,10 @@ public class AllignWithBeacon implements Command {
             } else if (currLeft < BLUETHRESHOLD || currLeft > REDTHRESHOLD) {
                 satisfied = true;
             }
-            if (satisfied && isOnLine())
+            if (satisfied && isOnLine()) {
+                robot.stopMotors();
                 break;
+            }
             adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
             robot.getLFMotor().setPower((tp + adjustedPower) * direction.getMultiplier());
             robot.getLBMotor().setPower((tp + adjustedPower) * direction.getMultiplier());
@@ -242,22 +243,25 @@ public class AllignWithBeacon implements Command {
                 break;
             }
         }
+        robot.stopMotors();
         Thread.sleep(500);
         if (!exitCondition.isConditionMet()) {
             robot.addToProgress("Switched To Correction"); //acounts for times where it goes to far and alligns with one side of beacon
-            if (currLeft < BLUETHRESHOLD && currRight > REDTHRESHOLD) {
-                redIsLeft.set(false);
-            } else if (currLeft > REDTHRESHOLD && currRight < BLUETHRESHOLD) {
+            if (currLeft > currRight) {
                 redIsLeft.set(true);
-            } else if (currLeft < BLUETHRESHOLD) {
-                redIsLeft.set(true);
-            } else if (currLeft > REDTHRESHOLD) {
+            } else  {
                 redIsLeft.set(false);
-            } else if (currRight < BLUETHRESHOLD) {
-                redIsLeft.set(false);
-            } else if (currRight > REDTHRESHOLD) {
-                redIsLeft.set(true);
             }
+
+//            } else if (currLeft < BLUETHRESHOLD) {
+//                redIsLeft.set(true);
+//            } else if (currLeft > REDTHRESHOLD) {
+//                redIsLeft.set(false);
+//            } else if (currRight < BLUETHRESHOLD) {
+//                redIsLeft.set(false);
+//            } else if (currRight > REDTHRESHOLD) {
+//                redIsLeft.set(true);
+//            }
         }
         robot.addToProgress("Switched To Precision");
         robot.stopMotors();
@@ -282,7 +286,8 @@ public class AllignWithBeacon implements Command {
                 continue;
             curr /= covered;
             power = (redIsLeft.get() ? 1 : -1) * compensate.getPIDOutput(curr);
-            adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
+            //adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
+            //adjustedPower *= tp;
             Log.d("AllignWithBeacon","" + power + " " + adjustedPower + " " + curr + " " + covered);
             robot.addToTelemetry("AllignWithBeacon ", curr + " " + covered + " " + power);
             robot.getLFMotor().setPower(power + adjustedPower);

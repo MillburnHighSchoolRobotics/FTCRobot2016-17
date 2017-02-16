@@ -97,19 +97,13 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
 
     }
     private void warrenPlan() { //We've already fired balls and are on our way to the second beacon.
-        commands.add(new Rotate(-45, .5, 2000));
-        robot.addToProgress("Here1");
-
+        commands.add(new Rotate(-50, .5, 2000));
         commands.add(new Pause(500));
-        commands.add(new Translate(6000, Translate.Direction.FORWARD, 0,1,-45));
-        robot.addToProgress("Here2");
-
+        commands.add(new Translate(5500, Translate.Direction.BACKWARD, 0,1,-50));
         commands.add(new Pause(500));
-        commands.add(new Rotate(-90, .5, 5000));
-        robot.addToProgress("Here3");
-
+        commands.add(new Rotate(-90, .5, 5500));
         commands.add(new Pause(500));
-        Translate strafeRight = new Translate(500, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
+        Translate strafeRight = new Translate(1500, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
 
 
         if (WITH_SONAR) {
@@ -134,7 +128,6 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
             });
         }
         commands.add(strafeRight);
-        robot.addToProgress("Here4");
         Rotate.setOnBlueSide();
 
     }
