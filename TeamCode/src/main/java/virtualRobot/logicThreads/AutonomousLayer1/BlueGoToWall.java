@@ -99,7 +99,7 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
     private void warrenPlan() { //We've already fired balls and are on our way to the second beacon.
         commands.add(new Rotate(-50, .5, 2000));
         commands.add(new Pause(500));
-        commands.add(new Translate(5500, Translate.Direction.BACKWARD, 0,1,-50));
+        commands.add(new Translate(5500, Translate.Direction.FORWARD, 0,1,-50));
         commands.add(new Pause(500));
         commands.add(new Rotate(-90, .5, 5500));
         commands.add(new Pause(500));
