@@ -127,7 +127,7 @@ public class RedAutoGodThread extends GodThread {
 
             } else {
                 Command.AUTO_ROBOT.addToProgress("CompensatingColor");
-                LogicThread allignToLine = new ColorCompensator(Line.RED_FIRST_LINE, 1000, redIsLeft, vuforia);
+                LogicThread allignToLine = new ColorCompensator(Line.RED_FIRST_LINE, 1000, redIsLeft, sonarWorks, vuforia);
                 Thread atl = new Thread(allignToLine);
                 atl.start();
                 children.add(atl);
@@ -210,7 +210,7 @@ public class RedAutoGodThread extends GodThread {
             } else {
                 Command.AUTO_ROBOT.addToProgress("Compensating color");
 
-                LogicThread allignToLine = new ColorCompensator(Line.RED_SECOND_LINE, 1000, redIsLeft, vuforia);
+                LogicThread allignToLine = new ColorCompensator(Line.RED_SECOND_LINE, 1000, redIsLeft, sonarWorks, vuforia);
                 Thread atl = new Thread(allignToLine);
                 atl.start();
                 children.add(atl);

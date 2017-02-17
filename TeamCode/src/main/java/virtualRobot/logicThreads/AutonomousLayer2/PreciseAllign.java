@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import virtualRobot.AutonomousRobot;
 import virtualRobot.ExitCondition;
+import virtualRobot.GodThread;
 import virtualRobot.PIDController;
 import virtualRobot.SomeoneDunGoofed;
 import virtualRobot.VuforiaLocalizerImplSubclass;
@@ -51,18 +52,26 @@ public class PreciseAllign implements Command {
     public final static double BLUETHRESHOLD = 0.7; //.65
     public final static double REDTHRESHOLD = 1.43;
     public final static double LINETHRESHOLD = 0.62;
+    public final static double FIRST_LINE_TARGET = .475;
+    public final static double SECOND_LINE_TARGET = .475;
     public double timeLimit = -1;
     private static double tp = -0.15;
     private PIDController heading = new PIDController(0,0,0,0,0);
     //private PIDController compensate = new PIDController(1.5,.05357,10.5,0,(BLUETHRESHOLD + REDTHRESHOLD)/2);
-    private PIDController compensate = new PIDController(1.05, 0.0241,0,0,(AllignWithBeacon.BLUETHRESHOLD + AllignWithBeacon.REDTHRESHOLD)/2);
-//1.125
+    //private PIDController compensate = new PIDController(1.05, 0.0241,0,0,(AllignWithBeacon.BLUETHRESHOLD + AllignWithBeacon.REDTHRESHOLD)/2);
+    private PIDController compensate = new PIDController(10, 0, 0, 0, 0);
+
+    //1.125
     private AllignWithBeacon.Direction direction;
     AtomicBoolean redIsLeft;
-    public PreciseAllign(double t, AtomicBoolean redIsLeft, VuforiaLocalizerImplSubclass vuforia) {
+    AtomicBoolean sonarWorks;
+    GodThread.Line type;
+    public PreciseAllign(double t, AtomicBoolean redIsLeft, AtomicBoolean sonarWorks, VuforiaLocalizerImplSubclass vuforia, GodThread.Line type) {
         this.timeLimit = t;
         this.redIsLeft = redIsLeft;
         this.vuforia = vuforia;
+        this.sonarWorks = sonarWorks;
+        this.type = type;
     }
     @Override
     public boolean changeRobotState() throws InterruptedException {
@@ -148,7 +157,12 @@ public class PreciseAllign implements Command {
 
 
             //currentPos = new Vector2i(start1.x, vuforia.rgb.getHeight()/2);
-        while (!exitCondition.isConditionMet() && !isInterrupted && (System.currentTimeMillis() - start < timeLimit)) {
+        boolean allGood = false;
+        curr = -1;
+
+        while (!allGood && !exitCondition.isConditionMet() && !isInterrupted && ((System.currentTimeMillis() - start < timeLimit) || timeLimit == -1)) {
+            double target = getTarget();
+            compensate.setTarget(target);
             curr = 0;
             bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
             currentPos = new Vector2i((int) (AllignWithBeacon.startXPercent * width), vuforia.rgb.getHeight() / 2);
@@ -164,12 +178,21 @@ public class PreciseAllign implements Command {
             if (covered == 0)
                 continue;
             curr /= covered;
-            power = (redIsLeft.get() ? 1 : -1) * compensate.getPIDOutput(curr);
-            power*=.15;
+            //power = (redIsLeft.get() ? 1 : -1) * compensate.getPIDOutput(curr);
+//            if (curr < (target+.1) && curr> (target-.1) ) {
+//                power = 0;
+//                allGood = true;
+//            }
+//            else {
+//                power = (redIsLeft.get() ? 1 : -1) * .15 * (curr > target ? -1 : 1);
+//            }
+            power = (redIsLeft.get() ? 1 : -1) * .15 * compensate.getPIDOutput(curr);
+
+            //power*=.15;
             //adjustedPower = heading.getPIDOutput(robot.getHeadingSensor().getValue());
             //adjustedPower *= tp;
             Log.d("AllignWithBeacon","" + power + " " + adjustedPower + " " + curr + " " + covered);
-            robot.addToTelemetry("AllignWithBeacon ", curr + " " + covered + " " + power);
+            robot.addToTelemetry("AllignWithBeacon ", target + " " + curr + " " + covered + " " + power);
             robot.getLFMotor().setPower(power + adjustedPower);
             robot.getLBMotor().setPower(power + adjustedPower);
             robot.getRFMotor().setPower(power - adjustedPower);
@@ -200,5 +223,86 @@ public class PreciseAllign implements Command {
             }
         }
         return res;
+    }
+    private double getTarget() {
+        int val = 0;
+        boolean good = true;
+        int sonar1 = (int)(robot.getSonarLeft().getFilteredValue());
+        int sonar2 = (int)(robot.getSonarRight().getFilteredValue());
+        if (sonar1 > 10) {
+            val = sonar1;
+        }
+        else if (sonar2 > 10) {
+            val = sonar2;
+        }
+        else  {
+            good = false;
+        }
+        if (sonarWorks.get() && good) {
+
+            switch(val) {
+                case 10:
+                    return .5;
+
+                case 11:
+                    return .5;
+
+
+                case 12:
+                    return .46;
+
+
+
+                case 13:
+                    return .47;
+
+                case 14:
+                    return .475;
+
+                case 15:
+                    return .386;
+
+                case 16:
+                    return .343;
+
+                case 17:
+                    return .328;
+
+                case 18:
+                    return .4;
+
+                case 19:
+                    return .4;
+
+                case 20:
+                    return .462;
+
+                case 21:
+                    return .5;
+
+                case 22:
+                    return .52;
+
+                case 23:
+                    return .52;
+
+                case 24:
+                    return .53;
+
+                case 25:
+                    return .54;
+                default:
+                    return .54;
+
+            }
+        }
+        else {
+           if (type.getLine() == GodThread.LineType.FIRST)  {
+               return FIRST_LINE_TARGET;
+           }
+            else {
+               return SECOND_LINE_TARGET;
+           }
+        }
     }
 }
