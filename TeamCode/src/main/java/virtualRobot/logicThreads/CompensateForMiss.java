@@ -139,10 +139,10 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
             case LASTLIGHTFAILS:
                 robot.addToProgress("LastLightFailed");
                 if (line.getColor() == RED) {
-                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), line.getLine() == GodThread.LineType.FIRST ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0).setTolerance(25));
+                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), line.getLine() == GodThread.LineType.FIRST ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0).setTolerance(25));
                 }
                 else {
-                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), line.getLine() == GodThread.LineType.FIRST ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0).setTolerance(25));
+                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), line.getLine() == GodThread.LineType.FIRST ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0).setTolerance(25));
                 }
                 commands.add(new Pause(500));
                 break;
@@ -210,14 +210,15 @@ public class CompensateForMiss extends LogicThread<AutonomousRobot> {
 
             case LASTLIGHTFAILS:
                 robot.addToProgress("LastLightFailed");
-                if (line.getColor() == BLUE) {
-                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), Translate.Direction.BACKWARD, 0).setTolerance(25));
+                if (line.getColor() == RED) {
+                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), line.getLine() == GodThread.LineType.FIRST ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0).setTolerance(25));
                 }
                 else {
-                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), Translate.Direction.FORWARD, 0).setTolerance(25));
+                    commands.add(new Translate((line.getLine() == GodThread.LineType.SECOND ? BLIND_ADJUSTMENT_SECOND : BLIND_ADJUSTMENT_FIRST), line.getLine() == GodThread.LineType.FIRST ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0).setTolerance(25));
                 }
                 commands.add(new Pause(500));
                 break;
+
             case SMALLCORRECTION:
                 if (line== GodThread.Line.BLUE_FIRST_LINE) {
                     commands.add(new Pause(200));

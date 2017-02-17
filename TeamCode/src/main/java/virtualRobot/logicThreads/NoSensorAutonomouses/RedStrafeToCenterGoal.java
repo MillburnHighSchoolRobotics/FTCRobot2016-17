@@ -18,6 +18,8 @@ public class RedStrafeToCenterGoal extends LogicThread<AutonomousRobot> {
         commands.add(new Rotate(180, .5, 2000));
         commands.add(new Pause(100));
         commands.add(new Translate(300, Translate.Direction.FORWARD, 180));
-;
+        commands.add(new Pause(100));
+
+
     }
 }
