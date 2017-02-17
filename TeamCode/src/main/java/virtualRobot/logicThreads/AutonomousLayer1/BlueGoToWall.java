@@ -116,6 +116,9 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
                     if (sonarRight <= SONAR_ERROR_MIN || sonarLeft <= SONAR_ERROR_MIN || sonarRight >= SONAR_ERROR_MAX || sonarLeft >= SONAR_ERROR_MAX) {
                         sonarWorks.set(false);
 
+
+
+
                     } else if (sonarRight < CLOSE_TO_WALL || sonarLeft < CLOSE_TO_WALL) {
                         sonarWorks.set(true);
                         robot.addToProgress("SONAR GOOD DATA");

@@ -21,7 +21,10 @@ public class WallTrace implements Command {
     private AutonomousRobot robot;
     private double target = 15;
     private static boolean onBlue = false;
-
+    private double tp = 0.5;
+    private double maxDistance;
+    PIDController close = new PIDController(0.08,0,0,0); //0.008
+    PIDController allign = new PIDController(0.065,0,0,0,!onBlue ? 0 : 180);
 
     public WallTrace() {
         robot = Command.AUTO_ROBOT;
@@ -39,7 +42,19 @@ public class WallTrace implements Command {
     }
     public WallTrace(Direction d, double target) {
         this(d);
-        this.target = target;
+        close.setTarget(target);
+    }
+
+    public WallTrace(Direction d, double target, double maxDistance) {
+        this(d, target);
+        this.maxDistance = maxDistance;
+    }
+
+    public WallTrace(Direction d, double target, double tp, double kP1, double kP2) {
+        this(d, target);
+        close.setKP(kP1);
+        allign.setKP(kP2);
+        this.tp = tp;
     }
 
     public void setDirection (Direction d) { direction = d; }
@@ -56,12 +71,9 @@ public class WallTrace implements Command {
 
     @Override
     public boolean changeRobotState() throws InterruptedException {
-        double tp = 0.2;
         boolean isInterrupted = false;
         UltrasonicSensor sonarLeft = direction == Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
         UltrasonicSensor sonarRight = direction == Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
-        PIDController close = new PIDController(0.008,0,0,0,target);
-        PIDController allign = new PIDController(0.008,0,0,0,!onBlue ? 0 : 180);
         double currLeft, currRight, errClose = 0, errAllign;
         robot.getLFEncoder().clearValue();
         robot.getRFEncoder().clearValue();
@@ -84,6 +96,10 @@ public class WallTrace implements Command {
                 robot.getLFMotor().setPower((tp - errClose - errAllign)*-1);
                 robot.getRFMotor().setPower((tp + errClose + errAllign)*-1);
                 robot.getRBMotor().setPower((tp + errClose + errAllign)*-1);
+            }
+
+            if(getAvgDistance() >= maxDistance) {
+                break;
             }
 
             if(Thread.currentThread().isInterrupted()) {

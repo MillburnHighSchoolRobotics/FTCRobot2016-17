@@ -11,6 +11,7 @@ import virtualRobot.commands.MoveMotorPID;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
+import virtualRobot.commands.WallTrace;
 
 /**
  * Created by Yanjun on 11/28/2015.
@@ -47,13 +48,13 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
 //        commands.add(new Rotate(90, 1));
 
         //commands.add(new MoveMotorPID(50,robot.getFlywheel(),robot.getFlywheelEncoder()));
-        Rotate.setDefaultMode(Rotate.RunMode.WITH_ENCODER);
-        commands.add(new Rotate(55,.5,1000));
-        Rotate.setDefaultMode(Rotate.RunMode.WALL_ALIGN);
-        commands.add(new Pause(1000));
-        commands.add(new Rotate(0,0.5));
-        commands.add(new Pause(1000));
-        commands.add(new Rotate(0,0.5));
+//        Rotate.setDefaultMode(Rotate.RunMode.WITH_ENCODER);
+//        commands.add(new Rotate(55,.5,1000));
+//        Rotate.setDefaultMode(Rotate.RunMode.WALL_ALIGN);
+//        commands.add(new Pause(1000));
+//        commands.add(new Rotate(0,0.5));
+//        commands.add(new Pause(1000));
+//        commands.add(new Rotate(0,0.5));
 
 //        commands.add(new Command() {
 //
@@ -63,6 +64,6 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
 //                return false;
 //            }
 //        });
-
+        commands.add(new WallTrace(WallTrace.Direction.BACKWARD,13,0.5,0.08,0.065));
     }
 }
