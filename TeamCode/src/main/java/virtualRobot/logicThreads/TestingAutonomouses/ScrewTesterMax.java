@@ -20,7 +20,6 @@ import virtualRobot.commands.FTCTakePicture;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
 import virtualRobot.commands.Translate;
-import virtualRobot.logicThreads.AutonomousLayer2.PreciseAllign;
 import virtualRobot.logicThreads.AutonomousLayer2.ToWhiteLine;
 import virtualRobot.utils.Vector2i;
 
@@ -345,7 +344,7 @@ public class ScrewTesterMax extends LogicThread<AutonomousRobot> {
 //            }
 //        });
 
-commands.add(new PreciseAllign(-1, new AtomicBoolean(),  new AtomicBoolean(true), vuforia, GodThread.Line.RED_FIRST_LINE));
+//commands.add(new PreciseAllign(-1, new AtomicBoolean(),  new AtomicBoolean(true), vuforia, GodThread.Line.RED_FIRST_LINE));
 
 //        commands.add(new Command () {
 //            //1.8, .0507, 15.975

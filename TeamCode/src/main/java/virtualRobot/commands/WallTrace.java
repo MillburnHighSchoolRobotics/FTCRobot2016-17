@@ -22,9 +22,9 @@ public class WallTrace implements Command {
     private double target = 15;
     private static boolean onBlue = false;
     private double tp = 0.5;
-    private double maxDistance;
-    PIDController close = new PIDController(0.08,0,0,0); //0.008
-    PIDController allign = new PIDController(0.065,0,0,0,!onBlue ? 0 : 180);
+    private double maxDistance = -1;
+    PIDController close = new PIDController(0.075,0,0,0); //0.008
+    PIDController allign = new PIDController(0.06,0,0,0,!onBlue ? 0 : 180);
 
     public WallTrace() {
         robot = Command.AUTO_ROBOT;
@@ -35,6 +35,7 @@ public class WallTrace implements Command {
                 return false;
             }
         };
+        close.setTarget(target);
     }
     public WallTrace(Direction d) {
         this();
@@ -74,7 +75,7 @@ public class WallTrace implements Command {
         boolean isInterrupted = false;
         UltrasonicSensor sonarLeft = direction == Direction.FORWARD ? robot.getSonarLeft() : robot.getSonarRight();
         UltrasonicSensor sonarRight = direction == Direction.FORWARD ? robot.getSonarRight() : robot.getSonarLeft();
-        double currLeft, currRight, errClose = 0, errAllign;
+        double currLeft, currRight, errClose = 0, errAllign = 0;
         robot.getLFEncoder().clearValue();
         robot.getRFEncoder().clearValue();
         robot.getLBEncoder().clearValue();
@@ -85,12 +86,13 @@ public class WallTrace implements Command {
 
             errClose = close.getPIDOutput(currLeft);
             errAllign = allign.getPIDOutput(robot.getHeadingSensor().getValue());
+            robot.addToTelemetry("ThisShit", errClose + " " + currLeft + " " + currRight + " " + robot.getHeadingSensor().getValue());
 
             if (direction == Direction.FORWARD) {
-                robot.getLBMotor().setPower(tp - errClose - errAllign);
-                robot.getLFMotor().setPower(tp - errClose - errAllign);
-                robot.getRFMotor().setPower(tp + errClose + errAllign);
-                robot.getRBMotor().setPower(tp + errClose + errAllign);
+                robot.getLBMotor().setPower(tp - errClose + errAllign);
+                robot.getLFMotor().setPower(tp - errClose + errAllign);
+                robot.getRFMotor().setPower(tp + errClose - errAllign);
+                robot.getRBMotor().setPower(tp + errClose - errAllign);
             } else {
                 robot.getLBMotor().setPower((tp - errClose - errAllign)*-1);
                 robot.getLFMotor().setPower((tp - errClose - errAllign)*-1);
@@ -98,7 +100,7 @@ public class WallTrace implements Command {
                 robot.getRBMotor().setPower((tp + errClose + errAllign)*-1);
             }
 
-            if(getAvgDistance() >= maxDistance) {
+            if(getAvgDistance() >= maxDistance && maxDistance != -1) {
                 break;
             }
 

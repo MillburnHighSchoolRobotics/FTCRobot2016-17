@@ -28,6 +28,10 @@ public class LineSensorTest extends OpMode {
         light2 = hardwareMap.lightSensor.get("nxtLight2");
         light3 = hardwareMap.lightSensor.get("nxtLight3");
         light4 = hardwareMap.lightSensor.get("nxtLight4");
+//        light1.enableLed(true);
+//        light2.enableLed(true);
+//        light3.enableLed(true);
+//        light4.enableLed(true);
 
         imu = MPU9250.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 1);
         imu.zeroPitch();
@@ -52,7 +56,7 @@ public class LineSensorTest extends OpMode {
     telemetry.addData("Angle, Pitch, Roll: ", headingAngle + " " + Pitch + " " + Roll);
         telemetry.addData("UltraSound: ", sonar1.getUltrasonicLevel() + " " + sonar2.getUltrasonicLevel());
         telemetry.addData(" LIGHT", light1.getRawLightDetected() + " " + light2.getRawLightDetected() + " " + light3.getRawLightDetected() + " " + light4.getRawLightDetected());
-
+        telemetry.addData("LIGHT REDONE: ", light1.getLightDetected() + " " + light2.getLightDetected() + " " + light3.getLightDetected() + " " + light4.getLightDetected());
     }
     public void stop() {
         imu.close();

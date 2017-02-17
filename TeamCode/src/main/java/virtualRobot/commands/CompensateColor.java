@@ -1,5 +1,6 @@
 package virtualRobot.commands;
 
+import android.util.Log;
 import android.view.ViewDebug;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -14,6 +15,7 @@ import virtualRobot.PIDController;
 
 public class CompensateColor implements Command {
     AutonomousRobot robot = Command.AUTO_ROBOT;
+    PIDController lateral = new PIDController(1.2,0,0,0,0);
 //    Direction direction = Direction.FORWARD;
     double referenceAngle;
     double timeLimit;
@@ -57,14 +59,15 @@ public class CompensateColor implements Command {
     @Override
     public boolean changeRobotState() throws InterruptedException {
         boolean isInterrupted = false;
-        PIDController lateral = new PIDController(1,-0.05,0,0,0.1);
-        //PIDController rotation = new PIDController(0.008,0,0,0,referenceAngle);
-        double lateralPower, rotationPower = 0;
+        PIDController rotation = new PIDController(0.008,0,0,0,referenceAngle);
+        double lateralPower = 0, rotationPower = 0;
         double curr;
         double startTime = System.currentTimeMillis();
         while (!isInterrupted && !exitCondition.isConditionMet() && System.currentTimeMillis() - startTime < timeLimit) {
             curr = robot.getLightSensor1().getValue()*multiplier + robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue() - robot.getLightSensor4().getValue()*multiplier;
             lateralPower = lateral.getPIDOutput(curr)*-1;// - pidController1.getPIDOutput(robot.getHeadingSensor().getValue());
+            Log.d("CompensateColor", curr + " " + lateralPower);
+            robot.addToTelemetry("CompensateColor: ", curr + " " + lateralPower);
             //rotationPower = rotation.getPIDOutput(robot.getHeadingSensor().getValue());
             rotationPower =0 ;
             robot.getLFMotor().setPower(lateralPower + rotationPower);

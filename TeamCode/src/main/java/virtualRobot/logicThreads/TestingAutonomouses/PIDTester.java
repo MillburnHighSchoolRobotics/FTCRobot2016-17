@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.AutonomousRobot;
 import virtualRobot.LogicThread;
 import virtualRobot.commands.Command;
+import virtualRobot.commands.CompensateColor;
 import virtualRobot.commands.MoveMotorPID;
 import virtualRobot.commands.Pause;
 import virtualRobot.commands.Rotate;
@@ -64,6 +65,9 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
 //                return false;
 //            }
 //        });
-        commands.add(new WallTrace(WallTrace.Direction.BACKWARD,13,0.5,0.08,0.065));
+        commands.add(new WallTrace(WallTrace.Direction.FORWARD));
+
+       // commands.add(new WallTrace(WallTrace.Direction.FORWARD,13,0.5,0.08,0.065));
+       // commands.add(new CompensateColor());
     }
 }
