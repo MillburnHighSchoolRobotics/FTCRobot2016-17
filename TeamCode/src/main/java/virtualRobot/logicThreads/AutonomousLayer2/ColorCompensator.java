@@ -25,14 +25,12 @@ public class ColorCompensator extends LogicThread<AutonomousRobot> {
 
     @Override
     public void loadCommands() {
-            commands.add(new CompensateColor(timeLimit));
-            commands.add(new Pause(200));
-        if (type == GodThread.Line.RED_FIRST_LINE) {
+        if (type == GodThread.Line.BLUE_SECOND_LINE) {
             commands.add(new Translate(50, Translate.Direction.FORWARD,0).setTolerance(25));
         }
-        if (type == GodThread.Line.RED_SECOND_LINE) {
-            commands.add(new Translate(75, Translate.Direction.BACKWARD,0).setTolerance(25));
-        }
+            commands.add(new CompensateColor(timeLimit));
+            commands.add(new Pause(200));
+
         commands.add(new fastRedIsLeft(redisLeft, vuforia));
         commands.add(new Pause(200));
 

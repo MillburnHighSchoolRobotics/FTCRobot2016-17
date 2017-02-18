@@ -31,10 +31,11 @@ import virtualRobot.components.Servo;
 public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     //Note that displacement is handled in exitCondition
     public static final double WALL_TRACE_SONAR_THRESHOLD = 17; //How close we want to trace wall
-    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE = 6000; //Max Displacement To The First Line
-    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE = 6550; //Max Displacement To The Second Line
-    public static final double MAX_DISTANCE_WHEN_COLOR_FAILS = 1000;
-    public static final double BLIND_ADJUSTMENT = 500;
+    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE = 2500; //Max Displacement To The First Line
+    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE = 3000; //Max Displacement To The Second Line
+    public static final double MAX_DISTANCE_WHEN_COLOR_FAILS = 2500;
+    public static final double BLIND_ADJUSTMENT_FIRST = 870;
+    public static final double BLIND_ADJUSTMENT_SECOND = 1385;
     public static final double ESCAPE_WALL = 500;
     AtomicBoolean allSensorsFail; //has other Line Sensor triggered
     AtomicBoolean lastSensorTriggered, firstSensorTriggered, redIsLeft, maxDistanceReached;
@@ -58,8 +59,8 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
                 return true;
             } else if (robot.getLightSensor1().getRawValue() >= .62) {
                 if (type == GodThread.Line.RED_FIRST_LINE || type == GodThread.Line.BLUE_SECOND_LINE) {
-                   lastSensorTriggered.set(true);} else {
-                    firstSensorTriggered.set(true);
+                   firstSensorTriggered.set(true);} else {
+                   lastSensorTriggered.set(true);
                 }
                 allSensorsFail.set(false);
                 robot.addToProgress("LightSensor1Triggered");
@@ -75,9 +76,9 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
             } else if ((robot.getLightSensor4().getRawValue() >= .62)) {
                 allSensorsFail.set(false);
                 if (type == GodThread.Line.BLUE_FIRST_LINE || type == GodThread.Line.RED_SECOND_LINE) {
-                    lastSensorTriggered.set(true);
-                } else {
                     firstSensorTriggered.set(true);
+                } else {
+                    lastSensorTriggered.set(true);
                 }
                 robot.addToProgress("LightSensor4Triggered");
                 return true;
@@ -138,17 +139,17 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
                     commands.add(new WallTrace(type.getColor() == GodThread.ColorType.BLUE ? WallTrace.Direction.FORWARD : WallTrace.Direction.BACKWARD, WALL_TRACE_SONAR_THRESHOLD,1500)); //so we don't risk detecting too early
 
                 } else {
-                    commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .15)); //so we don't risk detecting too early
+                    commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .2)); //so we don't risk detecting too early
                 }
                 commands.add(new Pause(200));
 
             }
             if (type.getLine() == GodThread.LineType.SECOND) {
                 if (sonarWorks.get() && withWallTrace) {
-                    commands.add(new WallTrace(type.getColor() == GodThread.ColorType.BLUE ? WallTrace.Direction.BACKWARD : WallTrace.Direction.FORWARD, WALL_TRACE_SONAR_THRESHOLD,1500)); //so we don't recheck the same line
+                    commands.add(new WallTrace(type.getColor() == GodThread.ColorType.BLUE ? WallTrace.Direction.BACKWARD : WallTrace.Direction.FORWARD, WALL_TRACE_SONAR_THRESHOLD,1700)); //so we don't recheck the same line
 
                 } else {
-                    commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .15)); //so we don't recheck the same line
+                    commands.add(new Translate(1700, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2)); //so we don't recheck the same line
                 }
                     commands.add(new Pause(200));
 
@@ -165,7 +166,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     }
 
     private void allignWithColor() {
-
+        colorTriggered.set(false);
         Translate firstDisplacement;
         if (type.getLine() == GodThread.LineType.FIRST)
             firstDisplacement = new Translate(MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .15);
@@ -191,9 +192,9 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     private void allignBlindly() {
         Translate blindAdjustment;
         if (type.getLine() == GodThread.LineType.FIRST)
-            blindAdjustment = new Translate(BLIND_ADJUSTMENT, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .15);
+            blindAdjustment = new Translate(BLIND_ADJUSTMENT_FIRST, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .15).setTolerance(1);
         else
-            blindAdjustment = new Translate(BLIND_ADJUSTMENT, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .15);
+            blindAdjustment = new Translate(BLIND_ADJUSTMENT_SECOND, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .15).setTolerance(1);
         commands.add(blindAdjustment);
     }
 

@@ -1,5 +1,7 @@
 package virtualRobot.logicThreads.NoSensorAutonomouses;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import virtualRobot.AutonomousRobot;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
@@ -19,25 +21,27 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
     public final static double BEACON_RAM_TRANSLATE = 500; //translate to get the robot to hit button
     sonarStatus status;
     GodThread.Line type;
+    AtomicBoolean allSensorsFail;
     public PushRightButton(sonarStatus status) {
         this.status = status;
     }
-    public PushRightButton(boolean sonarWorks, GodThread.Line type) {
+    public PushRightButton(boolean sonarWorks, GodThread.Line type, AtomicBoolean allSensorsFail) {
         if (sonarWorks)
             this.status = sonarStatus.SONAR_WORKS;
         else
             this.status = sonarStatus.SONAR_BROKEN;
         this.type = type;
+        this.allSensorsFail = allSensorsFail;
     }
     public void loadCommands () {
         commands.add(new Rotate(90,0.5,1500));  //Blue Rotate will be accounted before cause we've already done Rotate.setOnBlueSide()
         commands.add(new Pause(500));
-//        if (type.getColor() == GodThread.ColorType.BLUE) {
-//            commands.add(new Translate(100,Translate.Direction.BACKWARD,0).setTolerance(25));
-//        } else {
-//            commands.add(new Translate(100,Translate.Direction.FORWARD,0).setTolerance(25));
-//
-//        }
+    if (type == GodThread.Line.RED_FIRST_LINE && !allSensorsFail.get()) {
+        commands.add(new Translate(50, Translate.Direction.BACKWARD,0).setTolerance(25));
+    }
+    if (type == GodThread.Line.RED_SECOND_LINE&& !allSensorsFail.get()) {
+        commands.add(new Translate(75, Translate.Direction.FORWARD,0).setTolerance(25));
+    }
         commands.add(new Pause(250));
         if (status == sonarStatus.SONAR_BROKEN) {
             robot.addToProgress("Pushed Right Button");

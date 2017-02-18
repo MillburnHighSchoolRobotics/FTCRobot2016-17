@@ -109,7 +109,7 @@ public class BlueAutoGodThread extends GodThread {
 
         } else {
             Command.AUTO_ROBOT.addToProgress("CompensatingColor");
-            LogicThread allignToLine = new ColorCompensator(Line.BLUE_FIRST_LINE, 1000, redIsLeft, sonarWorks, colorTriggered, vuforia);
+            LogicThread allignToLine = new ColorCompensator(Line.BLUE_FIRST_LINE, 2500, redIsLeft, sonarWorks, colorTriggered, vuforia);
             Thread atl = new Thread(allignToLine);
             atl.start();
             children.add(atl);
@@ -118,7 +118,7 @@ public class BlueAutoGodThread extends GodThread {
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (!redIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_FIRST_LINE);
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_FIRST_LINE, allSensorsFailed);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
@@ -126,7 +126,7 @@ public class BlueAutoGodThread extends GodThread {
         }
 
         else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_FIRST_LINE);
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_FIRST_LINE, allSensorsFailed);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
@@ -172,7 +172,7 @@ public class BlueAutoGodThread extends GodThread {
 
         } else {
             Command.AUTO_ROBOT.addToProgress("CompensatingColor");
-            LogicThread allignToLine = new ColorCompensator(Line.BLUE_SECOND_LINE, 1000, redIsLeft, sonarWorks, colorTriggered, vuforia);
+            LogicThread allignToLine = new ColorCompensator(Line.BLUE_SECOND_LINE, 2500, redIsLeft, sonarWorks, colorTriggered, vuforia);
             Thread atl = new Thread(allignToLine);
             atl.start();
             children.add(atl);
@@ -181,7 +181,7 @@ public class BlueAutoGodThread extends GodThread {
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (!redIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_SECOND_LINE);
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_SECOND_LINE, allSensorsFailed);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
@@ -189,7 +189,7 @@ public class BlueAutoGodThread extends GodThread {
         }
 
         else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_SECOND_LINE);
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_SECOND_LINE, allSensorsFailed);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
