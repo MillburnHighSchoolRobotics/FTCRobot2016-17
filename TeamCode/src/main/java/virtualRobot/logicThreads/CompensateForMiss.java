@@ -17,7 +17,7 @@ import static virtualRobot.GodThread.ColorType.*;
 /**
  * Created by 17osullivand on 11/18/16.
  */
-
+@Deprecated
 public class CompensateForMiss extends LogicThread<AutonomousRobot> {
 
     final int maxdistance = 1750;
