@@ -53,7 +53,7 @@ public class RedAutoGodThread extends GodThread {
     private AtomicBoolean lastSensorTriggered = new AtomicBoolean(false);
     private AtomicBoolean firstSensorTriggered = new AtomicBoolean(false);
     private AtomicBoolean maxDistanceReached = new AtomicBoolean(false);
-
+    private AtomicBoolean colorTriggered = new AtomicBoolean(false);
     @Override
     public void realRun() throws InterruptedException {
         // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD
@@ -82,7 +82,7 @@ public class RedAutoGodThread extends GodThread {
 
 
         boolean weCanUseSonar = sonarWorks.get() && WITH_SONAR;
-        LogicThread toFirstLine = new ToWhiteLineCompensateColor(GodThread.Line.RED_FIRST_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, vuforia, ToWhiteLineCompensateColor.Mode.NORMAL, MAX_DISTANCE_FIRST, maxDistanceReached);
+        LogicThread toFirstLine = new ToWhiteLineCompensateColor(GodThread.Line.RED_FIRST_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, colorTriggered, vuforia, ToWhiteLineCompensateColor.Mode.NORMAL);
        //FIRST LINE = first line we go to
         Thread tfl = new Thread(toFirstLine);
         tfl.start();
@@ -127,7 +127,7 @@ public class RedAutoGodThread extends GodThread {
 
             } else {
                 Command.AUTO_ROBOT.addToProgress("CompensatingColor");
-                LogicThread allignToLine = new ColorCompensator(Line.RED_FIRST_LINE, 1000, redIsLeft, sonarWorks, vuforia);
+                LogicThread allignToLine = new ColorCompensator(Line.RED_FIRST_LINE, 1000, redIsLeft, sonarWorks, colorTriggered, vuforia);
                 Thread atl = new Thread(allignToLine);
                 atl.start();
                 children.add(atl);
@@ -163,7 +163,8 @@ public class RedAutoGodThread extends GodThread {
         lastSensorTriggered.set(false);
         allSensorsFailed.set(false);
         maxDistanceReached.set(false);
-        LogicThread toSecondLine = new ToWhiteLineCompensateColor(GodThread.Line.RED_SECOND_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, vuforia, ToWhiteLineCompensateColor.Mode.NORMAL, MAX_DISTANCE_SECOND, maxDistanceReached);
+        colorTriggered.set(false);
+        LogicThread toSecondLine = new ToWhiteLineCompensateColor(GodThread.Line.RED_SECOND_LINE, firstSensorTriggered, lastSensorTriggered, allSensorsFailed, sonarWorks, redIsLeft, colorTriggered, vuforia, ToWhiteLineCompensateColor.Mode.NORMAL);
         //FIRST LINE = first line we go to
         Thread tsl = new Thread(toSecondLine);
         tsl.start();
@@ -210,7 +211,7 @@ public class RedAutoGodThread extends GodThread {
             } else {
                 Command.AUTO_ROBOT.addToProgress("Compensating color");
 
-                LogicThread allignToLine = new ColorCompensator(Line.RED_SECOND_LINE, 1000, redIsLeft, sonarWorks, vuforia);
+                LogicThread allignToLine = new ColorCompensator(Line.RED_SECOND_LINE, 1000, redIsLeft, sonarWorks, colorTriggered, vuforia);
                 Thread atl = new Thread(allignToLine);
                 atl.start();
                 children.add(atl);

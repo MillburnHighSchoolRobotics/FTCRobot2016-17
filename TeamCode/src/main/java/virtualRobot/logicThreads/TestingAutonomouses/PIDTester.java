@@ -65,9 +65,9 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
 //                return false;
 //            }
 //        });
-        commands.add(new WallTrace(WallTrace.Direction.FORWARD));
+       // commands.add(new WallTrace(WallTrace.Direction.FORWARD));
 
        // commands.add(new WallTrace(WallTrace.Direction.FORWARD,13,0.5,0.08,0.065));
-       // commands.add(new CompensateColor());
+       commands.add(new CompensateColor());
     }
 }

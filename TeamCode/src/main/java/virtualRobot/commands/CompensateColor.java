@@ -15,17 +15,17 @@ import virtualRobot.PIDController;
 
 public class CompensateColor implements Command {
     AutonomousRobot robot = Command.AUTO_ROBOT;
-    PIDController lateral = new PIDController(1.2,0,0,0,0);
+    PIDController lateral = new PIDController(1.22,0,0,0,0);
 //    Direction direction = Direction.FORWARD;
     double referenceAngle;
     double timeLimit;
     double multiplier;
-
+    private static final double whiteTape = 13;
 
     ExitCondition exitCondition;
 
     public CompensateColor() {
-        referenceAngle = 0; timeLimit = 10000; multiplier=2;
+        referenceAngle = 0; timeLimit = 10000; multiplier=2.5;
          exitCondition = new ExitCondition() {
             @Override
             public boolean isConditionMet() {
@@ -63,8 +63,10 @@ public class CompensateColor implements Command {
         double lateralPower = 0, rotationPower = 0;
         double curr;
         double startTime = System.currentTimeMillis();
-        while (!isInterrupted && !exitCondition.isConditionMet() && System.currentTimeMillis() - startTime < timeLimit) {
-            curr = robot.getLightSensor1().getValue()*multiplier + robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue() - robot.getLightSensor4().getValue()*multiplier;
+        boolean colorTriggered = false;
+        while (! colorTriggered && !isInterrupted && !exitCondition.isConditionMet() && System.currentTimeMillis() - startTime < timeLimit) {
+
+            curr = robot.getLightSensor1().getValue()*multiplier + robot.getLightSensor2().getValue() - robot.getLightSensor3().getValue() - robot.getLightSensor4().getValue()*(2.55);
             lateralPower = lateral.getPIDOutput(curr)*-1;// - pidController1.getPIDOutput(robot.getHeadingSensor().getValue());
             Log.d("CompensateColor", curr + " " + lateralPower);
             robot.addToTelemetry("CompensateColor: ", curr + " " + lateralPower);
@@ -78,6 +80,10 @@ public class CompensateColor implements Command {
             if (Thread.currentThread().isInterrupted()) {
                 isInterrupted = true;
                 break;
+            }
+            if ((robot.getColorSensor().getRed() >= whiteTape && robot.getColorSensor().getBlue() >= whiteTape && robot.getColorSensor().getGreen() >= whiteTape && robot.getColorSensor().getBlue() < 255)) {
+                colorTriggered = true;
+                robot.addToProgress("Color Triggered while compensating");
             }
 
             try {

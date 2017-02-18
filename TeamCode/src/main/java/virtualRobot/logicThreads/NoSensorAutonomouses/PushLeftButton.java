@@ -33,12 +33,12 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
     public void loadCommands() {
         commands.add(new Rotate(90,0.5,1500));
         commands.add(new Pause(500));
-        if (type.getColor() == GodThread.ColorType.RED) {
-            commands.add(new Translate(100,Translate.Direction.BACKWARD,0).setTolerance(25));
-        } else {
-            commands.add(new Translate(100,Translate.Direction.FORWARD,0).setTolerance(25));
-
-        }
+//        if (type.getColor() == GodThread.ColorType.RED) {
+//            commands.add(new Translate(100,Translate.Direction.BACKWARD,0).setTolerance(25));
+//        } else {
+//            commands.add(new Translate(100,Translate.Direction.FORWARD,0).setTolerance(25));
+//
+//        }
         commands.add(new Pause(250));
         if (status == sonarStatus.SONAR_WORKS) {
             robot.addToProgress("Pushed Left Button");
