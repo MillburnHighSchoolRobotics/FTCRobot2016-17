@@ -22,7 +22,7 @@ public class Rotate implements Command {
         Rotate.defaultMode = runMode;
     }
 
-    public static final double THRESHOLD = 0 ;
+    public static final double THRESHOLD = 0;
     //KU:  0.0351875, 0.0377188, 0.04025, 0.04102
     //KU: 0.0377188; TU: 106 0.04102 TU = 80
     public static final double KP =  0.02719146;

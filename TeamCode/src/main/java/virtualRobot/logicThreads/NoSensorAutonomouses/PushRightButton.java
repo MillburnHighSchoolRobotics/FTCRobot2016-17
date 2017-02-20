@@ -18,7 +18,7 @@ import virtualRobot.logicThreads.TeleopLogic;
  */
 public class PushRightButton extends LogicThread<AutonomousRobot> {
     public final static double BUTTON_PUSHER_RIGHT = 0.25;
-    public final static double BEACON_RAM_TRANSLATE = 500; //translate to get the robot to hit button
+    public final static double BEACON_RAM_TRANSLATE = 300; //translate to get the robot to hit button
     sonarStatus status;
     GodThread.Line type;
     AtomicBoolean allSensorsFail;
@@ -36,12 +36,18 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
     public void loadCommands () {
         commands.add(new Rotate(90,0.5,1500));  //Blue Rotate will be accounted before cause we've already done Rotate.setOnBlueSide()
         commands.add(new Pause(500));
-    if (type == GodThread.Line.RED_FIRST_LINE && !allSensorsFail.get()) {
-        commands.add(new Translate(50, Translate.Direction.BACKWARD,0).setTolerance(25));
-    }
-    if (type == GodThread.Line.RED_SECOND_LINE&& !allSensorsFail.get()) {
-        commands.add(new Translate(75, Translate.Direction.FORWARD,0).setTolerance(25));
-    }
+        if (type == GodThread.Line.RED_FIRST_LINE && !allSensorsFail.get()) {
+            commands.add(new Translate(75, Translate.Direction.FORWARD,0).setTolerance(25));
+        }
+        if (type == GodThread.Line.RED_SECOND_LINE&& !allSensorsFail.get()) {
+            commands.add(new Translate(50, Translate.Direction.BACKWARD,0).setTolerance(25));
+        }
+        if (type == GodThread.Line.BLUE_FIRST_LINE && !allSensorsFail.get()) {
+            commands.add(new Translate(26, Translate.Direction.FORWARD,0).setTolerance(25));
+        }
+        if (type == GodThread.Line.BLUE_SECOND_LINE && !allSensorsFail.get()) {
+            commands.add(new Translate(75, Translate.Direction.FORWARD,0).setTolerance(25));
+        }
         commands.add(new Pause(250));
         if (status == sonarStatus.SONAR_BROKEN) {
             robot.addToProgress("Pushed Right Button");
@@ -65,7 +71,8 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
         }
         commands.add(new Rotate(90,0.5,1000));
         commands.add(new Pause(200));
-
+        commands.add(new Translate(300, Translate.Direction.LEFT, 0, .5).setTolerance(25));
+        commands.add(new Pause(200));
     }
     public enum sonarStatus {
         SONAR_WORKS,

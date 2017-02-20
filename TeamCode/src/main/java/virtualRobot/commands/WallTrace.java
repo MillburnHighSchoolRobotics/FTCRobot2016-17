@@ -22,10 +22,10 @@ public class WallTrace implements Command {
     private double target = 15;
     private static boolean onBlue = false;
     private boolean slow = false;
-    private double tp = 0.5;
+    private double tp = 0.2;
     private double maxDistance = -1;
-    PIDController close = new PIDController(0.075,0,0,0); //0.008
-    PIDController allign = new PIDController(0.06,0,0,0, !onBlue ? 90 : -90);
+    PIDController close = new PIDController(0.04,0,0,0); //0.008
+    PIDController allign = new PIDController(0.015,0,0,0, !onBlue ? 90 : -90);
 
     public WallTrace() {
         robot = Command.AUTO_ROBOT;
@@ -63,6 +63,7 @@ public class WallTrace implements Command {
         close.setKP(kP1);
         allign.setKP(kP2);
         this.tp = tp;
+        allign.setTarget(0);
     }
 
     public void setDirection (Direction d) { direction = d; }
@@ -90,9 +91,8 @@ public class WallTrace implements Command {
         while (!exitCondition.isConditionMet()) {
             currLeft = sonarLeft.getFilteredValue();
             currRight = sonarRight.getFilteredValue();
-            tp = (slow ? .2 : tp);
-            errClose = close.getPIDOutput(currLeft) * (slow ? .2 : 1);
-            errAllign = allign.getPIDOutput(robot.getHeadingSensor().getValue()) * (slow ? .2 : 1);
+            errClose = close.getPIDOutput(currLeft);
+            errAllign = allign.getPIDOutput(robot.getHeadingSensor().getValue());
             robot.addToTelemetry("ThisShit", errClose + " " + currLeft + " " + currRight + " " + robot.getHeadingSensor().getValue());
 
             if (direction == Direction.FORWARD) {

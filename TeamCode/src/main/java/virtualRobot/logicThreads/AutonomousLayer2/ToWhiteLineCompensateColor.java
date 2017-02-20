@@ -36,7 +36,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     public static final double MAX_DISTANCE_WHEN_COLOR_FAILS = 2500;
     public static final double BLIND_ADJUSTMENT_FIRST = 870;
     public static final double BLIND_ADJUSTMENT_SECOND = 1385;
-    public static final double ESCAPE_WALL = 500;
+    public static final double ESCAPE_WALL = 250;
     AtomicBoolean allSensorsFail; //has other Line Sensor triggered
     AtomicBoolean lastSensorTriggered, firstSensorTriggered, redIsLeft, maxDistanceReached;
     AtomicBoolean sonarWorks;
@@ -139,7 +139,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
                     commands.add(new WallTrace(type.getColor() == GodThread.ColorType.BLUE ? WallTrace.Direction.FORWARD : WallTrace.Direction.BACKWARD, WALL_TRACE_SONAR_THRESHOLD,1500)); //so we don't risk detecting too early
 
                 } else {
-                    commands.add(new Translate(1500, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .2)); //so we don't risk detecting too early
+                    commands.add(new Translate(1400, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, 1.0)); //so we don't risk detecting too early
                 }
                 commands.add(new Pause(200));
 
@@ -149,7 +149,7 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
                     commands.add(new WallTrace(type.getColor() == GodThread.ColorType.BLUE ? WallTrace.Direction.BACKWARD : WallTrace.Direction.FORWARD, WALL_TRACE_SONAR_THRESHOLD,1700)); //so we don't recheck the same line
 
                 } else {
-                    commands.add(new Translate(1700, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .2)); //so we don't recheck the same line
+                    commands.add(new Translate(2400, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, 1.0)); //so we don't recheck the same line
                 }
                     commands.add(new Pause(200));
 

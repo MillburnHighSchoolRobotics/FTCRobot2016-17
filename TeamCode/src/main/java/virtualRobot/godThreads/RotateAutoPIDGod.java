@@ -19,8 +19,8 @@ import virtualRobot.logicThreads.TestingAutonomouses.RotateAutoPIDTester;
 public class RotateAutoPIDGod extends GodThread {
     AtomicBoolean currentTooBig = new AtomicBoolean(true);
     AtomicBoolean stopThreads = new AtomicBoolean(false);
-    double kP = 0.04531922416201403;
-    double increment = 0.000000000000001;
+    double kP = 0.01;
+    double increment = 0.01;
     boolean lastTimeTooSmall = false;
     long iteration = 1;
     AutonomousRobot robot = Command.ROBOT;

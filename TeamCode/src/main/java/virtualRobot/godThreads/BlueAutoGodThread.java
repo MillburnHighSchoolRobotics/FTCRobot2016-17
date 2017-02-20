@@ -48,6 +48,8 @@ public class BlueAutoGodThread extends GodThread {
     private AtomicBoolean lastSensorTriggered = new AtomicBoolean(false);
     private AtomicBoolean firstSensorTriggered = new AtomicBoolean(false);
     private AtomicBoolean colorTriggered = new AtomicBoolean(false);
+
+
     @Override
     public void realRun() throws InterruptedException {
         // THIS IS THE STANDARD FORMAT FOR ADDING A LOGICTHREAD

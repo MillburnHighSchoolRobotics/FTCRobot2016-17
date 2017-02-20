@@ -39,7 +39,7 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
         //commands.add(new Translate(5000, forward ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0));
 //        commands.add(new Pause(3000));
 //        commands.add(new Translate(7000, Translate.Direction.LEFT, 0));
-        //commands.add(new Rotate(90));
+//        commands.add(new Rotate(90));
 
         //HIGH: .008125; LOW: .007
         //LOW: .003; HIGH: .0035
@@ -67,7 +67,8 @@ public class PIDTester extends LogicThread<AutonomousRobot> {
 //        });
        // commands.add(new WallTrace(WallTrace.Direction.FORWARD));
 
-       // commands.add(new WallTrace(WallTrace.Direction.FORWARD,13,0.5,0.08,0.065));
-       commands.add(new CompensateColor());
+        commands.add(new WallTrace(WallTrace.Direction.FORWARD,13,0.2,0.04,0.015));
+//       commands.add(new CompensateColor());
+//        commands.add(new Rotate(0.037,90,40000,new AtomicBoolean(false)));
     }
 }

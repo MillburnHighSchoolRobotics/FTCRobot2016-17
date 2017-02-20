@@ -34,7 +34,7 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
         public void loadCommands() {
             commands.add(new MoveServo(new Servo[]{robot.getFlywheelStopper()}, new double[]{0})); //move button pusher
 
-            commands.add(new Translate(2000, Translate.Direction.LEFT, 0));
+            commands.add(new Translate(1600, Translate.Direction.LEFT, 0));
             commands.add(new Pause(500));
             commands.add(new Rotate(0, .5, 500));
         }

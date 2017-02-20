@@ -1,5 +1,6 @@
 package virtualRobot.logicThreads.AutonomousLayer1;
 
+import android.os.SystemClock;
 import android.util.Log;
 
 import org.firstinspires.ftc.teamcode.UpdateThread;
@@ -97,28 +98,28 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
 
     }
     private void warrenPlan() { //We've already fired balls and are on our way to the second beacon.
-        commands.add(new Rotate(-50, .5, 2000));
+        commands.add(new Rotate(-53.5, .5, 1500));
         commands.add(new Pause(500));
-        commands.add(new Translate(5500, Translate.Direction.FORWARD, 0,1,-50));
+        commands.add(new Translate(5300, Translate.Direction.FORWARD, 0,1,-50));
         commands.add(new Pause(500));
-        commands.add(new Rotate(-90, .5, 5500));
+        commands.add(new Rotate(-90, .3, 2000));
         commands.add(new Pause(500));
         Translate strafeRight = new Translate(1500, Translate.Direction.RIGHT, 0, .3); //Strafe towards the wall. Stop at 2000 or when the sonar says, "hey you're too close guy"
 
 
         if (WITH_SONAR) {
             strafeRight.setExitCondition(new ExitCondition() {
+                int iterations = 0;
+                double startTime;
                 @Override
                 public boolean isConditionMet() {
+                    if(iterations == 0)
+                        startTime = System.currentTimeMillis();
                     double sonarRight = robot.getSonarRight().getFilteredValue();
                     double sonarLeft = robot.getSonarLeft().getFilteredValue();
                     Log.d("UltraSOUND", "" + robot.getSonarLeft().getValue() + "" + robot.getSonarRight().getValue());
                     if (sonarRight <= SONAR_ERROR_MIN || sonarLeft <= SONAR_ERROR_MIN || sonarRight >= SONAR_ERROR_MAX || sonarLeft >= SONAR_ERROR_MAX) {
                         sonarWorks.set(false);
-
-
-
-
                     } else if (sonarRight < CLOSE_TO_WALL || sonarLeft < CLOSE_TO_WALL) {
                         sonarWorks.set(true);
                         robot.addToProgress("SONAR GOOD DATA");
@@ -126,6 +127,10 @@ public class BlueGoToWall extends LogicThread<AutonomousRobot>  {
                     } else {
                         sonarWorks.set(true);
                     }
+                    if(System.currentTimeMillis() - startTime > 2000)
+                        return true;
+                    iterations++;
+
                     return false;
                 }
             });

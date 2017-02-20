@@ -43,6 +43,12 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
         if (type == GodThread.Line.RED_SECOND_LINE && !allSensorsFail.get()) {
             commands.add(new Translate(75, Translate.Direction.BACKWARD,0).setTolerance(25));
         }
+        if (type == GodThread.Line.BLUE_FIRST_LINE && !allSensorsFail.get()) {
+            commands.add(new Translate(75, Translate.Direction.BACKWARD,0).setTolerance(25));
+        }
+        if (type == GodThread.Line.BLUE_SECOND_LINE && !allSensorsFail.get()) {
+            commands.add(new Translate(26, Translate.Direction.FORWARD,0).setTolerance(25));
+        }
         commands.add(new Pause(250));
         if (status == sonarStatus.SONAR_WORKS) {
             robot.addToProgress("Pushed Left Button");
@@ -66,7 +72,10 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
             commands.add(new Translate(BEACON_RAM_TRANSLATE-300, Translate.Direction.LEFT, 0)); //ram beacon to ensure pushed button
         }
         commands.add(new Rotate(90,0.5,1000));
+        commands.add(new Pause(400));
+        commands.add(new Translate(300, Translate.Direction.LEFT, 0, .5).setTolerance(25));
         commands.add(new Pause(200));
+
     }
     public enum sonarStatus {
         SONAR_WORKS,
