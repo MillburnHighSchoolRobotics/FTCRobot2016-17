@@ -35,7 +35,7 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
     }
     @Override
     public void loadCommands() {
-        commands.add(new Rotate(90,0.5,1500));
+       // commands.add(new Rotate(90,0.5,1500));
         commands.add(new Pause(500));
         if (type == GodThread.Line.RED_FIRST_LINE && !allSensorsFail.get()) {
             commands.add(new Translate(50, Translate.Direction.FORWARD,0).setTolerance(25));
@@ -71,9 +71,9 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
 //            commands.add(new Pause(500));
             commands.add(new Translate(BEACON_RAM_TRANSLATE-300, Translate.Direction.LEFT, 0)); //ram beacon to ensure pushed button
         }
-        commands.add(new Rotate(90,0.5,1000));
+        commands.add(new Rotate(90,0.5,500));
         commands.add(new Pause(400));
-        commands.add(new Translate(300, Translate.Direction.LEFT, 0, .5).setTolerance(25));
+        commands.add(new Translate(400, Translate.Direction.LEFT, 0, .5).setTolerance(25));
         commands.add(new Pause(200));
 
     }

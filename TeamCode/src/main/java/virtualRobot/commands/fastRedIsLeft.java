@@ -88,10 +88,11 @@ public class fastRedIsLeft implements Command {
         double adjustedPower = 0;
         bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
         long start = System.currentTimeMillis();
-        Vector2i currentPos;
+        Vector2i currentPos,currentPos2;
         curr = 0;
         bm.copyPixelsFromBuffer(vuforia.rgb.getPixels());
-        currentPos = new Vector2i(start1.x, vuforia.rgb.getHeight()/2);
+        currentPos = new Vector2i(start1);
+        currentPos2 = new Vector2i(start1.x, end1.y-1);
         Vector2i slope1, slope2;
         if (vuforia.rgb.getHeight() > vuforia.rgb.getWidth()) {
             slope1 = new Vector2i(coF, closestToFrac(((double) (end1.y - start1.y)) / (end1.x - start1.x), coF));
@@ -102,39 +103,72 @@ public class fastRedIsLeft implements Command {
         }
         double leftCovered;
         double rightCovered;
-        for (leftCovered = 0; currentPos.x < end1.x && currentPos.y < end1.y; ) {
-            red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
-            blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
-            if (blue != 0) {
-                Log.d("Debug", red + " " + blue + " " + currentPos.toString());
+        for (leftCovered = 0; (currentPos.x < end1.x && currentPos.y < end1.y) || (currentPos2.x < end1.x && currentPos2.y > start1.y); ) {
+            if (currentPos.x < end1.x && currentPos.y < end1.y) {
+                red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                if (blue != 0) {
+                    Log.d("Debug", red + " " + blue + " " + currentPos.toString());
 
-                currLeft += red / blue;
-                leftCovered++;
+                    currLeft += red / blue;
+                    leftCovered++;
+                }
+            }
+            if (currentPos2.x < end1.x && currentPos2.y > start1.y) {
+                red = Color.red(bm.getPixel(currentPos2.x, currentPos2.y));
+                blue = Color.blue(bm.getPixel(currentPos2.x, currentPos2.y));
+                if (blue != 0) {
+                    Log.d("Debug", red + " " + blue + " " + currentPos2.toString());
+
+                    currLeft += red / blue;
+                    leftCovered++;
+                }
             }
             currentPos.x += slope1.x;
             currentPos.y += slope1.y;
+            currentPos2.x += slope1.x;
+            currentPos2.y -= slope1.y;
+            Log.d("CURRPOS","LEFT: " + currentPos.toString() + " " + currentPos2.toString() + " " + currLeft);
         }
         if (leftCovered == 0)
             throw new SomeoneDunGoofed("FUCK"); //TODO: Implement
         currLeft /= leftCovered;
         robot.addToTelemetry("currLEFT: ", currLeft);
         currentPos = new Vector2i(start2);
-        for (rightCovered = 0; currentPos.x < end2.x && currentPos.y < end2.y; ) {
-            red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
-            blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
-            if (blue != 0) {
-                Log.d("Debug", red + " " + blue + " " + currentPos.toString());
-                currRight += red / blue;
-                rightCovered++;
+        currentPos2 = new Vector2i(start2.x, end2.y-1);
+        for (rightCovered = 0; (currentPos.x < end2.x && currentPos.y < end2.y) || (currentPos2.x < end2.x && currentPos2.y > start2.y); ) {
+            if (currentPos.x < end1.x && currentPos.y < end2.y) {
+                red = Color.red(bm.getPixel(currentPos.x, currentPos.y));
+                blue = Color.blue(bm.getPixel(currentPos.x, currentPos.y));
+                if (blue != 0) {
+                    Log.d("Debug", red + " " + blue + " " + currentPos.toString());
+
+                    currRight += red / blue;
+                    rightCovered++;
+                }
+            }
+            if (currentPos2.x < end2.x && currentPos2.y > start2.y) {
+                red = Color.red(bm.getPixel(currentPos2.x, currentPos2.y));
+                blue = Color.blue(bm.getPixel(currentPos2.x, currentPos2.y));
+                if (blue != 0) {
+                    Log.d("Debug", red + " " + blue + " " + currentPos2.toString());
+
+                    currRight += red / blue;
+                    rightCovered++;
+                }
             }
             currentPos.x += slope2.x;
             currentPos.y += slope2.y;
+            currentPos2.x += slope2.x;
+            currentPos2.y -= slope2.y;
+            Log.d("CURRPOS","RIGHT: " + currentPos.toString() + " " + currentPos2.toString());
         }
         if (rightCovered == 0)
             throw new SomeoneDunGoofed("FUCK"); //TODO: Implement
         currRight /= rightCovered;
         robot.addToTelemetry("currRIGHT: ", currRight);
         //  Log.d("currRIGHT", String.valueOf(currRight));
+        robot.addToProgress("currLEFT, currRIGHT: " + currLeft + " " + currRight);
         if (currLeft > currRight) {
             redIsLeft.set(true);
         } else {
@@ -155,5 +189,9 @@ public class fastRedIsLeft implements Command {
             }
         }
         return res;
+    }
+
+    public void stall() {
+        while(!Thread.currentThread().isInterrupted()){}
     }
 }

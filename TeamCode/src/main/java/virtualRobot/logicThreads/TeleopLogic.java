@@ -205,36 +205,43 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
 //                        robot.getFlywheelStopper().setPosition(0.5);
 //                        robot.getReaperMotor().setPower(1.0);
 //                        robot.getFlywheel().setPower(0);
-                        robot.getFlywheelStopper().setPosition(0.6);
-                    } else
                         robot.getFlywheelStopper().setPosition(0);
+                    } else
+                        robot.getFlywheelStopper().setPosition(0.6);
+
+                    double lastTime = System.currentTimeMillis();
+                    double lastEncoder =robot.getFlywheelEncoder().getRawValue();
+                    double MSC = robot.getFlywheel().getMotorType().getMSC();
+                    double PPC = robot.getFlywheel().getMotorType().getPPC();
+                    double lastSpeed = 0;
+
                     if (controller2.isPressed(JoystickController.BUTTON_RT)) {
-                        speedController = new PIDController(29.1,17.308,12.232, 0);
+                        speedController = new PIDController(robot.getFlywheel().getMotorType().getKP(),robot.getFlywheel().getMotorType().getKI(),robot.getFlywheel().getMotorType().getKD(), 0);
+                        lastSpeed = 0;
+                        PPC = robot.getFlywheel().getMotorType().getPPC();
+                        MSC = robot.getFlywheel().getMotorType().getMSC();
+                        lastEncoder =robot.getFlywheelEncoder().getRawValue();
+                        lastTime = System.currentTimeMillis();
                     }
                     if (controller2.isDown(JoystickController.BUTTON_RT)) {
 //                        robot.getFlywheelStopper().setPosition(0);
 //                        robot.getReaperMotor().setPower(1.0);
-                    double lastSpeed =0;
-                    double currPower = 0;
-                    double lastEncoder =robot.getFlywheelEncoder().getRawValue();
-                    double lastTime = System.currentTimeMillis();
-                    double MSC = 335;
-                    double PPC = 25.9;
+                        double currPower = 0;
 
-                    speedController.setTarget(75);
-                    double a = robot.getFlywheelEncoder().getRawValue()-lastEncoder;
-                        //Command.AUTO_ROBOT.addToTelemetry("DIF: ", a);
-                    if (System.currentTimeMillis() - lastTime > MSC ) { //1780 RPM = 333 milliseconds/cycle
-                        double time = lastTime;
-                        lastEncoder = robot.getFlywheelEncoder().getRawValue();
-                        lastTime = System.currentTimeMillis();
-                        lastSpeed = (a / PPC) / (System.currentTimeMillis() - time); //25.9 pulses per cycle
-                    }
-                    double oldPower = currPower;
-                    currPower = speedController.getPIDOutput(lastSpeed);
-                    currPower = MathUtils.clamp(currPower, -1, 1);
+                        speedController.setTarget(75);
+                        double a = robot.getFlywheelEncoder().getRawValue()-lastEncoder;
+                            //Command.AUTO_ROBOT.addToTelemetry("DIF: ", a);
+                        if (System.currentTimeMillis() - lastTime > MSC ) { //1780 RPM = 333 milliseconds/cycle
+                            double time = lastTime;
+                            lastEncoder = robot.getFlywheelEncoder().getRawValue();
+                            lastTime = System.currentTimeMillis();
+                            lastSpeed = (a / PPC) / (System.currentTimeMillis() - time); //25.9 pulses per cycle
+                        }
+                        double oldPower = currPower;
+                        currPower = speedController.getPIDOutput(lastSpeed);
+                        currPower = MathUtils.clamp(currPower, -1, 1);
 
-                    robot.getFlywheel().setPower(currPower == 0 ? oldPower : currPower);
+                        robot.getFlywheel().setPower(currPower == 0 ? oldPower : currPower);
                     }
                     if (controller2.isReleased(JoystickController.BUTTON_RT)){
                         robot.getFlywheel().setPower(0);

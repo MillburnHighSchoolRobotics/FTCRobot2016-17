@@ -34,7 +34,7 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
         this.allSensorsFail = allSensorsFail;
     }
     public void loadCommands () {
-        commands.add(new Rotate(90,0.5,1500));  //Blue Rotate will be accounted before cause we've already done Rotate.setOnBlueSide()
+        //commands.add(new Rotate(90,0.5,1500));  //Blue Rotate will be accounted before cause we've already done Rotate.setOnBlueSide()
         commands.add(new Pause(500));
         if (type == GodThread.Line.RED_FIRST_LINE && !allSensorsFail.get()) {
             commands.add(new Translate(75, Translate.Direction.FORWARD,0).setTolerance(25));
@@ -69,9 +69,9 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
             commands.add(new Translate(BEACON_RAM_TRANSLATE-300, Translate.Direction.LEFT, 0)); //ram beacon to ensure push
 
         }
-        commands.add(new Rotate(90,0.5,1000));
+        commands.add(new Rotate(90,0.5,500));
         commands.add(new Pause(200));
-        commands.add(new Translate(300, Translate.Direction.LEFT, 0, .5).setTolerance(25));
+        commands.add(new Translate(400, Translate.Direction.LEFT, 0, .5).setTolerance(25));
         commands.add(new Pause(200));
     }
     public enum sonarStatus {

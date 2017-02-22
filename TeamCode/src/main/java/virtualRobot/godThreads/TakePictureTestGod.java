@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import virtualRobot.GodThread;
 import virtualRobot.LogicThread;
 import virtualRobot.MonitorThread;
+import virtualRobot.commands.Command;
 import virtualRobot.logicThreads.TestingAutonomouses.TakePictureTestLogic;
 
 /**
@@ -21,6 +22,7 @@ public class TakePictureTestGod extends GodThread {
         tp.start();
         children.add(tp);
         delegateMonitor(tp, new MonitorThread[]{});
+        Command.ROBOT.addToProgress("RedIsLeft: " + redIsLeft.get());
     }
 
     public AtomicBoolean getRedIsLeft(){return redIsLeft;}
