@@ -71,7 +71,7 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
         }
         commands.add(new Rotate(90,0.5,500));
         commands.add(new Pause(200));
-        commands.add(new Translate(400, Translate.Direction.LEFT, 0, .5).setTolerance(25));
+        commands.add(new Translate(350, Translate.Direction.LEFT, 0, .5).setTolerance(25));
         commands.add(new Pause(200));
     }
     public enum sonarStatus {

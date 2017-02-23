@@ -50,6 +50,11 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
     public final static double CAP_RIGHT_CLOSED = 0;
     PIDController pidShuffle;
     PIDController speedController;
+    double lastSpeed = 0;
+    double currPower = 0;
+    double lastEncoder = robot.getFlywheelEncoder().getRawValue();
+    double lastTime = System.currentTimeMillis();
+
 
     @Override
     public void loadCommands() {
@@ -216,21 +221,22 @@ public class TeleopLogic extends LogicThread<TeleopRobot> {
                     double lastSpeed = 0;
 
                     if (controller2.isPressed(JoystickController.BUTTON_RT)) {
-                        speedController = new PIDController(robot.getFlywheel().getMotorType().getKP(),robot.getFlywheel().getMotorType().getKI(),robot.getFlywheel().getMotorType().getKD(), 0);
+                        speedController = new PIDController(29.1,17.308,12.232, 0);
+                        speedController.setTarget(0.06);
                         lastSpeed = 0;
-                        PPC = robot.getFlywheel().getMotorType().getPPC();
-                        MSC = robot.getFlywheel().getMotorType().getMSC();
-                        lastEncoder =robot.getFlywheelEncoder().getRawValue();
+                        currPower = 0;
+
+                        lastEncoder = robot.getFlywheelEncoder().getRawValue();
                         lastTime = System.currentTimeMillis();
                     }
+
                     if (controller2.isDown(JoystickController.BUTTON_RT)) {
 //                        robot.getFlywheelStopper().setPosition(0);
 //                        robot.getReaperMotor().setPower(1.0);
-                        double currPower = 0;
+                        PPC = robot.getFlywheel().getMotorType().getPPC();
+                        MSC = robot.getFlywheel().getMotorType().getMSC();
 
-                        speedController.setTarget(75);
                         double a = robot.getFlywheelEncoder().getRawValue()-lastEncoder;
-                            //Command.AUTO_ROBOT.addToTelemetry("DIF: ", a);
                         if (System.currentTimeMillis() - lastTime > MSC ) { //1780 RPM = 333 milliseconds/cycle
                             double time = lastTime;
                             lastEncoder = robot.getFlywheelEncoder().getRawValue();
