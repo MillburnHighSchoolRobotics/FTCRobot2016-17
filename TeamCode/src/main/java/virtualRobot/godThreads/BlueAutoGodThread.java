@@ -120,7 +120,7 @@ public class BlueAutoGodThread extends GodThread {
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (!redIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_FIRST_LINE, allSensorsFailed);
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_FIRST_LINE, allSensorsFailed, colorTriggered);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
@@ -128,7 +128,7 @@ public class BlueAutoGodThread extends GodThread {
         }
 
         else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_FIRST_LINE, allSensorsFailed);
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_FIRST_LINE, allSensorsFailed, colorTriggered);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
@@ -183,7 +183,7 @@ public class BlueAutoGodThread extends GodThread {
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (!redIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_SECOND_LINE, allSensorsFailed);
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_SECOND_LINE, allSensorsFailed, colorTriggered);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
@@ -191,7 +191,7 @@ public class BlueAutoGodThread extends GodThread {
         }
 
         else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_SECOND_LINE, allSensorsFailed);
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.BLUE_SECOND_LINE, allSensorsFailed, colorTriggered);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);

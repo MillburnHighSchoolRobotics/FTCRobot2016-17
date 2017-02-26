@@ -31,12 +31,12 @@ import virtualRobot.components.Servo;
 public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
     //Note that displacement is handled in exitCondition
     public static final double WALL_TRACE_SONAR_THRESHOLD = 17; //How close we want to trace wall
-    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE = 2500; //Max Displacement To The First Line
-    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE = 3000; //Max Displacement To The Second Line
-    public static final double MAX_DISTANCE_WHEN_COLOR_FAILS = 2500;
+    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_FIRST_LINE = 2300; //Max Displacement To The First Line
+    public static final double MAX_ALLOWABLE_DISPLACEMENT_TO_SECOND_LINE = 2400; //Max Displacement To The Second Line
+    public static final double MAX_DISTANCE_WHEN_COLOR_FAILS = 900;
     public static final double BLIND_ADJUSTMENT_FIRST = 870;
-    public static final double BLIND_ADJUSTMENT_SECOND = 1385;
-    public static final double ESCAPE_WALL = 250;
+    public static final double BLIND_ADJUSTMENT_SECOND = 1085;
+    public static final double ESCAPE_WALL = 400;
     AtomicBoolean allSensorsFail; //has other Line Sensor triggered
     AtomicBoolean lastSensorTriggered, firstSensorTriggered, redIsLeft, maxDistanceReached;
     AtomicBoolean sonarWorks;
@@ -186,16 +186,15 @@ public class ToWhiteLineCompensateColor extends LogicThread<AutonomousRobot> {
             secondDisplacement = new Translate(MAX_DISTANCE_WHEN_COLOR_FAILS, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .15);
         secondDisplacement.setExitCondition(atwhitelineSecondTry);
         commands.add(secondDisplacement);
-
     }
 
     private void allignBlindly() {
         Translate blindAdjustment;
         if (type.getLine() == GodThread.LineType.FIRST)
-            blindAdjustment = new Translate(BLIND_ADJUSTMENT_FIRST, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .15).setTolerance(1);
+            blindAdjustment = new Translate(BLIND_ADJUSTMENT_FIRST, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD, 0, .15).setTolerance(25);
         else
-            blindAdjustment = new Translate(BLIND_ADJUSTMENT_SECOND, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .15).setTolerance(1);
-        commands.add(blindAdjustment);
+            blindAdjustment = new Translate(BLIND_ADJUSTMENT_SECOND, type.getColor() == GodThread.ColorType.BLUE ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD, 0, .15).setTolerance(25);
+        //commands.add(blindAdjustment);
     }
 
 

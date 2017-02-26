@@ -80,8 +80,8 @@ public class Translate implements Command {
         RFtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         LBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
         RBtranslateController = new PIDController(KP, KI, KD, THRESHOLD);
-        headingController = new PIDController(0.075, 0, 0, 0); //.04
-        headingOnlyController = new PIDController(0.075, 0, 0, 0); //.04
+        headingController = new PIDController(0.11, 0, 0, 0); //.04
+        headingOnlyController = new PIDController(0.11, 0, 0, 0); //.04
         if (blueSide) {
             headingController.setTarget(blueAngle);
             headingOnlyController.setTarget(blueAngle);

@@ -110,15 +110,13 @@ public class RedAutoGodThread extends GodThread {
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (redIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.RED_FIRST_LINE, allSensorsFailed);
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.RED_FIRST_LINE, allSensorsFailed, colorTriggered);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
             delegateMonitor(pl, new MonitorThread[]{});
-        }
-
-        else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.RED_FIRST_LINE, allSensorsFailed);
+        } else {
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.RED_FIRST_LINE, allSensorsFailed, colorTriggered);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);
@@ -174,7 +172,7 @@ public class RedAutoGodThread extends GodThread {
 
         Command.ROBOT.addToProgress("red is left /" + Boolean.toString(redIsLeft.get()));
         if (redIsLeft.get()) {
-            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.RED_SECOND_LINE, allSensorsFailed);
+            LogicThread pushLeft = new PushLeftButton(sonarWorks.get() && WITH_SONAR, Line.RED_SECOND_LINE, allSensorsFailed, colorTriggered);
             Thread pl = new Thread(pushLeft);
             pl.start();
             children.add(pl);
@@ -182,7 +180,7 @@ public class RedAutoGodThread extends GodThread {
         }
 
         else {
-            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.RED_SECOND_LINE, allSensorsFailed);
+            LogicThread pushRight = new PushRightButton(sonarWorks.get() && WITH_SONAR, Line.RED_SECOND_LINE, allSensorsFailed, colorTriggered);
             Thread pr = new Thread(pushRight);
             pr.start();
             children.add(pr);

@@ -22,30 +22,32 @@ public class PushRightButton extends LogicThread<AutonomousRobot> {
     sonarStatus status;
     GodThread.Line type;
     AtomicBoolean allSensorsFail;
+    AtomicBoolean colorTriggered;
     public PushRightButton(sonarStatus status) {
         this.status = status;
     }
-    public PushRightButton(boolean sonarWorks, GodThread.Line type, AtomicBoolean allSensorsFail) {
+    public PushRightButton(boolean sonarWorks, GodThread.Line type, AtomicBoolean allSensorsFail, AtomicBoolean colorTriggered) {
         if (sonarWorks)
             this.status = sonarStatus.SONAR_WORKS;
         else
             this.status = sonarStatus.SONAR_BROKEN;
         this.type = type;
         this.allSensorsFail = allSensorsFail;
+        this.colorTriggered = colorTriggered;
     }
     public void loadCommands () {
         //commands.add(new Rotate(90,0.5,1500));  //Blue Rotate will be accounted before cause we've already done Rotate.setOnBlueSide()
         commands.add(new Pause(500));
-        if (type == GodThread.Line.RED_FIRST_LINE && !allSensorsFail.get()) {
-            commands.add(new Translate(75, Translate.Direction.FORWARD,0).setTolerance(25));
+        if (type == GodThread.Line.RED_FIRST_LINE) {
+            commands.add(new Translate(75, colorTriggered.get() ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD,0).setTolerance(25));
         }
-        if (type == GodThread.Line.RED_SECOND_LINE&& !allSensorsFail.get()) {
-            commands.add(new Translate(50, Translate.Direction.BACKWARD,0).setTolerance(25));
+        if (type == GodThread.Line.RED_SECOND_LINE) {
+            commands.add(new Translate(50, colorTriggered.get() ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD,0).setTolerance(25));
         }
-        if (type == GodThread.Line.BLUE_FIRST_LINE && !allSensorsFail.get()) {
+        if (type == GodThread.Line.BLUE_FIRST_LINE) {
             commands.add(new Translate(26, Translate.Direction.FORWARD,0).setTolerance(25));
         }
-        if (type == GodThread.Line.BLUE_SECOND_LINE && !allSensorsFail.get()) {
+        if (type == GodThread.Line.BLUE_SECOND_LINE) {
             commands.add(new Translate(75, Translate.Direction.FORWARD,0).setTolerance(25));
         }
         commands.add(new Pause(250));

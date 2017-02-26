@@ -22,26 +22,28 @@ public class PushLeftButton extends LogicThread<AutonomousRobot> {
     sonarStatus status;
     GodThread.Line type;
     AtomicBoolean allSensorsFail;
+    AtomicBoolean colorTriggered;
     public PushLeftButton(sonarStatus status) {
         this.status = status;
     }
-    public PushLeftButton(boolean sonarWorks, GodThread.Line type, AtomicBoolean allSensorsFail) {
+    public PushLeftButton(boolean sonarWorks, GodThread.Line type, AtomicBoolean allSensorsFail, AtomicBoolean colorTriggered) {
         if (sonarWorks)
             this.status = sonarStatus.SONAR_WORKS;
         else
             this.status = sonarStatus.SONAR_BROKEN;
         this.type = type;
         this.allSensorsFail = allSensorsFail;
+        this.colorTriggered = colorTriggered;
     }
     @Override
     public void loadCommands() {
        // commands.add(new Rotate(90,0.5,1500));
         commands.add(new Pause(500));
-        if (type == GodThread.Line.RED_FIRST_LINE && !allSensorsFail.get()) {
-            commands.add(new Translate(50, Translate.Direction.FORWARD,0).setTolerance(25));
+        if (type == GodThread.Line.RED_FIRST_LINE) {
+            commands.add(new Translate(50, colorTriggered.get() ? Translate.Direction.FORWARD : Translate.Direction.BACKWARD,0).setTolerance(25));
         }
         if (type == GodThread.Line.RED_SECOND_LINE && !allSensorsFail.get()) {
-            commands.add(new Translate(75, Translate.Direction.BACKWARD,0).setTolerance(25));
+            commands.add(new Translate(75, colorTriggered.get() ? Translate.Direction.BACKWARD : Translate.Direction.FORWARD,0).setTolerance(25));
         }
         if (type == GodThread.Line.BLUE_FIRST_LINE && !allSensorsFail.get()) {
             commands.add(new Translate(75, Translate.Direction.BACKWARD,0).setTolerance(25));
