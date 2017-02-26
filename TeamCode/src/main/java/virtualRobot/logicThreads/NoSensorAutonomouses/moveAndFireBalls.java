@@ -42,7 +42,7 @@ public class moveAndFireBalls extends LogicThread<AutonomousRobot> {
     LogicThread<AutonomousRobot> spinFlywheel = new LogicThread<AutonomousRobot>() {
         @Override
         public void loadCommands() {
-            commands.add(new MoveMotorPID(87,robot.getFlywheel(),robot.getFlywheelEncoder()));
+            commands.add(new MoveMotorPID(92,robot.getFlywheel(),robot.getFlywheelEncoder()));
             commands.add(new Pause(1000));
 
         }
